@@ -1,4 +1,4 @@
-package dangine.scenegraph;
+package dangine.scenegraph.drawable;
 
 import org.newdawn.slick.Color;
 

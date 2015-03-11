@@ -3,8 +3,8 @@ package dangine.entity;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Vector2f;
 
-import dangine.scenegraph.DangineShape;
 import dangine.scenegraph.SceneGraphNode;
+import dangine.scenegraph.drawable.DangineShape;
 import dangine.utility.Utility;
 
 public class Creature implements IsUpdateable, IsDrawable {
