@@ -22,7 +22,7 @@ public class DemoGame implements DangineGame {
         scene.addUpdateable(creature);
         scene.getParentNode().addChild(creature);
         scene.addUpdateable(hero);
-        scene.getParentNode().addChild(hero);
+        scene.getParentNode().addChild(hero.getDrawable());
     }
 
     @Override

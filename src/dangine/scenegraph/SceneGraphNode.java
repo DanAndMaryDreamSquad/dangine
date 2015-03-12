@@ -19,15 +19,11 @@ public class SceneGraphNode implements IsDrawable {
     int verticalFlip = 1;
     SceneGraphNode parent = null;
     List<IsDrawable> children = new ArrayList<IsDrawable>();
-    IsDrawable thing = null;
 
     @Override
     public void draw() {
         GL11.glPushMatrix();
         transform();
-        if (thing != null) {
-            thing.draw();
-        }
         for (IsDrawable drawable : children) {
             drawable.draw();
         }
@@ -64,8 +60,13 @@ public class SceneGraphNode implements IsDrawable {
         this.position.y = y;
     }
 
-    public void setThing(IsDrawable thing) {
-        this.thing = thing;
+    public void setCenterOfRotation(Vector2f position) {
+        this.setCenterOfRotation(position.x, position.y);
+    }
+
+    public void setCenterOfRotation(float x, float y) {
+        this.centerOfRotation.x = x;
+        this.centerOfRotation.y = y;
     }
 
     public void setAngle(float angle) {
@@ -86,6 +87,26 @@ public class SceneGraphNode implements IsDrawable {
 
     public void setZValue(float zValue) {
         this.zValue = zValue;
+    }
+
+    public float getAngle() {
+        return angle;
+    }
+
+    public Vector2f getScale() {
+        return scale;
+    }
+
+    public Vector2f getPosition() {
+        return position;
+    }
+
+    public void setXPosition(float x) {
+        this.position.x = x;
+    }
+
+    public void setYPosition(float y) {
+        this.position.y = y;
     }
 
 }
