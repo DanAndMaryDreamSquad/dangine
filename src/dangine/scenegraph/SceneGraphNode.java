@@ -69,6 +69,15 @@ public class SceneGraphNode implements IsDrawable {
         this.centerOfRotation.y = y;
     }
 
+    public void setScale(Vector2f scale) {
+        this.setScale(scale.x, scale.y);
+    }
+
+    public void setScale(float x, float y) {
+        this.scale.x = x;
+        this.scale.y = y;
+    }
+
     public void setAngle(float angle) {
         this.angle = angle;
     }

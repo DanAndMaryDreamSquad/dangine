@@ -7,11 +7,13 @@ import dangine.utility.Oscillator;
 public class BloxLegAnimator implements IsUpdateable {
 
     enum State {
-        IDLING, WALKING;
+        IDLING, WALKING, FLOATING;
     }
 
     final float WALK_RATE = 1000f;
-    final Oscillator oscillator = new Oscillator(0, 20, WALK_RATE);
+    final float FLOAT_RATE = 5000f;
+    final Oscillator walkOscillator = new Oscillator(0, 20, WALK_RATE);
+    final Oscillator floatOscillator = new Oscillator(-10, -30, FLOAT_RATE);
 
     final SceneGraphNode leftLeg;
     final SceneGraphNode rightLeg;
@@ -29,9 +31,15 @@ public class BloxLegAnimator implements IsUpdateable {
         case IDLING:
             return;
         case WALKING:
-            float value = oscillator.update();
+            float value = walkOscillator.update();
             leftLeg.setXPosition(value - 5);
             rightLeg.setXPosition(15 - value);
+            return;
+        case FLOATING:
+            float angle = floatOscillator.update();
+            leftLeg.setAngle(angle);
+            rightLeg.setAngle(floatOscillator.calcOffset(FLOAT_RATE / 2));
+            return;
         }
     }
 
@@ -41,6 +49,14 @@ public class BloxLegAnimator implements IsUpdateable {
 
     public void walk() {
         state = State.WALKING;
+        leftLeg.setAngle(0);
+        rightLeg.setAngle(0);
+    }
+
+    public void floating() {
+        state = State.FLOATING;
+        leftLeg.setXPosition(2);
+        rightLeg.setXPosition(8);
     }
 
 }

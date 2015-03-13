@@ -20,9 +20,11 @@ public class BloxHeadSceneGraph implements IsDrawable {
         leftEye.addChild(new DangineShape(2, 4, Color.black));
         leftEye.setPosition(5, 5);
         leftEye.setZValue(-1.0f);
+        leftEye.setCenterOfRotation(1, 2);
         rightEye.addChild(new DangineShape(2, 4, Color.black));
         rightEye.setZValue(-1.0f);
         rightEye.setPosition(10, 5);
+        rightEye.setCenterOfRotation(1, 2);
 
         head.addChild(leftEye);
         head.addChild(rightEye);
@@ -35,6 +37,14 @@ public class BloxHeadSceneGraph implements IsDrawable {
 
     public SceneGraphNode getHead() {
         return head;
+    }
+
+    public SceneGraphNode getLeftEye() {
+        return leftEye;
+    }
+
+    public SceneGraphNode getRightEye() {
+        return rightEye;
     }
 
 }

@@ -19,10 +19,12 @@ public class Hero implements IsUpdateable, HasDrawable {
     @Override
     public void update() {
         DangineSampleInput input = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
-        if (input.isUp() || input.isDown() || input.isLeft() || input.isRight()) {
+        if (input.isUp() || input.isDown()) {
+            animator.idle();
+        } else if (input.isLeft() || input.isRight()) {
             animator.walk();
         } else {
-            animator.idle();
+            animator.floating();
         }
         if (input.isUp()) {
             position.y -= Utility.getGameTime().getDeltaTimeF() * SPEED;

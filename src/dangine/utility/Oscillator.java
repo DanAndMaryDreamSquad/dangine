@@ -15,9 +15,8 @@ public class Oscillator {
         return update(Utility.getGameTime().getDeltaTimeF());
     }
 
-    public float update(float elapsed) {
-        timer += elapsed;
-        float percent = (timer % rate) / rate;
+    public float calculate(float time) {
+        float percent = (time % rate) / rate;
         float sin = (float) Math.sin(percent * Math.PI * 2); // -1 to 1
         sin = (sin / 2) + 0.5f; // 0 to 1
         if (isAbsoluteValued) {
@@ -25,7 +24,15 @@ public class Oscillator {
         }
         float range = max - min;
         return min + (range * sin);
+    }
 
+    public float calcOffset(float offsetTime) {
+        return calculate(timer + offsetTime);
+    }
+
+    public float update(float elapsed) {
+        timer += elapsed;
+        return calculate(timer);
     }
 
     public float updateToCenter() {

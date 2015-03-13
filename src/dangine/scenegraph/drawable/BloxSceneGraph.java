@@ -27,7 +27,7 @@ public class BloxSceneGraph implements IsDrawable {
         rightArm.setPosition(15, 0);
         rightArm.setZValue(-1.0f);
         leftLeg.addChild(new DangineShape(10, 20, Color.magenta));
-        leftLeg.setPosition(-20, 20);
+        leftLeg.setPosition(-10, 20);
         rightLeg.addChild(new DangineShape(10, 20, Color.pink));
         rightLeg.setPosition(20, 20);
 
@@ -37,6 +37,8 @@ public class BloxSceneGraph implements IsDrawable {
         body.addChild(rightArm);
         body.addChild(leftLeg);
         body.addChild(rightLeg);
+
+        base.setScale(2, 2);
     }
 
     @Override
@@ -50,5 +52,9 @@ public class BloxSceneGraph implements IsDrawable {
 
     public BloxHeadSceneGraph getHead() {
         return head;
+    }
+
+    public SceneGraphNode getBody() {
+        return body;
     }
 }
