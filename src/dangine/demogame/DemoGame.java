@@ -5,8 +5,10 @@ import org.newdawn.slick.Color;
 import dangine.entity.Creature;
 import dangine.entity.Hero;
 import dangine.game.DangineGame;
+import dangine.image.Resources;
 import dangine.input.DangineKeyInputMapper;
 import dangine.scene.Scene;
+import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Utility;
 
 public class DemoGame implements DangineGame {
@@ -23,6 +25,7 @@ public class DemoGame implements DangineGame {
         scene.getParentNode().addChild(creature);
         scene.addUpdateable(hero);
         scene.getParentNode().addChild(hero.getDrawable());
+        scene.getParentNode().addChild(new DangineImage(Resources.getImageByName("mary")));
     }
 
     @Override
