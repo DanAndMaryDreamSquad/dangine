@@ -9,22 +9,26 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import dangine.game.DangineGame;
+import dangine.image.Resources;
 import dangine.player.DanginePlayer;
 import dangine.utility.Utility;
 
 public class GameHarness extends BasicGame {
+    Provider<DangineGame> provider;
     DangineGame dangineGame;
     List<DanginePlayer> players = new ArrayList<DanginePlayer>();
 
-    public GameHarness(String title, DangineGame dangineGame) {
+    public GameHarness(String title, Provider<DangineGame> provider) {
         super(title);
-        this.dangineGame = dangineGame;
+        this.provider = provider;
     }
 
     @Override
     public void init(GameContainer gc) throws SlickException {
         Utility.initialize(this, gc);
         Utility.devMode();
+        Resources.initialize();
+        dangineGame = provider.get();
         dangineGame.init();
         players.add(new DanginePlayer());
     }

@@ -17,6 +17,7 @@ public class BloxSceneGraph implements IsDrawable {
 
     public BloxSceneGraph() {
         body.addChild(new DangineShape());
+        // body.addChild(new DangineImage(Resources.getImageByName("mary")));
 
         // head.addChild(new DangineShape(20, 20, Color.blue));
         // head.setPosition(-1, -25);
