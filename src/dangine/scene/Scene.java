@@ -1,6 +1,7 @@
 package dangine.scene;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import dangine.entity.IsDrawable;
@@ -11,12 +12,23 @@ public class Scene implements IsUpdateable, IsDrawable {
 
     final SceneGraphNode parentNode = new SceneGraphNode();
     List<IsUpdateable> updateables = new ArrayList<IsUpdateable>();
+    List<IsUpdateable> toAdd = new LinkedList<IsUpdateable>();
+    List<IsUpdateable> toRemove = new LinkedList<IsUpdateable>();
 
     @Override
     public void update() {
         for (IsUpdateable update : updateables) {
             update.update();
         }
+        for (IsUpdateable update : toAdd) {
+            updateables.add(update);
+        }
+        toAdd.clear();
+        for (IsUpdateable update : toRemove) {
+            updateables.remove(update);
+        }
+        toRemove.clear();
+
     }
 
     @Override
@@ -25,11 +37,11 @@ public class Scene implements IsUpdateable, IsDrawable {
     }
 
     public void addUpdateable(IsUpdateable updateable) {
-        updateables.add(updateable);
+        toAdd.add(updateable);
     }
 
     public void removeUpdateable(IsUpdateable updateable) {
-        updateables.remove(updateable);
+        toRemove.add(updateable);
     }
 
     public SceneGraphNode getParentNode() {

@@ -9,8 +9,8 @@ public class DanginePlayer {
     DangineSampleInput input = new DangineSampleInput();
     DangineSampleInput previousInput = new DangineSampleInput();
 
-    public DanginePlayer() {
-        inputMapper = new DangineKeyInputMapper();
+    public DanginePlayer(int id) {
+        inputMapper = new DangineKeyInputMapper(id);
     }
 
     public void updateInput() {

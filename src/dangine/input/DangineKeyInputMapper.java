@@ -27,10 +27,28 @@ public class DangineKeyInputMapper {
         return Collections.unmodifiableMap(result);
     }
 
+    private static final Map<Action, Integer> DEFAULTS_P2 = createP2Defaults();
+
+    private static Map<Action, Integer> createP2Defaults() {
+        Map<Action, Integer> result = new HashMap<Action, Integer>();
+        result.put(Action.BUTTON_ONE, Input.KEY_INSERT);
+        result.put(Action.BUTTON_TWO, Input.KEY_DELETE);
+        result.put(Action.UP, Input.KEY_UP);
+        result.put(Action.DOWN, Input.KEY_DOWN);
+        result.put(Action.LEFT, Input.KEY_LEFT);
+        result.put(Action.RIGHT, Input.KEY_RIGHT);
+
+        return Collections.unmodifiableMap(result);
+    }
+
     Map<Action, Integer> keyToAction;
 
-    public DangineKeyInputMapper() {
-        keyToAction = DEFAULTS;
+    public DangineKeyInputMapper(int id) {
+        if (id == 0) {
+            keyToAction = DEFAULTS;
+        } else {
+            keyToAction = DEFAULTS_P2;
+        }
     }
 
     private boolean isBeingPressed(Action button) {

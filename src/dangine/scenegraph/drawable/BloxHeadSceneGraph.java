@@ -2,10 +2,11 @@ package dangine.scenegraph.drawable;
 
 import org.newdawn.slick.Color;
 
+import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.scenegraph.SceneGraphNode;
 
-public class BloxHeadSceneGraph implements IsDrawable {
+public class BloxHeadSceneGraph implements HasDrawable {
 
     SceneGraphNode head = new SceneGraphNode();
     SceneGraphNode leftEye = new SceneGraphNode();
@@ -30,11 +31,6 @@ public class BloxHeadSceneGraph implements IsDrawable {
         head.addChild(rightEye);
     }
 
-    @Override
-    public void draw() {
-        head.draw();
-    }
-
     public SceneGraphNode getHead() {
         return head;
     }
@@ -45,6 +41,11 @@ public class BloxHeadSceneGraph implements IsDrawable {
 
     public SceneGraphNode getRightEye() {
         return rightEye;
+    }
+
+    @Override
+    public IsDrawable getDrawable() {
+        return getHead();
     }
 
 }

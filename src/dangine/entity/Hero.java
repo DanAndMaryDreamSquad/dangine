@@ -19,6 +19,14 @@ public class Hero implements IsUpdateable, HasDrawable {
     final BloxAnimator animator = new BloxAnimator(draw);
     final HeroMovement movement = new HeroMovement();
 
+    public Hero() {
+
+    }
+
+    public Hero(int playerId) {
+        this.playerId = playerId;
+    }
+
     @Override
     public void update() {
         DangineSampleInput input = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
@@ -50,7 +58,11 @@ public class Hero implements IsUpdateable, HasDrawable {
 
     @Override
     public IsDrawable getDrawable() {
-        return draw;
+        return draw.getBase();
     }
 
+    public void setPosition(float x, float y) {
+        this.position.x = x;
+        this.position.y = y;
+    }
 }

@@ -12,13 +12,17 @@ public class Players {
     }
 
     public void newPlayer() {
-        players.add(new DanginePlayer());
+        players.add(new DanginePlayer(players.size()));
     }
 
     public void updateInput() {
         for (DanginePlayer player : players) {
             player.updateInput();
         }
+    }
+
+    public List<DanginePlayer> getPlayers() {
+        return players;
     }
 
 }

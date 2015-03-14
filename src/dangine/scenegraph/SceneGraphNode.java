@@ -38,12 +38,10 @@ public class SceneGraphNode implements IsDrawable {
         GL11.glScalef(scale.x * horzitontalFlip, scale.y * verticalFlip, 1.0f);
     }
 
-    public void addChild(SceneGraphNode child) {
-        children.add(child);
-        child.setParent(this);
-    }
-
     public void addChild(IsDrawable drawable) {
+        if (drawable instanceof SceneGraphNode) {
+            ((SceneGraphNode) drawable).setParent(this);
+        }
         children.add(drawable);
     }
 

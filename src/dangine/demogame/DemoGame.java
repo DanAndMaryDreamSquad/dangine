@@ -1,5 +1,8 @@
 package dangine.demogame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.newdawn.slick.Color;
 
 import dangine.entity.Creature;
@@ -7,7 +10,6 @@ import dangine.entity.Hero;
 import dangine.entity.combat.GreatSword;
 import dangine.game.DangineGame;
 import dangine.image.Resources;
-import dangine.input.DangineKeyInputMapper;
 import dangine.scene.Scene;
 import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Utility;
@@ -15,21 +17,28 @@ import dangine.utility.Utility;
 public class DemoGame implements DangineGame {
 
     Creature creature = new Creature();
+    List<Hero> heroes = new ArrayList<Hero>();
     Hero hero = new Hero();
-    GreatSword greatsword = new GreatSword();
     Scene scene = new Scene();
-    DangineKeyInputMapper keyMapper = new DangineKeyInputMapper();
 
     @Override
     public void init() {
+        Utility.setActiveScene(scene);
         Utility.getGraphics().setBackground(new Color(40, 40, 32));
+
+        // for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
+        for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {
+            Hero hero = new Hero(i);
+            GreatSword greatsword = new GreatSword(i);
+            hero.setPosition((i + 1) * 200, 200);
+            hero.equipWeapon(greatsword);
+            scene.getParentNode().addChild(hero.getDrawable());
+            scene.addUpdateable(hero);
+            scene.addUpdateable(greatsword);
+        }
         scene.addUpdateable(creature);
         scene.getParentNode().addChild(creature);
-        scene.addUpdateable(hero);
-        scene.getParentNode().addChild(hero.getDrawable());
         scene.getParentNode().addChild(new DangineImage(Resources.getImageByName("mary")));
-        hero.equipWeapon(greatsword);
-        scene.addUpdateable(greatsword);
     }
 
     @Override
