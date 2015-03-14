@@ -13,7 +13,6 @@ public class Utility {
     private static GameTime gameTime;
     private static Players players;
 
-    // Utility prevents any other class from instantiating
     public static void initialize(GameHarness gameharness, GameContainer gameContainer) {
         Utility.gameContainer = gameContainer;
         Utility.gameTime = new GameTime();

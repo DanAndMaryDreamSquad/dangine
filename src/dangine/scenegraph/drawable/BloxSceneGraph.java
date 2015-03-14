@@ -38,7 +38,7 @@ public class BloxSceneGraph implements IsDrawable {
         body.addChild(leftLeg);
         body.addChild(rightLeg);
 
-        base.setScale(2, 2);
+        base.setScale(1, 1);
     }
 
     @Override

@@ -2,6 +2,7 @@ package dangine.entity;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.entity.movement.HeroMovement;
 import dangine.input.DangineSampleInput;
 import dangine.scenegraph.drawable.BloxAnimator;
 import dangine.scenegraph.drawable.BloxSceneGraph;
@@ -12,9 +13,10 @@ public class Hero implements IsUpdateable, HasDrawable {
     final float SPEED = 0.3f;
 
     int playerId = 0;
-    Vector2f position = new Vector2f(200, 200);
-    BloxSceneGraph draw = new BloxSceneGraph();
-    BloxAnimator animator = new BloxAnimator(draw);
+    final Vector2f position = new Vector2f(200, 200);
+    final BloxSceneGraph draw = new BloxSceneGraph();
+    final BloxAnimator animator = new BloxAnimator(draw);
+    final HeroMovement movement = new HeroMovement();
 
     @Override
     public void update() {
@@ -26,18 +28,7 @@ public class Hero implements IsUpdateable, HasDrawable {
         } else {
             animator.floating();
         }
-        if (input.isUp()) {
-            position.y -= Utility.getGameTime().getDeltaTimeF() * SPEED;
-        }
-        if (input.isDown()) {
-            position.y += Utility.getGameTime().getDeltaTimeF() * SPEED;
-        }
-        if (input.isLeft()) {
-            position.x -= Utility.getGameTime().getDeltaTimeF() * SPEED;
-        }
-        if (input.isRight()) {
-            position.x += Utility.getGameTime().getDeltaTimeF() * SPEED;
-        }
+        movement.moveHero(this.position, input);
         draw.getBase().setPosition(position);
         animator.update();
     }
