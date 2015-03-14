@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 import dangine.entity.IsDrawable;
+import dangine.image.Resources;
 import dangine.utility.Utility;
 
 public class DangineImage implements IsDrawable {
@@ -15,6 +16,10 @@ public class DangineImage implements IsDrawable {
 
     public DangineImage(Image image) {
         this(image, 20, 20, Color.red);
+    }
+
+    public DangineImage(String image) {
+        this(Resources.getImageByName(image));
     }
 
     public DangineImage(Image image, int width, int height, Color color) {

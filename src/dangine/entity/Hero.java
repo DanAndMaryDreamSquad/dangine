@@ -2,6 +2,7 @@ package dangine.entity;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.entity.combat.GreatSword;
 import dangine.entity.movement.HeroMovement;
 import dangine.input.DangineSampleInput;
 import dangine.scenegraph.drawable.BloxAnimator;
@@ -31,6 +32,20 @@ public class Hero implements IsUpdateable, HasDrawable {
         movement.moveHero(this.position, input);
         draw.getBase().setPosition(position);
         animator.update();
+        int facing = 0;
+        if (input.isLeft()) {
+            facing++;
+        }
+        if (input.isRight()) {
+            facing--;
+        }
+        animator.updateFacing(facing);
+    }
+
+    public boolean equipWeapon(GreatSword greatsword) {
+        draw.getBody().addChild(greatsword.getDrawable());
+        draw.removeHands();
+        return true;
     }
 
     @Override

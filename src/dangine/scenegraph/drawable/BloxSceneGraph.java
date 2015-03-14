@@ -41,6 +41,16 @@ public class BloxSceneGraph implements IsDrawable {
         base.setScale(1, 1);
     }
 
+    public void removeHands() {
+        body.removeChild(leftArm);
+        body.removeChild(rightArm);
+    }
+
+    public void addHands() {
+        body.addChild(leftArm);
+        body.addChild(rightArm);
+    }
+
     @Override
     public void draw() {
         base.draw();

@@ -61,4 +61,13 @@ public class BloxAnimator implements IsUpdateable {
         hands.floating();
     }
 
+    public void updateFacing(int direction) {
+        if (direction == 1) {
+            blox.getBase().setHorzitontalFlip(1);
+        }
+        if (direction == -1) {
+            blox.getBase().setHorzitontalFlip(-1);
+        }
+    }
+
 }

@@ -118,4 +118,8 @@ public class SceneGraphNode implements IsDrawable {
         this.position.y = y;
     }
 
+    public void setHorzitontalFlip(int horzitontalFlip) {
+        this.horzitontalFlip = horzitontalFlip;
+    }
+
 }
