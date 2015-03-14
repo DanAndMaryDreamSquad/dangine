@@ -23,6 +23,7 @@ public class Utility {
 
     public static void devMode() {
         gameContainer.setTargetFrameRate(60);
+        gameContainer.setAlwaysRender(false);
         gameContainer.setVSync(true);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         players.newPlayer();
