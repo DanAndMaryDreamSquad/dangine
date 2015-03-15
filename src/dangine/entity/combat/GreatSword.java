@@ -1,5 +1,6 @@
 package dangine.entity.combat;
 
+import dangine.collision.GreatSwordCollider;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -13,18 +14,21 @@ public class GreatSword implements IsUpdateable, HasDrawable {
     }
 
     State state = State.IDLE;
-    int playerId = 0;
+    final int playerId;
     float timer = 0;
     static final float CHARGE_TIME = 0.0f;
     final GreatSwordSceneGraph greatsword = new GreatSwordSceneGraph();
     final GreatSwordAnimator animator = new GreatSwordAnimator(greatsword);
+    final GreatSwordCollider hitbox;
 
     public GreatSword() {
-
+        playerId = 0;
+        hitbox = new GreatSwordCollider(playerId);
     }
 
     public GreatSword(int playerId) {
         this.playerId = playerId;
+        hitbox = new GreatSwordCollider(playerId);
     }
 
     @Override
@@ -49,6 +53,7 @@ public class GreatSword implements IsUpdateable, HasDrawable {
             break;
         case SWINGING:
             timer += Utility.getGameTime().getDeltaTimeF();
+            hitbox.update();
             break;
         }
         animator.update();
@@ -62,7 +67,7 @@ public class GreatSword implements IsUpdateable, HasDrawable {
     public void idle() {
         state = State.IDLE;
         animator.idle();
-        greatsword.removeHitbox();
+        greatsword.removeHitbox(hitbox);
     }
 
     public void charge() {
@@ -75,6 +80,8 @@ public class GreatSword implements IsUpdateable, HasDrawable {
         state = State.SWINGING;
         animator.swinging();
         timer = 0;
-        greatsword.addHitbox();
+        greatsword.addHitbox(hitbox);
+        Utility.getActiveScene().addUpdateable(hitbox);
+        Utility.getActiveScene().removeUpdateable(hitbox);
     }
 }

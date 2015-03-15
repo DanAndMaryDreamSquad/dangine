@@ -2,11 +2,13 @@ package dangine.entity;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.GreatSword;
 import dangine.entity.movement.HeroMovement;
 import dangine.input.DangineSampleInput;
 import dangine.scenegraph.drawable.BloxAnimator;
 import dangine.scenegraph.drawable.BloxSceneGraph;
+import dangine.utility.Method;
 import dangine.utility.Utility;
 
 public class Hero implements IsUpdateable, HasDrawable {
@@ -48,12 +50,28 @@ public class Hero implements IsUpdateable, HasDrawable {
             facing--;
         }
         animator.updateFacing(facing);
+        Utility.getActiveScene().getCombatResolver()
+                .addEvent(new CombatEvent(playerId, position, 20, getOnHitBy(), this));
+    }
+
+    public void destroy() {
+        Utility.getActiveScene().removeUpdateable(this);
     }
 
     public boolean equipWeapon(GreatSword greatsword) {
         draw.getBody().addChild(greatsword.getDrawable());
         draw.removeHands();
         return true;
+    }
+
+    public Method<CombatEvent> getOnHitBy() {
+        return new Method<CombatEvent>() {
+
+            @Override
+            public void call(CombatEvent arg) {
+                destroy();
+            }
+        };
     }
 
     @Override
@@ -64,5 +82,13 @@ public class Hero implements IsUpdateable, HasDrawable {
     public void setPosition(float x, float y) {
         this.position.x = x;
         this.position.y = y;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public HeroMovement getMovement() {
+        return movement;
     }
 }

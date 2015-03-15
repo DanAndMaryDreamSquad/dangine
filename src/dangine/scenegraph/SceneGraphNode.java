@@ -32,6 +32,7 @@ public class SceneGraphNode implements IsDrawable {
 
     public void transform() {
         GL11.glTranslatef(position.x, position.y, zValue / 1000);
+        // GL11.glTranslatef(position.x, position.y, 0);
         GL11.glTranslatef(centerOfRotation.x, centerOfRotation.y, 0);
         GL11.glRotatef(angle, 0, 0, 1.0f);
         GL11.glTranslatef(-centerOfRotation.x, -centerOfRotation.y, 0);

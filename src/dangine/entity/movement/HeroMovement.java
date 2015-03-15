@@ -47,4 +47,9 @@ public class HeroMovement {
         return position;
     }
 
+    public void push(float x, float y) {
+        velocity.x += x;
+        velocity.y += y;
+    }
+
 }
