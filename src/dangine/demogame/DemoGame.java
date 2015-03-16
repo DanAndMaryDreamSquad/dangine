@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.newdawn.slick.Color;
 
+import dangine.entity.Background;
 import dangine.entity.Creature;
 import dangine.entity.Hero;
 import dangine.entity.Obstruction;
@@ -42,6 +43,7 @@ public class DemoGame implements DangineGame {
         scene.getParentNode().addChild(creature.getDrawable());
         scene.getParentNode().addChild(new DangineImage(Resources.getImageByName("mary")));
         scene.getCameraNode().addChild(obstruction.getDrawable());
+        scene.getParentNode().addChild(new Background().getDrawable());
     }
 
     @Override
