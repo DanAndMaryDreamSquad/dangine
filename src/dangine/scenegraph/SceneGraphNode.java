@@ -3,14 +3,17 @@ package dangine.scenegraph;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.geom.Vector2f;
 
+import com.badlogic.gdx.math.Matrix4;
+
 import dangine.entity.IsDrawable;
+import dangine.utility.Utility;
 
 public class SceneGraphNode implements IsDrawable {
 
     float angle = 0.0f;
+
     final Vector2f position = new Vector2f(0, 0);
     final Vector2f scale = new Vector2f(1, 1);
     final Vector2f centerOfRotation = new Vector2f(0, 0);
@@ -18,35 +21,56 @@ public class SceneGraphNode implements IsDrawable {
     int horzitontalFlip = 1;
     int verticalFlip = 1;
     SceneGraphNode parent = null;
+    List<SceneGraphNode> childNodes = new ArrayList<SceneGraphNode>();
     List<IsDrawable> children = new ArrayList<IsDrawable>();
+    Matrix4 matrix = new Matrix4();
 
     @Override
     public void draw() {
-        GL11.glPushMatrix();
+        // never called
+    }
+
+    public void updateTransformsAndPropagate() {
         transform();
-        for (IsDrawable drawable : children) {
-            drawable.draw();
+        for (SceneGraphNode childNode : childNodes) {
+            childNode.updateTransformsAndPropagate();
         }
-        GL11.glPopMatrix();
+        for (IsDrawable child : children) {
+            RenderData data = new RenderData(child);
+            data.updateBuffer(getMatrix());
+            Utility.getRenderQueue().add(data);
+        }
     }
 
     public void transform() {
-        GL11.glTranslatef(position.x, position.y, zValue / 1000);
-        // GL11.glTranslatef(position.x, position.y, 0);
-        GL11.glTranslatef(centerOfRotation.x, centerOfRotation.y, 0);
-        GL11.glRotatef(angle, 0, 0, 1.0f);
-        GL11.glTranslatef(-centerOfRotation.x, -centerOfRotation.y, 0);
-        GL11.glScalef(scale.x * horzitontalFlip, scale.y * verticalFlip, 1.0f);
+        matrix.idt();
+        matrix.translate(position.x, position.y, zValue / 1000);
+        matrix.translate(centerOfRotation.x, centerOfRotation.y, 0);
+        matrix.rotate(0, 0, 1, angle);
+        matrix.translate(-centerOfRotation.x, -centerOfRotation.y, 0);
+        matrix.scale(scale.x * horzitontalFlip, scale.y * verticalFlip, 1.0f);
+
+        if (parent != null) {
+            matrix = matrix.mulLeft(parent.getMatrix());
+        }
     }
 
     public void addChild(IsDrawable drawable) {
         if (drawable instanceof SceneGraphNode) {
-            ((SceneGraphNode) drawable).setParent(this);
+            SceneGraphNode n = (SceneGraphNode) drawable;
+            n.setParent(this);
+            childNodes.add(n);
+            return;
         }
         children.add(drawable);
     }
 
     public void removeChild(IsDrawable target) {
+        if (target instanceof SceneGraphNode) {
+            SceneGraphNode n = (SceneGraphNode) target;
+            childNodes.remove(n);
+            return;
+        }
         children.remove(target);
     }
 
@@ -121,4 +145,11 @@ public class SceneGraphNode implements IsDrawable {
         this.horzitontalFlip = horzitontalFlip;
     }
 
+    public Matrix4 getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(Matrix4 matrix) {
+        this.matrix = matrix;
+    }
 }

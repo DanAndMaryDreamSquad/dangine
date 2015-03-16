@@ -10,21 +10,22 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.geom.Vector2f;
 
+import com.badlogic.gdx.math.Matrix4;
+
 import dangine.scenegraph.SceneGraphNode;
 
 public class ScreenUtility {
 
+    public static void matrixIntoGLLoad(FloatBuffer buffer, Matrix4 matrix) {
+        buffer.put(matrix.getValues(), 0, 16);
+        buffer.flip();
+        GL11.glLoadMatrix(buffer);
+    }
+
     public static Vector2f getProjectedPosition(SceneGraphNode node, Vector2f inOutPosition) {
-        List<SceneGraphNode> parents = fetchParents(node);
-        for (SceneGraphNode t : parents) {
-            GL11.glPushMatrix();
-            t.transform();
-        }
+        node.transform();
+        ScreenUtility.matrixIntoGLLoad(BufferUtils.createFloatBuffer(16), node.getMatrix());
         inOutPosition = gluProject(inOutPosition);
-        for (@SuppressWarnings("unused")
-        SceneGraphNode t : parents) {
-            GL11.glPopMatrix();
-        }
         inOutPosition.y = 480 - inOutPosition.y;
         return inOutPosition;
     }

@@ -37,7 +37,7 @@ public class DemoGame implements DangineGame {
             scene.addUpdateable(greatsword);
         }
         scene.addUpdateable(creature);
-        scene.getParentNode().addChild(creature);
+        scene.getParentNode().addChild(creature.getDrawable());
         scene.getParentNode().addChild(new DangineImage(Resources.getImageByName("mary")));
     }
 

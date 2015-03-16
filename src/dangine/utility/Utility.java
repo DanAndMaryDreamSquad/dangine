@@ -1,12 +1,12 @@
 package dangine.utility;
 
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import dangine.harness.GameHarness;
 import dangine.player.Players;
 import dangine.scene.Scene;
+import dangine.scenegraph.RenderQueue;
 import dangine.time.GameTime;
 
 public class Utility {
@@ -14,18 +14,20 @@ public class Utility {
     private static GameTime gameTime;
     private static Players players;
     private static Scene activeScene;
+    private static RenderQueue renderQueue;
 
     public static void initialize(GameHarness gameharness, GameContainer gameContainer) {
         Utility.gameContainer = gameContainer;
         Utility.gameTime = new GameTime();
         Utility.players = new Players();
+        Utility.renderQueue = new RenderQueue();
     }
 
     public static void devMode() {
         gameContainer.setTargetFrameRate(60);
         gameContainer.setAlwaysRender(false);
         gameContainer.setVSync(true);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        // GL11.glEnable(GL11.GL_DEPTH_TEST);
         players.newPlayer();
         players.newPlayer();
     }
@@ -52,6 +54,10 @@ public class Utility {
 
     public static void setActiveScene(Scene activeScene) {
         Utility.activeScene = activeScene;
+    }
+
+    public static RenderQueue getRenderQueue() {
+        return renderQueue;
     }
 
 }

@@ -7,7 +7,7 @@ import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineShape;
 import dangine.utility.Utility;
 
-public class Creature implements IsUpdateable, IsDrawable {
+public class Creature implements IsUpdateable, HasDrawable {
 
     final float speed = 0.08f;
     final Vector2f position = new Vector2f(0, 0);
@@ -38,11 +38,6 @@ public class Creature implements IsUpdateable, IsDrawable {
     }
 
     @Override
-    public void draw() {
-        node.draw();
-    }
-
-    @Override
     public void update() {
         angle += Utility.getGameTime().getDeltaTime() * speed * 0.5f;
         position.x += Utility.getGameTime().getDeltaTime() * speed;
@@ -52,6 +47,11 @@ public class Creature implements IsUpdateable, IsDrawable {
             position.x = 0;
         }
 
+    }
+
+    @Override
+    public IsDrawable getDrawable() {
+        return node;
     }
 
 }

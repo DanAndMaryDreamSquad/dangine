@@ -36,7 +36,8 @@ public class Scene implements IsUpdateable, IsDrawable {
 
     @Override
     public void draw() {
-        parentNode.draw();
+        // parentNode.draw();
+        parentNode.updateTransformsAndPropagate();
     }
 
     public void addUpdateable(IsUpdateable updateable) {

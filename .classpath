@@ -13,5 +13,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="lib/gdx.jar"/>
+	<classpathentry kind="lib" path="lib/gdx-natives.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

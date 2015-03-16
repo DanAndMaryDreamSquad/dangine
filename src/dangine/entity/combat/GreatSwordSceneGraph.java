@@ -19,7 +19,7 @@ public class GreatSwordSceneGraph implements HasDrawable {
 
     public GreatSwordSceneGraph() {
         sword.addChild(new DangineImage("greatsword"));
-        sword.setZValue(-1.0f);
+        sword.setZValue(-0.5f);
         sword.setScale(scale, scale);
 
         leftArm.addChild(new DangineShape(5, 5, Color.green));
