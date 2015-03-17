@@ -7,6 +7,7 @@ import org.newdawn.slick.Color;
 
 import dangine.entity.Creature;
 import dangine.entity.Hero;
+import dangine.entity.Obstruction;
 import dangine.entity.combat.GreatSword;
 import dangine.game.DangineGame;
 import dangine.image.Resources;
@@ -17,6 +18,7 @@ import dangine.utility.Utility;
 public class DemoGame implements DangineGame {
 
     Creature creature = new Creature();
+    Obstruction obstruction = new Obstruction();
     List<Hero> heroes = new ArrayList<Hero>();
     Hero hero = new Hero();
     Scene scene = new Scene();
@@ -32,13 +34,14 @@ public class DemoGame implements DangineGame {
             GreatSword greatsword = new GreatSword(i);
             hero.setPosition((i + 1) * 200, 200);
             hero.equipWeapon(greatsword);
-            scene.getParentNode().addChild(hero.getDrawable());
+            scene.getCameraNode().addChild(hero.getDrawable());
             scene.addUpdateable(hero);
             scene.addUpdateable(greatsword);
         }
         scene.addUpdateable(creature);
         scene.getParentNode().addChild(creature.getDrawable());
         scene.getParentNode().addChild(new DangineImage(Resources.getImageByName("mary")));
+        scene.getCameraNode().addChild(obstruction.getDrawable());
     }
 
     @Override

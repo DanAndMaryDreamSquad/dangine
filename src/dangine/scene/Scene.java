@@ -13,11 +13,17 @@ import dangine.scenegraph.SceneGraphNode;
 
 public class Scene implements IsUpdateable, IsDrawable {
 
+    final Camera camera = new Camera();
     final CombatResolver combatResolver = new CombatResolver();
     final SceneGraphNode parentNode = new SceneGraphNode();
     List<IsUpdateable> updateables = new ArrayList<IsUpdateable>();
     List<IsUpdateable> toAdd = new LinkedList<IsUpdateable>();
     List<IsUpdateable> toRemove = new LinkedList<IsUpdateable>();
+
+    public Scene() {
+        parentNode.addChild(camera.getDrawable());
+        this.addUpdateable(camera);
+    }
 
     @Override
     public void update() {
@@ -63,6 +69,10 @@ public class Scene implements IsUpdateable, IsDrawable {
 
     public SceneGraphNode getParentNode() {
         return parentNode;
+    }
+
+    public SceneGraphNode getCameraNode() {
+        return camera.getCameraNode();
     }
 
     public CombatResolver getCombatResolver() {

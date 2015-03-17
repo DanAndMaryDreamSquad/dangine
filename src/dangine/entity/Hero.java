@@ -91,4 +91,8 @@ public class Hero implements IsUpdateable, HasDrawable {
     public HeroMovement getMovement() {
         return movement;
     }
+
+    public Vector2f getPosition() {
+        return position;
+    }
 }
