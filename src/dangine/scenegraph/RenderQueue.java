@@ -6,16 +6,21 @@ import java.util.List;
 
 public class RenderQueue {
 
-    List<RenderData> data = new ArrayList<RenderData>();
+    private List<RenderData> data = new ArrayList<RenderData>();
+    private boolean needsResort = false;
 
     public void render() {
-        Collections.sort(data);
+        if (needsResort) {
+            Collections.sort(data);
+            needsResort = false;
+        }
         for (RenderData item : data) {
             item.draw();
         }
     }
 
     public boolean add(RenderData item) {
+        invalidSortedOrder();
         return data.add(item);
     }
 
@@ -25,6 +30,10 @@ public class RenderQueue {
 
     public void clear() {
         data.clear();
+    }
+
+    public void invalidSortedOrder() {
+        needsResort = true;
     }
 
 }

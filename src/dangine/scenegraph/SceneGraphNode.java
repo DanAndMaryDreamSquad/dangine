@@ -25,18 +25,13 @@ public class SceneGraphNode implements IsDrawable {
     List<IsDrawable> children = new ArrayList<IsDrawable>();
     Matrix4 matrix = new Matrix4();
 
-    @Override
-    public void draw() {
-        // never called
-    }
-
     public void updateTransformsAndPropagate() {
         transform();
         for (SceneGraphNode childNode : childNodes) {
             childNode.updateTransformsAndPropagate();
         }
         for (IsDrawable child : children) {
-            RenderData data = new RenderData(child);
+            RenderData data = child.getRenderData();
             data.updateBuffer(getMatrix());
             Utility.getRenderQueue().add(data);
         }
@@ -151,5 +146,15 @@ public class SceneGraphNode implements IsDrawable {
 
     public void setMatrix(Matrix4 matrix) {
         this.matrix = matrix;
+    }
+
+    @Override
+    public void draw() {
+        // never called
+    }
+
+    @Override
+    public RenderData getRenderData() {
+        return null;
     }
 }

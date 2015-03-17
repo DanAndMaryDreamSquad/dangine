@@ -3,20 +3,19 @@ package dangine.scenegraph;
 import java.nio.FloatBuffer;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.util.vector.Matrix4f;
 
 import com.badlogic.gdx.math.Matrix4;
 
 import dangine.debugger.Debugger;
 import dangine.entity.IsDrawable;
 import dangine.utility.ScreenUtility;
+import dangine.utility.Utility;
 
 public class RenderData implements Comparable<RenderData> {
 
     IsDrawable draw;
     FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
     Matrix4 matrix = null;
-    Matrix4f mat = null;
     float z;
 
     public RenderData(IsDrawable draw) {
@@ -28,7 +27,10 @@ public class RenderData implements Comparable<RenderData> {
 
     public void updateBuffer(Matrix4 matrix) {
         this.matrix = matrix;
-        this.z = matrix.val[Matrix4.M23];
+        if (this.z != matrix.val[Matrix4.M23]) {
+            Utility.getRenderQueue().invalidSortedOrder();
+            this.z = matrix.val[Matrix4.M23];
+        }
     }
 
     public void draw() {

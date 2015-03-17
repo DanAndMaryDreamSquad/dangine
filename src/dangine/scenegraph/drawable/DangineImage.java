@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 
 import dangine.entity.IsDrawable;
 import dangine.image.Resources;
+import dangine.scenegraph.RenderData;
 import dangine.utility.Utility;
 
 public class DangineImage implements IsDrawable {
@@ -13,6 +14,7 @@ public class DangineImage implements IsDrawable {
     int height;
     Color color;
     Image image;
+    RenderData data = new RenderData(this);
 
     public DangineImage(Image image) {
         this(image, 20, 20, Color.red);
@@ -33,6 +35,11 @@ public class DangineImage implements IsDrawable {
     public void draw() {
         Utility.getGraphics().setColor(color);
         Utility.getGraphics().drawImage(image, 0, 0);
+    }
+
+    @Override
+    public RenderData getRenderData() {
+        return data;
     }
 
 }

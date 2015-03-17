@@ -8,6 +8,7 @@ import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.CombatResolver;
+import dangine.scenegraph.RenderData;
 import dangine.scenegraph.SceneGraphNode;
 
 public class Scene implements IsUpdateable, IsDrawable {
@@ -66,6 +67,12 @@ public class Scene implements IsUpdateable, IsDrawable {
 
     public CombatResolver getCombatResolver() {
         return combatResolver;
+    }
+
+    @Override
+    public RenderData getRenderData() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
