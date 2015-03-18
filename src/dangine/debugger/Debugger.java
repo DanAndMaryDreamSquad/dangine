@@ -10,4 +10,8 @@ public class Debugger {
         System.out.println("INFO - " + line);
     }
 
+    public static void warn(String line) {
+        System.out.println("WARN - " + line);
+    }
+
 }

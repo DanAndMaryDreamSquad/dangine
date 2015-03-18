@@ -61,7 +61,7 @@ public class GreatSword implements IsUpdateable, HasDrawable {
 
     @Override
     public IsDrawable getDrawable() {
-        return greatsword.getBase();
+        return greatsword.getDrawable();
     }
 
     public void idle() {

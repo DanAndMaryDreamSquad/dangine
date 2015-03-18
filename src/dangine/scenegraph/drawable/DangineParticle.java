@@ -32,4 +32,9 @@ public class DangineParticle implements IsDrawable {
     public List<DangineParticleData> getParticles() {
         return particles;
     }
+
+    @Override
+    public IsDrawable copy() {
+        return new DangineParticle(particles);
+    }
 }

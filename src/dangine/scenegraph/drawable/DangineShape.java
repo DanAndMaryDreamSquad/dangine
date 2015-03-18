@@ -42,4 +42,9 @@ public class DangineShape implements IsDrawable {
         this.color = color;
     }
 
+    @Override
+    public IsDrawable copy() {
+        return new DangineShape(width, height, color);
+    }
+
 }

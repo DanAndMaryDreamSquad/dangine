@@ -15,21 +15,26 @@ public class BloxSceneGraph implements HasDrawable {
     SceneGraphNode rightLeg = new SceneGraphNode();
     SceneGraphNode leftArm = new SceneGraphNode();
     SceneGraphNode rightArm = new SceneGraphNode();
+    final DangineShape bodyShape = new DangineShape();
+    final DangineShape leftLegShape = new DangineShape(10, 20, Color.magenta);
+    final DangineShape rightLegShape = new DangineShape(10, 20, Color.pink);
+    final DangineShape leftArmShape = new DangineShape(10, 10, Color.green);
+    final DangineShape rightArmShape = new DangineShape(10, 10, Color.cyan);
 
     public BloxSceneGraph() {
-        body.addChild(new DangineShape());
+        body.addChild(bodyShape);
 
         // head.addChild(new DangineShape(20, 20, Color.blue));
         // head.setPosition(-1, -25);
-        leftArm.addChild(new DangineShape(10, 10, Color.green));
+        leftArm.addChild(leftArmShape);
         leftArm.setPosition(-15, 0);
         leftArm.setZValue(-1.0f);
-        rightArm.addChild(new DangineShape(10, 10, Color.cyan));
+        rightArm.addChild(rightArmShape);
         rightArm.setPosition(15, 0);
         rightArm.setZValue(-1.0f);
-        leftLeg.addChild(new DangineShape(10, 20, Color.magenta));
+        leftLeg.addChild(leftLegShape);
         leftLeg.setPosition(-10, 20);
-        rightLeg.addChild(new DangineShape(10, 20, Color.pink));
+        rightLeg.addChild(rightLegShape);
         rightLeg.setPosition(20, 20);
 
         base.addChild(body);
@@ -67,5 +72,25 @@ public class BloxSceneGraph implements HasDrawable {
     @Override
     public IsDrawable getDrawable() {
         return getBase();
+    }
+
+    public DangineShape getBodyShape() {
+        return bodyShape;
+    }
+
+    public DangineShape getLeftLegShape() {
+        return leftLegShape;
+    }
+
+    public DangineShape getRightLegShape() {
+        return rightLegShape;
+    }
+
+    public DangineShape getLeftArmShape() {
+        return leftArmShape;
+    }
+
+    public DangineShape getRightArmShape() {
+        return rightArmShape;
     }
 }

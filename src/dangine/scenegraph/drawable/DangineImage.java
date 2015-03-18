@@ -46,4 +46,9 @@ public class DangineImage implements IsDrawable {
         return data;
     }
 
+    @Override
+    public IsDrawable copy() {
+        return new DangineImage(image, width, height, color);
+    }
+
 }

@@ -50,6 +50,28 @@ public class SceneGraphNode implements IsDrawable {
         }
     }
 
+    public void pullTransformsFromSelf() {
+        this.pullTransformsFromMatrix(getMatrix());
+    }
+
+    public void pullTransformsFromMatrix(Matrix4 pullMatrix) {
+        position.x = pullMatrix.val[Matrix4.M03];
+        position.y = pullMatrix.val[Matrix4.M13];
+        zValue = pullMatrix.val[Matrix4.M23] * 1000;
+
+        scale.x = pullMatrix.getScaleX();
+        if (pullMatrix.val[Matrix4.M00] < 0) {
+            horzitontalFlip = -1;
+        }
+        scale.y = pullMatrix.getScaleY();
+        if (pullMatrix.val[Matrix4.M11] < 0) {
+            verticalFlip = -1;
+        }
+
+        angle = (float) -Math.asin(pullMatrix.getValues()[Matrix4.M01] / scale.y);
+        angle = (float) Math.toDegrees(angle);
+    }
+
     public void addChild(IsDrawable drawable) {
         if (drawable instanceof SceneGraphNode) {
             SceneGraphNode n = (SceneGraphNode) drawable;
@@ -156,5 +178,23 @@ public class SceneGraphNode implements IsDrawable {
     @Override
     public RenderData getRenderData() {
         return null;
+    }
+
+    public List<SceneGraphNode> getChildNodes() {
+        return childNodes;
+    }
+
+    public List<IsDrawable> getChildren() {
+        return children;
+    }
+
+    @Override
+    public IsDrawable copy() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Vector2f getCenterOfRotation() {
+        return centerOfRotation;
     }
 }

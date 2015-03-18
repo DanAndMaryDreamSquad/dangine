@@ -85,4 +85,10 @@ public class Scene implements IsUpdateable, IsDrawable {
         return null;
     }
 
+    @Override
+    public IsDrawable copy() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

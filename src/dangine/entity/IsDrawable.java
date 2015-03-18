@@ -8,4 +8,6 @@ public interface IsDrawable {
 
     public RenderData getRenderData();
 
+    public IsDrawable copy();
+
 }
