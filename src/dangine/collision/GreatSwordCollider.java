@@ -34,7 +34,7 @@ public class GreatSwordCollider implements IsUpdateable, HasDrawable {
     @Override
     public void update() {
         node.setPosition(DRAW_POSITION.x + (SIZE / 2), DRAW_POSITION.y + (SIZE / 2));
-        absolutePosition = ScreenUtility.getProjectedPosition(node, absolutePosition);
+        absolutePosition = ScreenUtility.getScreenPosition(node, absolutePosition);
         node.setPosition(DRAW_POSITION);
         Utility.getActiveScene().getCombatResolver()
                 .addEvent(new CombatEvent(wielderId, absolutePosition, SIZE / 4, getOnHit(), this));

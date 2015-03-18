@@ -1,6 +1,10 @@
 package dangine.entity.combat;
 
+import org.newdawn.slick.geom.Vector2f;
+
 import dangine.entity.IsUpdateable;
+import dangine.entity.visual.SparkTrail;
+import dangine.utility.ScreenUtility;
 import dangine.utility.Utility;
 
 public class GreatSwordAnimator implements IsUpdateable {
@@ -13,6 +17,7 @@ public class GreatSwordAnimator implements IsUpdateable {
 
     final float SWING_SPEED = 0.56f;
     final float SWING_TIME = 390.0f / SWING_SPEED;
+    Vector2f absolutePosition = new Vector2f(0, 0);
     final GreatSwordSceneGraph greatsword;
     float angle = 0;
 
@@ -21,11 +26,20 @@ public class GreatSwordAnimator implements IsUpdateable {
         idle();
     }
 
+    private void createSpark() {
+        absolutePosition = ScreenUtility.getWorldPosition(greatsword.getSword(), absolutePosition);
+        SparkTrail spark = new SparkTrail(absolutePosition.x, absolutePosition.y);
+        Utility.getActiveScene().getCameraNode().addChild(spark.getDrawable());
+        Utility.getActiveScene().addUpdateable(spark);
+    }
+
     @Override
     public void update() {
         switch (state) {
         case SWINGING:
-            angle -= Utility.getGameTime().getDeltaTimeF() * 0.56f;
+            float increment = Utility.getGameTime().getDeltaTimeF() * 0.56f;
+
+            angle -= increment;
             greatsword.getSword().setAngle(angle);
             if (angle < -330) {
                 idle();
@@ -64,5 +78,7 @@ public class GreatSwordAnimator implements IsUpdateable {
         greatsword.getSword().setPosition(-8 * scale, -36 * scale);
         greatsword.getSword().setCenterOfRotation(12 * scale, 36 * scale);
         greatsword.getSword().setAngle(angle);
+
+        createSpark();
     }
 }

@@ -34,4 +34,12 @@ public class DangineShape implements IsDrawable {
         return data;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
 }
