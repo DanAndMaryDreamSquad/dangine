@@ -11,9 +11,7 @@ import dangine.entity.Hero;
 import dangine.entity.Obstruction;
 import dangine.entity.combat.GreatSword;
 import dangine.game.DangineGame;
-import dangine.image.Resources;
 import dangine.scene.Scene;
-import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Utility;
 
 public class DemoGame implements DangineGame {
@@ -23,6 +21,7 @@ public class DemoGame implements DangineGame {
     List<Hero> heroes = new ArrayList<Hero>();
     Hero hero = new Hero();
     Scene scene = new Scene();
+    Background background = new Background();
 
     @Override
     public void init() {
@@ -41,9 +40,11 @@ public class DemoGame implements DangineGame {
         }
         scene.addUpdateable(creature);
         scene.getParentNode().addChild(creature.getDrawable());
-        scene.getParentNode().addChild(new DangineImage(Resources.getImageByName("mary")));
+        // scene.getParentNode().addChild(new
+        // DangineImage(Resources.getImageByName("mary")));
         scene.getCameraNode().addChild(obstruction.getDrawable());
-        scene.getParentNode().addChild(new Background().getDrawable());
+        scene.addUpdateable(background);
+        scene.getParentNode().addChild(background.getDrawable());
     }
 
     @Override
