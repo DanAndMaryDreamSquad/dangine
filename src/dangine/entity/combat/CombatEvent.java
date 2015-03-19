@@ -36,6 +36,11 @@ public class CombatEvent {
         }
     }
 
+    public void setPosition(Vector2f position) {
+        this.position.x = position.x;
+        this.position.y = position.y;
+    }
+
     public void onHitBy(CombatEvent event) {
         if (onHitBy != null) {
             onHitBy.call(event);

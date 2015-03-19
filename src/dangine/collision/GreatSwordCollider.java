@@ -8,6 +8,7 @@ import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.CombatEvent;
+import dangine.entity.combat.CombatEventHitbox;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineShape;
 import dangine.utility.Method;
@@ -18,26 +19,31 @@ public class GreatSwordCollider implements IsUpdateable, HasDrawable {
 
     int wielderId = 0;
     final int SIZE = 50;
-    final Vector2f DRAW_POSITION = new Vector2f(-55, -20);
+    final float HITBOX_SIZE = 35;
+    final Vector2f DRAW_POSITION = new Vector2f(-25, 0);
     SceneGraphNode node = new SceneGraphNode();
     SceneGraphNode center = new SceneGraphNode();
     Vector2f absolutePosition = new Vector2f(0, 0);
+    final CombatEvent swing;
+    final CombatEventHitbox hitBox;
 
     public GreatSwordCollider(int wielderId) {
         this.wielderId = wielderId;
-        // node.addChild(new DangineShape(SIZE, SIZE, Color.yellow));
+        swing = new CombatEvent(wielderId, absolutePosition, HITBOX_SIZE, getOnHit(), this);
+        hitBox = new CombatEventHitbox(swing);
         node.setPosition(DRAW_POSITION);
         center.addChild(new DangineShape());
-        Utility.getActiveScene().getParentNode().addChild(center);
+        Utility.getActiveScene().getCameraNode().addChild(center);
+        Utility.getActiveScene().getCameraNode().addChild(hitBox.getDrawable());
     }
 
     @Override
     public void update() {
-        node.setPosition(DRAW_POSITION.x + (SIZE / 2), DRAW_POSITION.y + (SIZE / 2));
-        absolutePosition = ScreenUtility.getScreenPosition(node, absolutePosition);
-        node.setPosition(DRAW_POSITION);
-        Utility.getActiveScene().getCombatResolver()
-                .addEvent(new CombatEvent(wielderId, absolutePosition, SIZE / 4, getOnHit(), this));
+        absolutePosition = ScreenUtility.getWorldPosition(node, absolutePosition);
+
+        swing.setPosition(absolutePosition);
+        hitBox.setPosition(absolutePosition.x - HITBOX_SIZE / 2, absolutePosition.y - HITBOX_SIZE / 2);
+        Utility.getActiveScene().getCombatResolver().addEvent(swing);
 
         center.setPosition(absolutePosition);
     }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -23,15 +24,18 @@ public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
     float timer = 0;
     float angle = 0f;
 
-    public DefeatedBloxSplitVisual(float x, float y, float angle) {
-        SceneGraphNode toFlat = (SceneGraphNode) Utility.getActiveScene().getHero(0).getDrawable();
-        SceneGraphNode flat = FlattenSceneGraphNode.flatten(toFlat);
-        for (int i = 0; i < flat.getChildNodes().size(); i++) {
-            parts.add(flat.getChildNodes().get(i));
-            float velAngle = (360 / flat.getChildNodes().size()) * i;
-            velocities.add(new Vector2f(velAngle).scale(MOVE_SPEED));
+    public DefeatedBloxSplitVisual(float x, float y, float angle, int playerId) {
+        Debugger.info();
+        if (Utility.getActiveScene().getHero(playerId) != null) {
+            SceneGraphNode toFlat = (SceneGraphNode) Utility.getActiveScene().getHero(playerId).getDrawable();
+            SceneGraphNode flat = FlattenSceneGraphNode.flatten(toFlat);
+            for (int i = 0; i < flat.getChildNodes().size(); i++) {
+                parts.add(flat.getChildNodes().get(i));
+                float velAngle = (360 / flat.getChildNodes().size()) * i;
+                velocities.add(new Vector2f(velAngle).scale(MOVE_SPEED));
+            }
+            base.addChild(flat);
         }
-        base.addChild(flat);
     }
 
     @Override

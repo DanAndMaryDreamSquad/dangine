@@ -19,7 +19,6 @@ public class DemoGame implements DangineGame {
     Creature creature = new Creature();
     Obstruction obstruction = new Obstruction();
     List<Hero> heroes = new ArrayList<Hero>();
-    Hero hero = new Hero();
     Scene scene = new Scene();
     Background background = new Background();
 

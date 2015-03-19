@@ -3,9 +3,6 @@ package dangine.entity.combat;
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.entity.IsUpdateable;
-import dangine.entity.visual.DefeatedBloxKnockVisual;
-import dangine.entity.visual.DefeatedBloxSplitVisual;
-import dangine.entity.visual.SparkTrail;
 import dangine.utility.ScreenUtility;
 import dangine.utility.Utility;
 
@@ -30,17 +27,21 @@ public class GreatSwordAnimator implements IsUpdateable {
 
     private void createSpark() {
         absolutePosition = ScreenUtility.getWorldPosition(greatsword.getSword(), absolutePosition);
-        SparkTrail spark = new SparkTrail(absolutePosition.x, absolutePosition.y);
-        Utility.getActiveScene().getCameraNode().addChild(spark.getDrawable());
-        Utility.getActiveScene().addUpdateable(spark);
-
-        DefeatedBloxKnockVisual knock = new DefeatedBloxKnockVisual(absolutePosition.x, absolutePosition.y, -30);
-        Utility.getActiveScene().getCameraNode().addChild(knock.getDrawable());
-        Utility.getActiveScene().addUpdateable(knock);
-
-        DefeatedBloxSplitVisual split = new DefeatedBloxSplitVisual(absolutePosition.x, absolutePosition.y, 0);
-        Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
-        Utility.getActiveScene().addUpdateable(split);
+        // SparkTrail spark = new SparkTrail(absolutePosition.x,
+        // absolutePosition.y);
+        // Utility.getActiveScene().getCameraNode().addChild(spark.getDrawable());
+        // Utility.getActiveScene().addUpdateable(spark);
+        //
+        // DefeatedBloxKnockVisual knock = new
+        // DefeatedBloxKnockVisual(absolutePosition.x, absolutePosition.y, -30);
+        // Utility.getActiveScene().getCameraNode().addChild(knock.getDrawable());
+        // Utility.getActiveScene().addUpdateable(knock);
+        //
+        // DefeatedBloxSplitVisual split = new
+        // DefeatedBloxSplitVisual(absolutePosition.x, absolutePosition.y, 0,
+        // 0);
+        // Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
+        // Utility.getActiveScene().addUpdateable(split);
     }
 
     @Override

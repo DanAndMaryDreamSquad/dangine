@@ -3,12 +3,15 @@ package dangine.entity;
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.entity.combat.CombatEvent;
+import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.combat.GreatSword;
 import dangine.entity.movement.HeroMovement;
+import dangine.entity.visual.DefeatedBloxSplitVisual;
 import dangine.input.DangineSampleInput;
 import dangine.scenegraph.drawable.BloxAnimator;
 import dangine.scenegraph.drawable.BloxSceneGraph;
 import dangine.utility.Method;
+import dangine.utility.ScreenUtility;
 import dangine.utility.Utility;
 
 public class Hero implements IsUpdateable, HasDrawable {
@@ -20,13 +23,14 @@ public class Hero implements IsUpdateable, HasDrawable {
     final BloxSceneGraph draw = new BloxSceneGraph();
     final BloxAnimator animator = new BloxAnimator(draw);
     final HeroMovement movement = new HeroMovement();
-
-    public Hero() {
-
-    }
+    final CombatEvent onHit;
+    final CombatEventHitbox hitbox;
 
     public Hero(int playerId) {
         this.playerId = playerId;
+        onHit = new CombatEvent(playerId, position, 20, getOnHitBy(), this);
+        hitbox = new CombatEventHitbox(onHit);
+        Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
     }
 
     @Override
@@ -50,12 +54,27 @@ public class Hero implements IsUpdateable, HasDrawable {
             facing--;
         }
         animator.updateFacing(facing);
-        Utility.getActiveScene().getCombatResolver()
-                .addEvent(new CombatEvent(playerId, position, 20, getOnHitBy(), this));
+
+        onHit.setPosition(position);
+        hitbox.setPosition(position);
+        hitbox.setPosition(position.x - 20 / 2, position.y);
+        Utility.getActiveScene().getCombatResolver().addEvent(onHit);
+
+        if (input.isButtonTwo()) {
+            this.destroy();
+        }
     }
 
     public void destroy() {
+        Vector2f absolutePosition = new Vector2f();
+        absolutePosition = ScreenUtility.getWorldPosition(draw.getBody(), absolutePosition);
+
+        DefeatedBloxSplitVisual split = new DefeatedBloxSplitVisual(absolutePosition.x, absolutePosition.y, 0, playerId);
+        Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
+        Utility.getActiveScene().addUpdateable(split);
+
         Utility.getActiveScene().removeUpdateable(this);
+        Utility.getActiveScene().getCameraNode().removeChild(this.getDrawable());
     }
 
     public boolean equipWeapon(GreatSword greatsword) {
@@ -69,6 +88,9 @@ public class Hero implements IsUpdateable, HasDrawable {
 
             @Override
             public void call(CombatEvent arg) {
+                // if (arg.getCreator() instanceof Hero) {
+                // return;
+                // }
                 destroy();
             }
         };

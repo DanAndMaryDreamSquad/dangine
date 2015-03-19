@@ -1,6 +1,5 @@
 package dangine.entity;
 
-import dangine.debugger.Debugger;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Utility;
@@ -47,8 +46,6 @@ public class Background implements HasDrawable, IsUpdateable {
             x2 += -background.getWidth() * 40;
         }
         node2.setPosition(x2, 0);
-
-        Debugger.info(node1.getPosition() + " | " + node2.getPosition());
     }
 
 }

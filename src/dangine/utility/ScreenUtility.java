@@ -36,7 +36,7 @@ public class ScreenUtility {
         temp[0] = inOutPosition.x;
         temp[1] = inOutPosition.y;
         temp[2] = 0;
-        Matrix4 camera = Utility.getActiveScene().getCameraNode().getMatrix();
+        Matrix4 camera = Utility.getActiveScene().getCameraNode().getMatrix().cpy();
         Matrix4.mulVec(camera.inv().getValues(), temp);
         inOutPosition.x = temp[0];
         inOutPosition.y = temp[1];

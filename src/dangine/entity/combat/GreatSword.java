@@ -33,6 +33,16 @@ public class GreatSword implements IsUpdateable, HasDrawable {
 
     @Override
     public void update() {
+        switch (state) {
+        case CHARGE:
+            timer += Utility.getGameTime().getDeltaTimeF();
+            break;
+        case SWINGING:
+            timer += Utility.getGameTime().getDeltaTimeF();
+            hitbox.update();
+            break;
+        }
+
         DangineSampleInput input = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
         if (input.isButtonOne() && state == State.IDLE) {
             charge();
@@ -45,16 +55,6 @@ public class GreatSword implements IsUpdateable, HasDrawable {
         }
         if (state == State.CHARGE && timer > CHARGE_TIME) {
             swinging();
-        }
-
-        switch (state) {
-        case CHARGE:
-            timer += Utility.getGameTime().getDeltaTimeF();
-            break;
-        case SWINGING:
-            timer += Utility.getGameTime().getDeltaTimeF();
-            hitbox.update();
-            break;
         }
         animator.update();
     }
