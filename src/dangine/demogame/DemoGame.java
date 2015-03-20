@@ -37,7 +37,7 @@ public class DemoGame implements DangineGame {
         scene.getParentNode().addChild(creature.getDrawable());
         // scene.getParentNode().addChild(new
         // DangineImage(Resources.getImageByName("mary")));
-        scene.getCameraNode().addChild(obstruction.getDrawable());
+        // scene.getCameraNode().addChild(obstruction.getDrawable());
         scene.addUpdateable(background);
         scene.getParentNode().addChild(background.getDrawable());
     }

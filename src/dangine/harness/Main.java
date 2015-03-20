@@ -5,6 +5,7 @@ import org.newdawn.slick.SlickException;
 
 import dangine.demogame.DemoGame;
 import dangine.game.DangineGame;
+import dangine.utility.Utility;
 
 public class Main {
 
@@ -17,6 +18,7 @@ public class Main {
                         return new DemoGame();
                     }
                 }));
+        app.setDisplayMode((int) Utility.getResolution().x, (int) Utility.getResolution().y, false);
         app.start();
     }
 

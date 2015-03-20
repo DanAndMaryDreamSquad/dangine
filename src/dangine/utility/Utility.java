@@ -2,6 +2,7 @@ package dangine.utility;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Vector2f;
 
 import dangine.harness.GameHarness;
 import dangine.player.Players;
@@ -15,6 +16,7 @@ public class Utility {
     private static Players players;
     private static Scene activeScene;
     private static RenderQueue renderQueue;
+    private static Vector2f resolution = new Vector2f(800, 600);
 
     public static void initialize(GameHarness gameharness, GameContainer gameContainer) {
         Utility.gameContainer = gameContainer;
@@ -58,6 +60,10 @@ public class Utility {
 
     public static RenderQueue getRenderQueue() {
         return renderQueue;
+    }
+
+    public static Vector2f getResolution() {
+        return resolution;
     }
 
 }

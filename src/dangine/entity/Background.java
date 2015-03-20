@@ -11,9 +11,10 @@ public class Background implements HasDrawable, IsUpdateable {
     SceneGraphNode base = new SceneGraphNode();
     SceneGraphNode node1 = new SceneGraphNode();
     SceneGraphNode node2 = new SceneGraphNode();
+    final int scale = (int) (Utility.getResolution().x / background.getWidth());
 
     float x1 = 0;
-    float x2 = -background.getWidth() * 20;
+    float x2 = -background.getWidth() * scale;
 
     public Background() {
         base.addChild(node2);
@@ -22,11 +23,11 @@ public class Background implements HasDrawable, IsUpdateable {
 
         node1.addChild(background);
         node1.setZValue(1.0f);
-        node1.setScale(20, 20);
+        node1.setScale(scale, scale);
 
         node2.addChild(background2);
         node2.setZValue(1.0f);
-        node2.setScale(20, 20);
+        node2.setScale(scale, scale);
     }
 
     @Override
@@ -37,13 +38,13 @@ public class Background implements HasDrawable, IsUpdateable {
     @Override
     public void update() {
         x1 += Utility.getGameTime().getDeltaTimeF() * 0.05f;
-        if (x1 > background.getWidth() * 20) {
-            x1 += -background.getWidth() * 40;
+        if (x1 > background.getWidth() * scale) {
+            x1 += -background.getWidth() * scale * 2;
         }
         node1.setPosition(x1, 0);
         x2 += Utility.getGameTime().getDeltaTimeF() * 0.05f;
-        if (x2 > background.getWidth() * 20) {
-            x2 += -background.getWidth() * 40;
+        if (x2 > background.getWidth() * scale) {
+            x2 += -background.getWidth() * scale * 2;
         }
         node2.setPosition(x2, 0);
     }

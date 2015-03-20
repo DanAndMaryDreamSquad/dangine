@@ -42,8 +42,8 @@ public class Camera implements IsUpdateable, HasDrawable {
         }
         x = x / trackings.size();
         y = y / trackings.size();
-        x -= 320;
-        y -= 240;
+        x -= Utility.getResolution().x;
+        y -= Utility.getResolution().y;
         x = -x;
         y = -y;
         // cameraNode.setPosition(x, y);
