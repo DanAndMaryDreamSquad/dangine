@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -25,7 +24,6 @@ public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
     float angle = 0f;
 
     public DefeatedBloxSplitVisual(float x, float y, float angle, int playerId) {
-        Debugger.info();
         if (Utility.getActiveScene().getHero(playerId) != null) {
             SceneGraphNode toFlat = (SceneGraphNode) Utility.getActiveScene().getHero(playerId).getDrawable();
             SceneGraphNode flat = FlattenSceneGraphNode.flatten(toFlat);

@@ -8,6 +8,7 @@ import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.CombatResolver;
+import dangine.entity.gameplay.MatchOrchestrator;
 import dangine.scenegraph.RenderData;
 import dangine.scenegraph.SceneGraphNode;
 
@@ -15,6 +16,7 @@ public class Scene implements IsUpdateable, IsDrawable {
 
     final Camera camera = new Camera();
     final CombatResolver combatResolver = new CombatResolver();
+    final MatchOrchestrator matchOrchestrator = new MatchOrchestrator();
     final SceneGraphNode parentNode = new SceneGraphNode();
     List<IsUpdateable> updateables = new ArrayList<IsUpdateable>();
     List<IsUpdateable> toAdd = new LinkedList<IsUpdateable>();
@@ -30,6 +32,8 @@ public class Scene implements IsUpdateable, IsDrawable {
         for (IsUpdateable update : updateables) {
             update.update();
         }
+        combatResolver.resolveCombat();
+        matchOrchestrator.resolveMatchEvents();
         for (IsUpdateable update : toAdd) {
             updateables.add(update);
         }
@@ -38,7 +42,6 @@ public class Scene implements IsUpdateable, IsDrawable {
             updateables.remove(update);
         }
         toRemove.clear();
-        combatResolver.resolveCombat();
     }
 
     @Override
@@ -89,6 +92,10 @@ public class Scene implements IsUpdateable, IsDrawable {
     public IsDrawable copy() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public MatchOrchestrator getMatchOrchestrator() {
+        return matchOrchestrator;
     }
 
 }

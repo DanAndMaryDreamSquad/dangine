@@ -6,25 +6,25 @@ import dangine.entity.IsDrawable;
 import dangine.scenegraph.RenderData;
 import dangine.utility.Utility;
 
-public class DangineCircle implements IsDrawable {
+public class DangineText implements IsDrawable {
 
-    float radius;
+    String text;
     Color color;
     RenderData data = new RenderData(this);
 
-    public DangineCircle(float radius) {
-        this(radius, Color.pink);
+    public DangineText() {
+        this("Sample Text", Color.black);
     }
 
-    public DangineCircle(float radius, Color color) {
-        this.radius = radius;
+    public DangineText(String text, Color color) {
         this.color = color;
+        this.text = text;
     }
 
     @Override
     public void draw() {
         Utility.getGraphics().setColor(color);
-        Utility.getGraphics().drawOval(0, 0, radius * 2, radius * 2);
+        Utility.getGraphics().drawString(text, 0, 0);
     }
 
     @Override
@@ -42,6 +42,15 @@ public class DangineCircle implements IsDrawable {
 
     @Override
     public IsDrawable copy() {
-        return new DangineCircle(radius, color);
+        return new DangineText(text, color);
     }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
 }

@@ -2,6 +2,7 @@ package dangine.entity.visual;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -22,6 +23,7 @@ public class DefeatedBloxKnockVisual implements IsUpdateable, HasDrawable {
         blox.getBase().setPosition(x, y);
         velocity = new Vector2f(angle).scale(MOVE_SPEED);
         blox.getBase().setCenterOfRotation(10, 10);
+        Debugger.info(x + " " + y);
     }
 
     @Override

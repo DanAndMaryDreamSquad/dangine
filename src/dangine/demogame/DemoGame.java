@@ -1,8 +1,5 @@
 package dangine.demogame;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.newdawn.slick.Color;
 
 import dangine.entity.Background;
@@ -18,7 +15,6 @@ public class DemoGame implements DangineGame {
 
     Creature creature = new Creature();
     Obstruction obstruction = new Obstruction();
-    List<Hero> heroes = new ArrayList<Hero>();
     Scene scene = new Scene();
     Background background = new Background();
 
@@ -31,7 +27,7 @@ public class DemoGame implements DangineGame {
         for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {
             Hero hero = new Hero(i);
             GreatSword greatsword = new GreatSword(i);
-            hero.setPosition((i + 1) * 200, 200);
+            hero.setPosition((i + 1) * 100, 200);
             hero.equipWeapon(greatsword);
             scene.getCameraNode().addChild(hero.getDrawable());
             scene.addUpdateable(hero);

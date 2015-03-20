@@ -11,10 +11,9 @@ public class CollisionUtility {
     }
 
     public static boolean isCircleCollidingCircle(Vector2f p1, float r1, Vector2f p2, float r2) {
-        float r1Squared = r1 * r1;
-        float r2Squared = r2 * r2;
+        float r1Squared = (r1 + r2) * (r1 + r2);
         float distSquared = p1.distanceSquared(p2);
-        return distSquared <= r1Squared + r2Squared;
+        return distSquared <= r1Squared;
     }
 
 }

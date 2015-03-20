@@ -32,10 +32,12 @@ public class GreatSwordSceneGraph implements HasDrawable {
 
     public void addHitbox(GreatSwordCollider hitbox) {
         base.addChild(hitbox.getDrawable());
+        hitbox.activate();
     }
 
     public void removeHitbox(GreatSwordCollider hitbox) {
         base.removeChild(hitbox.getDrawable());
+        hitbox.deactivate();
     }
 
     public SceneGraphNode getSword() {

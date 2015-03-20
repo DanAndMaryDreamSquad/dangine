@@ -46,7 +46,7 @@ public class Camera implements IsUpdateable, HasDrawable {
         y -= 240;
         x = -x;
         y = -y;
-        cameraNode.setPosition(x, y);
+        // cameraNode.setPosition(x, y);
 
     }
 }

@@ -81,7 +81,11 @@ public class GreatSword implements IsUpdateable, HasDrawable {
         animator.swinging();
         timer = 0;
         greatsword.addHitbox(hitbox);
-        Utility.getActiveScene().addUpdateable(hitbox);
-        Utility.getActiveScene().removeUpdateable(hitbox);
+        hitbox.update();
+    }
+
+    public void destroy() {
+        greatsword.removeHitbox(hitbox);
+        Utility.getActiveScene().removeUpdateable(this);
     }
 }

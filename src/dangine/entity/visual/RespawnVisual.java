@@ -13,16 +13,16 @@ import dangine.scenegraph.drawable.DangineParticle;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Utility;
 
-public class SparkTrail implements IsUpdateable, HasDrawable {
+public class RespawnVisual implements IsUpdateable, HasDrawable {
 
     final float MAX_TIME = 1000f;
-    final float SPEED = 0.16f;
+    final float SPEED = 0.046f;
     float timer = 0;
     SceneGraphNode node = new SceneGraphNode();
-    DangineParticle shape = ParticleEffectFactory.createFire(8, 20);
+    DangineParticle shape = ParticleEffectFactory.createEnergy(8, 40);
     List<Vector2f> velocities = new ArrayList<Vector2f>();
 
-    public SparkTrail(float x, float y) {
+    public RespawnVisual(float x, float y) {
         node.setPosition(x, y);
         node.addChild(shape);
         for (int i = 0; i < shape.getParticles().size(); i++) {
@@ -48,7 +48,7 @@ public class SparkTrail implements IsUpdateable, HasDrawable {
         if (timer >= MAX_TIME) {
             Utility.getActiveScene().removeUpdateable(this);
             node.removeChild(shape);
-            Utility.getActiveScene().getParentNode().removeChild(node);
+            Utility.getActiveScene().getCameraNode().removeChild(node);
         }
     }
 }

@@ -2,7 +2,6 @@ package dangine.collision;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
@@ -33,8 +32,17 @@ public class GreatSwordCollider implements IsUpdateable, HasDrawable {
         hitBox = new CombatEventHitbox(swing);
         node.setPosition(DRAW_POSITION);
         center.addChild(new DangineShape());
+    }
+
+    public void activate() {
         Utility.getActiveScene().getCameraNode().addChild(center);
         Utility.getActiveScene().getCameraNode().addChild(hitBox.getDrawable());
+    }
+
+    public void deactivate() {
+        Utility.getActiveScene().getCameraNode().removeChild(center);
+        Utility.getActiveScene().getCameraNode().removeChild(hitBox.getDrawable());
+
     }
 
     @Override
@@ -42,7 +50,7 @@ public class GreatSwordCollider implements IsUpdateable, HasDrawable {
         absolutePosition = ScreenUtility.getWorldPosition(node, absolutePosition);
 
         swing.setPosition(absolutePosition);
-        hitBox.setPosition(absolutePosition.x - HITBOX_SIZE / 2, absolutePosition.y - HITBOX_SIZE / 2);
+        hitBox.setPosition(absolutePosition.x - HITBOX_SIZE, absolutePosition.y - HITBOX_SIZE);
         Utility.getActiveScene().getCombatResolver().addEvent(swing);
 
         center.setPosition(absolutePosition);
@@ -53,7 +61,6 @@ public class GreatSwordCollider implements IsUpdateable, HasDrawable {
 
             @Override
             public void call(CombatEvent arg) {
-                Debugger.info();
                 if (arg.getCreator() instanceof Hero) {
                     return;
                 }

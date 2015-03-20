@@ -29,7 +29,8 @@ public class CombatEvent {
             if (event == this || event.getOwnerId() == ownerId) {
                 continue;
             }
-            boolean colliding = CollisionUtility.isCircleCollidingPoint(position, radius, event.getPosition());
+            boolean colliding = CollisionUtility.isCircleCollidingCircle(position, radius, event.getPosition(),
+                    event.getRadius());
             if (colliding) {
                 onHitBy(event);
             }
