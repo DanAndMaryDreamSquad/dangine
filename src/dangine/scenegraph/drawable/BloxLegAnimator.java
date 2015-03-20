@@ -31,9 +31,12 @@ public class BloxLegAnimator implements IsUpdateable {
         case IDLING:
             return;
         case WALKING:
-            float value = walkOscillator.update();
-            leftLeg.setXPosition(value - 5);
-            rightLeg.setXPosition(15 - value);
+            // float value = walkOscillator.update();
+            // leftLeg.setXPosition(value - 5);
+            // rightLeg.setXPosition(15 - value);
+            float value = floatOscillator.update();
+            leftLeg.setAngle(value - 12);
+            rightLeg.setAngle(floatOscillator.calcOffset(FLOAT_RATE / 2) - 12);
             return;
         case FLOATING:
             float angle = floatOscillator.update();
