@@ -10,24 +10,29 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineParticle;
-import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Utility;
 
-public class RespawnVisual implements IsUpdateable, HasDrawable {
+public class ExplosionVisual implements IsUpdateable, HasDrawable {
 
-    final float MAX_TIME = 1000f;
-    final float SPEED = 0.046f;
+    final float duration;
+    final float speed;
     float timer = 0;
     SceneGraphNode node = new SceneGraphNode();
-    DangineParticle shape = ParticleEffectFactory.createEnergy(8, 40);
+    final DangineParticle shape;
     List<Vector2f> velocities = new ArrayList<Vector2f>();
 
-    public RespawnVisual(float x, float y) {
+    public ExplosionVisual(float x, float y, DangineParticle particles, float minAngle, float maxAngle, float speed,
+            float duration) {
+        this.shape = particles;
+        this.speed = speed;
+        this.duration = duration;
         node.setPosition(x, y);
         node.addChild(shape);
         for (int i = 0; i < shape.getParticles().size(); i++) {
-            float angle = (360 / shape.getParticles().size()) * i;
-            velocities.add(new Vector2f(angle).scale(SPEED));
+            float range = maxAngle - minAngle;
+            float angleOffset = (range / shape.getParticles().size()) * i;
+            float angle = angleOffset + minAngle;
+            velocities.add(new Vector2f(angle).scale(speed));
         }
     }
 
@@ -42,17 +47,15 @@ public class RespawnVisual implements IsUpdateable, HasDrawable {
         for (int i = 0; i < shape.getParticles().size(); i++) {
             Vector2f velocity = velocities.get(i);
             Vector2f offset = shape.getParticles().get(i).getOffset();
+            float alpha = 1.0f - (timer / duration);
+            shape.getParticles().get(i).getColor().a = alpha;
             offset.x += velocity.x * Utility.getGameTime().getDeltaTimeF();
             offset.y += velocity.y * Utility.getGameTime().getDeltaTimeF();
         }
-        if (timer >= MAX_TIME) {
+        if (timer >= duration) {
             Utility.getActiveScene().removeUpdateable(this);
             node.removeChild(shape);
             Utility.getActiveScene().getCameraNode().removeChild(node);
         }
-    }
-
-    public static ExplosionVisual createRespawnVisual(float x, float y) {
-        return new ExplosionVisual(x, y, ParticleEffectFactory.createEnergy(8, 40), 0, 360, 0.046f, 2000f);
     }
 }

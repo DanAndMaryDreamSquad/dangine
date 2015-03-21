@@ -29,4 +29,8 @@ public class DangineParticleData {
         this.offset = offset;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
 }

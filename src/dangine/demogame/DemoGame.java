@@ -7,6 +7,7 @@ import dangine.entity.Creature;
 import dangine.entity.Hero;
 import dangine.entity.Obstruction;
 import dangine.entity.combat.GreatSword;
+import dangine.entity.gameplay.Boundaries;
 import dangine.game.DangineGame;
 import dangine.scene.Scene;
 import dangine.utility.Utility;
@@ -17,6 +18,7 @@ public class DemoGame implements DangineGame {
     Obstruction obstruction = new Obstruction();
     Scene scene = new Scene();
     Background background = new Background();
+    Boundaries boundaries = new Boundaries();
 
     @Override
     public void init() {
@@ -40,6 +42,7 @@ public class DemoGame implements DangineGame {
         // scene.getCameraNode().addChild(obstruction.getDrawable());
         scene.addUpdateable(background);
         scene.getParentNode().addChild(background.getDrawable());
+        scene.addUpdateable(boundaries);
     }
 
     @Override

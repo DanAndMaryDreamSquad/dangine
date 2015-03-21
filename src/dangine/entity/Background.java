@@ -11,7 +11,7 @@ public class Background implements HasDrawable, IsUpdateable {
     SceneGraphNode base = new SceneGraphNode();
     SceneGraphNode node1 = new SceneGraphNode();
     SceneGraphNode node2 = new SceneGraphNode();
-    final int scale = (int) (Utility.getResolution().x / background.getWidth());
+    final int scale = (int) (Utility.getResolution().x / background.getWidth()) * 2;
 
     float x1 = 0;
     float x2 = -background.getWidth() * scale;

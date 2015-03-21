@@ -6,12 +6,14 @@ import dangine.debugger.Debugger;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.combat.GreatSword;
-import dangine.entity.gameplay.RespawnEvent;
+import dangine.entity.gameplay.DefeatEvent;
 import dangine.entity.movement.HeroMovement;
 import dangine.entity.visual.DefeatedBloxKnockVisual;
+import dangine.entity.visual.DefeatedBloxSplitVisual;
 import dangine.input.DangineSampleInput;
 import dangine.scenegraph.drawable.BloxAnimator;
 import dangine.scenegraph.drawable.BloxSceneGraph;
+import dangine.utility.MathUtility;
 import dangine.utility.Method;
 import dangine.utility.ScreenUtility;
 import dangine.utility.Utility;
@@ -81,15 +83,23 @@ public class Hero implements IsUpdateable, HasDrawable {
         // DefeatedBloxSplitVisual split = new
         // DefeatedBloxSplitVisual(absolutePosition.x, absolutePosition.y, 0,
         // playerId);
-        DefeatedBloxKnockVisual split = new DefeatedBloxKnockVisual(absolutePosition.x, absolutePosition.y, -30);
-        Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
-        Utility.getActiveScene().addUpdateable(split);
+
+        if (MathUtility.randomBoolean()) {
+            DefeatedBloxKnockVisual split = new DefeatedBloxKnockVisual(absolutePosition.x, absolutePosition.y, -30);
+            Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
+            Utility.getActiveScene().addUpdateable(split);
+        } else {
+            DefeatedBloxSplitVisual split = new DefeatedBloxSplitVisual(absolutePosition.x, absolutePosition.y, -30,
+                    playerId);
+            Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
+            Utility.getActiveScene().addUpdateable(split);
+
+        }
 
         Utility.getActiveScene().removeUpdateable(this);
         Utility.getActiveScene().getCameraNode().removeChild(this.getDrawable());
         Utility.getActiveScene().getCameraNode().removeChild(hitbox.getDrawable());
-
-        Utility.getActiveScene().getMatchOrchestrator().addEvent(new RespawnEvent(getPlayerId()));
+        Utility.getActiveScene().getMatchOrchestrator().addEvent(new DefeatEvent(playerId));
 
         Debugger.info("destroying hero " + playerId + " " + this);
     }
