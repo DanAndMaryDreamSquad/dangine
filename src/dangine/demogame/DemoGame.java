@@ -4,10 +4,9 @@ import org.newdawn.slick.Color;
 
 import dangine.entity.Background;
 import dangine.entity.Creature;
-import dangine.entity.Hero;
 import dangine.entity.Obstruction;
-import dangine.entity.combat.GreatSword;
 import dangine.entity.gameplay.Boundaries;
+import dangine.entity.gameplay.Respawner;
 import dangine.game.DangineGame;
 import dangine.scene.Scene;
 import dangine.utility.Utility;
@@ -27,22 +26,24 @@ public class DemoGame implements DangineGame {
 
         // for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
         for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {
-            Hero hero = new Hero(i);
-            GreatSword greatsword = new GreatSword(i);
-            hero.setPosition((i + 1) * 100, 200);
-            hero.equipWeapon(greatsword);
-            scene.getCameraNode().addChild(hero.getDrawable());
-            scene.addUpdateable(hero);
-            scene.addUpdateable(greatsword);
+            scene.addUpdateable(new Respawner(i));
+            // Hero hero = new Hero(i);
+            // GreatSword greatsword = new GreatSword(i);
+            // hero.setPosition((i + 1) * 100, 200);
+            // hero.equipWeapon(greatsword);
+            // scene.getCameraNode().addChild(hero.getDrawable());
+            // scene.addUpdateable(hero);
+            // scene.addUpdateable(greatsword);
         }
-        scene.addUpdateable(creature);
-        scene.getParentNode().addChild(creature.getDrawable());
+        // scene.addUpdateable(creature);
+        // scene.getParentNode().addChild(creature.getDrawable());
         // scene.getParentNode().addChild(new
         // DangineImage(Resources.getImageByName("mary")));
         // scene.getCameraNode().addChild(obstruction.getDrawable());
         scene.addUpdateable(background);
         scene.getParentNode().addChild(background.getDrawable());
         scene.addUpdateable(boundaries);
+        Utility.getActiveScene().getParentNode().addChild(scene.getMatchOrchestrator().getScoreKeeper().getDrawable());
     }
 
     @Override

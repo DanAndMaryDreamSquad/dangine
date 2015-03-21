@@ -34,6 +34,11 @@ public class GameHarness extends BasicGame {
         dangineGame.init();
     }
 
+    public void restart() {
+        dangineGame = provider.get();
+        dangineGame.init();
+    }
+
     @Override
     public void render(GameContainer gc, Graphics graphics) throws SlickException {
         // Matrix4 matrix = new Matrix4();

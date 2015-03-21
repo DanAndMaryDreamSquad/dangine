@@ -12,8 +12,11 @@ public class DefeatEvent implements MatchEvent {
 
     @Override
     public void process() {
-        Respawner respawner = new Respawner(playerId);
-        Utility.getActiveScene().addUpdateable(respawner);
-    }
+        Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().deductStock(playerId);
 
+        if (!Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().checkSceneOver()) {
+            Respawner respawner = new Respawner(playerId);
+            Utility.getActiveScene().addUpdateable(respawner);
+        }
+    }
 }

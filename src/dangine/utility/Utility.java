@@ -12,6 +12,7 @@ import dangine.time.GameTime;
 
 public class Utility {
     private static GameContainer gameContainer;
+    private static GameHarness gameHarness;
     private static GameTime gameTime;
     private static Players players;
     private static Scene activeScene;
@@ -19,6 +20,7 @@ public class Utility {
     private static Vector2f resolution = new Vector2f(800, 600);
 
     public static void initialize(GameHarness gameharness, GameContainer gameContainer) {
+        Utility.gameHarness = gameharness;
         Utility.gameContainer = gameContainer;
         Utility.gameTime = new GameTime();
         Utility.players = new Players();
@@ -64,6 +66,10 @@ public class Utility {
 
     public static Vector2f getResolution() {
         return resolution;
+    }
+
+    public static GameHarness getGameHarness() {
+        return gameHarness;
     }
 
 }

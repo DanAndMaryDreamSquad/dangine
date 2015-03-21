@@ -31,6 +31,7 @@ public class Hero implements IsUpdateable, HasDrawable {
     final CombatEvent onHit;
     final CombatEventHitbox hitbox;
     boolean immunity = false;
+    boolean destroyed = false;
     GreatSword activeWeapon = null;
 
     public Hero(int playerId) {
@@ -73,6 +74,10 @@ public class Hero implements IsUpdateable, HasDrawable {
     }
 
     public void destroy() {
+        if (destroyed) {
+            return;
+        }
+        destroyed = true;
         if (activeWeapon != null) {
             activeWeapon.destroy();
         }

@@ -31,7 +31,9 @@ public class Camera implements IsUpdateable, HasDrawable {
             trackings.clear();
             for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {
                 Hero hero = Utility.getActiveScene().getHero(i);
-                trackings.add(hero);
+                if (hero != null) {
+                    trackings.add(hero);
+                }
             }
         }
         float x = 0;
