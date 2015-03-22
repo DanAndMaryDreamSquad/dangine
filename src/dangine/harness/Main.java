@@ -10,14 +10,13 @@ import dangine.utility.Utility;
 public class Main {
 
     public static void main(String[] args) throws SlickException {
-        AppGameContainer app = new AppGameContainer(new GameHarness("Dan and Mary's Magic Adventure!",
-                new Provider<DangineGame>() {
+        AppGameContainer app = new AppGameContainer(new GameHarness("Stardust Symphony", new Provider<DangineGame>() {
 
-                    @Override
-                    public DangineGame get() {
-                        return new DemoGame();
-                    }
-                }));
+            @Override
+            public DangineGame get() {
+                return new DemoGame();
+            }
+        }));
         app.setDisplayMode((int) Utility.getResolution().x, (int) Utility.getResolution().y, false);
         app.start();
     }

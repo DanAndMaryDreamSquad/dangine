@@ -1,0 +1,1 @@
+java -classpath .;star.jar;star_lib\* dangine.harness.Main

@@ -11,12 +11,22 @@ import org.newdawn.slick.SlickException;
 public class ImageLoader {
     public static final String DEFAULT_IMAGE_DIRECTORY = "src" + System.getProperty("file.separator") + "assets"
             + System.getProperty("file.separator") + "images";
+    public static List<String> filePlusDirectories;
+
+    public static Map<String, Image> loadImages(ResourceManifest manifest) {
+        return loadImages(manifest.getImages());
+    }
 
     public static Map<String, Image> loadImages() {
-        Map<String, Image> images = new HashMap<String, Image>();
-        List<String> files = DirectoryRecursor.listFileNames(DEFAULT_IMAGE_DIRECTORY);
+        filePlusDirectories = DirectoryRecursor.listFileNames(DEFAULT_IMAGE_DIRECTORY);
+        ResourceManifest manifest = new ResourceManifest(filePlusDirectories);
+        manifest.save();
+        return loadImages(filePlusDirectories);
+    }
 
-        for (String filename : files) {
+    private static Map<String, Image> loadImages(List<String> filenames) {
+        Map<String, Image> images = new HashMap<String, Image>();
+        for (String filename : filenames) {
             ImageLoader.addImageWithFilename(filename, images);
         }
 

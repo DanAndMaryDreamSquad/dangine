@@ -16,7 +16,7 @@ public class GreatSword implements IsUpdateable, HasDrawable {
     State state = State.IDLE;
     final int playerId;
     float timer = 0;
-    static final float CHARGE_TIME = 0.0f;
+    static final float CHARGE_TIME = 1000.0f;
     final GreatSwordSceneGraph greatsword = new GreatSwordSceneGraph();
     final GreatSwordAnimator animator = new GreatSwordAnimator(greatsword);
     final GreatSwordCollider hitbox;
