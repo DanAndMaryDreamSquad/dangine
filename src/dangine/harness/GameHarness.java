@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import dangine.game.DangineGame;
 import dangine.image.Resources;
+import dangine.scene.MatchSceneSchema;
 import dangine.utility.Utility;
 
 public class GameHarness extends BasicGame {
@@ -37,6 +38,11 @@ public class GameHarness extends BasicGame {
     public void restart() {
         dangineGame = provider.get();
         dangineGame.init();
+    }
+
+    public void startMatch() {
+        dangineGame = provider.get();
+        dangineGame.init(new MatchSceneSchema());
     }
 
     @Override

@@ -2,7 +2,7 @@ package dangine.entity.gameplay;
 
 public class PlayerScore {
 
-    int stock = 2;
+    int stock = 0;
     final int playerId;
 
     public PlayerScore(int playerId) {

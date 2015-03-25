@@ -35,6 +35,10 @@ public class DangineImage implements IsDrawable {
         return image.getWidth();
     }
 
+    public int getHeight() {
+        return image.getHeight();
+    }
+
     @Override
     public void draw() {
         Utility.getGraphics().setColor(color);
