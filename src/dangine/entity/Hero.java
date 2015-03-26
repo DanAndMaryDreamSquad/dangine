@@ -1,5 +1,6 @@
 package dangine.entity;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.debugger.Debugger;
@@ -12,6 +13,7 @@ import dangine.entity.visual.DefeatedBloxKnockVisual;
 import dangine.entity.visual.DefeatedBloxSplitVisual;
 import dangine.input.DangineSampleInput;
 import dangine.scenegraph.drawable.BloxAnimator;
+import dangine.scenegraph.drawable.BloxColorer;
 import dangine.scenegraph.drawable.BloxSceneGraph;
 import dangine.utility.MathUtility;
 import dangine.utility.Method;
@@ -39,6 +41,12 @@ public class Hero implements IsUpdateable, HasDrawable {
         onHit = new CombatEvent(playerId, position, HITBOX_SIZE, getOnHitBy(), this);
         hitbox = new CombatEventHitbox(onHit);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
+        if (playerId == 0) {
+            BloxColorer.color(getBlox(), Color.red);
+        }
+        if (playerId == 1) {
+            BloxColorer.color(getBlox(), Color.blue);
+        }
     }
 
     @Override
@@ -110,6 +118,7 @@ public class Hero implements IsUpdateable, HasDrawable {
     }
 
     public boolean equipWeapon(GreatSword greatsword) {
+        BloxColorer.color(greatsword.getGreatsword(), getBlox().getBodyShape().getColor());
         draw.getBody().addChild(greatsword.getDrawable());
         draw.removeHands();
         activeWeapon = greatsword;

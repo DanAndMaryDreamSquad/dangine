@@ -15,15 +15,17 @@ public class GreatSwordSceneGraph implements HasDrawable {
     SceneGraphNode base = new SceneGraphNode();
     SceneGraphNode sword = new SceneGraphNode();
     SceneGraphNode leftArm = new SceneGraphNode();
+    DangineShape leftArmShape = new DangineShape(5, 5, Color.green);
     SceneGraphNode rightArm = new SceneGraphNode();
+    DangineShape rightArmShape = new DangineShape(5, 5, Color.cyan);
 
     public GreatSwordSceneGraph() {
         sword.addChild(new DangineImage("greatsword"));
         sword.setZValue(-0.5f);
         sword.setScale(scale, scale);
 
-        leftArm.addChild(new DangineShape(5, 5, Color.green));
-        rightArm.addChild(new DangineShape(5, 5, Color.cyan));
+        leftArm.addChild(leftArmShape);
+        rightArm.addChild(rightArmShape);
 
         sword.addChild(leftArm);
         sword.addChild(rightArm);
@@ -59,6 +61,14 @@ public class GreatSwordSceneGraph implements HasDrawable {
     @Override
     public IsDrawable getDrawable() {
         return getBase();
+    }
+
+    public DangineShape getLeftArmShape() {
+        return leftArmShape;
+    }
+
+    public DangineShape getRightArmShape() {
+        return rightArmShape;
     }
 
 }

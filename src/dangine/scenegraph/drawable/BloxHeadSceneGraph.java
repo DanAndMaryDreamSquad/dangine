@@ -9,12 +9,13 @@ import dangine.scenegraph.SceneGraphNode;
 public class BloxHeadSceneGraph implements HasDrawable {
 
     SceneGraphNode head = new SceneGraphNode();
+    DangineShape headShape = new DangineShape(20, 20, Color.blue);
     SceneGraphNode leftEye = new SceneGraphNode();
     SceneGraphNode rightEye = new SceneGraphNode();
 
     public BloxHeadSceneGraph() {
 
-        head.addChild(new DangineShape(20, 20, Color.blue));
+        head.addChild(headShape);
         head.setPosition(-1, -20);
         head.setCenterOfRotation(10, 10);
         head.setZValue(-1.0f);
@@ -46,6 +47,10 @@ public class BloxHeadSceneGraph implements HasDrawable {
     @Override
     public IsDrawable getDrawable() {
         return getHead();
+    }
+
+    public DangineShape getHeadShape() {
+        return headShape;
     }
 
 }

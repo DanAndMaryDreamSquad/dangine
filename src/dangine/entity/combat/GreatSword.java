@@ -88,4 +88,8 @@ public class GreatSword implements IsUpdateable, HasDrawable {
         greatsword.removeHitbox(hitbox);
         Utility.getActiveScene().removeUpdateable(this);
     }
+
+    public GreatSwordSceneGraph getGreatsword() {
+        return greatsword;
+    }
 }
