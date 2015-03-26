@@ -12,6 +12,7 @@ import dangine.utility.Utility;
 
 public class DangineSelector implements IsUpdateable, HasDrawable {
 
+    int playerId = 0;
     final float ROTATION_SPEED = 0.16f;
     float angle = 0.0f;
     SceneGraphNode node = new SceneGraphNode();
@@ -23,13 +24,19 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
         node.setCenterOfRotation(10, 10);
     }
 
+    public DangineSelector(int playerId) {
+        this.playerId = playerId;
+        node.addChild(shape);
+        node.setCenterOfRotation(10, 10);
+    }
+
     @Override
     public void update() {
         angle += Utility.getGameTime().getDeltaTimeF() * ROTATION_SPEED;
         node.setAngle(angle);
 
-        DangineSampleInput input = Utility.getPlayers().getPlayer(0).getCurrentInput();
-        DangineSampleInput prevInput = Utility.getPlayers().getPlayer(0).getPreviousInput();
+        DangineSampleInput input = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
+        DangineSampleInput prevInput = Utility.getPlayers().getPlayer(playerId).getPreviousInput();
         if (input.isButtonOne() && !prevInput.isButtonOne()) {
             currentItem.activate();
         }
@@ -45,10 +52,10 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
         }
         int i = items.indexOf(currentItem);
         if (i == -1) {
-            newSelection = items.get(0);
+            i = 0;
         }
-        DangineSampleInput currentInput = Utility.getPlayers().getPlayer(0).getCurrentInput();
-        DangineSampleInput previousInput = Utility.getPlayers().getPlayer(0).getPreviousInput();
+        DangineSampleInput currentInput = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
+        DangineSampleInput previousInput = Utility.getPlayers().getPlayer(playerId).getPreviousInput();
         if (currentInput.isUp() && !previousInput.isUp()) {
             i--;
         }

@@ -9,6 +9,7 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.CombatResolver;
 import dangine.entity.gameplay.MatchOrchestrator;
+import dangine.entity.gameplay.MatchParameters;
 import dangine.scenegraph.RenderData;
 import dangine.scenegraph.SceneGraphNode;
 
@@ -21,6 +22,7 @@ public class Scene implements IsUpdateable, IsDrawable {
     List<IsUpdateable> updateables = new ArrayList<IsUpdateable>();
     List<IsUpdateable> toAdd = new LinkedList<IsUpdateable>();
     List<IsUpdateable> toRemove = new LinkedList<IsUpdateable>();
+    MatchParameters matchParameters = new MatchParameters();
 
     public Scene() {
         parentNode.addChild(camera.getDrawable());
@@ -96,6 +98,14 @@ public class Scene implements IsUpdateable, IsDrawable {
 
     public MatchOrchestrator getMatchOrchestrator() {
         return matchOrchestrator;
+    }
+
+    public MatchParameters getMatchParameters() {
+        return matchParameters;
+    }
+
+    public void setMatchParameters(MatchParameters matchParameters) {
+        this.matchParameters = matchParameters;
     }
 
 }

@@ -28,6 +28,7 @@ public class TitleSceneSchema {
         TitleMenu menu = new TitleMenu();
         scene.addUpdateable(menu);
         scene.getParentNode().addChild(menu.getDrawable());
+
     }
 
 }

@@ -4,8 +4,8 @@ import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
-import dangine.entity.gameplay.MatchStarter;
 import dangine.menu.DangineMenuItem.Action;
+import dangine.scene.CharacterSelect;
 import dangine.utility.Utility;
 
 public class TitleMenu implements IsUpdateable, HasDrawable {
@@ -38,8 +38,12 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
 
             @Override
             public void execute() {
-                MatchStarter matchStarter = new MatchStarter();
-                Utility.getActiveScene().addUpdateable(matchStarter);
+                CharacterSelect characterSelect = new CharacterSelect();
+                Utility.getActiveScene().addUpdateable(characterSelect);
+                Utility.getActiveScene().removeUpdateable(TitleMenu.this);
+                Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
+                // MatchStarter matchStarter = new MatchStarter();
+                // Utility.getActiveScene().addUpdateable(matchStarter);
             }
         };
     }

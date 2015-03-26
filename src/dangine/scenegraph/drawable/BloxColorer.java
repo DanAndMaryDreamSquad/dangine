@@ -6,9 +6,25 @@ import dangine.entity.combat.GreatSwordSceneGraph;
 
 public class BloxColorer {
 
+    public static final Color[] COLORS = { Color.black, Color.blue, Color.cyan, Color.darkGray, Color.gray,
+            Color.green, Color.lightGray, Color.magenta, Color.orange, Color.pink, Color.red, Color.white, Color.yellow };
+
+    public static final int indexOf(Color color) {
+        for (int i = 0; i < COLORS.length; i++) {
+            Color c = COLORS[i];
+            if (c.equals(color)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static int SHADE_OFFSET = 50;
 
     public static void color(BloxSceneGraph blox, Color color) {
+        if (color == null) {
+            return;
+        }
         int r = color.getRed();
         int g = color.getGreen();
         int b = color.getBlue();
@@ -23,6 +39,9 @@ public class BloxColorer {
     }
 
     public static void color(GreatSwordSceneGraph greatsword, Color color) {
+        if (color == null) {
+            return;
+        }
         int r = color.getRed();
         int g = color.getGreen();
         int b = color.getBlue();
