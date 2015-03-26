@@ -9,10 +9,16 @@ import dangine.scenegraph.drawable.DangineText;
 
 public class DangineMenuItem implements HasDrawable {
 
-    SceneGraphNode base = new SceneGraphNode();
+    interface Action {
+        void execute();
+    }
 
-    public DangineMenuItem(String text) {
+    SceneGraphNode base = new SceneGraphNode();
+    Action onActivate;
+
+    public DangineMenuItem(String text, Action onActivate) {
         base.addChild(new DangineText(text, Color.black));
+        this.onActivate = onActivate;
     }
 
     public SceneGraphNode getBase() {
@@ -22,6 +28,10 @@ public class DangineMenuItem implements HasDrawable {
     @Override
     public IsDrawable getDrawable() {
         return base;
+    }
+
+    public void activate() {
+        onActivate.execute();
     }
 
 }

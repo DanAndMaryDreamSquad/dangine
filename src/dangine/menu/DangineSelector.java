@@ -27,6 +27,12 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
     public void update() {
         angle += Utility.getGameTime().getDeltaTimeF() * ROTATION_SPEED;
         node.setAngle(angle);
+
+        DangineSampleInput input = Utility.getPlayers().getPlayer(0).getCurrentInput();
+        DangineSampleInput prevInput = Utility.getPlayers().getPlayer(0).getPreviousInput();
+        if (input.isButtonOne() && !prevInput.isButtonOne()) {
+            currentItem.activate();
+        }
     }
 
     public void scan(List<DangineMenuItem> items) {

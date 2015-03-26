@@ -3,7 +3,6 @@ package dangine.scene;
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.entity.Background;
-import dangine.entity.gameplay.MatchStarter;
 import dangine.menu.TitleMenu;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineImage;
@@ -25,8 +24,6 @@ public class TitleSceneSchema {
         node.setPosition(center.sub(dimensions));
         node.setScale(logoScale, logoScale);
         scene.getParentNode().addChild(node);
-        MatchStarter matchStarter = new MatchStarter();
-        scene.addUpdateable(matchStarter);
 
         TitleMenu menu = new TitleMenu();
         scene.addUpdateable(menu);
