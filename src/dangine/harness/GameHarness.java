@@ -8,7 +8,6 @@ import org.newdawn.slick.SlickException;
 
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
-import dangine.entity.gameplay.MatchParameters;
 import dangine.game.DangineGame;
 import dangine.image.Resources;
 import dangine.scene.MatchSceneSchema;
@@ -44,11 +43,6 @@ public class GameHarness extends BasicGame {
     public void startMatch() {
         dangineGame = provider.get();
         dangineGame.init(new MatchSceneSchema());
-    }
-
-    public void startMatch(MatchParameters matchParameters) {
-        dangineGame = provider.get();
-        dangineGame.init(new MatchSceneSchema(matchParameters));
     }
 
     @Override

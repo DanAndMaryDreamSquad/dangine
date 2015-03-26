@@ -47,6 +47,9 @@ public class GreatSwordAnimator implements IsUpdateable {
     @Override
     public void update() {
         switch (state) {
+        case CHARGE:
+        case IDLE:
+            break;
         case SWINGING:
             float increment = Utility.getGameTime().getDeltaTimeF() * 0.56f;
 

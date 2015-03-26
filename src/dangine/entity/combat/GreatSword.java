@@ -34,6 +34,8 @@ public class GreatSword implements IsUpdateable, HasDrawable {
     @Override
     public void update() {
         switch (state) {
+        case IDLE:
+            break;
         case CHARGE:
             timer += Utility.getGameTime().getDeltaTimeF();
             break;

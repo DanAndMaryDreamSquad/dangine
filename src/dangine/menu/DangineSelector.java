@@ -37,8 +37,8 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
 
         DangineSampleInput input = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
         DangineSampleInput prevInput = Utility.getPlayers().getPlayer(playerId).getPreviousInput();
-        if (input.isButtonOne() && !prevInput.isButtonOne()) {
-            currentItem.activate();
+        if (currentItem != null) {
+            currentItem.activate(input, prevInput);
         }
     }
 

@@ -12,18 +12,9 @@ public class MatchStarter implements IsUpdateable {
         Debugger.info("Hit enter to start...");
     }
 
-    public MatchStarter(MatchParameters matchParameters) {
-        this.matchParameters = matchParameters;
-        Debugger.info("Hit enter to start...");
-    }
-
     @Override
     public void update() {
         Debugger.info("Starting match");
-        if (matchParameters != null) {
-            Utility.getGameHarness().startMatch(matchParameters);
-        } else {
-            Utility.getGameHarness().startMatch();
-        }
+        Utility.getGameHarness().startMatch();
     }
 }

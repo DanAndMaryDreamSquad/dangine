@@ -8,6 +8,15 @@ import org.newdawn.slick.Color;
 public class MatchParameters {
 
     Map<Integer, Color> playerIdToColor = new HashMap<Integer, Color>();
+    int startingStock = 3;
+
+    public int getStartingStock() {
+        return startingStock;
+    }
+
+    public void setStartingStock(int startingStock) {
+        this.startingStock = startingStock;
+    }
 
     public void addPlayerColor(int playerId, Color color) {
         playerIdToColor.put(playerId, color);

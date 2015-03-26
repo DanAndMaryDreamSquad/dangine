@@ -1,8 +1,10 @@
 package dangine.entity.gameplay;
 
+import dangine.utility.Utility;
+
 public class PlayerScore {
 
-    int stock = 0;
+    int stock = Utility.getMatchParameters().getStartingStock();
     final int playerId;
 
     public PlayerScore(int playerId) {

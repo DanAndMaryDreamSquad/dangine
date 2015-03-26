@@ -26,9 +26,6 @@ public class MatchSceneSchema {
     Boundaries boundaries = new Boundaries();
 
     public void apply(Scene scene) {
-        if (matchParameters != null) {
-            scene.setMatchParameters(matchParameters);
-        }
         for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {
             scene.addUpdateable(new Respawner(i));
         }

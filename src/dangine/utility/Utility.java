@@ -4,6 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.entity.gameplay.MatchParameters;
 import dangine.harness.GameHarness;
 import dangine.player.Players;
 import dangine.scene.Scene;
@@ -18,6 +19,7 @@ public class Utility {
     private static Scene activeScene;
     private static RenderQueue renderQueue;
     private static Vector2f resolution = new Vector2f(800, 600);
+    private static MatchParameters matchParameters = new MatchParameters();
 
     public static void initialize(GameHarness gameharness, GameContainer gameContainer) {
         Utility.gameHarness = gameharness;
@@ -25,6 +27,10 @@ public class Utility {
         Utility.gameTime = new GameTime();
         Utility.players = new Players();
         Utility.renderQueue = new RenderQueue();
+    }
+
+    public static MatchParameters getMatchParameters() {
+        return matchParameters;
     }
 
     public static void devMode() {

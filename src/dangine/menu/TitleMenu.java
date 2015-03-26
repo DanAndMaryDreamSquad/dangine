@@ -1,6 +1,5 @@
 package dangine.menu;
 
-import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -42,8 +41,6 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
                 Utility.getActiveScene().addUpdateable(characterSelect);
                 Utility.getActiveScene().removeUpdateable(TitleMenu.this);
                 Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
-                // MatchStarter matchStarter = new MatchStarter();
-                // Utility.getActiveScene().addUpdateable(matchStarter);
             }
         };
     }
@@ -53,7 +50,11 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
 
             @Override
             public void execute() {
-                Debugger.info("Settings are not ready yet");
+                SettingsMenu settingsMenu = new SettingsMenu();
+                Utility.getActiveScene().addUpdateable(settingsMenu);
+                Utility.getActiveScene().removeUpdateable(TitleMenu.this);
+                Utility.getActiveScene().getParentNode().addChild(settingsMenu.getDrawable());
+                Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
             }
         };
     }

@@ -41,7 +41,7 @@ public class Hero implements IsUpdateable, HasDrawable {
         onHit = new CombatEvent(playerId, position, HITBOX_SIZE, getOnHitBy(), this);
         hitbox = new CombatEventHitbox(onHit);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
-        Color color = Utility.getActiveScene().getMatchParameters().getPlayerColor(getPlayerId());
+        Color color = Utility.getMatchParameters().getPlayerColor(getPlayerId());
         BloxColorer.color(draw, color);
     }
 
