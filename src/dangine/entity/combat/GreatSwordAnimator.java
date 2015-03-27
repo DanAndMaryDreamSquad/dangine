@@ -3,7 +3,6 @@ package dangine.entity.combat;
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.entity.IsUpdateable;
-import dangine.utility.ScreenUtility;
 import dangine.utility.Utility;
 
 public class GreatSwordAnimator implements IsUpdateable {
@@ -23,25 +22,6 @@ public class GreatSwordAnimator implements IsUpdateable {
     public GreatSwordAnimator(GreatSwordSceneGraph greatsword) {
         this.greatsword = greatsword;
         idle();
-    }
-
-    private void createSpark() {
-        absolutePosition = ScreenUtility.getWorldPosition(greatsword.getSword(), absolutePosition);
-        // SparkTrail spark = new SparkTrail(absolutePosition.x,
-        // absolutePosition.y);
-        // Utility.getActiveScene().getCameraNode().addChild(spark.getDrawable());
-        // Utility.getActiveScene().addUpdateable(spark);
-        //
-        // DefeatedBloxKnockVisual knock = new
-        // DefeatedBloxKnockVisual(absolutePosition.x, absolutePosition.y, -30);
-        // Utility.getActiveScene().getCameraNode().addChild(knock.getDrawable());
-        // Utility.getActiveScene().addUpdateable(knock);
-        //
-        // DefeatedBloxSplitVisual split = new
-        // DefeatedBloxSplitVisual(absolutePosition.x, absolutePosition.y, 0,
-        // 0);
-        // Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
-        // Utility.getActiveScene().addUpdateable(split);
     }
 
     @Override
@@ -92,7 +72,5 @@ public class GreatSwordAnimator implements IsUpdateable {
         greatsword.getSword().setPosition(-8 * scale, -36 * scale);
         greatsword.getSword().setCenterOfRotation(12 * scale, 36 * scale);
         greatsword.getSword().setAngle(angle);
-
-        createSpark();
     }
 }

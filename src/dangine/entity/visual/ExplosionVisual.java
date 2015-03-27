@@ -10,12 +10,12 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineParticle;
+import dangine.utility.MathUtility;
 import dangine.utility.Utility;
 
 public class ExplosionVisual implements IsUpdateable, HasDrawable {
 
     final float duration;
-    final float speed;
     float timer = 0;
     SceneGraphNode node = new SceneGraphNode();
     final DangineParticle shape;
@@ -24,7 +24,6 @@ public class ExplosionVisual implements IsUpdateable, HasDrawable {
     public ExplosionVisual(float x, float y, DangineParticle particles, float minAngle, float maxAngle, float speed,
             float duration) {
         this.shape = particles;
-        this.speed = speed;
         this.duration = duration;
         node.setPosition(x, y);
         node.addChild(shape);
@@ -32,6 +31,22 @@ public class ExplosionVisual implements IsUpdateable, HasDrawable {
             float range = maxAngle - minAngle;
             float angleOffset = (range / shape.getParticles().size()) * i;
             float angle = angleOffset + minAngle;
+            velocities.add(new Vector2f(angle).scale(speed));
+        }
+    }
+
+    public ExplosionVisual(float x, float y, DangineParticle particles, float minAngle, float maxAngle, float minSpeed,
+            float maxSpeed, float duration) {
+        this.shape = particles;
+
+        // TODO: Add min and max durations.
+
+        this.duration = duration;
+        node.setPosition(x, y);
+        node.addChild(shape);
+        for (int i = 0; i < shape.getParticles().size(); i++) {
+            float angle = MathUtility.randomFloat(minAngle, maxAngle);
+            float speed = MathUtility.randomFloat(minSpeed, maxSpeed);
             velocities.add(new Vector2f(angle).scale(speed));
         }
     }
