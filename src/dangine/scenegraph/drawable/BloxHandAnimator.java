@@ -7,13 +7,13 @@ import dangine.utility.Oscillator;
 public class BloxHandAnimator implements IsUpdateable {
 
     enum State {
-        IDLE, WALKING, FLOATING;
+        FLOATING, WALKING, IDLE;
     }
 
     final SceneGraphNode leftHand;
     final SceneGraphNode rightHand;
     final Oscillator handOscillator = new Oscillator(-2, 2, 4000);
-    State state = State.IDLE;
+    State state = State.FLOATING;
 
     public BloxHandAnimator(BloxSceneGraph blox) {
         this.leftHand = blox.leftArm;
@@ -23,7 +23,7 @@ public class BloxHandAnimator implements IsUpdateable {
     @Override
     public void update() {
         switch (state) {
-        case FLOATING:
+        case IDLE:
             float value = handOscillator.update();
             this.leftHand.setYPosition(value);
             this.rightHand.setYPosition(value);
@@ -33,12 +33,12 @@ public class BloxHandAnimator implements IsUpdateable {
         }
     }
 
-    public void floating() {
-        this.state = State.FLOATING;
-    }
-
     public void idle() {
         this.state = State.IDLE;
+    }
+
+    public void floating() {
+        this.state = State.FLOATING;
     }
 
     public void walk() {

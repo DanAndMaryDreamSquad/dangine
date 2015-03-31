@@ -6,7 +6,7 @@ import dangine.utility.Oscillator;
 public class BloxAnimator implements IsUpdateable {
 
     enum State {
-        IDLE, WALKING, FLOATING;
+        FLOATING, WALKING, IDLE;
     }
 
     final BloxSceneGraph blox;
@@ -21,7 +21,7 @@ public class BloxAnimator implements IsUpdateable {
         head = new BloxHeadAnimator(blox.getHead());
         legs = new BloxLegAnimator(blox);
         hands = new BloxHandAnimator(blox);
-        idle();
+        floating();
     }
 
     @Override
@@ -30,7 +30,7 @@ public class BloxAnimator implements IsUpdateable {
         legs.update();
         hands.update();
         switch (state) {
-        case FLOATING:
+        case IDLE:
             float value = floatOscillator.update();
             blox.getBody().setYPosition(value);
             break;
@@ -47,18 +47,18 @@ public class BloxAnimator implements IsUpdateable {
         hands.walk();
     }
 
-    public void idle() {
-        state = State.IDLE;
-        legs.idle();
-        head.idle();
-        hands.idle();
-    }
-
     public void floating() {
         state = State.FLOATING;
         legs.floating();
         head.floating();
         hands.floating();
+    }
+
+    public void idle() {
+        state = State.IDLE;
+        legs.idle();
+        head.idle();
+        hands.idle();
     }
 
     public void updateFacing(int direction) {

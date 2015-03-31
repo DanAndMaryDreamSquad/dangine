@@ -49,11 +49,11 @@ public class Hero implements IsUpdateable, HasDrawable {
     public void update() {
         DangineSampleInput input = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
         if (input.isUp() || input.isDown()) {
-            animator.idle();
+            animator.floating();
         } else if (input.isLeft() || input.isRight()) {
             animator.walk();
         } else {
-            animator.floating();
+            animator.idle();
         }
         movement.moveHero(this.position, input);
         draw.getBase().setPosition(position);

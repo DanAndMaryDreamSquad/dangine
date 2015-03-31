@@ -14,10 +14,10 @@ public class BloxHeadAnimator implements IsUpdateable {
     float blinkStart, blinkEnd, timer, angle, eyeYValue;
 
     enum State {
-        IDLE, WALKING, FLOATING;
+        FLOATING, WALKING, IDLE;
     }
 
-    State state = State.IDLE;
+    State state = State.FLOATING;
 
     final BloxHeadSceneGraph head;
 
@@ -55,7 +55,7 @@ public class BloxHeadAnimator implements IsUpdateable {
         }
 
         switch (state) {
-        case IDLE:
+        case FLOATING:
             float angle = oscillator.update();
             head.getHead().setAngle(angle);
             break;
@@ -66,16 +66,16 @@ public class BloxHeadAnimator implements IsUpdateable {
         }
     }
 
-    public void idle() {
-        state = State.IDLE;
+    public void floating() {
+        state = State.FLOATING;
     }
 
     public void walk() {
         state = State.WALKING;
     }
 
-    public void floating() {
-        state = State.FLOATING;
+    public void idle() {
+        state = State.IDLE;
     }
 
     public void resetBlink() {

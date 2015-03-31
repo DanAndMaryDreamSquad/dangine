@@ -7,7 +7,7 @@ import dangine.utility.Oscillator;
 public class BloxLegAnimator implements IsUpdateable {
 
     enum State {
-        IDLING, WALKING, FLOATING;
+        FLOATING, WALKING, IDLE;
     }
 
     final float WALK_RATE = 1000f;
@@ -18,7 +18,7 @@ public class BloxLegAnimator implements IsUpdateable {
     final SceneGraphNode leftLeg;
     final SceneGraphNode rightLeg;
 
-    State state = State.IDLING;
+    State state = State.FLOATING;
 
     public BloxLegAnimator(BloxSceneGraph blox) {
         this.leftLeg = blox.leftLeg;
@@ -28,7 +28,7 @@ public class BloxLegAnimator implements IsUpdateable {
     @Override
     public void update() {
         switch (state) {
-        case IDLING:
+        case FLOATING:
             return;
         case WALKING:
             // float value = walkOscillator.update();
@@ -38,7 +38,7 @@ public class BloxLegAnimator implements IsUpdateable {
             leftLeg.setAngle(value - 12);
             rightLeg.setAngle(floatOscillator.calcOffset(FLOAT_RATE / 2) - 12);
             return;
-        case FLOATING:
+        case IDLE:
             float angle = floatOscillator.update();
             leftLeg.setAngle(angle);
             rightLeg.setAngle(floatOscillator.calcOffset(FLOAT_RATE / 2));
@@ -46,8 +46,8 @@ public class BloxLegAnimator implements IsUpdateable {
         }
     }
 
-    public void idle() {
-        state = State.IDLING;
+    public void floating() {
+        state = State.FLOATING;
     }
 
     public void walk() {
@@ -56,8 +56,8 @@ public class BloxLegAnimator implements IsUpdateable {
         rightLeg.setAngle(0);
     }
 
-    public void floating() {
-        state = State.FLOATING;
+    public void idle() {
+        state = State.IDLE;
         leftLeg.setXPosition(2);
         rightLeg.setXPosition(8);
     }
