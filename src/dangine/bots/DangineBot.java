@@ -8,7 +8,6 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
-import dangine.entity.combat.GreatSword;
 import dangine.entity.movement.HeroMovement;
 import dangine.entity.visual.DefeatedBloxKnockVisual;
 import dangine.input.DangineSampleInput;
@@ -32,7 +31,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
     final CombatEventHitbox hitbox;
     boolean immunity = false;
     boolean destroyed = false;
-    GreatSword activeWeapon = null;
+    BotGreatsword activeWeapon = null;
     DangineBotLogic logic = new DangineBotLogic();
 
     public DangineBot() {
@@ -97,7 +96,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         Debugger.info("destroying bot ");
     }
 
-    public boolean equipWeapon(GreatSword greatsword) {
+    public boolean equipWeapon(BotGreatsword greatsword) {
         BloxColorer.color(greatsword.getGreatsword(), getBlox().getBodyShape().getColor());
         draw.getBody().addChild(greatsword.getDrawable());
         draw.removeHands();

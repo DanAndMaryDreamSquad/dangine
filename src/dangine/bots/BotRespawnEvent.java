@@ -23,6 +23,9 @@ public class BotRespawnEvent implements MatchEvent {
         bot.setPosition(x, y);
         Utility.getActiveScene().addUpdateable(bot);
         Utility.getActiveScene().getCameraNode().addChild(bot.getDrawable());
+        BotGreatsword greatsword = new BotGreatsword();
+        bot.equipWeapon(greatsword);
+        Utility.getActiveScene().addUpdateable(greatsword);
 
         BotInvincibility invincibility = new BotInvincibility(bot);
         Utility.getActiveScene().addUpdateable(invincibility);

@@ -14,7 +14,7 @@ public class GreatSwordAnimator implements IsUpdateable {
     State state = State.IDLE;
 
     final float SWING_SPEED = 0.56f;
-    final float SWING_TIME = 390.0f / SWING_SPEED;
+    public final float SWING_TIME = 390.0f / SWING_SPEED;
     Vector2f absolutePosition = new Vector2f(0, 0);
     final GreatSwordSceneGraph greatsword;
     float angle = 0;

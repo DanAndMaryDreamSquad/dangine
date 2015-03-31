@@ -23,12 +23,17 @@ public class BloxLegAnimator implements IsUpdateable {
     public BloxLegAnimator(BloxSceneGraph blox) {
         this.leftLeg = blox.leftLeg;
         this.rightLeg = blox.rightLeg;
+        leftLeg.setXPosition(2);
+        rightLeg.setXPosition(8);
     }
 
     @Override
     public void update() {
         switch (state) {
         case FLOATING:
+            float theta = floatOscillator.update();
+            leftLeg.setAngle(theta - 12);
+            rightLeg.setAngle(floatOscillator.calcOffset(FLOAT_RATE / 2) - 12);
             return;
         case WALKING:
             // float value = walkOscillator.update();
@@ -58,8 +63,6 @@ public class BloxLegAnimator implements IsUpdateable {
 
     public void idle() {
         state = State.IDLE;
-        leftLeg.setXPosition(2);
-        rightLeg.setXPosition(8);
     }
 
 }

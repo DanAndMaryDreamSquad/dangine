@@ -11,6 +11,7 @@ public class DangineBotLogic {
     final int WALL_BUFFER = 100;
     DangineSampleInput input = new DangineSampleInput();
     DangineSampleInput emptyInput = new DangineSampleInput();
+    DangineSampleInput swingInput = new DangineSampleInput();
 
     public DangineSampleInput getWhatToDo(DangineBot bot) {
         Hero target = Utility.getActiveScene().getHero(0);
@@ -18,7 +19,11 @@ public class DangineBotLogic {
             avoidWalls(bot);
             return input;
         }
-        approach(bot, target.getPosition());
+        if (target.isImmunity()) {
+            flee(bot, target.getPosition());
+        } else {
+            approach(bot, target.getPosition());
+        }
         avoidWalls(bot);
         return input;
     }
@@ -41,6 +46,16 @@ public class DangineBotLogic {
         }
     }
 
+    private void flee(DangineBot bot, Vector2f target) {
+        this.approach(bot, target);
+        boolean tmpV = input.isUp();
+        boolean tmpH = input.isRight();
+        input.setUp(input.isDown());
+        input.setDown(tmpV);
+        input.setRight(input.isLeft());
+        input.setLeft(tmpH);
+    }
+
     private void avoidWalls(DangineBot bot) {
         float width = Utility.getResolution().x;
         float height = Utility.getResolution().y;
@@ -59,7 +74,15 @@ public class DangineBotLogic {
             input.setUp(false);
             input.setDown(true);
         }
+    }
 
+    public DangineSampleInput getWhatDoWithWeapon(BotGreatsword greatsword) {
+        Hero target = Utility.getActiveScene().getHero(0);
+        if (target == null) {
+            return emptyInput;
+        }
+        swingInput.setButtonOne(true);
+        return swingInput;
     }
 
 }

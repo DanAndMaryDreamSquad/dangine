@@ -1,5 +1,6 @@
 package dangine.scene;
 
+import dangine.bots.BotGreatsword;
 import dangine.bots.DangineBot;
 import dangine.entity.Background;
 import dangine.entity.Creature;
@@ -34,6 +35,9 @@ public class BotMatchSceneSchema implements SceneSchema {
         DangineBot bot = new DangineBot();
         scene.addUpdateable(bot);
         scene.getCameraNode().addChild(bot.getDrawable());
+        BotGreatsword greatsword = new BotGreatsword();
+        bot.equipWeapon(greatsword);
+        scene.addUpdateable(greatsword);
     }
 
 }
