@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import dangine.game.DangineGame;
 import dangine.image.Resources;
+import dangine.scene.BotMatchSceneSchema;
 import dangine.scene.MatchSceneSchema;
 import dangine.utility.Utility;
 
@@ -36,6 +37,9 @@ public class GameHarness extends BasicGame {
     }
 
     public void restart() {
+        while (Utility.getPlayers().getPlayers().size() < 2) {
+            Utility.getPlayers().newPlayer();
+        }
         dangineGame = provider.get();
         dangineGame.init();
     }
@@ -43,6 +47,15 @@ public class GameHarness extends BasicGame {
     public void startMatch() {
         dangineGame = provider.get();
         dangineGame.init(new MatchSceneSchema());
+    }
+
+    public void startBotMatch() {
+
+        while (Utility.getPlayers().getPlayers().size() > 1) {
+            Utility.getPlayers().removePlayer();
+        }
+        dangineGame = provider.get();
+        dangineGame.init(new BotMatchSceneSchema());
     }
 
     @Override

@@ -26,7 +26,7 @@ public class ColorSelectionMenu implements IsUpdateable, HasDrawable {
     public ColorSelectionMenu(int playerId) {
         this.playerId = playerId;
         selector = new DangineSelector(playerId);
-        animator.floating();
+        animator.idle();
         node.addChild(menu.getDrawable());
         node.addChild(blox.getDrawable());
         node.setPosition((200 * (1 + playerId)) + 100, 450);

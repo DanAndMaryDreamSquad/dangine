@@ -3,8 +3,8 @@ package dangine.demogame;
 import org.newdawn.slick.Color;
 
 import dangine.game.DangineGame;
-import dangine.scene.MatchSceneSchema;
 import dangine.scene.Scene;
+import dangine.scene.SceneSchema;
 import dangine.scene.TitleSceneSchema;
 import dangine.utility.Utility;
 
@@ -21,7 +21,7 @@ public class DemoGame implements DangineGame {
         schema.apply(scene);
     }
 
-    public void init(MatchSceneSchema schema) {
+    public void init(SceneSchema schema) {
         Utility.setActiveScene(scene);
         Utility.getGraphics().setBackground(new Color(40, 40, 32));
         schema.apply(scene);

@@ -1,5 +1,6 @@
 package dangine.scene;
 
+import dangine.bots.DangineBot;
 import dangine.entity.Background;
 import dangine.entity.Creature;
 import dangine.entity.Obstruction;
@@ -8,16 +9,12 @@ import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.Respawner;
 import dangine.utility.Utility;
 
-public class MatchSceneSchema implements SceneSchema {
+public class BotMatchSceneSchema implements SceneSchema {
 
     MatchParameters matchParameters = null;
 
-    public MatchSceneSchema() {
+    public BotMatchSceneSchema() {
 
-    }
-
-    public MatchSceneSchema(MatchParameters matchParameters) {
-        this.matchParameters = matchParameters;
     }
 
     Creature creature = new Creature();
@@ -33,6 +30,10 @@ public class MatchSceneSchema implements SceneSchema {
         scene.getParentNode().addChild(background.getDrawable());
         scene.addUpdateable(boundaries);
         scene.getParentNode().addChild(scene.getMatchOrchestrator().getScoreKeeper().getDrawable());
+
+        DangineBot bot = new DangineBot();
+        scene.addUpdateable(bot);
+        scene.getCameraNode().addChild(bot.getDrawable());
     }
 
 }

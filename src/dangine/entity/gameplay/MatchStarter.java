@@ -6,15 +6,31 @@ import dangine.utility.Utility;
 
 public class MatchStarter implements IsUpdateable {
 
+    public enum MatchType {
+        VERSUS, BOT_MATCH
+    }
+
+    MatchType matchType;
     MatchParameters matchParameters = null;
 
     public MatchStarter() {
-        Debugger.info("Hit enter to start...");
+        this.matchType = MatchType.VERSUS;
+    }
+
+    public MatchStarter(MatchType matchType) {
+        this.matchType = matchType;
     }
 
     @Override
     public void update() {
         Debugger.info("Starting match");
-        Utility.getGameHarness().startMatch();
+        switch (matchType) {
+        case VERSUS:
+            Utility.getGameHarness().startMatch();
+            return;
+        case BOT_MATCH:
+            Utility.getGameHarness().startBotMatch();
+            return;
+        }
     }
 }

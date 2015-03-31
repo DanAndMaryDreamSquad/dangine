@@ -69,9 +69,11 @@ public class ScoreKeeper implements HasDrawable {
 
     private void updatePlayerScores() {
         int p1Stock = getPlayerScore(0).getStock();
-        int p2Stock = getPlayerScore(1).getStock();
         text1.setText("Avatars Remaining: " + p1Stock);
-        text2.setText("Avatars Remaining: " + p2Stock);
+        if (Utility.getPlayers().getPlayers().size() >= 2) {
+            int p2Stock = getPlayerScore(1).getStock();
+            text2.setText("Avatars Remaining: " + p2Stock);
+        }
     }
 
     private PlayerScore getPlayerScore(int playerId) {

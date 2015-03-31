@@ -1,6 +1,6 @@
 package dangine.game;
 
-import dangine.scene.MatchSceneSchema;
+import dangine.scene.SceneSchema;
 
 public interface DangineGame {
 
@@ -10,6 +10,6 @@ public interface DangineGame {
 
     public void init();
 
-    public void init(MatchSceneSchema schema);
+    public void init(SceneSchema schema);
 
 }

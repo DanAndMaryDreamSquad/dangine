@@ -3,6 +3,8 @@ package dangine.menu;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.entity.gameplay.MatchStarter;
+import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scene.CharacterSelect;
 import dangine.utility.Utility;
@@ -13,7 +15,8 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
     DangineSelector selector = new DangineSelector();
 
     public TitleMenu() {
-        menu.addItem(new DangineMenuItem("Play Game", getPlayGameAction()));
+        menu.addItem(new DangineMenuItem("Versus", getPlayVersusAction()));
+        menu.addItem(new DangineMenuItem("Experimental Bot Mode", getBotModeAction()));
         menu.addItem(new DangineMenuItem("Settings", getSettingsMenuAction()));
         menu.addItem(new DangineMenuItem("Exit", getExitGameAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
@@ -32,13 +35,26 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
         return menu.getDrawable();
     }
 
-    private Action getPlayGameAction() {
+    private Action getPlayVersusAction() {
         return new Action() {
 
             @Override
             public void execute() {
                 CharacterSelect characterSelect = new CharacterSelect();
                 Utility.getActiveScene().addUpdateable(characterSelect);
+                Utility.getActiveScene().removeUpdateable(TitleMenu.this);
+                Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
+            }
+        };
+    }
+
+    private Action getBotModeAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                MatchStarter matchStarter = new MatchStarter(MatchType.BOT_MATCH);
+                Utility.getActiveScene().addUpdateable(matchStarter);
                 Utility.getActiveScene().removeUpdateable(TitleMenu.this);
                 Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
             }

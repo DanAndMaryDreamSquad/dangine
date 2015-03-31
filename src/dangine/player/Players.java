@@ -15,6 +15,10 @@ public class Players {
         players.add(new DanginePlayer(players.size()));
     }
 
+    public void removePlayer() {
+        players.remove(players.size() - 1);
+    }
+
     public void updateInput() {
         for (DanginePlayer player : players) {
             player.updateInput();
