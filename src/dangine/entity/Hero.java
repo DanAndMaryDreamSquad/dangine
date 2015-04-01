@@ -94,7 +94,9 @@ public class Hero implements IsUpdateable, HasDrawable {
         // playerId);
 
         if (MathUtility.randomBoolean()) {
-            DefeatedBloxKnockVisual split = new DefeatedBloxKnockVisual(absolutePosition.x, absolutePosition.y, -30);
+            Color color = Utility.getMatchParameters().getPlayerColor(getPlayerId());
+            DefeatedBloxKnockVisual split = new DefeatedBloxKnockVisual(absolutePosition.x, absolutePosition.y, -30,
+                    color);
             Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
             Utility.getActiveScene().addUpdateable(split);
         } else {

@@ -1,5 +1,6 @@
 package dangine.bots;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.debugger.Debugger;
@@ -38,6 +39,8 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         onHit = new CombatEvent(-1, position, HITBOX_SIZE, getOnHitBy(), this);
         hitbox = new CombatEventHitbox(onHit);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
+        Color color = Utility.getMatchParameters().getPlayerColor(-1);
+        BloxColorer.color(draw, color);
     }
 
     @Override
@@ -84,7 +87,8 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         Vector2f absolutePosition = new Vector2f();
         absolutePosition = ScreenUtility.getWorldPosition(draw.getBody(), absolutePosition);
 
-        DefeatedBloxKnockVisual split = new DefeatedBloxKnockVisual(absolutePosition.x, absolutePosition.y, -30);
+        Color color = Utility.getMatchParameters().getPlayerColor(-1);
+        DefeatedBloxKnockVisual split = new DefeatedBloxKnockVisual(absolutePosition.x, absolutePosition.y, -30, color);
         Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
         Utility.getActiveScene().addUpdateable(split);
 

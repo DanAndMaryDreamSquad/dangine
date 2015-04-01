@@ -12,15 +12,17 @@ public class BotInvincibility implements IsUpdateable {
     final DangineBot bot;
     float timer = 0;
     final float MAX_TIME = 3000;
+    final int SIZE = 60;
     SceneGraphNode node = new SceneGraphNode();
+    final Color color = new Color(1.0f, 1.0f, 0.0f, 0.5f);
 
     public BotInvincibility(DangineBot bot) {
         this.bot = bot;
         bot.setImmunity(true);
         node.setZValue(1.0f);
-        node.setPosition(-50, -50);
+        node.setPosition(-SIZE / 2, -SIZE / 2);
         bot.getBlox().getBase().addChild(node);
-        node.addChild(new DangineShape(100, 100, Color.yellow));
+        node.addChild(new DangineShape(SIZE, SIZE, color));
     }
 
     @Override

@@ -13,15 +13,17 @@ public class Invincibility implements IsUpdateable {
     final Hero hero;
     float timer = 0;
     final float MAX_TIME = 3000;
+    final int SIZE = 60;
     SceneGraphNode node = new SceneGraphNode();
+    final Color color = new Color(1.0f, 1.0f, 0.0f, 0.5f);
 
     public Invincibility(Hero hero) {
         this.hero = hero;
         hero.setImmunity(true);
         node.setZValue(1.0f);
-        node.setPosition(-50, -50);
+        node.setPosition(-SIZE / 2, -SIZE / 2);
         hero.getBlox().getBase().addChild(node);
-        node.addChild(new DangineShape(100, 100, Color.yellow));
+        node.addChild(new DangineShape(SIZE, SIZE, color));
     }
 
     @Override
