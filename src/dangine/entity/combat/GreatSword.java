@@ -10,13 +10,14 @@ import dangine.utility.Utility;
 public class GreatSword implements IsUpdateable, HasDrawable {
 
     enum State {
-        IDLE, CHARGE, SWINGING;
+        IDLE, HEAVY_CHARGE, HEAVY_SWING, LIGHT_CHARGE, LIGHT_SWING;
     }
 
     State state = State.IDLE;
     final int playerId;
     float timer = 0;
-    static final float CHARGE_TIME = 1000.0f;
+    static final float HEAVY_CHARGE_TIME = 500.0f;
+    static final float LIGHT_CHARGE_TIME = 250.0f;
     final GreatSwordSceneGraph greatsword = new GreatSwordSceneGraph();
     final GreatSwordAnimator animator = new GreatSwordAnimator(greatsword);
     final GreatSwordCollider hitbox;
@@ -36,27 +37,35 @@ public class GreatSword implements IsUpdateable, HasDrawable {
         switch (state) {
         case IDLE:
             break;
-        case CHARGE:
+        case LIGHT_CHARGE:
+        case HEAVY_CHARGE:
             timer += Utility.getGameTime().getDeltaTimeF();
             break;
-        case SWINGING:
+        case LIGHT_SWING:
+        case HEAVY_SWING:
             timer += Utility.getGameTime().getDeltaTimeF();
             hitbox.update();
             break;
         }
 
         DangineSampleInput input = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
+        if (input.isButtonTwo() && state == State.IDLE) {
+            lightCharge();
+        }
         if (input.isButtonOne() && state == State.IDLE) {
-            charge();
+            heavyCharge();
         }
-        if (input.isButtonTwo()) {
+        if (state == State.LIGHT_SWING && timer > animator.LIGHT_SWING_TIME) {
             idle();
         }
-        if (state == State.SWINGING && timer > animator.SWING_TIME) {
+        if (state == State.HEAVY_SWING && timer > animator.HEAVY_SWING_TIME) {
             idle();
         }
-        if (state == State.CHARGE && timer > CHARGE_TIME) {
-            swinging();
+        if (state == State.LIGHT_CHARGE && timer > LIGHT_CHARGE_TIME) {
+            lightSwinging();
+        }
+        if (state == State.HEAVY_CHARGE && timer > HEAVY_CHARGE_TIME) {
+            heavySwinging();
         }
         animator.update();
     }
@@ -72,15 +81,29 @@ public class GreatSword implements IsUpdateable, HasDrawable {
         greatsword.removeHitbox(hitbox);
     }
 
-    public void charge() {
-        state = State.CHARGE;
-        animator.charge();
+    public void heavyCharge() {
+        state = State.HEAVY_CHARGE;
+        animator.heavyCharge();
         timer = 0;
     }
 
-    public void swinging() {
-        state = State.SWINGING;
-        animator.swinging();
+    public void heavySwinging() {
+        state = State.HEAVY_SWING;
+        animator.heavySwinging();
+        timer = 0;
+        greatsword.addHitbox(hitbox);
+        hitbox.update();
+    }
+
+    public void lightCharge() {
+        state = State.LIGHT_CHARGE;
+        animator.stabCharge();
+        timer = 0;
+    }
+
+    public void lightSwinging() {
+        state = State.LIGHT_SWING;
+        animator.stabSwinging();
         timer = 0;
         greatsword.addHitbox(hitbox);
         hitbox.update();

@@ -72,9 +72,9 @@ public class Hero implements IsUpdateable, HasDrawable {
         hitbox.setPosition(position.x - HITBOX_SIZE, position.y - HITBOX_SIZE);
         Utility.getActiveScene().getCombatResolver().addEvent(onHit);
 
-        if (input.isButtonTwo()) {
-            this.destroy();
-        }
+        // if (input.isButtonTwo()) {
+        // this.destroy();
+        // }
     }
 
     public void destroy() {

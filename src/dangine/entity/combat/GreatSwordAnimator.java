@@ -8,16 +8,19 @@ import dangine.utility.Utility;
 public class GreatSwordAnimator implements IsUpdateable {
 
     enum State {
-        IDLE, CHARGE, SWINGING;
+        IDLE, HEAVY_CHARGE, HEAVY_SWINGING, STAB_CHARGE, STAB_SWINGING, ONE_HAND_CHARGE, ONE_HAND_SWINGING;
     }
 
     State state = State.IDLE;
 
-    final float SWING_SPEED = 0.56f;
-    public final float SWING_TIME = 390.0f / SWING_SPEED;
+    final float HEAVY_SWING_SPEED = 0.56f;
+    public final float HEAVY_SWING_TIME = 390.0f / HEAVY_SWING_SPEED;
+    public final float LIGHT_SWING_TIME = 400.0f;
     Vector2f absolutePosition = new Vector2f(0, 0);
+    Vector2f stabDirection = new Vector2f(260.0f - 90.0f).normalise();
     final GreatSwordSceneGraph greatsword;
     float angle = 0;
+    float timer = 0;
 
     public GreatSwordAnimator(GreatSwordSceneGraph greatsword) {
         this.greatsword = greatsword;
@@ -26,11 +29,28 @@ public class GreatSwordAnimator implements IsUpdateable {
 
     @Override
     public void update() {
+        float boost = 0.0f;
+        float shift = 0.0f;
+        Vector2f position = null;
         switch (state) {
-        case CHARGE:
+        case STAB_CHARGE:
+        case ONE_HAND_CHARGE:
+        case HEAVY_CHARGE:
         case IDLE:
             break;
-        case SWINGING:
+        case STAB_SWINGING:
+            timer += Utility.getGameTime().getDeltaTimeF();
+            shift = Utility.getGameTime().getDeltaTimeF() * 0.06f;
+            boost = (2.0f - (timer / 250f));
+            shift = shift * boost;
+            float scale = greatsword.getSword().getScale().x;
+            position = greatsword.getSword().getPosition();
+            position.x += shift * stabDirection.x * scale;
+            position.y += shift * stabDirection.y * scale;
+            break;
+        case ONE_HAND_SWINGING:
+            break;
+        case HEAVY_SWINGING:
             float increment = Utility.getGameTime().getDeltaTimeF() * 0.56f;
 
             angle -= increment;
@@ -56,8 +76,8 @@ public class GreatSwordAnimator implements IsUpdateable {
         greatsword.getRightArm().setZValue(-1.0f);
     }
 
-    public void charge() {
-        state = State.CHARGE;
+    public void heavyCharge() {
+        state = State.HEAVY_CHARGE;
         angle = 120.0f;
         float scale = greatsword.getSword().getScale().x;
         greatsword.getSword().setPosition(-12 * scale, -40 * scale);
@@ -65,12 +85,46 @@ public class GreatSwordAnimator implements IsUpdateable {
 
     }
 
-    public void swinging() {
-        state = State.SWINGING;
+    public void heavySwinging() {
+        state = State.HEAVY_SWINGING;
         angle = 60.0f;
         float scale = greatsword.getSword().getScale().x;
         greatsword.getSword().setPosition(-8 * scale, -36 * scale);
         greatsword.getSword().setCenterOfRotation(12 * scale, 36 * scale);
         greatsword.getSword().setAngle(angle);
+    }
+
+    public void stabCharge() {
+        state = State.STAB_CHARGE;
+        angle = 260.0f;
+        float scale = greatsword.getSword().getScale().x;
+        greatsword.getSword().setPosition(12 * scale, -32 * scale);
+        greatsword.getSword().setAngle(angle);
+    }
+
+    public void stabSwinging() {
+        state = State.STAB_SWINGING;
+        angle = 260.0f;
+        float scale = greatsword.getSword().getScale().x;
+        greatsword.getSword().setPosition(12 * scale, -32 * scale);
+        greatsword.getSword().setAngle(angle);
+        timer = 0;
+    }
+
+    public void oneHandCharge() {
+        // TODO potentially needs keyframes to work
+        // state = State.ONE_HAND_CHARGE;
+        // angle = 20.0f;
+        // float scale = greatsword.getSword().getScale().x;
+        // greatsword.getSword().setPosition(6 * scale, -26 * scale);
+        // greatsword.getSword().setAngle(angle);
+        //
+        // greatsword.getSword().removeChild(greatsword.getLeftArm());
+        // greatsword.getBase().addChild(greatsword.getLeftArm());
+        // greatsword.getLeftArm().setPosition(-8, 0);
+    }
+
+    public void oneHandSwinging() {
+        // TODO potentially needs keyframes to work
     }
 }

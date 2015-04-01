@@ -12,7 +12,6 @@ import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineParticle;
-import dangine.scenegraph.drawable.DangineShape;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Method;
 import dangine.utility.ScreenUtility;
@@ -38,7 +37,6 @@ public class GreatSwordCollider implements IsUpdateable, HasDrawable {
         swing = new CombatEvent(wielderId, absolutePosition, HITBOX_SIZE, getOnHit(), this);
         hitBox = new CombatEventHitbox(swing);
         node.setPosition(DRAW_POSITION);
-        center.addChild(new DangineShape());
     }
 
     public void activate() {

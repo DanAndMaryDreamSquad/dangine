@@ -48,7 +48,7 @@ public class BotGreatsword implements IsUpdateable, HasDrawable {
         if (input.isButtonTwo()) {
             idle();
         }
-        if (state == State.SWINGING && timer > animator.SWING_TIME) {
+        if (state == State.SWINGING && timer > animator.HEAVY_SWING_TIME) {
             idle();
         }
         if (state == State.CHARGE && timer > CHARGE_TIME) {
@@ -70,13 +70,13 @@ public class BotGreatsword implements IsUpdateable, HasDrawable {
 
     public void charge() {
         state = State.CHARGE;
-        animator.charge();
+        animator.heavyCharge();
         timer = 0;
     }
 
     public void swinging() {
         state = State.SWINGING;
-        animator.swinging();
+        animator.heavySwinging();
         timer = 0;
         greatsword.addHitbox(hitbox);
         hitbox.update();

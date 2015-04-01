@@ -18,6 +18,7 @@ public class DemoGame implements DangineGame {
         Utility.getGraphics().setBackground(new Color(40, 40, 32));
         // MatchSceneSchema schema = new MatchSceneSchema();
         TitleSceneSchema schema = new TitleSceneSchema();
+        // InstantMatchSceneSchema schema = new InstantMatchSceneSchema();
         schema.apply(scene);
     }
 
