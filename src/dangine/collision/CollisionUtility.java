@@ -2,6 +2,9 @@ package dangine.collision;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.entity.combat.CombatEvent;
+import dangine.entity.movement.HeroMovement;
+
 public class CollisionUtility {
 
     public static boolean isCircleCollidingPoint(Vector2f p1, float r1, Vector2f p2) {
@@ -14,6 +17,17 @@ public class CollisionUtility {
         float r1Squared = (r1 + r2) * (r1 + r2);
         float distSquared = p1.distanceSquared(p2);
         return distSquared <= r1Squared;
+    }
+
+    public static void applyKnockback(HeroMovement movement, CombatEvent arg, Vector2f absolutePosition) {
+        Vector2f angleOfAttack = new Vector2f(absolutePosition.x, absolutePosition.y);
+        angleOfAttack = angleOfAttack.sub(arg.getPosition()).normalise();
+        if (arg.getCreator() instanceof GreatSwordHeavyCollider) {
+            movement.push(angleOfAttack.x, angleOfAttack.y, 4.0f);
+        }
+        if (arg.getCreator() instanceof GreatSwordLightCollider) {
+            movement.push(angleOfAttack.x, angleOfAttack.y, 0.25f);
+        }
     }
 
 }

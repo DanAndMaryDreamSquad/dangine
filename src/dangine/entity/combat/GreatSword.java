@@ -38,6 +38,9 @@ public class GreatSword implements IsUpdateable, HasDrawable {
 
     @Override
     public void update() {
+        if (heavyHitbox.isClashed() || lightHitbox.isClashed()) {
+            idle();
+        }
         switch (state) {
         case IDLE:
             break;

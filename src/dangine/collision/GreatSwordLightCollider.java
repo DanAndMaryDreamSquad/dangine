@@ -2,6 +2,7 @@ package dangine.collision;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.bots.DangineBot;
 import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.Hero;
@@ -9,6 +10,7 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
+import dangine.entity.movement.HeroMovement;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineParticle;
@@ -29,6 +31,7 @@ public class GreatSwordLightCollider implements IsUpdateable, HasDrawable {
     Vector2f absolutePosition = new Vector2f(0, 0);
     final CombatEvent lightSwing;
     final CombatEventHitbox lightHitBox;
+    boolean clashed = false;
 
     public GreatSwordLightCollider(int wielderId) {
         this.wielderId = wielderId;
@@ -43,6 +46,7 @@ public class GreatSwordLightCollider implements IsUpdateable, HasDrawable {
 
     public void deactivate() {
         Utility.getActiveScene().getCameraNode().removeChild(lightHitBox.getDrawable());
+        clashed = false;
     }
 
     @Override
@@ -62,13 +66,15 @@ public class GreatSwordLightCollider implements IsUpdateable, HasDrawable {
                 if (arg.getCreator() instanceof Hero) {
                     return;
                 }
-                Hero hero = Utility.getActiveScene().getHero(wielderId);
-                if (hero != null) {
-                    Vector2f angleOfAttack = new Vector2f(absolutePosition.x, absolutePosition.y);
-                    angleOfAttack = angleOfAttack.sub(arg.getPosition()).normalise();
-                    hero.getMovement().push(angleOfAttack.x, angleOfAttack.y);
-                    createVisualEffect();
+                HeroMovement movement = null;
+                if (wielderId < 0) {
+                    movement = Utility.getActiveScene().getUpdateable(DangineBot.class).getMovement();
+                } else {
+                    movement = Utility.getActiveScene().getHero(wielderId).getMovement();
                 }
+                CollisionUtility.applyKnockback(movement, arg, absolutePosition);
+                createVisualEffect();
+                clashed();
             }
         };
     }
@@ -86,6 +92,14 @@ public class GreatSwordLightCollider implements IsUpdateable, HasDrawable {
         ExplosionVisual visual = new ExplosionVisual(x, y, particle, 0, 360, 0.01f, 0.1f, 500f);
         Utility.getActiveScene().addUpdateable(visual);
         Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());
+    }
+
+    public boolean isClashed() {
+        return clashed;
+    }
+
+    public void clashed() {
+        clashed = true;
     }
 
 }
