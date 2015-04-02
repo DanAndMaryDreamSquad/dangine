@@ -26,7 +26,6 @@ public class Boundaries implements IsUpdateable {
     @Override
     public void update() {
         if (heroes.size() != Utility.getPlayers().getPlayers().size()) {
-            heroes.clear();
             for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
                 Hero hero = Utility.getActiveScene().getHero(player.getPlayerId());
                 if (hero != null) {
@@ -51,9 +50,15 @@ public class Boundaries implements IsUpdateable {
                 Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());
             }
         }
+
         if (needsClear) {
             heroes.clear();
         }
+
+    }
+
+    public void rescanHeroes() {
+        heroes.clear();
     }
 
     private boolean isOutOfBounds(Vector2f position) {

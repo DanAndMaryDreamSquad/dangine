@@ -40,6 +40,7 @@ public class RespawnEvent implements MatchEvent {
         Utility.getActiveScene().addUpdateable(visual);
         Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());
 
+        Utility.getActiveScene().getUpdateable(Boundaries.class).rescanHeroes();
     }
 
 }
