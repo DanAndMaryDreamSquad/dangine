@@ -2,6 +2,7 @@ package dangine.bots;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.bots.BotGreatsword.State;
 import dangine.entity.Hero;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
@@ -12,6 +13,7 @@ public class DangineBotLogic {
     DangineSampleInput input = new DangineSampleInput();
     DangineSampleInput emptyInput = new DangineSampleInput();
     DangineSampleInput swingInput = new DangineSampleInput();
+    boolean lastSwingWasHeavy = false;
 
     public DangineSampleInput getWhatToDo(DangineBot bot) {
         Hero target = Utility.getActiveScene().getHero(0);
@@ -81,7 +83,19 @@ public class DangineBotLogic {
         if (target == null) {
             return emptyInput;
         }
-        swingInput.setButtonOne(true);
+        if (lastSwingWasHeavy) {
+            swingInput.setButtonOne(false);
+            swingInput.setButtonTwo(true);
+        } else {
+            swingInput.setButtonOne(true);
+            swingInput.setButtonTwo(false);
+        }
+        if (greatsword.getState() == State.HEAVY_SWING) {
+            lastSwingWasHeavy = true;
+        }
+        if (greatsword.getState() == State.LIGHT_SWING) {
+            lastSwingWasHeavy = false;
+        }
         return swingInput;
     }
 

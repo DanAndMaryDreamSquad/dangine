@@ -48,6 +48,15 @@ public class HeroMovement {
     }
 
     public void push(float x, float y) {
+        x = x * MAX_VELOCITY;
+        y = y * MAX_VELOCITY;
+        velocity.x += x;
+        velocity.y += y;
+    }
+
+    public void push(float x, float y, float scale) {
+        x = x * MAX_VELOCITY * scale;
+        y = y * MAX_VELOCITY * scale;
         velocity.x += x;
         velocity.y += y;
     }

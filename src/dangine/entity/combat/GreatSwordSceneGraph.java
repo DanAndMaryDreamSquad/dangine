@@ -2,7 +2,6 @@ package dangine.entity.combat;
 
 import org.newdawn.slick.Color;
 
-import dangine.collision.GreatSwordCollider;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.scenegraph.SceneGraphNode;
@@ -32,14 +31,12 @@ public class GreatSwordSceneGraph implements HasDrawable {
         base.addChild(sword);
     }
 
-    public void addHitbox(GreatSwordCollider hitbox) {
-        base.addChild(hitbox.getDrawable());
-        hitbox.activate();
+    public void addHitbox(IsDrawable hitbox) {
+        base.addChild(hitbox);
     }
 
-    public void removeHitbox(GreatSwordCollider hitbox) {
-        base.removeChild(hitbox.getDrawable());
-        hitbox.deactivate();
+    public void removeHitbox(IsDrawable hitbox) {
+        base.removeChild(hitbox);
     }
 
     public SceneGraphNode getSword() {

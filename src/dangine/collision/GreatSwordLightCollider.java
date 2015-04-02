@@ -17,51 +17,44 @@ import dangine.utility.Method;
 import dangine.utility.ScreenUtility;
 import dangine.utility.Utility;
 
-public class GreatSwordCollider implements IsUpdateable, HasDrawable {
+public class GreatSwordLightCollider implements IsUpdateable, HasDrawable {
 
     int wielderId = 0;
     final int SIZE = 50;
-    final float HITBOX_SIZE = 35;
-    final Vector2f DRAW_POSITION = new Vector2f(-25, 0);
+    final float LIGHT_HITBOX_SIZE = 25;
+    final Vector2f LIGHT_DRAW_POSITION = new Vector2f(-38, 0);
     float MAX_X = Utility.getResolution().x;
     float MAX_Y = Utility.getResolution().y;
     SceneGraphNode node = new SceneGraphNode();
-    SceneGraphNode center = new SceneGraphNode();
-    SceneGraphNode visualEffect = new SceneGraphNode();
     Vector2f absolutePosition = new Vector2f(0, 0);
-    final CombatEvent swing;
-    final CombatEventHitbox hitBox;
+    final CombatEvent lightSwing;
+    final CombatEventHitbox lightHitBox;
 
-    public GreatSwordCollider(int wielderId) {
+    public GreatSwordLightCollider(int wielderId) {
         this.wielderId = wielderId;
-        swing = new CombatEvent(wielderId, absolutePosition, HITBOX_SIZE, getOnHit(), this);
-        hitBox = new CombatEventHitbox(swing);
-        node.setPosition(DRAW_POSITION);
+        lightSwing = new CombatEvent(wielderId, absolutePosition, LIGHT_HITBOX_SIZE, getOnHitLight(), this);
+        lightHitBox = new CombatEventHitbox(lightSwing);
+        node.setPosition(LIGHT_DRAW_POSITION);
     }
 
     public void activate() {
-        Utility.getActiveScene().getCameraNode().addChild(center);
-        Utility.getActiveScene().getCameraNode().addChild(hitBox.getDrawable());
+        Utility.getActiveScene().getCameraNode().addChild(lightHitBox.getDrawable());
     }
 
     public void deactivate() {
-        Utility.getActiveScene().getCameraNode().removeChild(center);
-        Utility.getActiveScene().getCameraNode().removeChild(hitBox.getDrawable());
-
+        Utility.getActiveScene().getCameraNode().removeChild(lightHitBox.getDrawable());
     }
 
     @Override
     public void update() {
         absolutePosition = ScreenUtility.getWorldPosition(node, absolutePosition);
+        lightSwing.setPosition(absolutePosition);
+        lightHitBox.setPosition(absolutePosition.x - LIGHT_HITBOX_SIZE, absolutePosition.y - LIGHT_HITBOX_SIZE);
+        Utility.getActiveScene().getCombatResolver().addEvent(lightSwing);
 
-        swing.setPosition(absolutePosition);
-        hitBox.setPosition(absolutePosition.x - HITBOX_SIZE, absolutePosition.y - HITBOX_SIZE);
-        Utility.getActiveScene().getCombatResolver().addEvent(swing);
-
-        center.setPosition(absolutePosition);
     }
 
-    public Method<CombatEvent> getOnHit() {
+    public Method<CombatEvent> getOnHitLight() {
         return new Method<CombatEvent>() {
 
             @Override

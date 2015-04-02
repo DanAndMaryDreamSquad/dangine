@@ -17,8 +17,8 @@ public class DangineKeyInputMapper {
 
     private static Map<Action, Integer> createDefaults() {
         Map<Action, Integer> result = new HashMap<Action, Integer>();
-        result.put(Action.BUTTON_ONE, Input.KEY_ENTER);
-        result.put(Action.BUTTON_TWO, Input.KEY_RSHIFT);
+        result.put(Action.BUTTON_ONE, Input.KEY_SPACE);
+        result.put(Action.BUTTON_TWO, Input.KEY_LSHIFT);
         result.put(Action.UP, Input.KEY_W);
         result.put(Action.DOWN, Input.KEY_S);
         result.put(Action.LEFT, Input.KEY_A);
@@ -31,8 +31,8 @@ public class DangineKeyInputMapper {
 
     private static Map<Action, Integer> createP2Defaults() {
         Map<Action, Integer> result = new HashMap<Action, Integer>();
-        result.put(Action.BUTTON_ONE, Input.KEY_INSERT);
-        result.put(Action.BUTTON_TWO, Input.KEY_DELETE);
+        result.put(Action.BUTTON_ONE, Input.KEY_ENTER);
+        result.put(Action.BUTTON_TWO, Input.KEY_RSHIFT);
         result.put(Action.UP, Input.KEY_UP);
         result.put(Action.DOWN, Input.KEY_DOWN);
         result.put(Action.LEFT, Input.KEY_LEFT);

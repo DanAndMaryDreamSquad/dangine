@@ -1,6 +1,7 @@
 package dangine.entity.combat;
 
-import dangine.collision.GreatSwordCollider;
+import dangine.collision.GreatSwordHeavyCollider;
+import dangine.collision.GreatSwordLightCollider;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -20,16 +21,19 @@ public class GreatSword implements IsUpdateable, HasDrawable {
     static final float LIGHT_CHARGE_TIME = 250.0f;
     final GreatSwordSceneGraph greatsword = new GreatSwordSceneGraph();
     final GreatSwordAnimator animator = new GreatSwordAnimator(greatsword);
-    final GreatSwordCollider hitbox;
+    final GreatSwordHeavyCollider heavyHitbox;
+    final GreatSwordLightCollider lightHitbox;
 
     public GreatSword() {
         playerId = 0;
-        hitbox = new GreatSwordCollider(playerId);
+        heavyHitbox = new GreatSwordHeavyCollider(playerId);
+        lightHitbox = new GreatSwordLightCollider(playerId);
     }
 
     public GreatSword(int playerId) {
         this.playerId = playerId;
-        hitbox = new GreatSwordCollider(playerId);
+        heavyHitbox = new GreatSwordHeavyCollider(playerId);
+        lightHitbox = new GreatSwordLightCollider(playerId);
     }
 
     @Override
@@ -42,9 +46,12 @@ public class GreatSword implements IsUpdateable, HasDrawable {
             timer += Utility.getGameTime().getDeltaTimeF();
             break;
         case LIGHT_SWING:
+            timer += Utility.getGameTime().getDeltaTimeF();
+            lightHitbox.update();
+            break;
         case HEAVY_SWING:
             timer += Utility.getGameTime().getDeltaTimeF();
-            hitbox.update();
+            heavyHitbox.update();
             break;
         }
 
@@ -78,7 +85,10 @@ public class GreatSword implements IsUpdateable, HasDrawable {
     public void idle() {
         state = State.IDLE;
         animator.idle();
-        greatsword.removeHitbox(hitbox);
+        greatsword.removeHitbox(heavyHitbox.getDrawable());
+        greatsword.removeHitbox(lightHitbox.getDrawable());
+        heavyHitbox.deactivate();
+        lightHitbox.deactivate();
     }
 
     public void heavyCharge() {
@@ -91,8 +101,9 @@ public class GreatSword implements IsUpdateable, HasDrawable {
         state = State.HEAVY_SWING;
         animator.heavySwinging();
         timer = 0;
-        greatsword.addHitbox(hitbox);
-        hitbox.update();
+        greatsword.addHitbox(heavyHitbox.getDrawable());
+        heavyHitbox.activate();
+        heavyHitbox.update();
     }
 
     public void lightCharge() {
@@ -105,12 +116,16 @@ public class GreatSword implements IsUpdateable, HasDrawable {
         state = State.LIGHT_SWING;
         animator.stabSwinging();
         timer = 0;
-        greatsword.addHitbox(hitbox);
-        hitbox.update();
+        greatsword.addHitbox(lightHitbox.getDrawable());
+        lightHitbox.activate();
+        lightHitbox.update();
     }
 
     public void destroy() {
-        greatsword.removeHitbox(hitbox);
+        heavyHitbox.deactivate();
+        lightHitbox.deactivate();
+        greatsword.removeHitbox(heavyHitbox.getDrawable());
+        greatsword.removeHitbox(lightHitbox.getDrawable());
         Utility.getActiveScene().removeUpdateable(this);
     }
 
