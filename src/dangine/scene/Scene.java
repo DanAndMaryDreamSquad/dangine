@@ -8,7 +8,6 @@ import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.CombatResolver;
-import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchOrchestrator;
 import dangine.scenegraph.RenderData;
 import dangine.scenegraph.SceneGraphNode;
@@ -66,16 +65,6 @@ public class Scene implements IsUpdateable, IsDrawable {
                 if (hero.getPlayerId() == id) {
                     return hero;
                 }
-            }
-        }
-        return null;
-    }
-
-    public Boundaries getBoundaries() {
-        for (IsUpdateable u : updateables) {
-            if (u instanceof Boundaries) {
-                Boundaries boundaries = (Boundaries) u;
-                return boundaries;
             }
         }
         return null;
