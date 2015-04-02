@@ -33,6 +33,11 @@ public class ScoreKeeper implements HasDrawable {
         updatePlayerScores();
     }
 
+    public void addBotToGame() {
+        scores.add(new PlayerScore(-1));
+        updatePlayerScores();
+    }
+
     public void deductStock(int playerId) {
         PlayerScore score = getPlayerScore(playerId);
         score.setStock(score.getStock() - 1);
@@ -63,7 +68,7 @@ public class ScoreKeeper implements HasDrawable {
             Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(playersLeft.get(0)));
         }
         if (playersLeft.size() == 0) {
-            Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(-1));
+            Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(null));
         }
     }
 
@@ -73,6 +78,12 @@ public class ScoreKeeper implements HasDrawable {
         if (Utility.getPlayers().getPlayers().size() >= 2) {
             int p2Stock = getPlayerScore(1).getStock();
             text2.setText("Avatars Remaining: " + p2Stock);
+        }
+        if (Utility.getPlayers().getPlayers().size() < 2) {
+            if (getPlayerScore(-1) != null) {
+                int p2Stock = getPlayerScore(-1).getStock();
+                text2.setText("Avatars Remaining: " + p2Stock);
+            }
         }
     }
 

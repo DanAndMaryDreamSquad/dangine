@@ -9,11 +9,11 @@ public class VictoryEvent implements MatchEvent {
     SceneGraphNode node = new SceneGraphNode();
     DangineText text = new DangineText();
 
-    int victorId;
+    Integer victorId;
 
-    public VictoryEvent(int playerId) {
+    public VictoryEvent(Integer playerId) {
         this.victorId = playerId;
-        if (victorId == -1) {
+        if (victorId == null) {
             text.setText("No one is the winner!");
         } else {
             text.setText("Player: " + playerId + " is the victor!");

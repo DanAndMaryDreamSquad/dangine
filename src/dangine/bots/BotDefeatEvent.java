@@ -13,7 +13,7 @@ public class BotDefeatEvent implements MatchEvent {
 
     @Override
     public void process() {
-        // Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().deductStock(playerId);
+        Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().deductStock(playerId);
 
         if (!Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().checkSceneOver()) {
             BotRespawner respawner = new BotRespawner(playerId);

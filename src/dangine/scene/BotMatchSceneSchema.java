@@ -1,7 +1,6 @@
 package dangine.scene;
 
-import dangine.bots.BotGreatsword;
-import dangine.bots.DangineBot;
+import dangine.bots.BotRespawner;
 import dangine.entity.Background;
 import dangine.entity.Creature;
 import dangine.entity.Obstruction;
@@ -32,12 +31,8 @@ public class BotMatchSceneSchema implements SceneSchema {
         scene.addUpdateable(boundaries);
         scene.getParentNode().addChild(scene.getMatchOrchestrator().getScoreKeeper().getDrawable());
 
-        DangineBot bot = new DangineBot();
-        scene.addUpdateable(bot);
-        scene.getCameraNode().addChild(bot.getDrawable());
-        BotGreatsword greatsword = new BotGreatsword();
-        bot.equipWeapon(greatsword);
-        scene.addUpdateable(greatsword);
+        scene.addUpdateable(new BotRespawner(-1));
+        scene.getMatchOrchestrator().getScoreKeeper().addBotToGame();
     }
 
 }
