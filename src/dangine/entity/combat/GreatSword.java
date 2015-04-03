@@ -8,7 +8,7 @@ import dangine.entity.IsUpdateable;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
 
-public class GreatSword implements IsUpdateable, HasDrawable {
+public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
 
     enum State {
         IDLE, HEAVY_CHARGE, HEAVY_SWING, LIGHT_CHARGE, LIGHT_SWING;
@@ -130,6 +130,14 @@ public class GreatSword implements IsUpdateable, HasDrawable {
         greatsword.removeHitbox(heavyHitbox.getDrawable());
         greatsword.removeHitbox(lightHitbox.getDrawable());
         Utility.getActiveScene().removeUpdateable(this);
+    }
+
+    public boolean isSwinging() {
+        return state == State.LIGHT_SWING || state == State.HEAVY_SWING;
+    }
+
+    public boolean isCharging() {
+        return state == State.LIGHT_CHARGE || state == State.HEAVY_CHARGE;
     }
 
     public GreatSwordSceneGraph getGreatsword() {

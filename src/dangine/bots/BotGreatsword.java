@@ -7,10 +7,11 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.GreatSwordAnimator;
 import dangine.entity.combat.GreatSwordSceneGraph;
+import dangine.entity.combat.IsGreatsword;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
 
-public class BotGreatsword implements IsUpdateable, HasDrawable {
+public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
 
     enum State {
         IDLE, HEAVY_CHARGE, HEAVY_SWING, LIGHT_CHARGE, LIGHT_SWING;
@@ -135,4 +136,13 @@ public class BotGreatsword implements IsUpdateable, HasDrawable {
     public State getState() {
         return state;
     }
+
+    public boolean isSwinging() {
+        return state == State.LIGHT_SWING || state == State.HEAVY_SWING;
+    }
+
+    public boolean isCharging() {
+        return state == State.LIGHT_CHARGE || state == State.HEAVY_CHARGE;
+    }
+
 }

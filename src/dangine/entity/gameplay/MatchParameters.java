@@ -5,11 +5,14 @@ import java.util.Map;
 
 import org.newdawn.slick.Color;
 
+import dangine.entity.movement.MovementMode;
+
 public class MatchParameters {
 
     Color defaultColor = new Color(255, 0, 0);
     Map<Integer, Color> playerIdToColor = new HashMap<Integer, Color>();
     int startingStock = 3;
+    MovementMode movementMode = MovementMode.FREE;
 
     public int getStartingStock() {
         return startingStock;
@@ -34,6 +37,14 @@ public class MatchParameters {
             return defaultColor;
         }
         return color;
+    }
+
+    public MovementMode getMovementMode() {
+        return movementMode;
+    }
+
+    public void setMovementMode(MovementMode movementMode) {
+        this.movementMode = movementMode;
     }
 
 }

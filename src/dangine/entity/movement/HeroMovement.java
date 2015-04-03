@@ -2,6 +2,7 @@ package dangine.entity.movement;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.entity.combat.IsGreatsword;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
 
@@ -12,8 +13,12 @@ public class HeroMovement {
 
     Vector2f velocity = new Vector2f(0, 0);
 
-    public Vector2f moveHero(Vector2f position, DangineSampleInput input) {
-        updateVelocity(input);
+    public Vector2f moveHero(Vector2f position, DangineSampleInput input, IsGreatsword activeWeapon) {
+        MovementMode movementMode = Utility.getMatchParameters().getMovementMode();
+        if (movementMode.canMove(activeWeapon)) {
+            updateVelocity(input);
+        }
+        enforceMaximumVelocity();
         return updatePosition(position);
     }
 
@@ -30,7 +35,6 @@ public class HeroMovement {
         if (input.isRight()) {
             velocity.x += Utility.getGameTime().getDeltaTimeF() * ACCELERATION;
         }
-        enforceMaximumVelocity();
         return velocity;
     }
 

@@ -9,6 +9,7 @@ import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.combat.GreatSword;
 import dangine.entity.gameplay.DefeatEvent;
 import dangine.entity.movement.HeroMovement;
+import dangine.entity.movement.MovementMode;
 import dangine.entity.visual.DefeatedBloxKnockVisual;
 import dangine.entity.visual.DefeatedBloxSplitVisual;
 import dangine.input.DangineSampleInput;
@@ -55,17 +56,10 @@ public class Hero implements IsUpdateable, HasDrawable {
         } else {
             animator.idle();
         }
-        movement.moveHero(this.position, input);
+        movement.moveHero(this.position, input, activeWeapon);
         draw.getBase().setPosition(position);
         animator.update();
-        int facing = 0;
-        if (input.isLeft()) {
-            facing++;
-        }
-        if (input.isRight()) {
-            facing--;
-        }
-        animator.updateFacing(facing);
+        updateFacing(input);
 
         onHit.setPosition(position);
         hitbox.setPosition(position);
@@ -75,6 +69,20 @@ public class Hero implements IsUpdateable, HasDrawable {
         // if (input.isButtonTwo()) {
         // this.destroy();
         // }
+    }
+
+    private void updateFacing(DangineSampleInput input) {
+        MovementMode movementMode = Utility.getMatchParameters().getMovementMode();
+        if (activeWeapon != null && movementMode.canTurn(activeWeapon)) {
+            int facing = 0;
+            if (input.isLeft()) {
+                facing++;
+            }
+            if (input.isRight()) {
+                facing--;
+            }
+            animator.updateFacing(facing);
+        }
     }
 
     public void destroy() {
