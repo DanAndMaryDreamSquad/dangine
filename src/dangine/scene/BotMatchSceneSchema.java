@@ -29,6 +29,7 @@ public class BotMatchSceneSchema implements SceneSchema {
         scene.addUpdateable(background);
         scene.getParentNode().addChild(background.getDrawable());
         scene.addUpdateable(boundaries);
+        scene.addUpdateable(scene.getMatchOrchestrator().getScoreKeeper());
         scene.getParentNode().addChild(scene.getMatchOrchestrator().getScoreKeeper().getDrawable());
 
         scene.addUpdateable(new BotRespawner(-1));

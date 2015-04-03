@@ -5,12 +5,13 @@ import java.util.List;
 
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
+import dangine.entity.IsUpdateable;
 import dangine.player.DanginePlayer;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineText;
 import dangine.utility.Utility;
 
-public class ScoreKeeper implements HasDrawable {
+public class ScoreKeeper implements IsUpdateable, HasDrawable {
 
     boolean matchOver = false;
     SceneGraphNode base = new SceneGraphNode();
@@ -19,6 +20,9 @@ public class ScoreKeeper implements HasDrawable {
     SceneGraphNode score2 = new SceneGraphNode();
     DangineText text2 = new DangineText();
     List<PlayerScore> scores = new ArrayList<PlayerScore>();
+    float timer = 0;
+    final float FADE_TIME = 4000;
+    final float FADE_DELAY = 2000;
 
     public ScoreKeeper() {
         score1.addChild(text1);
@@ -31,6 +35,19 @@ public class ScoreKeeper implements HasDrawable {
             scores.add(new PlayerScore(player.getPlayerId()));
         }
         updatePlayerScores();
+    }
+
+    @Override
+    public void update() {
+        if (timer < FADE_TIME) {
+            float alpha = 1.0f;
+            timer += Utility.getGameTime().getDeltaTimeF();
+            if (timer > FADE_DELAY) {
+                alpha = 1.0f - ((timer - FADE_DELAY) / (FADE_TIME - FADE_DELAY));
+            }
+            text1.getColor().a = alpha;
+            text2.getColor().a = alpha;
+        }
     }
 
     public void addBotToGame() {
@@ -85,6 +102,7 @@ public class ScoreKeeper implements HasDrawable {
                 text2.setText("Avatars Remaining: " + p2Stock);
             }
         }
+        timer = 0;
     }
 
     private PlayerScore getPlayerScore(int playerId) {

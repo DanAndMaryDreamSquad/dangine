@@ -13,7 +13,7 @@ public class DangineText implements IsDrawable {
     RenderData data = new RenderData(this);
 
     public DangineText() {
-        this("Sample Text", Color.black);
+        this("Sample Text", new Color(Color.black));
     }
 
     public DangineText(String text, Color color) {
