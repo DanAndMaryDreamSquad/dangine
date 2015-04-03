@@ -109,12 +109,7 @@ public enum MovementMode {
 
     public abstract boolean canMove(IsGreatsword greatSword);
 
-    public static MovementMode nextMode(MovementMode mode) {
-        int i = mode.ordinal();
-        i++;
-        if (i >= MovementMode.values().length) {
-            i = 0;
-        }
-        return MovementMode.values()[i];
+    public MovementMode nextMode() {
+        return MovementMode.values()[(this.ordinal() + 1) % MovementMode.values().length];
     }
 }
