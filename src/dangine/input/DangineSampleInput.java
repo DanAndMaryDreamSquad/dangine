@@ -8,18 +8,21 @@ public class DangineSampleInput {
     boolean right = false;
     boolean buttonOne = false;
     boolean buttonTwo = false;
+    boolean buttonThree = false;
 
-    public void setInput(boolean up, boolean down, boolean left, boolean right, boolean buttonOne, boolean buttonTwo) {
+    public void setInput(boolean up, boolean down, boolean left, boolean right, boolean buttonOne, boolean buttonTwo,
+            boolean buttonThree) {
         this.up = up;
         this.down = down;
         this.left = left;
         this.right = right;
         this.buttonOne = buttonOne;
         this.buttonTwo = buttonTwo;
+        this.buttonThree = buttonThree;
     }
 
     public void copyFrom(DangineSampleInput input) {
-        setInput(input.up, input.down, input.left, input.right, input.buttonOne, input.buttonTwo);
+        setInput(input.up, input.down, input.left, input.right, input.buttonOne, input.buttonTwo, input.buttonThree);
     }
 
     public boolean isUp() {
@@ -70,6 +73,14 @@ public class DangineSampleInput {
         this.buttonTwo = buttonTwo;
     }
 
+    public boolean isButtonThree() {
+        return buttonThree;
+    }
+
+    public void setButtonThree(boolean buttonThree) {
+        this.buttonThree = buttonThree;
+    }
+
     @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer();
@@ -79,6 +90,7 @@ public class DangineSampleInput {
         buffer.append(" | right: ").append(right);
         buffer.append(" | button one: ").append(buttonOne);
         buffer.append(" | button two: ").append(buttonTwo);
+        buffer.append(" | button three: ").append(buttonThree);
         return buffer.toString();
     }
 

@@ -10,7 +10,7 @@ import dangine.utility.Utility;
 
 public class DangineKeyInputMapper {
     enum Action {
-        BUTTON_ONE, BUTTON_TWO, UP, DOWN, LEFT, RIGHT;
+        BUTTON_ONE, BUTTON_TWO, BUTTON_THREE, UP, DOWN, LEFT, RIGHT;
     }
 
     private static final Map<Action, Integer> DEFAULTS = createDefaults();
@@ -19,6 +19,7 @@ public class DangineKeyInputMapper {
         Map<Action, Integer> result = new HashMap<Action, Integer>();
         result.put(Action.BUTTON_ONE, Input.KEY_SPACE);
         result.put(Action.BUTTON_TWO, Input.KEY_LSHIFT);
+        result.put(Action.BUTTON_THREE, Input.KEY_ESCAPE);
         result.put(Action.UP, Input.KEY_W);
         result.put(Action.DOWN, Input.KEY_S);
         result.put(Action.LEFT, Input.KEY_A);
@@ -33,6 +34,7 @@ public class DangineKeyInputMapper {
         Map<Action, Integer> result = new HashMap<Action, Integer>();
         result.put(Action.BUTTON_ONE, Input.KEY_ENTER);
         result.put(Action.BUTTON_TWO, Input.KEY_RSHIFT);
+        result.put(Action.BUTTON_THREE, Input.KEY_BACK);
         result.put(Action.UP, Input.KEY_UP);
         result.put(Action.DOWN, Input.KEY_DOWN);
         result.put(Action.LEFT, Input.KEY_LEFT);
@@ -63,6 +65,7 @@ public class DangineKeyInputMapper {
         input.setRight(isBeingPressed(Action.RIGHT));
         input.setButtonOne(isBeingPressed(Action.BUTTON_ONE));
         input.setButtonTwo(isBeingPressed(Action.BUTTON_TWO));
+        input.setButtonThree(isBeingPressed(Action.BUTTON_THREE));
         return input;
     }
 }

@@ -6,6 +6,7 @@ import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.input.DangineSampleInput;
+import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineShape;
 import dangine.utility.Utility;
@@ -18,6 +19,7 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
     SceneGraphNode node = new SceneGraphNode();
     DangineShape shape = new DangineShape();
     DangineMenuItem currentItem = null;
+    Action onEscape = null;
 
     public DangineSelector() {
         node.addChild(shape);
@@ -40,6 +42,13 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
         if (currentItem != null) {
             currentItem.activate(input, prevInput);
         }
+        if (onEscape != null && input.isButtonThree()) {
+            onEscape.execute();
+        }
+    }
+
+    public void setOnEscape(Action onEscape) {
+        this.onEscape = onEscape;
     }
 
     public void scan(List<DangineMenuItem> items) {

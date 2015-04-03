@@ -22,10 +22,12 @@ public class ColorSelectionMenu implements IsUpdateable, HasDrawable {
     BloxAnimator animator = new BloxAnimator(blox);
     Color color = Color.red;
     boolean isDone = false;
+    boolean isEscaping = false;
 
     public ColorSelectionMenu(int playerId) {
         this.playerId = playerId;
         selector = new DangineSelector(playerId);
+        selector.setOnEscape(getOnEscapeAction());
         animator.idle();
         node.addChild(menu.getDrawable());
         node.addChild(blox.getDrawable());
@@ -33,6 +35,7 @@ public class ColorSelectionMenu implements IsUpdateable, HasDrawable {
         blox.getBase().setPosition(-50, 0);
         menu.addItem(new DangineMenuItem("Ready", getReadyAction()));
         menu.addItem(new DangineMenuItem("Next Color", getNextColorAction()));
+        menu.addItem(new DangineMenuItem("Back to Title", getOnEscapeAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
         reColor();
     }
@@ -83,8 +86,23 @@ public class ColorSelectionMenu implements IsUpdateable, HasDrawable {
         };
     }
 
+    private Action getOnEscapeAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                isEscaping = true;
+            }
+
+        };
+    }
+
     public boolean isDone() {
         return isDone;
+    }
+
+    public boolean isEscaping() {
+        return isEscaping;
     }
 
     public int getPlayerId() {
