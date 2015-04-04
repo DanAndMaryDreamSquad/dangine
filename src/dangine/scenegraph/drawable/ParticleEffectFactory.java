@@ -10,6 +10,7 @@ public class ParticleEffectFactory {
 
     public static final Color[] fireColors = { Color.red, Color.orange, Color.yellow };
     public static final Color[] energyColors = { Color.blue, Color.cyan, Color.white };
+    public static final Color[] yellowColors = { Color.yellow, Color.white, new Color(200, 200, 0) };
     public static final Color[] greenColors = { Color.green, new Color(100, 230, 0), new Color(0, 230, 100),
             Color.white };
 

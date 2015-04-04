@@ -12,7 +12,7 @@ import dangine.utility.Utility;
 public class DashPower {
 
     float timer = 0;
-    final float MAX_TIME = 2000f;
+    final float MAX_TIME = 3000f;
     boolean createdReadyEffect = false;
 
     public void update(DangineSampleInput input, HeroMovement movement, Vector2f position) {

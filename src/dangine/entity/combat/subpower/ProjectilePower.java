@@ -12,7 +12,7 @@ import dangine.utility.Utility;
 public class ProjectilePower {
 
     float timer = 0;
-    final float MAX_TIME = 2000f;
+    final float MAX_TIME = 4000f;
     boolean createdReadyEffect = false;
     int ownerId;
 

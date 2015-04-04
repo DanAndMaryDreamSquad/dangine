@@ -8,7 +8,7 @@ import dangine.utility.Utility;
 public class GreatSwordAnimator implements IsUpdateable {
 
     enum State {
-        IDLE, HEAVY_CHARGE, HEAVY_SWINGING, STAB_CHARGE, STAB_SWINGING, ONE_HAND_CHARGE, ONE_HAND_SWINGING;
+        IDLE, HEAVY_CHARGE, HEAVY_SWINGING, STAB_CHARGE, STAB_SWINGING, ONE_HAND_CHARGE, ONE_HAND_SWINGING, COUNTER_CHARGE, COUNTERING;
     }
 
     State state = State.IDLE;
@@ -36,6 +36,8 @@ public class GreatSwordAnimator implements IsUpdateable {
         case STAB_CHARGE:
         case ONE_HAND_CHARGE:
         case HEAVY_CHARGE:
+        case COUNTER_CHARGE:
+        case COUNTERING:
         case IDLE:
             break;
         case STAB_SWINGING:
@@ -107,6 +109,23 @@ public class GreatSwordAnimator implements IsUpdateable {
         angle = 260.0f;
         float scale = greatsword.getSword().getScale().x;
         greatsword.getSword().setPosition(12 * scale, -32 * scale);
+        greatsword.getSword().setAngle(angle);
+        timer = 0;
+    }
+
+    public void counterCharge() {
+        state = State.COUNTER_CHARGE;
+        angle = 220.0f;
+        float scale = greatsword.getSword().getScale().x;
+        greatsword.getSword().setPosition(12 * scale, -32 * scale);
+        greatsword.getSword().setAngle(angle);
+    }
+
+    public void countering() {
+        state = State.COUNTERING;
+        angle = 120.0f;
+        float scale = greatsword.getSword().getScale().x;
+        greatsword.getSword().setPosition((-12 - 8) * scale, (-32 - 4) * scale);
         greatsword.getSword().setAngle(angle);
         timer = 0;
     }

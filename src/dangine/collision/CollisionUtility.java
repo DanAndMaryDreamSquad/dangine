@@ -28,6 +28,9 @@ public class CollisionUtility {
         if (arg.getCreator() instanceof GreatSwordLightCollider) {
             movement.push(angleOfAttack.x, angleOfAttack.y, 0.25f);
         }
+        if (arg.getCreator() instanceof GreatSwordCounterCollider) {
+            movement.dash(angleOfAttack.x * 2.0f, angleOfAttack.y * 2.0f);
+        }
     }
 
 }

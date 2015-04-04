@@ -46,6 +46,24 @@ public enum SubPower {
             Utility.getActiveScene().addUpdateable(visual);
             Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());
         }
+    },
+    COUNTER {
+
+        @Override
+        public void givePower(Hero hero) {
+            if (hero.getActiveWeapon() != null) {
+                hero.getActiveWeapon().setCounterPower(new CounterPower());
+            }
+        }
+
+        @Override
+        public void createEffect(float x, float y) {
+            DangineParticle particle = ParticleEffectFactory.create(16, 16, ParticleEffectFactory.yellowColors);
+            ExplosionVisual visual = new ExplosionVisual(x, y, particle, 0, 360, 0.01f, 0.1f, 500f);
+            Utility.getActiveScene().addUpdateable(visual);
+            Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());
+        }
+
     };
 
     public abstract void givePower(Hero hero);

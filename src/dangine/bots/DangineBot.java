@@ -3,6 +3,7 @@ package dangine.bots;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.collision.GreatSwordCounterCollider;
 import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
@@ -121,6 +122,9 @@ public class DangineBot implements IsUpdateable, HasDrawable {
 
             @Override
             public void call(CombatEvent arg) {
+                if (arg.getCreator() instanceof GreatSwordCounterCollider) {
+                    return;
+                }
                 if (!isImmunity()) {
                     destroy();
                 }

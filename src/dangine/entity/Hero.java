@@ -3,6 +3,7 @@ package dangine.entity;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.collision.GreatSwordCounterCollider;
 import dangine.debugger.Debugger;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
@@ -142,9 +143,9 @@ public class Hero implements IsUpdateable, HasDrawable {
 
             @Override
             public void call(CombatEvent arg) {
-                // if (arg.getCreator() instanceof Hero) {
-                // return;
-                // }
+                if (arg.getCreator() instanceof GreatSwordCounterCollider) {
+                    return;
+                }
                 if (!isImmunity()) {
                     destroy();
                 }
@@ -192,5 +193,9 @@ public class Hero implements IsUpdateable, HasDrawable {
 
     public void setProjectilePower(ProjectilePower projectilePower) {
         this.projectilePower = projectilePower;
+    }
+
+    public GreatSword getActiveWeapon() {
+        return activeWeapon;
     }
 }

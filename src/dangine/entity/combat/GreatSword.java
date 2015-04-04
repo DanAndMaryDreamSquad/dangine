@@ -1,10 +1,12 @@
 package dangine.entity.combat;
 
+import dangine.collision.GreatSwordCounterCollider;
 import dangine.collision.GreatSwordHeavyCollider;
 import dangine.collision.GreatSwordLightCollider;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.entity.combat.subpower.CounterPower;
 import dangine.entity.movement.AttackMode;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
@@ -12,7 +14,7 @@ import dangine.utility.Utility;
 public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
 
     enum State {
-        IDLE, HEAVY_CHARGE, HEAVY_SWING, LIGHT_CHARGE, LIGHT_SWING, HOLD_CHARGING;
+        IDLE, HEAVY_CHARGE, HEAVY_SWING, LIGHT_CHARGE, LIGHT_SWING, HOLD_CHARGING, COUNTER_CHARGE, COUNTERING;
     }
 
     State state = State.IDLE;
@@ -20,26 +22,31 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
     float timer = 0;
     static final float HEAVY_CHARGE_TIME = 500.0f;
     static final float LIGHT_CHARGE_TIME = 250.0f;
+    static final float COUNTER_CHARGE_TIME = 250.0f;
     final GreatSwordSceneGraph greatsword = new GreatSwordSceneGraph();
     final GreatSwordAnimator animator = new GreatSwordAnimator(greatsword);
     final GreatSwordHeavyCollider heavyHitbox;
     final GreatSwordLightCollider lightHitbox;
+    final GreatSwordCounterCollider counterHitbox;
+    CounterPower counterPower = null;
 
     public GreatSword() {
         playerId = 0;
         heavyHitbox = new GreatSwordHeavyCollider(playerId);
         lightHitbox = new GreatSwordLightCollider(playerId);
+        counterHitbox = new GreatSwordCounterCollider(playerId);
     }
 
     public GreatSword(int playerId) {
         this.playerId = playerId;
         heavyHitbox = new GreatSwordHeavyCollider(playerId);
         lightHitbox = new GreatSwordLightCollider(playerId);
+        counterHitbox = new GreatSwordCounterCollider(playerId);
     }
 
     @Override
     public void update() {
-        if (heavyHitbox.isClashed() || lightHitbox.isClashed()) {
+        if (heavyHitbox.isClashed() || lightHitbox.isClashed() || counterHitbox.isClashed()) {
             idle();
         }
         switch (state) {
@@ -48,6 +55,7 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         case LIGHT_CHARGE:
         case HEAVY_CHARGE:
         case HOLD_CHARGING:
+        case COUNTER_CHARGE:
             timer += Utility.getGameTime().getDeltaTimeF();
             break;
         case LIGHT_SWING:
@@ -57,11 +65,17 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         case HEAVY_SWING:
             timer += Utility.getGameTime().getDeltaTimeF();
             heavyHitbox.update();
+        case COUNTERING:
+            timer += Utility.getGameTime().getDeltaTimeF();
+            counterHitbox.update();
             break;
         }
 
         DangineSampleInput input = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
         AttackMode attackMode = Utility.getMatchParameters().getAttackMode();
+        if (counterPower != null) {
+            counterPower.update(input, this);
+        }
         if (attackMode == AttackMode.BUTTONS) {
             if (input.isButtonTwo() && state == State.IDLE) {
                 lightCharge();
@@ -98,11 +112,17 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         if (state == State.HEAVY_SWING && timer > animator.HEAVY_SWING_TIME) {
             idle();
         }
+        if (state == State.COUNTERING && timer > CounterPower.COUNTER_DURATION) {
+            idle();
+        }
         if (state == State.LIGHT_CHARGE && timer > LIGHT_CHARGE_TIME) {
             lightSwinging();
         }
         if (state == State.HEAVY_CHARGE && timer > HEAVY_CHARGE_TIME) {
             heavySwinging();
+        }
+        if (state == State.COUNTER_CHARGE && timer > COUNTER_CHARGE_TIME) {
+            counter();
         }
         animator.update();
     }
@@ -117,8 +137,10 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         animator.idle();
         greatsword.removeHitbox(heavyHitbox.getDrawable());
         greatsword.removeHitbox(lightHitbox.getDrawable());
+        greatsword.removeHitbox(counterHitbox.getDrawable());
         heavyHitbox.deactivate();
         lightHitbox.deactivate();
+        counterHitbox.deactivate();
     }
 
     public void heavyCharge() {
@@ -161,25 +183,53 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         animator.heavyCharge();
     }
 
+    public void counterCharge() {
+        counterHitbox.deactivate();
+        greatsword.removeHitbox(counterHitbox.getDrawable());
+        state = State.COUNTER_CHARGE;
+        animator.counterCharge();
+        timer = 0;
+    }
+
+    public void counter() {
+        state = State.COUNTERING;
+        animator.countering();
+        counterHitbox.activate();
+        counterHitbox.update();
+        greatsword.addHitbox(counterHitbox.getDrawable());
+        timer = 0;
+    }
+
     public void destroy() {
         heavyHitbox.deactivate();
         lightHitbox.deactivate();
+        counterHitbox.deactivate();
         greatsword.removeHitbox(heavyHitbox.getDrawable());
         greatsword.removeHitbox(lightHitbox.getDrawable());
+        greatsword.removeHitbox(counterHitbox.getDrawable());
         Utility.getActiveScene().removeUpdateable(this);
     }
 
     @Override
     public boolean isSwinging() {
-        return state == State.LIGHT_SWING || state == State.HEAVY_SWING;
+        return state == State.LIGHT_SWING || state == State.HEAVY_SWING || state == State.COUNTERING;
     }
 
     @Override
     public boolean isCharging() {
-        return state == State.LIGHT_CHARGE || state == State.HEAVY_CHARGE || state == State.HOLD_CHARGING;
+        return state == State.LIGHT_CHARGE || state == State.HEAVY_CHARGE || state == State.HOLD_CHARGING
+                || state == State.COUNTER_CHARGE;
     }
 
     public GreatSwordSceneGraph getGreatsword() {
         return greatsword;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public void setCounterPower(CounterPower counterPower) {
+        this.counterPower = counterPower;
     }
 }
