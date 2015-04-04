@@ -4,6 +4,7 @@ import dangine.bots.BotRespawner;
 import dangine.entity.Background;
 import dangine.entity.Creature;
 import dangine.entity.Obstruction;
+import dangine.entity.combat.subpower.SubPower;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.Respawner;
@@ -35,6 +36,8 @@ public class BotMatchSceneSchema implements SceneSchema {
 
         scene.addUpdateable(new BotRespawner(-1));
         scene.getMatchOrchestrator().getScoreKeeper().addBotToGame();
+
+        Utility.getMatchParameters().addPlayerPower(0, SubPower.NONE);
     }
 
 }

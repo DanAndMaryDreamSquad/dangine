@@ -27,6 +27,7 @@ public class RespawnEvent implements MatchEvent {
         GreatSword greatsword = new GreatSword(playerId);
         hero.setPosition(x, y);
         hero.equipWeapon(greatsword);
+        Utility.getMatchParameters().givePlayerPower(hero);
         Utility.getActiveScene().getCameraNode().addChild(hero.getDrawable());
         Utility.getActiveScene().addUpdateable(hero);
         Utility.getActiveScene().addUpdateable(greatsword);

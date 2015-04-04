@@ -38,8 +38,8 @@ public class Hero implements IsUpdateable, HasDrawable {
     boolean immunity = false;
     boolean destroyed = false;
     GreatSword activeWeapon = null;
-    DashPower activePower = new DashPower();
-    ProjectilePower projectilePower;
+    DashPower dashPower = null;
+    ProjectilePower projectilePower = null;
 
     public Hero(int playerId) {
         this.playerId = playerId;
@@ -48,7 +48,6 @@ public class Hero implements IsUpdateable, HasDrawable {
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
         Color color = Utility.getMatchParameters().getPlayerColor(getPlayerId());
         BloxColorer.color(draw, color);
-        projectilePower = new ProjectilePower(playerId);
     }
 
     @Override
@@ -61,8 +60,12 @@ public class Hero implements IsUpdateable, HasDrawable {
         } else {
             animator.idle();
         }
-        // activePower.update(input, getMovement(), getPosition());
-        projectilePower.update(input, getMovement(), getPosition());
+        if (dashPower != null) {
+            dashPower.update(input, getMovement(), getPosition());
+        }
+        if (projectilePower != null) {
+            projectilePower.update(input, getMovement(), getPosition());
+        }
         movement.moveHero(this.position, input, activeWeapon);
         draw.getBase().setPosition(position);
         animator.update();
@@ -181,5 +184,13 @@ public class Hero implements IsUpdateable, HasDrawable {
 
     public BloxSceneGraph getBlox() {
         return draw;
+    }
+
+    public void setDashPower(DashPower dashPower) {
+        this.dashPower = dashPower;
+    }
+
+    public void setProjectilePower(ProjectilePower projectilePower) {
+        this.projectilePower = projectilePower;
     }
 }

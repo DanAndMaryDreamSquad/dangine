@@ -1,30 +1,39 @@
 package dangine.menu;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.geom.Vector2f;
 
 import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.entity.combat.subpower.SubPower;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.BloxAnimator;
 import dangine.scenegraph.drawable.BloxColorer;
 import dangine.scenegraph.drawable.BloxSceneGraph;
+import dangine.scenegraph.drawable.DangineText;
+import dangine.utility.ScreenUtility;
+import dangine.utility.Utility;
 
-public class ColorSelectionMenu implements IsUpdateable, HasDrawable {
+public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
 
     final int playerId;
     final SceneGraphNode node = new SceneGraphNode();
     final DangineMenu menu = new DangineMenu();
     final DangineSelector selector;
+    final SceneGraphNode powerTextNode = new SceneGraphNode();
+    final DangineText powerText = new DangineText();
     BloxSceneGraph blox = new BloxSceneGraph();
     BloxAnimator animator = new BloxAnimator(blox);
     Color color = Color.red;
     boolean isDone = false;
     boolean isEscaping = false;
+    float timer = 0;
+    final float EFFECT_TIME = 3000f;
 
-    public ColorSelectionMenu(int playerId) {
+    public CharacterSelectionMenu(int playerId) {
         this.playerId = playerId;
         selector = new DangineSelector(playerId);
         selector.setOnEscape(getOnEscapeAction());
@@ -35,9 +44,15 @@ public class ColorSelectionMenu implements IsUpdateable, HasDrawable {
         blox.getBase().setPosition(-50, 0);
         menu.addItem(new DangineMenuItem("Ready", getReadyAction()));
         menu.addItem(new DangineMenuItem("Next Color", getNextColorAction()));
+        menu.addItem(new DangineMenuItem("Sub Power", getNextPowerAction()));
+        menu.getBase().addChild(powerTextNode);
         menu.addItem(new DangineMenuItem("Back to Title", getOnEscapeAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
+
+        powerTextNode.addChild(powerText);
+
         reColor();
+        updateText();
     }
 
     @Override
@@ -46,6 +61,14 @@ public class ColorSelectionMenu implements IsUpdateable, HasDrawable {
         if (!isDone()) {
             selector.update();
             selector.scan(menu.getItems());
+        }
+        timer += Utility.getGameTime().getDeltaTimeF();
+        if (timer > EFFECT_TIME) {
+            timer = 0;
+            SubPower power = Utility.getMatchParameters().getPlayerPower(getPlayerId());
+            Vector2f position = new Vector2f(0, 0);
+            position = ScreenUtility.getWorldPosition(blox.getBase(), position);
+            power.createEffect(position.x, position.y);
         }
     }
 
@@ -56,6 +79,10 @@ public class ColorSelectionMenu implements IsUpdateable, HasDrawable {
 
     private void reColor() {
         BloxColorer.color(blox, color);
+    }
+
+    private void updateText() {
+        powerText.setText("" + Utility.getMatchParameters().getPlayerPower(getPlayerId()));
     }
 
     private Action getReadyAction() {
@@ -82,6 +109,19 @@ public class ColorSelectionMenu implements IsUpdateable, HasDrawable {
                 }
                 color = BloxColorer.COLORS[i];
                 reColor();
+            }
+        };
+    }
+
+    private Action getNextPowerAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                SubPower power = Utility.getMatchParameters().getPlayerPower(getPlayerId());
+                power = power.nextPower();
+                Utility.getMatchParameters().addPlayerPower(getPlayerId(), power);
+                updateText();
             }
         };
     }

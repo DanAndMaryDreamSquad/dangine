@@ -5,18 +5,18 @@ import java.util.List;
 
 import dangine.entity.IsUpdateable;
 import dangine.entity.gameplay.MatchStarter;
-import dangine.menu.ColorSelectionMenu;
+import dangine.menu.CharacterSelectionMenu;
 import dangine.menu.TitleMenu;
 import dangine.player.DanginePlayer;
 import dangine.utility.Utility;
 
 public class CharacterSelect implements IsUpdateable {
 
-    List<ColorSelectionMenu> menus = new ArrayList<ColorSelectionMenu>();
+    List<CharacterSelectionMenu> menus = new ArrayList<CharacterSelectionMenu>();
 
     public CharacterSelect() {
         for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
-            ColorSelectionMenu menu = new ColorSelectionMenu(player.getPlayerId());
+            CharacterSelectionMenu menu = new CharacterSelectionMenu(player.getPlayerId());
             Utility.getActiveScene().addUpdateable(menu);
             Utility.getActiveScene().getParentNode().addChild(menu.getDrawable());
             menus.add(menu);
@@ -26,7 +26,7 @@ public class CharacterSelect implements IsUpdateable {
     @Override
     public void update() {
         boolean done = true;
-        for (ColorSelectionMenu menu : menus) {
+        for (CharacterSelectionMenu menu : menus) {
             if (!menu.isDone()) {
                 done = false;
             }
@@ -40,7 +40,7 @@ public class CharacterSelect implements IsUpdateable {
             }
         }
         if (done) {
-            for (ColorSelectionMenu menu : menus) {
+            for (CharacterSelectionMenu menu : menus) {
                 Utility.getMatchParameters().addPlayerColor(menu.getPlayerId(), menu.getColor());
                 Utility.getActiveScene().removeUpdateable(menu);
             }
@@ -50,7 +50,7 @@ public class CharacterSelect implements IsUpdateable {
     }
 
     private void removeMenus() {
-        for (ColorSelectionMenu menu : menus) {
+        for (CharacterSelectionMenu menu : menus) {
             Utility.getActiveScene().removeUpdateable(menu);
             Utility.getActiveScene().getParentNode().removeChild(menu.getDrawable());
         }
