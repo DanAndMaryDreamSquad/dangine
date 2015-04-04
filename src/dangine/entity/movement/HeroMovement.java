@@ -10,15 +10,25 @@ public class HeroMovement {
 
     public static final float MAX_VELOCITY = 0.25f;
     public static final float ACCELERATION = 0.00055f;
-
+    public static final float DASH_VELOCITY = 0.50f;
+    public static final float DASH_TIME = 150f;
+    boolean isDashing = false;
+    float dashTimer = 0;
     Vector2f velocity = new Vector2f(0, 0);
 
     public Vector2f moveHero(Vector2f position, DangineSampleInput input, IsGreatsword activeWeapon) {
-        MovementMode movementMode = Utility.getMatchParameters().getMovementMode();
-        if (movementMode.canMove(activeWeapon)) {
-            updateVelocity(input);
+        if (isDashing) {
+            dashTimer += Utility.getGameTime().getDeltaTimeF();
+            if (dashTimer > DASH_TIME) {
+                isDashing = false;
+            }
+        } else {
+            MovementMode movementMode = Utility.getMatchParameters().getMovementMode();
+            if (movementMode.canMove(activeWeapon)) {
+                updateVelocity(input);
+            }
+            enforceMaximumVelocity();
         }
-        enforceMaximumVelocity();
         return updatePosition(position);
     }
 
@@ -63,6 +73,18 @@ public class HeroMovement {
         y = y * MAX_VELOCITY * scale;
         velocity.x += x;
         velocity.y += y;
+    }
+
+    public void setVelocity(float x, float y) {
+        velocity.x = x;
+        velocity.y = y;
+    }
+
+    public void dash(float x, float y) {
+        velocity.x = x * DASH_VELOCITY;
+        velocity.y = y * DASH_VELOCITY;
+        isDashing = true;
+        dashTimer = 0;
     }
 
 }

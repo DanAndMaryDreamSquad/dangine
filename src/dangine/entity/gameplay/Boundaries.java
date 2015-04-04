@@ -43,7 +43,7 @@ public class Boundaries implements IsUpdateable {
                 float x = position.x;
                 float y = position.y;
                 float angle = getAngleOfEffect(position);
-                DangineParticle particle = ParticleEffectFactory.createFire(18, 25);
+                DangineParticle particle = ParticleEffectFactory.create(18, 25, ParticleEffectFactory.fireColors);
                 ExplosionVisual visual = new ExplosionVisual(x + getOffsetX(position), y + getOffsetY(position),
                         particle, angle - 45, angle + 45, 0.36f, 1500f);
                 Utility.getActiveScene().addUpdateable(visual);

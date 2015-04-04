@@ -88,7 +88,7 @@ public class GreatSwordLightCollider implements IsUpdateable, HasDrawable {
         float x = absolutePosition.x;
         float y = absolutePosition.y;
         Debugger.info("" + absolutePosition);
-        DangineParticle particle = ParticleEffectFactory.createFire(4, 4);
+        DangineParticle particle = ParticleEffectFactory.create(4, 4, ParticleEffectFactory.fireColors);
         ExplosionVisual visual = new ExplosionVisual(x, y, particle, 0, 360, 0.01f, 0.1f, 500f);
         Utility.getActiveScene().addUpdateable(visual);
         Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());

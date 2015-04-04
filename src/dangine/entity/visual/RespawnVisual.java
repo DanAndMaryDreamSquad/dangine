@@ -19,7 +19,7 @@ public class RespawnVisual implements IsUpdateable, HasDrawable {
     final float SPEED = 0.046f;
     float timer = 0;
     SceneGraphNode node = new SceneGraphNode();
-    DangineParticle shape = ParticleEffectFactory.createEnergy(8, 40);
+    DangineParticle shape = ParticleEffectFactory.create(8, 40, ParticleEffectFactory.energyColors);
     List<Vector2f> velocities = new ArrayList<Vector2f>();
 
     public RespawnVisual(float x, float y) {
@@ -53,6 +53,7 @@ public class RespawnVisual implements IsUpdateable, HasDrawable {
     }
 
     public static ExplosionVisual createRespawnVisual(float x, float y) {
-        return new ExplosionVisual(x, y, ParticleEffectFactory.createEnergy(8, 40), 0, 360, 0.046f, 2000f);
+        return new ExplosionVisual(x, y, ParticleEffectFactory.create(8, 40, ParticleEffectFactory.energyColors), 0,
+                360, 0.046f, 2000f);
     }
 }

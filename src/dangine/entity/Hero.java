@@ -7,6 +7,7 @@ import dangine.debugger.Debugger;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.combat.GreatSword;
+import dangine.entity.combat.subpower.DashPower;
 import dangine.entity.gameplay.DefeatEvent;
 import dangine.entity.movement.HeroMovement;
 import dangine.entity.movement.MovementMode;
@@ -36,6 +37,7 @@ public class Hero implements IsUpdateable, HasDrawable {
     boolean immunity = false;
     boolean destroyed = false;
     GreatSword activeWeapon = null;
+    DashPower activePower = new DashPower();
 
     public Hero(int playerId) {
         this.playerId = playerId;
@@ -56,6 +58,7 @@ public class Hero implements IsUpdateable, HasDrawable {
         } else {
             animator.idle();
         }
+        activePower.update(input, getMovement(), getPosition());
         movement.moveHero(this.position, input, activeWeapon);
         draw.getBase().setPosition(position);
         animator.update();
@@ -65,10 +68,6 @@ public class Hero implements IsUpdateable, HasDrawable {
         hitbox.setPosition(position);
         hitbox.setPosition(position.x - HITBOX_SIZE, position.y - HITBOX_SIZE);
         Utility.getActiveScene().getCombatResolver().addEvent(onHit);
-
-        // if (input.isButtonTwo()) {
-        // this.destroy();
-        // }
     }
 
     private void updateFacing(DangineSampleInput input) {
