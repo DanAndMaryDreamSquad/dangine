@@ -137,10 +137,12 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
         return state;
     }
 
+    @Override
     public boolean isSwinging() {
         return state == State.LIGHT_SWING || state == State.HEAVY_SWING;
     }
 
+    @Override
     public boolean isCharging() {
         return state == State.LIGHT_CHARGE || state == State.HEAVY_CHARGE;
     }

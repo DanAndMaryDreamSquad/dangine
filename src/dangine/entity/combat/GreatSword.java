@@ -169,10 +169,12 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         Utility.getActiveScene().removeUpdateable(this);
     }
 
+    @Override
     public boolean isSwinging() {
         return state == State.LIGHT_SWING || state == State.HEAVY_SWING;
     }
 
+    @Override
     public boolean isCharging() {
         return state == State.LIGHT_CHARGE || state == State.HEAVY_CHARGE || state == State.HOLD_CHARGING;
     }

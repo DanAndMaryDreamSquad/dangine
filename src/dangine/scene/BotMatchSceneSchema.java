@@ -22,6 +22,7 @@ public class BotMatchSceneSchema implements SceneSchema {
     Background background = new Background();
     Boundaries boundaries = new Boundaries();
 
+    @Override
     public void apply(Scene scene) {
         for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {
             scene.addUpdateable(new Respawner(i));

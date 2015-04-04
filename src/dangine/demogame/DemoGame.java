@@ -22,6 +22,7 @@ public class DemoGame implements DangineGame {
         schema.apply(scene);
     }
 
+    @Override
     public void init(SceneSchema schema) {
         Utility.setActiveScene(scene);
         Utility.getGraphics().setBackground(new Color(40, 40, 32));

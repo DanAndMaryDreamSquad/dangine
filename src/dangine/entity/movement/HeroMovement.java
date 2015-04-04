@@ -87,4 +87,8 @@ public class HeroMovement {
         dashTimer = 0;
     }
 
+    public Vector2f getVelocity() {
+        return velocity;
+    }
+
 }
