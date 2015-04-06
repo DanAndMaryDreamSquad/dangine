@@ -3,12 +3,14 @@ package dangine.scene;
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.entity.Background;
+import dangine.input.ControlsExplainSceneGraph;
 import dangine.menu.TitleMenu;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Utility;
+import dangine.utility.VersioningSceneGraph;
 
-public class TitleSceneSchema {
+public class TitleSceneSchema implements SceneSchema {
 
     SceneGraphNode node = new SceneGraphNode();
 
@@ -28,6 +30,17 @@ public class TitleSceneSchema {
         TitleMenu menu = new TitleMenu();
         scene.addUpdateable(menu);
         scene.getParentNode().addChild(menu.getDrawable());
+
+        ControlsExplainSceneGraph controls0 = new ControlsExplainSceneGraph(0);
+        ControlsExplainSceneGraph controls1 = new ControlsExplainSceneGraph(1);
+        float width = Utility.getResolution().x;
+        controls0.getBase().setPosition(width * (1f / 6f), 0);
+        controls1.getBase().setPosition(width * (4f / 6f), 0);
+        Utility.getActiveScene().getParentNode().addChild(controls0.getDrawable());
+        Utility.getActiveScene().getParentNode().addChild(controls1.getDrawable());
+
+        VersioningSceneGraph version = new VersioningSceneGraph();
+        Utility.getActiveScene().getParentNode().addChild(version.getDrawable());
 
     }
 

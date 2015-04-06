@@ -32,4 +32,8 @@ public class DanginePlayer {
         return playerId;
     }
 
+    public DangineKeyInputMapper getInputMapper() {
+        return inputMapper;
+    }
+
 }

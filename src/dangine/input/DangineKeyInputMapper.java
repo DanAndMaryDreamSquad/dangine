@@ -68,4 +68,15 @@ public class DangineKeyInputMapper {
         input.setButtonThree(isBeingPressed(Action.BUTTON_THREE));
         return input;
     }
+
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        Action[] order = { Action.UP, Action.DOWN, Action.LEFT, Action.RIGHT, Action.BUTTON_ONE, Action.BUTTON_TWO,
+                Action.BUTTON_THREE };
+        for (Action a : order) {
+            Integer i = keyToAction.get(a);
+            buffer.append(a.toString()).append(" -> ").append(Input.getKeyName(i)).append("\n");
+        }
+        return buffer.toString();
+    }
 }
