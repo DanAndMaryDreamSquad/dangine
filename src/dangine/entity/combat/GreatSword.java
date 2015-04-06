@@ -65,6 +65,7 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         case HEAVY_SWING:
             timer += Utility.getGameTime().getDeltaTimeF();
             heavyHitbox.update();
+            break;
         case COUNTERING:
             timer += Utility.getGameTime().getDeltaTimeF();
             counterHitbox.update();
