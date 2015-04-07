@@ -1,11 +1,11 @@
 package dangine.scene;
 
-import dangine.entity.Background;
 import dangine.entity.Creature;
 import dangine.entity.Obstruction;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.Respawner;
+import dangine.entity.world.Background;
 import dangine.utility.Utility;
 
 public class MatchSceneSchema implements SceneSchema {
@@ -22,7 +22,7 @@ public class MatchSceneSchema implements SceneSchema {
 
     Creature creature = new Creature();
     Obstruction obstruction = new Obstruction();
-    Background background = new Background();
+    Background background = new Background(Utility.getMatchParameters().getCurrentWorld());
     Boundaries boundaries = new Boundaries();
 
     @Override

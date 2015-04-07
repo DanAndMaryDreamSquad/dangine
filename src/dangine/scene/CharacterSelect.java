@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dangine.entity.IsUpdateable;
-import dangine.entity.gameplay.MatchStarter;
 import dangine.menu.CharacterSelectionMenu;
 import dangine.menu.TitleMenu;
+import dangine.menu.WorldSelectionMenu;
 import dangine.player.DanginePlayer;
 import dangine.utility.Utility;
 
@@ -43,9 +43,13 @@ public class CharacterSelect implements IsUpdateable {
             for (CharacterSelectionMenu menu : menus) {
                 Utility.getMatchParameters().addPlayerColor(menu.getPlayerId(), menu.getColor());
                 Utility.getActiveScene().removeUpdateable(menu);
+                Utility.getActiveScene().getParentNode().removeChild(menu.getDrawable());
             }
-            MatchStarter matchStarter = new MatchStarter();
-            Utility.getActiveScene().addUpdateable(matchStarter);
+            Utility.getActiveScene().removeUpdateable(this);
+            WorldSelectionMenu worldMenu = new WorldSelectionMenu();
+            Utility.getActiveScene().addUpdateable(worldMenu);
+            Utility.getActiveScene().getParentNode().addChild(worldMenu.getDrawable());
+
         }
     }
 

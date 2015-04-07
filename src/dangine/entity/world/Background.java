@@ -1,22 +1,32 @@
-package dangine.entity;
+package dangine.entity.world;
 
+import dangine.entity.HasDrawable;
+import dangine.entity.IsDrawable;
+import dangine.entity.IsUpdateable;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Utility;
 
 public class Background implements HasDrawable, IsUpdateable {
 
-    DangineImage background = new DangineImage("cloudy");
-    DangineImage background2 = new DangineImage("cloudy");
+    DangineImage background;
+    DangineImage background2;
     SceneGraphNode base = new SceneGraphNode();
     SceneGraphNode node1 = new SceneGraphNode();
     SceneGraphNode node2 = new SceneGraphNode();
-    final int scale = (int) (Utility.getResolution().x / background.getWidth()) * 2;
+    float scale = 1.0f;
+    float panSpeed = 0.0f;
 
     float x1 = 0;
-    float x2 = -background.getWidth() * scale;
+    float x2 = 0;
 
-    public Background() {
+    public Background(World world) {
+        background = new DangineImage(world.getBgImage());
+        background2 = new DangineImage(world.getBgImage());
+        panSpeed = world.getPanSpeed();
+
+        scale = (int) (Utility.getResolution().x / background.getWidth());
+        scale = (scale * world.getScale());
         base.addChild(node2);
         base.addChild(node1);
         base.setZValue(1.0f);
@@ -28,6 +38,8 @@ public class Background implements HasDrawable, IsUpdateable {
         node2.addChild(background2);
         node2.setZValue(1.0f);
         node2.setScale(scale, scale);
+
+        x2 = -background.getWidth() * scale;
     }
 
     @Override
@@ -37,12 +49,12 @@ public class Background implements HasDrawable, IsUpdateable {
 
     @Override
     public void update() {
-        x1 += Utility.getGameTime().getDeltaTimeF() * 0.05f;
+        x1 += Utility.getGameTime().getDeltaTimeF() * panSpeed;
         if (x1 > background.getWidth() * scale) {
             x1 += -background.getWidth() * scale * 2;
         }
         node1.setPosition(x1, 0);
-        x2 += Utility.getGameTime().getDeltaTimeF() * 0.05f;
+        x2 += Utility.getGameTime().getDeltaTimeF() * panSpeed;
         if (x2 > background.getWidth() * scale) {
             x2 += -background.getWidth() * scale * 2;
         }

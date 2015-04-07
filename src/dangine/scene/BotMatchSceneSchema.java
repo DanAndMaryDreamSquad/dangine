@@ -1,13 +1,14 @@
 package dangine.scene;
 
 import dangine.bots.BotRespawner;
-import dangine.entity.Background;
 import dangine.entity.Creature;
 import dangine.entity.Obstruction;
 import dangine.entity.combat.subpower.SubPower;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.Respawner;
+import dangine.entity.world.Background;
+import dangine.entity.world.World;
 import dangine.utility.Utility;
 
 public class BotMatchSceneSchema implements SceneSchema {
@@ -20,7 +21,7 @@ public class BotMatchSceneSchema implements SceneSchema {
 
     Creature creature = new Creature();
     Obstruction obstruction = new Obstruction();
-    Background background = new Background();
+    Background background = new Background(World.EXTRADIMENSIONAL);
     Boundaries boundaries = new Boundaries();
 
     @Override

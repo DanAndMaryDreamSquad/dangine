@@ -2,7 +2,8 @@ package dangine.scene;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import dangine.entity.Background;
+import dangine.entity.world.Background;
+import dangine.entity.world.World;
 import dangine.input.ControlsExplainSceneGraph;
 import dangine.menu.TitleMenu;
 import dangine.scenegraph.SceneGraphNode;
@@ -17,7 +18,7 @@ public class TitleSceneSchema implements SceneSchema {
     public void apply(Scene scene) {
         float logoScale = 8.0f;
         DangineImage logo = new DangineImage("logoblack");
-        Background background = new Background();
+        Background background = new Background(World.randomWorld());
         scene.addUpdateable(background);
         scene.getParentNode().addChild(background.getDrawable());
         node.addChild(logo);

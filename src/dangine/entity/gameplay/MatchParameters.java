@@ -9,6 +9,7 @@ import dangine.entity.Hero;
 import dangine.entity.combat.subpower.SubPower;
 import dangine.entity.movement.AttackMode;
 import dangine.entity.movement.MovementMode;
+import dangine.entity.world.World;
 
 public class MatchParameters {
 
@@ -18,6 +19,7 @@ public class MatchParameters {
     int startingStock = 3;
     MovementMode movementMode = MovementMode.FREE;
     AttackMode attackMode = AttackMode.HOLD_TO_CHARGE;
+    World currentWorld = World.EXTRADIMENSIONAL;
 
     public int getStartingStock() {
         return startingStock;
@@ -81,6 +83,14 @@ public class MatchParameters {
 
     public Map<Integer, SubPower> getPlayerIdToPower() {
         return playerIdToPower;
+    }
+
+    public World getCurrentWorld() {
+        return currentWorld;
+    }
+
+    public void setCurrentWorld(World currentWorld) {
+        this.currentWorld = currentWorld;
     }
 
 }
