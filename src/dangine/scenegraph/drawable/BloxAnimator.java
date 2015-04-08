@@ -15,6 +15,7 @@ public class BloxAnimator implements IsUpdateable {
     final BloxHandAnimator hands;
     final Oscillator floatOscillator = new Oscillator(-2, 2, 3000);
     State state;
+    int facingDirection = 1;
 
     public BloxAnimator(BloxSceneGraph blox) {
         this.blox = blox;
@@ -62,12 +63,21 @@ public class BloxAnimator implements IsUpdateable {
     }
 
     public void updateFacing(int direction) {
+        facingDirection = direction;
         if (direction == 1) {
             blox.getBase().setHorzitontalFlip(1);
         }
         if (direction == -1) {
             blox.getBase().setHorzitontalFlip(-1);
         }
+    }
+
+    public void flipFacingDirection() {
+        updateFacing(facingDirection * -1);
+    }
+
+    public int getFacingDirection() {
+        return facingDirection;
     }
 
 }

@@ -12,8 +12,8 @@ import dangine.entity.combat.GreatSword;
 import dangine.entity.combat.subpower.DashPower;
 import dangine.entity.combat.subpower.ProjectilePower;
 import dangine.entity.gameplay.DefeatEvent;
+import dangine.entity.movement.HeroFacing;
 import dangine.entity.movement.HeroMovement;
-import dangine.entity.movement.MovementMode;
 import dangine.entity.visual.DefeatedBloxKnockVisual;
 import dangine.entity.visual.DefeatedBloxSplitVisual;
 import dangine.input.DangineSampleInput;
@@ -34,6 +34,7 @@ public class Hero implements IsUpdateable, HasDrawable {
     final BloxSceneGraph draw = new BloxSceneGraph();
     final BloxAnimator animator = new BloxAnimator(draw);
     final HeroMovement movement = new HeroMovement();
+    final HeroFacing facing = new HeroFacing();
     final int HITBOX_SIZE = 20;
     final CombatEvent onHit;
     final CombatEventHitbox hitbox;
@@ -70,27 +71,13 @@ public class Hero implements IsUpdateable, HasDrawable {
         }
         movement.moveHero(this.position, input, activeWeapon);
         draw.getBase().setPosition(position);
+        facing.updateFacing(this, input);
         animator.update();
-        updateFacing(input);
 
         onHit.setPosition(position);
         hitbox.setPosition(position);
         hitbox.setPosition(position.x - HITBOX_SIZE, position.y - HITBOX_SIZE);
         Utility.getActiveScene().getCombatResolver().addEvent(onHit);
-    }
-
-    private void updateFacing(DangineSampleInput input) {
-        MovementMode movementMode = Utility.getMatchParameters().getMovementMode();
-        if (activeWeapon != null && movementMode.canTurn(activeWeapon)) {
-            int facing = 0;
-            if (input.isLeft()) {
-                facing++;
-            }
-            if (input.isRight()) {
-                facing--;
-            }
-            animator.updateFacing(facing);
-        }
     }
 
     public void destroy() {
@@ -199,5 +186,9 @@ public class Hero implements IsUpdateable, HasDrawable {
 
     public GreatSword getActiveWeapon() {
         return activeWeapon;
+    }
+
+    public BloxAnimator getAnimator() {
+        return animator;
     }
 }

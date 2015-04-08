@@ -11,8 +11,8 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
+import dangine.entity.movement.HeroFacing;
 import dangine.entity.movement.HeroMovement;
-import dangine.entity.movement.MovementMode;
 import dangine.entity.visual.DefeatedBloxKnockVisual;
 import dangine.input.DangineSampleInput;
 import dangine.scenegraph.drawable.BloxAnimator;
@@ -30,6 +30,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
     final BloxSceneGraph draw = new BloxSceneGraph();
     final BloxAnimator animator = new BloxAnimator(draw);
     final HeroMovement movement = new HeroMovement();
+    final HeroFacing facing = new HeroFacing();
     final int HITBOX_SIZE = 20;
     final CombatEvent onHit;
     final CombatEventHitbox hitbox;
@@ -59,7 +60,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         movement.moveHero(this.position, input, activeWeapon);
         draw.getBase().setPosition(position);
         animator.update();
-        updateFacing(input);
+        facing.updateFacing(this, input);
 
         onHit.setPosition(position);
         hitbox.setPosition(position);
@@ -68,20 +69,6 @@ public class DangineBot implements IsUpdateable, HasDrawable {
 
         if (input.isButtonTwo()) {
             this.destroy();
-        }
-    }
-
-    private void updateFacing(DangineSampleInput input) {
-        MovementMode movementMode = Utility.getMatchParameters().getMovementMode();
-        if (activeWeapon != null && movementMode.canTurn(activeWeapon)) {
-            int facing = 0;
-            if (input.isLeft()) {
-                facing++;
-            }
-            if (input.isRight()) {
-                facing--;
-            }
-            animator.updateFacing(facing);
         }
     }
 
@@ -162,5 +149,13 @@ public class DangineBot implements IsUpdateable, HasDrawable {
 
     public BloxSceneGraph getBlox() {
         return draw;
+    }
+
+    public BotGreatsword getActiveWeapon() {
+        return activeWeapon;
+    }
+
+    public BloxAnimator getAnimator() {
+        return animator;
     }
 }
