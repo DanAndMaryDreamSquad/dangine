@@ -9,6 +9,21 @@ import dangine.utility.Utility;
 
 public class HeroFacing {
 
+    float lastDiagonalPressed = 0.0f;
+    int diagonalLeniencyFrames = 0;
+
+    public void updateFacing(Hero hero, DangineSampleInput input) {
+        if (canTurn(hero)) {
+            updateFacing(hero.getBlox(), input, hero.getAnimator());
+        }
+    }
+
+    public void updateFacing(DangineBot hero, DangineSampleInput input) {
+        if (canTurn(hero)) {
+            updateFacing(hero.getBlox(), input, hero.getAnimator());
+        }
+    }
+
     private boolean canTurn(Hero hero) {
         MovementMode movementMode = Utility.getMatchParameters().getMovementMode();
         return hero.getActiveWeapon() != null && movementMode.canTurn(hero.getActiveWeapon());
@@ -19,29 +34,29 @@ public class HeroFacing {
         return hero.getActiveWeapon() != null && movementMode.canTurn(hero.getActiveWeapon());
     }
 
-    public void updateFacingLegacy(Hero hero, DangineSampleInput input) {
-        if (canTurn(hero)) {
-            int facing = 0;
-            if (input.isLeft()) {
-                facing++;
-            }
-            if (input.isRight()) {
-                facing--;
-            }
-            hero.getAnimator().updateFacing(facing);
+    private void updateFacing(BloxSceneGraph blox, DangineSampleInput input, BloxAnimator animator) {
+        switch (Utility.getMatchParameters().getFacingMode()) {
+        case TWO_WAY:
+            updateFacingLegacy(animator, input);
+            break;
+        case FOUR_WAY:
+            updateFacingFourDirection(blox, input, animator);
+            break;
+        case EIGHT_WAY:
+            updateFacingEightDirections(blox, input, animator);
+            break;
         }
     }
 
-    public void updateFacing(DangineBot hero, DangineSampleInput input) {
-        if (canTurn(hero)) {
-            updateFacingFourDirection(hero.getBlox(), input, hero.getAnimator());
+    private void updateFacingLegacy(BloxAnimator animator, DangineSampleInput input) {
+        int facing = 0;
+        if (input.isLeft()) {
+            facing++;
         }
-    }
-
-    public void updateFacing(Hero hero, DangineSampleInput input) {
-        if (canTurn(hero)) {
-            updateFacingFourDirection(hero.getBlox(), input, hero.getAnimator());
+        if (input.isRight()) {
+            facing--;
         }
+        animator.updateFacing(facing);
     }
 
     private void updateFacingFourDirection(BloxSceneGraph blox, DangineSampleInput input, BloxAnimator animator) {
@@ -74,21 +89,6 @@ public class HeroFacing {
         blox.getBase().setAngle(angleWithFlipAccounted);
     }
 
-    private float accountForFlippedImage(float angleToProcess, BloxAnimator animator) {
-        if (animator.getFacingDirection() == -1) {
-            angleToProcess -= 180.0f;
-            if (angleToProcess < 0) {
-                angleToProcess += 360.0f;
-            }
-        }
-        return angleToProcess;
-    }
-
-    private boolean heroFlipped180(float angleDesired, float currentAngle) {
-        return Math.abs(angleDesired - currentAngle) == 180;
-    }
-
-    @SuppressWarnings("unused")
     private void updateFacingEightDirections(BloxSceneGraph blox, DangineSampleInput input, BloxAnimator animator) {
         boolean up = input.isUp();
         boolean right = input.isRight();
@@ -114,21 +114,55 @@ public class HeroFacing {
         }
         if (up && !down && right && !left) {
             angleDesired = 135.0f;
+            lastDiagonalPressed = 135.0f;
+            diagonalLeniencyFrames = 2;
         }
         if (up && !down && !right && left) {
             angleDesired = 45.0f;
+            lastDiagonalPressed = 45.0f;
+            diagonalLeniencyFrames = 2;
         }
         if (!up && down && right && !left) {
             angleDesired = 225.0f;
+            lastDiagonalPressed = 225.0f;
+            diagonalLeniencyFrames = 2;
         }
         if (!up && down && !right && left) {
             angleDesired = 315.0f;
+            lastDiagonalPressed = 315.0f;
+            diagonalLeniencyFrames = 2;
         }
+        angleDesired = checkDiagonalSave(angleDesired);
         if (heroFlipped180(angleDesired, currentAngle)) {
             animator.flipFacingDirection();
         }
         float angleWithFlipAccounted = accountForFlippedImage(angleDesired, animator);
         blox.getBase().setAngle(angleWithFlipAccounted);
+    }
+
+    private float accountForFlippedImage(float angleToProcess, BloxAnimator animator) {
+        if (animator.getFacingDirection() == -1) {
+            angleToProcess -= 180.0f;
+            if (angleToProcess < 0) {
+                angleToProcess += 360.0f;
+            }
+        }
+        return angleToProcess;
+    }
+
+    private boolean heroFlipped180(float angleDesired, float currentAngle) {
+        return Math.abs(angleDesired - currentAngle) == 180;
+    }
+
+    private float checkDiagonalSave(float angleDesired) {
+        if (diagonalLeniencyFrames == 0) {
+            return angleDesired;
+        }
+        diagonalLeniencyFrames--;
+        if (Math.abs(angleDesired - lastDiagonalPressed) <= 45) {
+            return lastDiagonalPressed;
+        }
+        return angleDesired;
     }
 
 }

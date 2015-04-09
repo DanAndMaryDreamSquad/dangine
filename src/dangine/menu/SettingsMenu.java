@@ -4,6 +4,7 @@ import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.movement.AttackMode;
+import dangine.entity.movement.FacingMode;
 import dangine.entity.movement.MovementMode;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
@@ -26,6 +27,11 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
     SceneGraphNode attackModeEnumNode = new SceneGraphNode();
     DangineText attackModeEnumText = new DangineText();
 
+    SceneGraphNode facingModeTextNode = new SceneGraphNode();
+    DangineText facingModeText = new DangineText();
+    SceneGraphNode facingModeEnumNode = new SceneGraphNode();
+    DangineText facingModeEnumText = new DangineText();
+
     public SettingsMenu() {
         menu.addItem(new DangineMenuItem("Stock: ", getStockIncrementAction(), getStockDecrementAction()));
         menu.addItem(new DangineMenuItem("Change Movement Mode: ", getNextMovementModeAction()));
@@ -33,6 +39,9 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         menu.getBase().addChild(new SceneGraphNode());
         menu.addItem(new DangineMenuItem("Change Attack Mode: ", getNextAttackModeAction()));
         menu.getBase().addChild(attackModeTextNode);
+        menu.getBase().addChild(new SceneGraphNode());
+        menu.addItem(new DangineMenuItem("Change Facing Mode: ", getNextFacingModeAction()));
+        menu.getBase().addChild(facingModeTextNode);
         menu.addItem(new DangineMenuItem("Done", getExitMenuAction()));
         menu.getBase().addChild(stockTextNode);
         DangineFormatter.format(menu.getBase().getChildNodes());
@@ -44,14 +53,19 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         attackModeTextNode.addChild(attackModeText);
         attackModeTextNode.addChild(attackModeEnumNode);
         attackModeEnumNode.addChild(attackModeEnumText);
+        facingModeTextNode.addChild(facingModeText);
+        facingModeTextNode.addChild(facingModeEnumNode);
+        facingModeEnumNode.addChild(facingModeEnumText);
 
         stockTextNode.setPosition(60, 0);
         movementModeTextNode.setPosition(-Utility.getResolution().x / 2, movementModeTextNode.getPosition().y);
         attackModeTextNode.setPosition(-Utility.getResolution().x / 2, attackModeTextNode.getPosition().y);
+        facingModeTextNode.setPosition(-Utility.getResolution().x / 2, facingModeTextNode.getPosition().y);
         movementModeEnumNode.setPosition(0, -20);
         attackModeEnumNode.setPosition(0, -20);
+        facingModeEnumNode.setPosition(0, -20);
 
-        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.75f));
+        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.65f));
         menu.getItem(0).getBase().addChild(selector.getDrawable());
         updateText();
     }
@@ -73,6 +87,8 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         movementModeEnumText.setText("" + Utility.getMatchParameters().getMovementMode().toString());
         attackModeText.setText("" + Utility.getMatchParameters().getAttackMode().description());
         attackModeEnumText.setText("" + Utility.getMatchParameters().getAttackMode().toString());
+        facingModeText.setText("" + Utility.getMatchParameters().getFacingMode().description());
+        facingModeEnumText.setText("" + Utility.getMatchParameters().getFacingMode().toString());
     }
 
     private Action getStockIncrementAction() {
@@ -129,6 +145,20 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
                 AttackMode attackMode = Utility.getMatchParameters().getAttackMode();
                 attackMode = attackMode.nextMode();
                 Utility.getMatchParameters().setAttackMode(attackMode);
+                updateText();
+            }
+
+        };
+    }
+
+    private Action getNextFacingModeAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                FacingMode facingMode = Utility.getMatchParameters().getFacingMode();
+                facingMode = facingMode.nextMode();
+                Utility.getMatchParameters().setFacingMode(facingMode);
                 updateText();
             }
 

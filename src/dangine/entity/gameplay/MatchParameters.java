@@ -8,6 +8,7 @@ import org.newdawn.slick.Color;
 import dangine.entity.Hero;
 import dangine.entity.combat.subpower.SubPower;
 import dangine.entity.movement.AttackMode;
+import dangine.entity.movement.FacingMode;
 import dangine.entity.movement.MovementMode;
 import dangine.entity.world.World;
 
@@ -17,8 +18,9 @@ public class MatchParameters {
     Map<Integer, Color> playerIdToColor = new HashMap<Integer, Color>();
     Map<Integer, SubPower> playerIdToPower = new HashMap<Integer, SubPower>();
     int startingStock = 3;
-    MovementMode movementMode = MovementMode.FREE;
+    MovementMode movementMode = MovementMode.MOVE_FREE_TURN_SWING_LOCK;
     AttackMode attackMode = AttackMode.HOLD_TO_CHARGE;
+    FacingMode facingMode = FacingMode.EIGHT_WAY;
     World currentWorld = World.EXTRADIMENSIONAL;
 
     public int getStartingStock() {
@@ -91,6 +93,14 @@ public class MatchParameters {
 
     public void setCurrentWorld(World currentWorld) {
         this.currentWorld = currentWorld;
+    }
+
+    public FacingMode getFacingMode() {
+        return facingMode;
+    }
+
+    public void setFacingMode(FacingMode facingMode) {
+        this.facingMode = facingMode;
     }
 
 }
