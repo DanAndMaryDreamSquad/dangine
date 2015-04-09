@@ -47,6 +47,7 @@ public class DangineMenuItem implements HasDrawable {
     SceneGraphNode base = new SceneGraphNode();
     Action actionA = null;
     Action actionB = null;
+    Action actionC = null;
 
     public DangineMenuItem(String text, Action onActivate) {
         base.addChild(new DangineText(text, Color.black));
@@ -58,6 +59,11 @@ public class DangineMenuItem implements HasDrawable {
         this.actionA = actionA;
         this.actionB = actionB;
         selectionStyle = SelectionStyle.LEFT_RIGHT;
+    }
+
+    public DangineMenuItem withOnHover(Action actionC) {
+        this.actionC = actionC;
+        return this;
     }
 
     public SceneGraphNode getBase() {
@@ -75,6 +81,12 @@ public class DangineMenuItem implements HasDrawable {
         }
         if (selectionStyle.shouldDoActionB(currentInput, previousInput)) {
             actionB.execute();
+        }
+    }
+
+    public void onHover() {
+        if (actionC != null) {
+            actionC.execute();
         }
     }
 

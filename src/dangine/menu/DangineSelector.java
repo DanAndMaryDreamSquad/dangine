@@ -18,6 +18,7 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
     float angle = 0.0f;
     SceneGraphNode node = new SceneGraphNode();
     DangineShape shape = new DangineShape();
+    DangineMenuItem previousItem = null;
     DangineMenuItem currentItem = null;
     Action onEscape = null;
 
@@ -45,6 +46,9 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
         if (onEscape != null && input.isButtonThree()) {
             onEscape.execute();
         }
+        if (currentItem != previousItem) {
+            currentItem.onHover();
+        }
     }
 
     public void setOnEscape(Action onEscape) {
@@ -52,6 +56,7 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
     }
 
     public void scan(List<DangineMenuItem> items) {
+        previousItem = currentItem;
         if (items.isEmpty()) {
             return;
         }
@@ -90,5 +95,9 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
     @Override
     public IsDrawable getDrawable() {
         return node;
+    }
+
+    public DangineMenuItem getCurrentItem() {
+        return currentItem;
     }
 }
