@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import dangine.debugger.Debugger;
 import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;

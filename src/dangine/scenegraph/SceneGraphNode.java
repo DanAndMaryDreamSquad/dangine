@@ -162,6 +162,10 @@ public class SceneGraphNode implements IsDrawable {
         this.horzitontalFlip = horzitontalFlip;
     }
 
+    public void setVerticalFlip(int verticalFlip) {
+        this.verticalFlip = verticalFlip;
+    }
+
     public Matrix4 getMatrix() {
         return matrix;
     }
