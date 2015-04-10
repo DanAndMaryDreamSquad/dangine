@@ -28,7 +28,7 @@ public class ScreenUtility {
         node.transform();
         ScreenUtility.matrixIntoGLLoad(BufferUtils.createFloatBuffer(16), node.getMatrix());
         inOutPosition = gluProject(inOutPosition);
-        inOutPosition.y = Utility.getResolution().y - inOutPosition.y;
+        inOutPosition.y = Utility.getGameWindowResolution().y - inOutPosition.y;
         return inOutPosition;
     }
 

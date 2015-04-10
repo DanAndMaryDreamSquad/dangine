@@ -18,7 +18,8 @@ public class Utility {
     private static Players players;
     private static Scene activeScene;
     private static RenderQueue renderQueue;
-    private static Vector2f resolution = new Vector2f(800, 600);
+    final private static Vector2f gameWindowResolution = new Vector2f(800, 600);
+    final private static Vector2f gameSpaceResolution = new Vector2f(800, 600);
     private static MatchParameters matchParameters = new MatchParameters();
 
     public static void initialize(GameHarness gameharness, GameContainer gameContainer) {
@@ -71,11 +72,15 @@ public class Utility {
     }
 
     public static Vector2f getResolution() {
-        return resolution;
+        return gameSpaceResolution;
     }
 
     public static GameHarness getGameHarness() {
         return gameHarness;
+    }
+
+    public static Vector2f getGameWindowResolution() {
+        return gameWindowResolution;
     }
 
 }

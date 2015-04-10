@@ -18,6 +18,9 @@ public class FlattenSceneGraphNode {
         SceneGraphNode result = new SceneGraphNode();
         List<SceneGraphNode> nodes = fetchCreateChildNodes(node, new ArrayList<SceneGraphNode>());
         for (SceneGraphNode childNode : nodes) {
+            Vector2f vector = childNode.getPosition();
+            vector = ScreenUtility.getWorldPositionFromScreenPosition(vector);
+            childNode.setPosition(vector);
             result.addChild(childNode);
         }
         if (result.childNodes.size() > 10) {

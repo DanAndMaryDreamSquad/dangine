@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import dangine.debugger.Debugger;
 import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -11,6 +12,7 @@ import dangine.entity.combat.CombatResolver;
 import dangine.entity.gameplay.MatchOrchestrator;
 import dangine.scenegraph.RenderData;
 import dangine.scenegraph.SceneGraphNode;
+import dangine.utility.Utility;
 
 public class Scene implements IsUpdateable, IsDrawable {
 
@@ -25,6 +27,9 @@ public class Scene implements IsUpdateable, IsDrawable {
     public Scene() {
         parentNode.addChild(camera.getDrawable());
         this.addUpdateable(camera);
+        float xResolutionScale = Utility.getGameWindowResolution().x / Utility.getResolution().x;
+        float yResolutionScale = Utility.getGameWindowResolution().y / Utility.getResolution().y;
+        parentNode.setScale(xResolutionScale, yResolutionScale);
     }
 
     @Override

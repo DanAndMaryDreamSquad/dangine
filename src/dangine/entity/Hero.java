@@ -91,7 +91,6 @@ public class Hero implements IsUpdateable, HasDrawable {
 
         Vector2f absolutePosition = new Vector2f();
         absolutePosition = ScreenUtility.getWorldPosition(draw.getBody(), absolutePosition);
-
         // DefeatedBloxSplitVisual split = new
         // DefeatedBloxSplitVisual(absolutePosition.x, absolutePosition.y, 0,
         // playerId);

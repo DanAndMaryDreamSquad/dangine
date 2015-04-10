@@ -17,7 +17,7 @@ public class Main {
                 return new DemoGame();
             }
         }));
-        app.setDisplayMode((int) Utility.getResolution().x, (int) Utility.getResolution().y, false);
+        app.setDisplayMode((int) Utility.getGameWindowResolution().x, (int) Utility.getGameWindowResolution().y, false);
         app.start();
     }
 
