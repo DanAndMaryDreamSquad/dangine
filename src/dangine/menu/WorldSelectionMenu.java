@@ -28,6 +28,7 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
     SceneGraphNode worldPreviewNode = new SceneGraphNode();
     Map<World, DangineImage> worldToPreviewImage = new HashMap<World, DangineImage>();
     DangineText randomPreview = new DangineText("? ? ?\n? ? ?\n? ? ?", Color.black);
+    final float PREVIEW_SCALE = 0.25f;
 
     public WorldSelectionMenu() {
         DangineMenuItem randomItem = new DangineMenuItem("Random", getRandomWorldAction());
@@ -112,7 +113,7 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
             public void execute() {
                 clearPreviewImage();
                 worldPreviewNode.addChild(worldToPreviewImage.get(world));
-                worldPreviewNode.setScale(world.getScale(), world.getScale());
+                worldPreviewNode.setScale(world.getScale() * PREVIEW_SCALE, world.getScale() * PREVIEW_SCALE);
             }
         };
     }

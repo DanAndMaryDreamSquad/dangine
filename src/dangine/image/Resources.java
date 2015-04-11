@@ -24,6 +24,7 @@ public class Resources {
 
     public static Image getImageByName(String imageName) {
         if (!imageMap.containsKey(imageName)) {
+            Debugger.warn("Image " + imageName + " not found!");
             return null;
         }
         return imageMap.get(imageName);
