@@ -35,6 +35,9 @@ public class MatchSceneSchema implements SceneSchema {
         scene.addUpdateable(boundaries);
         scene.addUpdateable(scene.getMatchOrchestrator().getScoreKeeper());
         scene.getParentNode().addChild(scene.getMatchOrchestrator().getScoreKeeper().getDrawable());
+
+        scene.addUpdateable(obstruction);
+        scene.getCameraNode().addChild(obstruction.getDrawable());
     }
 
 }

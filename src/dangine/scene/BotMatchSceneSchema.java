@@ -21,7 +21,7 @@ public class BotMatchSceneSchema implements SceneSchema {
 
     Creature creature = new Creature();
     Obstruction obstruction = new Obstruction();
-    Background background = new Background(World.EXTRADIMENSIONAL);
+    Background background = new Background(World.randomWorld());
     Boundaries boundaries = new Boundaries();
 
     @Override

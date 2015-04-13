@@ -7,6 +7,7 @@ import java.util.List;
 import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.entity.Obstruction;
 import dangine.entity.combat.CombatResolver;
 import dangine.entity.gameplay.MatchOrchestrator;
 import dangine.scenegraph.RenderData;
@@ -22,6 +23,7 @@ public class Scene implements IsUpdateable, IsDrawable {
     List<IsUpdateable> updateables = new ArrayList<IsUpdateable>();
     List<IsUpdateable> toAdd = new LinkedList<IsUpdateable>();
     List<IsUpdateable> toRemove = new LinkedList<IsUpdateable>();
+    List<Obstruction> obstructions = new LinkedList<Obstruction>();
 
     public Scene() {
         parentNode.addChild(camera.getDrawable());
@@ -55,6 +57,9 @@ public class Scene implements IsUpdateable, IsDrawable {
     }
 
     public void addUpdateable(IsUpdateable updateable) {
+        if (updateable instanceof Obstruction) {
+            obstructions.add((Obstruction) updateable);
+        }
         toAdd.add(updateable);
     }
 
@@ -110,5 +115,9 @@ public class Scene implements IsUpdateable, IsDrawable {
 
     public MatchOrchestrator getMatchOrchestrator() {
         return matchOrchestrator;
+    }
+
+    public List<Obstruction> getObstructions() {
+        return obstructions;
     }
 }

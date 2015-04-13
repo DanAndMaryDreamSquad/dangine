@@ -15,6 +15,8 @@ public class HeroMovement {
     boolean isDashing = false;
     float dashTimer = 0;
     Vector2f velocity = new Vector2f(0, 0);
+    Vector2f tempPosition = new Vector2f(0, 0);
+    HeroCollision collision = new HeroCollision();
 
     public Vector2f moveHero(Vector2f position, DangineSampleInput input, IsGreatsword activeWeapon) {
         if (isDashing) {
@@ -29,7 +31,11 @@ public class HeroMovement {
             }
             enforceMaximumVelocity();
         }
-        return updatePosition(position);
+        Vector2f finalPosition = updatePosition(position);
+        finalPosition = collision.checkCollisions(this, position, finalPosition);
+        position.x = finalPosition.x;
+        position.y = finalPosition.y;
+        return position;
     }
 
     public Vector2f updateVelocity(DangineSampleInput input) {
@@ -56,9 +62,9 @@ public class HeroMovement {
     }
 
     public Vector2f updatePosition(Vector2f position) {
-        position.x += velocity.x * Utility.getGameTime().getDeltaTimeF();
-        position.y += velocity.y * Utility.getGameTime().getDeltaTimeF();
-        return position;
+        tempPosition.x = position.x + (velocity.x * Utility.getGameTime().getDeltaTimeF());
+        tempPosition.y = position.y + (velocity.y * Utility.getGameTime().getDeltaTimeF());
+        return tempPosition;
     }
 
     public void push(float x, float y) {
