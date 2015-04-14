@@ -10,6 +10,7 @@ import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.gameplay.MatchStarter;
+import dangine.entity.world.Background;
 import dangine.entity.world.World;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
@@ -38,7 +39,7 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
             DangineMenuItem item = new DangineMenuItem(world.name(), getWorldAction(world));
             item.withOnHover(getOnHoverAction(world));
             menu.addItem(item);
-            worldToPreviewImage.put(world, new DangineImage(world.getBgImage()));
+            worldToPreviewImage.put(world, new DangineImage(world.getPreviewImage()));
         }
         menu.addItem(new DangineMenuItem("Back", getExitMenuAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
@@ -75,7 +76,7 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
 
             @Override
             public void execute() {
-                Utility.getMatchParameters().setCurrentWorld(World.randomWorld());
+                Utility.getMatchParameters().setCurrentWorld(Background.randomBackground());
                 MatchStarter matchStarter = new MatchStarter();
                 Utility.getActiveScene().addUpdateable(matchStarter);
             }
@@ -113,7 +114,8 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
             public void execute() {
                 clearPreviewImage();
                 worldPreviewNode.addChild(worldToPreviewImage.get(world));
-                worldPreviewNode.setScale(world.getScale() * PREVIEW_SCALE, world.getScale() * PREVIEW_SCALE);
+                float scale = 400.0f / worldToPreviewImage.get(world).getHeight();
+                worldPreviewNode.setScale(scale * PREVIEW_SCALE, scale * PREVIEW_SCALE);
             }
         };
     }

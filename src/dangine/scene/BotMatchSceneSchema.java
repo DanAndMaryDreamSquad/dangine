@@ -7,7 +7,6 @@ import dangine.entity.combat.subpower.SubPower;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.Respawner;
-import dangine.entity.world.Background;
 import dangine.entity.world.World;
 import dangine.utility.Utility;
 
@@ -21,7 +20,6 @@ public class BotMatchSceneSchema implements SceneSchema {
 
     Creature creature = new Creature();
     Obstruction obstruction = new Obstruction();
-    Background background = new Background(World.randomWorld());
     Boundaries boundaries = new Boundaries();
 
     @Override
@@ -29,8 +27,7 @@ public class BotMatchSceneSchema implements SceneSchema {
         for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {
             scene.addUpdateable(new Respawner(i));
         }
-        scene.addUpdateable(background);
-        scene.getParentNode().addChild(background.getDrawable());
+        World.randomWorld().createWorld(scene);
         scene.addUpdateable(boundaries);
         scene.addUpdateable(scene.getMatchOrchestrator().getScoreKeeper());
         scene.getParentNode().addChild(scene.getMatchOrchestrator().getScoreKeeper().getDrawable());

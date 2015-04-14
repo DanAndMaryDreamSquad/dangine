@@ -7,7 +7,7 @@ import dangine.entity.combat.GreatSword;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.world.Background;
-import dangine.entity.world.World;
+import dangine.entity.world.PanningSceneGraph;
 import dangine.utility.Utility;
 
 public class InstantMatchSceneSchema implements SceneSchema {
@@ -20,7 +20,7 @@ public class InstantMatchSceneSchema implements SceneSchema {
 
     Creature creature = new Creature();
     Obstruction obstruction = new Obstruction();
-    Background background = new Background(World.EXTRADIMENSIONAL);
+    PanningSceneGraph background = new PanningSceneGraph(Background.EXTRADIMENSIONAL);
     Boundaries boundaries = new Boundaries();
 
     @Override

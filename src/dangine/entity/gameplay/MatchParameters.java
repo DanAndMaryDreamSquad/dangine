@@ -10,6 +10,7 @@ import dangine.entity.combat.subpower.SubPower;
 import dangine.entity.movement.AttackMode;
 import dangine.entity.movement.FacingMode;
 import dangine.entity.movement.MovementMode;
+import dangine.entity.world.Background;
 import dangine.entity.world.World;
 
 public class MatchParameters {
@@ -21,7 +22,8 @@ public class MatchParameters {
     MovementMode movementMode = MovementMode.MOVE_FREE_TURN_SWING_LOCK;
     AttackMode attackMode = AttackMode.HOLD_TO_CHARGE;
     FacingMode facingMode = FacingMode.EIGHT_WAY;
-    World currentWorld = World.EXTRADIMENSIONAL;
+    Background currentBackground = Background.EXTRADIMENSIONAL;
+    World currentWorld = World.DIMENSION;
 
     public int getStartingStock() {
         return startingStock;
@@ -87,12 +89,12 @@ public class MatchParameters {
         return playerIdToPower;
     }
 
-    public World getCurrentWorld() {
-        return currentWorld;
+    public Background getCurrentBackground() {
+        return currentBackground;
     }
 
-    public void setCurrentWorld(World currentWorld) {
-        this.currentWorld = currentWorld;
+    public void setCurrentWorld(Background currentWorld) {
+        this.currentBackground = currentWorld;
     }
 
     public FacingMode getFacingMode() {
@@ -101,6 +103,14 @@ public class MatchParameters {
 
     public void setFacingMode(FacingMode facingMode) {
         this.facingMode = facingMode;
+    }
+
+    public void setCurrentWorld(World currentWorld) {
+        this.currentWorld = currentWorld;
+    }
+
+    public World getCurrentWorld() {
+        return currentWorld;
     }
 
 }
