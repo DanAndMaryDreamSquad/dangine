@@ -11,6 +11,7 @@ public class DangineText implements IsDrawable {
     String text;
     Color color;
     RenderData data = new RenderData(this);
+    float alpha = 1.0f;
 
     public DangineText() {
         this("Sample Text", new Color(Color.black));
@@ -23,8 +24,11 @@ public class DangineText implements IsDrawable {
 
     @Override
     public void draw() {
-        Utility.getGraphics().setColor(color);
+        Color c = Utility.getMatchParameters().getTextColor();
+        c.a = alpha;
+        Utility.getGraphics().setColor(c);
         Utility.getGraphics().drawString(text, 0, 0);
+        c.a = 1.0f;
     }
 
     @Override
@@ -51,6 +55,10 @@ public class DangineText implements IsDrawable {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public void setAlpha(float alpha) {
+        this.alpha = alpha;
     }
 
 }

@@ -45,8 +45,8 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
             if (timer > FADE_DELAY) {
                 alpha = 1.0f - ((timer - FADE_DELAY) / (FADE_TIME - FADE_DELAY));
             }
-            text1.getColor().a = alpha;
-            text2.getColor().a = alpha;
+            text1.setAlpha(alpha);
+            text2.setAlpha(alpha);
         }
     }
 

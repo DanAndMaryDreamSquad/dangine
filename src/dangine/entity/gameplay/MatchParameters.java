@@ -24,6 +24,7 @@ public class MatchParameters {
     FacingMode facingMode = FacingMode.EIGHT_WAY;
     Background currentBackground = Background.EXTRADIMENSIONAL;
     World currentWorld = World.DIMENSION;
+    Color textColor = Color.black;
 
     public int getStartingStock() {
         return startingStock;
@@ -111,6 +112,14 @@ public class MatchParameters {
 
     public World getCurrentWorld() {
         return currentWorld;
+    }
+
+    public Color getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(Color textColor) {
+        this.textColor = textColor;
     }
 
 }
