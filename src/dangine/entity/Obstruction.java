@@ -38,6 +38,14 @@ public class Obstruction implements IsUpdateable, HasDrawable {
         return true;
     }
 
+    public void setPosition(float x, float y) {
+        node.setPosition(x, y);
+    }
+
+    public void setCenterPosition(float x, float y) {
+        node.setPosition(x - (image.getWidth() * 0.5f), y - (image.getHeight() * 0.5f));
+    }
+
     public float getWidth() {
         return image.getWidth() * node.getScale().x;
     }

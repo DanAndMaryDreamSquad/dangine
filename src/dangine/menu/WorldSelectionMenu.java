@@ -47,7 +47,7 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
         worldPreviewNode.setPosition(Utility.getResolution().x / 4, worldPreviewNode.getPosition().y);
         menu.getBase().addChild(worldPreviewNode);
 
-        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.75f));
+        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.66f));
         menu.getItem(0).getBase().addChild(selector.getDrawable());
         clearPreviewImage();
     }

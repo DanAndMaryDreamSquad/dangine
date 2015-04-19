@@ -38,7 +38,7 @@ public class Vortex implements IsUpdateable, HasDrawable {
         hitboxPull = new CombatEventHitbox(onHitPull);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
         Utility.getActiveScene().getCameraNode().addChild(hitboxPull.getDrawable());
-        setPosition(150, 150);
+        setCenterPosition(150, 150);
     }
 
     @Override
@@ -77,6 +77,9 @@ public class Vortex implements IsUpdateable, HasDrawable {
             public void call(CombatEvent arg) {
                 if (arg.getCreator() instanceof Hero) {
                     Hero hero = (Hero) arg.getCreator();
+                    if (!hero.isImmunity()) {
+                        return;
+                    }
                     Vector2f center = new Vector2f(position.x + (SCALE * image.getWidth() * 0.5f), position.y
                             + (SCALE * image.getWidth() * 0.5f));
                     Vector2f direction = new Vector2f(hero.getPosition()).sub(center).normalise();
@@ -87,7 +90,7 @@ public class Vortex implements IsUpdateable, HasDrawable {
         };
     }
 
-    public void setPosition(float x, float y) {
+    public void setCenterPosition(float x, float y) {
         x -= image.getWidth() * SCALE * 0.5f;
         y -= image.getHeight() * SCALE * 0.5f;
         this.position.x = x;

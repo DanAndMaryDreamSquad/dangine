@@ -1,8 +1,5 @@
 package dangine.scene;
 
-import dangine.entity.Creature;
-import dangine.entity.Obstruction;
-import dangine.entity.Vortex;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.Respawner;
@@ -20,10 +17,7 @@ public class MatchSceneSchema implements SceneSchema {
         this.matchParameters = matchParameters;
     }
 
-    Creature creature = new Creature();
-    Obstruction obstruction = new Obstruction();
     Boundaries boundaries = new Boundaries();
-    Vortex vortex;
 
     @Override
     public void apply(Scene scene) {
@@ -34,14 +28,8 @@ public class MatchSceneSchema implements SceneSchema {
         scene.addUpdateable(scene.getMatchOrchestrator().getScoreKeeper());
         scene.getParentNode().addChild(scene.getMatchOrchestrator().getScoreKeeper().getDrawable());
 
-        scene.addUpdateable(obstruction);
-        scene.getCameraNode().addChild(obstruction.getDrawable());
-
-        vortex = new Vortex();
-        scene.addUpdateable(vortex);
-        scene.getCameraNode().addChild(vortex.getDrawable());
-
         Utility.getMatchParameters().getCurrentWorld().createWorld(scene);
+        Utility.getMatchParameters().getCurrentWorld().createObstacles(scene);
     }
 
 }

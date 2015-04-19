@@ -2,6 +2,8 @@ package dangine.entity.world;
 
 import org.newdawn.slick.Color;
 
+import dangine.entity.Obstruction;
+import dangine.entity.Vortex;
 import dangine.scene.Scene;
 import dangine.utility.MathUtility;
 import dangine.utility.Utility;
@@ -15,6 +17,12 @@ public enum World {
             World.addPanningSceneGraphs(scene, background);
             Utility.getMatchParameters().setTextColor(Color.black);
         }
+
+        @Override
+        public void createObstacles(Scene scene) {
+            // TODO Auto-generated method stub
+
+        }
     },
     SUNSET("sunset2") {
         @Override
@@ -25,14 +33,11 @@ public enum World {
             World.addPanningSceneGraphs(scene, background, middleground, middleground2);
             Utility.getMatchParameters().setTextColor(Color.black);
         }
-    },
-    FOREST("forest1") {
+
         @Override
-        public void createWorld(Scene scene) {
-            PanningSceneGraph background = new PanningSceneGraph(Background.FOREST);
-            PanningSceneGraph middleground = new PanningSceneGraph(Middleground.SQUARE_CLOUDS_LIGHT_SMALL);
-            World.addPanningSceneGraphs(scene, background, middleground);
-            Utility.getMatchParameters().setTextColor(Color.black);
+        public void createObstacles(Scene scene) {
+            // TODO Auto-generated method stub
+
         }
     },
     SNOW("snow1full") {
@@ -43,6 +48,33 @@ public enum World {
             World.addPanningSceneGraphs(scene, background, middleground);
             Utility.getMatchParameters().setTextColor(Color.black);
         }
+
+        @Override
+        public void createObstacles(Scene scene) {
+            // TODO Auto-generated method stub
+
+        }
+    },
+    FOREST("forest1") {
+        @Override
+        public void createWorld(Scene scene) {
+            PanningSceneGraph background = new PanningSceneGraph(Background.FOREST);
+            PanningSceneGraph middleground = new PanningSceneGraph(Middleground.SQUARE_CLOUDS_LIGHT_SMALL);
+            World.addPanningSceneGraphs(scene, background, middleground);
+            Utility.getMatchParameters().setTextColor(Color.black);
+        }
+
+        @Override
+        public void createObstacles(Scene scene) {
+            float[][] locations = { { 0.25f, 0.25f }, { 0.75f, 0.25f }, { 0.25f, 0.75f }, { 0.75f, 0.75f } };
+            for (float[] position : locations) {
+                Obstruction obstruction = new Obstruction();
+                obstruction.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
+                        * position[1]);
+                scene.addUpdateable(obstruction);
+                scene.getCameraNode().addChild(obstruction.getDrawable());
+            }
+        }
     },
     SPACE_ONE("space1") {
         @Override
@@ -52,6 +84,18 @@ public enum World {
             World.addPanningSceneGraphs(scene, background, middleground);
             Utility.getMatchParameters().setTextColor(Color.black);
         }
+
+        @Override
+        public void createObstacles(Scene scene) {
+            float[][] locations = { { 0.25f, 0.25f }, { 0.75f, 0.75f } };
+            for (float[] position : locations) {
+                Vortex vortex = new Vortex();
+                vortex.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
+                        * position[1]);
+                scene.addUpdateable(vortex);
+                scene.getCameraNode().addChild(vortex.getDrawable());
+            }
+        }
     },
     SPACE_TWO("space4") {
         @Override
@@ -59,6 +103,21 @@ public enum World {
             PanningSceneGraph background = new PanningSceneGraph(Background.SPACE_TWO);
             World.addPanningSceneGraphs(scene, background);
             Utility.getMatchParameters().setTextColor(Color.black);
+        }
+
+        @Override
+        public void createObstacles(Scene scene) {
+            float[][] locations = { { 0.25f, 0.25f }, { 0.75f, 0.25f }, { 0.25f, 0.75f }, { 0.75f, 0.75f } };
+            for (float[] position : locations) {
+                Vortex vortex = new Vortex();
+                vortex.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
+                        * position[1]);
+                scene.addUpdateable(vortex);
+                scene.getCameraNode().addChild(vortex.getDrawable());
+            }
+
+            // TODO Auto-generated method stub
+
         }
     };
 
@@ -69,6 +128,8 @@ public enum World {
     }
 
     public abstract void createWorld(Scene scene);
+
+    public abstract void createObstacles(Scene scene);
 
     public static World randomWorld() {
         World[] vals = World.values();
