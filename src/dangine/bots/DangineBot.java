@@ -5,10 +5,12 @@ import org.newdawn.slick.geom.Vector2f;
 
 import dangine.collision.GreatSwordCounterCollider;
 import dangine.debugger.Debugger;
+import dangine.entity.Bouncer;
 import dangine.entity.HasDrawable;
 import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.entity.Vortex;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.movement.HeroFacing;
@@ -111,7 +113,8 @@ public class DangineBot implements IsUpdateable, HasDrawable {
             @Override
             public void call(CombatEvent arg) {
                 if (arg.getCreator() instanceof GreatSwordCounterCollider || arg.getCreator() instanceof Hero
-                        || arg.getCreator() instanceof DangineBot) {
+                        || arg.getCreator() instanceof DangineBot || arg.getCreator() instanceof Vortex
+                        || arg.getCreator() instanceof Bouncer) {
                     return;
                 }
                 if (!isImmunity()) {

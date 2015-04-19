@@ -93,6 +93,13 @@ public class HeroMovement {
         dashTimer = 0;
     }
 
+    public void knock(float x, float y) {
+        velocity.x = x * DASH_VELOCITY;
+        velocity.y = y * DASH_VELOCITY;
+        isDashing = true;
+        dashTimer = 0;
+    }
+
     public Vector2f getVelocity() {
         return velocity;
     }

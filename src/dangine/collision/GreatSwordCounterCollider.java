@@ -3,6 +3,7 @@ package dangine.collision;
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.debugger.Debugger;
+import dangine.entity.Bouncer;
 import dangine.entity.HasDrawable;
 import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
@@ -62,7 +63,8 @@ public class GreatSwordCounterCollider implements IsUpdateable, HasDrawable {
 
             @Override
             public void call(CombatEvent arg) {
-                if (arg.getCreator() instanceof Hero || arg.getCreator() instanceof Vortex) {
+                if (arg.getCreator() instanceof Hero || arg.getCreator() instanceof Vortex
+                        || arg.getCreator() instanceof Bouncer) {
                     return;
                 }
                 createVisualEffect();

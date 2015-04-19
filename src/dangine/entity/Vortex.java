@@ -2,7 +2,6 @@ package dangine.entity;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import dangine.debugger.Debugger;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.scenegraph.SceneGraphNode;
@@ -25,6 +24,8 @@ public class Vortex implements IsUpdateable, HasDrawable {
     final CombatEvent onHitPull;
     final CombatEventHitbox hitboxPull;
     final Vector2f position = new Vector2f();
+    final Vector2f centerPosition = new Vector2f();
+    final Vector2f direction = new Vector2f();
 
     public Vortex() {
         node.addChild(image);
@@ -77,13 +78,12 @@ public class Vortex implements IsUpdateable, HasDrawable {
             public void call(CombatEvent arg) {
                 if (arg.getCreator() instanceof Hero) {
                     Hero hero = (Hero) arg.getCreator();
-                    if (!hero.isImmunity()) {
+                    if (hero.isImmunity()) {
                         return;
                     }
-                    Vector2f center = new Vector2f(position.x + (SCALE * image.getWidth() * 0.5f), position.y
-                            + (SCALE * image.getWidth() * 0.5f));
-                    Vector2f direction = new Vector2f(hero.getPosition()).sub(center).normalise();
-                    Debugger.info(direction.toString());
+                    direction.x = hero.getPosition().x;
+                    direction.y = hero.getPosition().y;
+                    direction.sub(centerPosition).normalise();
                     hero.getMovement().push(-direction.x, -direction.y, 0.02f);
                 }
             }
@@ -96,6 +96,8 @@ public class Vortex implements IsUpdateable, HasDrawable {
         this.position.x = x;
         this.position.y = y;
         node.setPosition(this.position);
+        centerPosition.x = position.x + (SCALE * image.getWidth() * 0.5f);
+        centerPosition.y = position.y + (SCALE * image.getWidth() * 0.5f);
     }
 
     @Override

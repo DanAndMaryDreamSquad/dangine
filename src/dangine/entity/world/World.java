@@ -2,6 +2,7 @@ package dangine.entity.world;
 
 import org.newdawn.slick.Color;
 
+import dangine.entity.Bouncer;
 import dangine.entity.Obstruction;
 import dangine.entity.Vortex;
 import dangine.scene.Scene;
@@ -20,8 +21,14 @@ public enum World {
 
         @Override
         public void createObstacles(Scene scene) {
-            // TODO Auto-generated method stub
-
+            float[][] locations = { { 0.5f, 0.15f }, { 0.25f, 0.75f }, { 0.75f, 0.75f } };
+            for (float[] position : locations) {
+                Bouncer bouncer = new Bouncer();
+                bouncer.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
+                        * position[1]);
+                scene.addUpdateable(bouncer);
+                scene.getCameraNode().addChild(bouncer.getDrawable());
+            }
         }
     },
     SUNSET("sunset2") {
@@ -36,8 +43,23 @@ public enum World {
 
         @Override
         public void createObstacles(Scene scene) {
-            // TODO Auto-generated method stub
+            float[][] locations = { { 0.15f, 0.15f }, { 0.85f, 0.85f }, { 0.85f, 0.15f }, { 0.15f, 0.85f } };
+            for (float[] position : locations) {
+                Bouncer bouncer = new Bouncer();
+                bouncer.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
+                        * position[1]);
+                scene.addUpdateable(bouncer);
+                scene.getCameraNode().addChild(bouncer.getDrawable());
+            }
 
+            float[][] locations2 = { { 0.5f, 0.5f } };
+            for (float[] position : locations2) {
+                Vortex vortex = new Vortex();
+                vortex.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
+                        * position[1]);
+                scene.addUpdateable(vortex);
+                scene.getCameraNode().addChild(vortex.getDrawable());
+            }
         }
     },
     SNOW("snow1full") {
