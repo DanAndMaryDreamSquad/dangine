@@ -131,7 +131,7 @@ public class Hero implements IsUpdateable, HasDrawable {
             @Override
             public void call(CombatEvent arg) {
                 if (arg.getCreator() instanceof GreatSwordCounterCollider || arg.getCreator() instanceof Hero
-                        || arg.getCreator() instanceof DangineBot) {
+                        || arg.getCreator() instanceof DangineBot || arg.getCreator() instanceof Vortex) {
                     return;
                 }
                 if (!isImmunity()) {

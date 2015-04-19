@@ -42,6 +42,11 @@ public class CombatEvent {
         this.position.y = position.y;
     }
 
+    public void setPosition(float x, float y) {
+        this.position.x = x;
+        this.position.y = y;
+    }
+
     public void onHitBy(CombatEvent event) {
         if (onHitBy != null) {
             onHitBy.call(event);

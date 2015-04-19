@@ -36,6 +36,7 @@ public class Respawner implements IsUpdateable {
         if (timer > MAX_TIME) {
             Utility.getActiveScene().getMatchOrchestrator().addEvent(new RespawnEvent(x, y, getPlayerId()));
             Utility.getActiveScene().removeUpdateable(this);
+
         }
 
     }
