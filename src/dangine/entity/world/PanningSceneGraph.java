@@ -164,6 +164,10 @@ public class PanningSceneGraph implements HasDrawable, IsUpdateable {
             node2.setPosition(tx2 + background1.getWidth() * scale, ty1);
             node4.setPosition(tx2 + background1.getWidth() * scale, ty2 + background1.getHeight() * scale);
             break;
+        case CENTER:
+            break;
+        default:
+            break;
         }
 
         if (tessellation == Tessellation.CENTER) {

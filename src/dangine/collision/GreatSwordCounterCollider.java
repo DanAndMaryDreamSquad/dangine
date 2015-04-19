@@ -7,6 +7,7 @@ import dangine.entity.HasDrawable;
 import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.entity.Vortex;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.visual.ExplosionVisual;
@@ -61,7 +62,7 @@ public class GreatSwordCounterCollider implements IsUpdateable, HasDrawable {
 
             @Override
             public void call(CombatEvent arg) {
-                if (arg.getCreator() instanceof Hero) {
+                if (arg.getCreator() instanceof Hero || arg.getCreator() instanceof Vortex) {
                     return;
                 }
                 createVisualEffect();

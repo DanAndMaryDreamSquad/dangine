@@ -16,8 +16,9 @@ public class Vortex implements IsUpdateable, HasDrawable {
     SceneGraphNode node = new SceneGraphNode();
     DangineImage image = new DangineImage("vortex");
     final float RADIUS = image.getWidth() / 2;
-    final float HITBOX_SIZE = 20;
-    final float PULL_HITBOX_SIZE = 200;
+    final float HITBOX_SIZE = 5;
+    final float PULL_HITBOX_SIZE = 100;
+    final float SCALE = 2.0f;
     float angle = 0;
     final CombatEvent onHit;
     final CombatEventHitbox hitbox;
@@ -27,7 +28,8 @@ public class Vortex implements IsUpdateable, HasDrawable {
 
     public Vortex() {
         node.addChild(image);
-        node.setCenterOfRotation(image.getWidth() / 2, image.getHeight() / 2);
+        node.setCenterOfRotation(SCALE * image.getWidth() * 0.5f, SCALE * image.getHeight() * 0.5f);
+        node.setScale(SCALE, SCALE);
 
         onHit = new CombatEvent(-1, position, HITBOX_SIZE, getOnHitBy(), this);
         hitbox = new CombatEventHitbox(onHit);
@@ -43,12 +45,13 @@ public class Vortex implements IsUpdateable, HasDrawable {
     public void update() {
         angle += Utility.getGameTime().getDeltaTimeF() * ROTATION_SPEED;
         node.setAngle(angle);
-        onHit.setPosition(position.x + RADIUS, position.y + RADIUS);
-        hitbox.setPosition(position.x - HITBOX_SIZE + RADIUS, position.y - HITBOX_SIZE + RADIUS);
+        onHit.setPosition(position.x + (RADIUS * SCALE), position.y + (RADIUS * SCALE));
+        hitbox.setPosition(position.x - HITBOX_SIZE + (RADIUS * SCALE), position.y - HITBOX_SIZE + (RADIUS * SCALE));
         Utility.getActiveScene().getCombatResolver().addEvent(onHit);
 
-        onHitPull.setPosition(position.x + RADIUS, position.y + RADIUS);
-        hitboxPull.setPosition(position.x - PULL_HITBOX_SIZE + RADIUS, position.y - PULL_HITBOX_SIZE + RADIUS);
+        onHitPull.setPosition(position.x + (RADIUS * SCALE), position.y + (RADIUS * SCALE));
+        hitboxPull.setPosition(position.x - PULL_HITBOX_SIZE + (RADIUS * SCALE), position.y - PULL_HITBOX_SIZE
+                + (RADIUS * SCALE));
         Utility.getActiveScene().getCombatResolver().addEvent(onHitPull);
     }
 
@@ -59,7 +62,9 @@ public class Vortex implements IsUpdateable, HasDrawable {
             public void call(CombatEvent arg) {
                 if (arg.getCreator() instanceof Hero) {
                     Hero hero = (Hero) arg.getCreator();
-                    hero.destroy();
+                    if (!hero.isImmunity()) {
+                        hero.destroy();
+                    }
                 }
             }
         };
@@ -72,16 +77,19 @@ public class Vortex implements IsUpdateable, HasDrawable {
             public void call(CombatEvent arg) {
                 if (arg.getCreator() instanceof Hero) {
                     Hero hero = (Hero) arg.getCreator();
-
-                    Vector2f direction = new Vector2f(hero.getPosition()).sub(position).normalise();
+                    Vector2f center = new Vector2f(position.x + (SCALE * image.getWidth() * 0.5f), position.y
+                            + (SCALE * image.getWidth() * 0.5f));
+                    Vector2f direction = new Vector2f(hero.getPosition()).sub(center).normalise();
                     Debugger.info(direction.toString());
-                    hero.getMovement().push(-direction.x, -direction.y);
+                    hero.getMovement().push(-direction.x, -direction.y, 0.02f);
                 }
             }
         };
     }
 
     public void setPosition(float x, float y) {
+        x -= image.getWidth() * SCALE * 0.5f;
+        y -= image.getHeight() * SCALE * 0.5f;
         this.position.x = x;
         this.position.y = y;
         node.setPosition(this.position);
