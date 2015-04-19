@@ -2,16 +2,13 @@ package dangine.entity.world;
 
 import org.newdawn.slick.Color;
 
-import dangine.entity.Bouncer;
-import dangine.entity.Obstruction;
-import dangine.entity.Vortex;
 import dangine.scene.Scene;
 import dangine.utility.MathUtility;
 import dangine.utility.Utility;
 
 public enum World {
 
-    DIMENSION("cloudy") {
+    DIMENSION("cloudy", ObstaclePack.TRIPLE_BUMPER) {
         @Override
         public void createWorld(Scene scene) {
             PanningSceneGraph background = new PanningSceneGraph(Background.EXTRADIMENSIONAL);
@@ -21,17 +18,9 @@ public enum World {
 
         @Override
         public void createObstacles(Scene scene) {
-            float[][] locations = { { 0.5f, 0.15f }, { 0.25f, 0.75f }, { 0.75f, 0.75f } };
-            for (float[] position : locations) {
-                Bouncer bouncer = new Bouncer();
-                bouncer.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
-                        * position[1]);
-                scene.addUpdateable(bouncer);
-                scene.getCameraNode().addChild(bouncer.getDrawable());
-            }
         }
     },
-    SUNSET("sunset2") {
+    SUNSET("sunset2", ObstaclePack.FOUR_CORNERS) {
         @Override
         public void createWorld(Scene scene) {
             PanningSceneGraph background = new PanningSceneGraph(Background.SUNSET);
@@ -43,26 +32,9 @@ public enum World {
 
         @Override
         public void createObstacles(Scene scene) {
-            float[][] locations = { { 0.15f, 0.15f }, { 0.85f, 0.85f }, { 0.85f, 0.15f }, { 0.15f, 0.85f } };
-            for (float[] position : locations) {
-                Bouncer bouncer = new Bouncer();
-                bouncer.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
-                        * position[1]);
-                scene.addUpdateable(bouncer);
-                scene.getCameraNode().addChild(bouncer.getDrawable());
-            }
-
-            float[][] locations2 = { { 0.5f, 0.5f } };
-            for (float[] position : locations2) {
-                Vortex vortex = new Vortex();
-                vortex.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
-                        * position[1]);
-                scene.addUpdateable(vortex);
-                scene.getCameraNode().addChild(vortex.getDrawable());
-            }
         }
     },
-    SNOW("snow1full") {
+    SNOW("snow1full", ObstaclePack.EMPTY) {
         @Override
         public void createWorld(Scene scene) {
             PanningSceneGraph background = new PanningSceneGraph(Background.SNOW_SKY);
@@ -77,7 +49,7 @@ public enum World {
 
         }
     },
-    FOREST("forest1") {
+    FOREST("forest1", ObstaclePack.BLOCKS) {
         @Override
         public void createWorld(Scene scene) {
             PanningSceneGraph background = new PanningSceneGraph(Background.FOREST);
@@ -88,17 +60,9 @@ public enum World {
 
         @Override
         public void createObstacles(Scene scene) {
-            float[][] locations = { { 0.25f, 0.25f }, { 0.75f, 0.25f }, { 0.25f, 0.75f }, { 0.75f, 0.75f } };
-            for (float[] position : locations) {
-                Obstruction obstruction = new Obstruction();
-                obstruction.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
-                        * position[1]);
-                scene.addUpdateable(obstruction);
-                scene.getCameraNode().addChild(obstruction.getDrawable());
-            }
         }
     },
-    SPACE_ONE("space1") {
+    SPACE_ONE("space1", ObstaclePack.TWO_VORTEX) {
         @Override
         public void createWorld(Scene scene) {
             PanningSceneGraph background = new PanningSceneGraph(Background.SPACE_ONE);
@@ -109,17 +73,9 @@ public enum World {
 
         @Override
         public void createObstacles(Scene scene) {
-            float[][] locations = { { 0.25f, 0.25f }, { 0.75f, 0.75f } };
-            for (float[] position : locations) {
-                Vortex vortex = new Vortex();
-                vortex.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
-                        * position[1]);
-                scene.addUpdateable(vortex);
-                scene.getCameraNode().addChild(vortex.getDrawable());
-            }
         }
     },
-    SPACE_TWO("space4") {
+    SPACE_TWO("space4", ObstaclePack.FOURTEX) {
         @Override
         public void createWorld(Scene scene) {
             PanningSceneGraph background = new PanningSceneGraph(Background.SPACE_TWO);
@@ -129,14 +85,6 @@ public enum World {
 
         @Override
         public void createObstacles(Scene scene) {
-            float[][] locations = { { 0.25f, 0.25f }, { 0.75f, 0.25f }, { 0.25f, 0.75f }, { 0.75f, 0.75f } };
-            for (float[] position : locations) {
-                Vortex vortex = new Vortex();
-                vortex.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
-                        * position[1]);
-                scene.addUpdateable(vortex);
-                scene.getCameraNode().addChild(vortex.getDrawable());
-            }
 
             // TODO Auto-generated method stub
 
@@ -144,9 +92,11 @@ public enum World {
     };
 
     final String previewImage;
+    final ObstaclePack defaultObstaclePack;
 
-    World(String previewImage) {
+    World(String previewImage, ObstaclePack defaultObstaclePack) {
         this.previewImage = previewImage;
+        this.defaultObstaclePack = defaultObstaclePack;
     }
 
     public abstract void createWorld(Scene scene);
@@ -167,6 +117,10 @@ public enum World {
 
     public String getPreviewImage() {
         return previewImage;
+    }
+
+    public ObstaclePack getDefaultObstaclePack() {
+        return defaultObstaclePack;
     }
 
 }

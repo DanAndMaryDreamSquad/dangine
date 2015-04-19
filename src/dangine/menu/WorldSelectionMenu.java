@@ -10,7 +10,6 @@ import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.gameplay.MatchStarter;
-import dangine.entity.world.Background;
 import dangine.entity.world.World;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
@@ -76,7 +75,8 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
 
             @Override
             public void execute() {
-                Utility.getMatchParameters().setCurrentWorld(Background.randomBackground());
+                Utility.getMatchParameters().setRandomWorld(true);
+                Utility.getMatchParameters().setCurrentWorld(World.randomWorld());
                 MatchStarter matchStarter = new MatchStarter();
                 Utility.getActiveScene().addUpdateable(matchStarter);
             }
@@ -88,6 +88,7 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
 
             @Override
             public void execute() {
+                Utility.getMatchParameters().setRandomWorld(false);
                 Utility.getMatchParameters().setCurrentWorld(world);
                 MatchStarter matchStarter = new MatchStarter();
                 Utility.getActiveScene().addUpdateable(matchStarter);

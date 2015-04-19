@@ -24,6 +24,7 @@ public class MatchParameters {
     FacingMode facingMode = FacingMode.EIGHT_WAY;
     Background currentBackground = Background.EXTRADIMENSIONAL;
     World currentWorld = World.DIMENSION;
+    boolean isRandomWorld = false;
     Color textColor = Color.black;
 
     public int getStartingStock() {
@@ -120,6 +121,14 @@ public class MatchParameters {
 
     public void setTextColor(Color textColor) {
         this.textColor = textColor;
+    }
+
+    public boolean isRandomWorld() {
+        return isRandomWorld;
+    }
+
+    public void setRandomWorld(boolean isRandomWorld) {
+        this.isRandomWorld = isRandomWorld;
     }
 
 }

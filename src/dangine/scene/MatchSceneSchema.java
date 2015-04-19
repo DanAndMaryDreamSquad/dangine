@@ -3,6 +3,7 @@ package dangine.scene;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.Respawner;
+import dangine.entity.world.ObstaclePack;
 import dangine.utility.Utility;
 
 public class MatchSceneSchema implements SceneSchema {
@@ -29,7 +30,11 @@ public class MatchSceneSchema implements SceneSchema {
         scene.getParentNode().addChild(scene.getMatchOrchestrator().getScoreKeeper().getDrawable());
 
         Utility.getMatchParameters().getCurrentWorld().createWorld(scene);
-        Utility.getMatchParameters().getCurrentWorld().createObstacles(scene);
+        if (Utility.getMatchParameters().isRandomWorld()) {
+            ObstaclePack.randomObstacles().applyObstacles(scene);
+        } else {
+            Utility.getMatchParameters().getCurrentWorld().getDefaultObstaclePack().applyObstacles(scene);
+        }
     }
 
 }
