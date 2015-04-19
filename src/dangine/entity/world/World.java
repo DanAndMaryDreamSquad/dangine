@@ -50,7 +50,7 @@ public enum World {
             PanningSceneGraph background = new PanningSceneGraph(Background.SPACE_ONE);
             PanningSceneGraph middleground = new PanningSceneGraph(Middleground.STARS);
             World.addPanningSceneGraphs(scene, background, middleground);
-            Utility.getMatchParameters().setTextColor(Color.white);
+            Utility.getMatchParameters().setTextColor(Color.black);
         }
     },
     SPACE_TWO("space4") {
@@ -58,7 +58,7 @@ public enum World {
         public void createWorld(Scene scene) {
             PanningSceneGraph background = new PanningSceneGraph(Background.SPACE_TWO);
             World.addPanningSceneGraphs(scene, background);
-            Utility.getMatchParameters().setTextColor(Color.white);
+            Utility.getMatchParameters().setTextColor(Color.black);
         }
     };
 
