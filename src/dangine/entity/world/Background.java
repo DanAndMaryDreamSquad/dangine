@@ -4,8 +4,8 @@ import dangine.utility.MathUtility;
 
 public enum Background {
 
-    SUNSET("sunset2", 20.0f, 0.05f, 0, Tessellation.FLIP_TO_SMOOTH), EXTRADIMENSIONAL("cloudy", 40.0f, -0.05f, 0.025f,
-            Tessellation.NONE), //
+    SUNSET("sunset3", 20.0f, 0.05f, 0, Tessellation.FLIP_TO_SMOOTH), //
+    EXTRADIMENSIONAL("cloudy", 40.0f, -0.05f, 0.025f, Tessellation.NONE), //
     NETHER("nether", 1.0f, -0.04f, -0.04f, Tessellation.FLIP_TO_SMOOTH), //
     SPIRAL("spiral3", 1.0f, 0, 0, Tessellation.CENTER), //
     CRYSTAL("crystal", 1.0f, 0.015f, 0.015f, Tessellation.FLIP_TO_SMOOTH), //
