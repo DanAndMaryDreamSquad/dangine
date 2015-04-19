@@ -4,6 +4,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
+import dangine.entity.visual.DefeatType;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Method;
@@ -64,7 +65,7 @@ public class Vortex implements IsUpdateable, HasDrawable {
                 if (arg.getCreator() instanceof Hero) {
                     Hero hero = (Hero) arg.getCreator();
                     if (!hero.isImmunity()) {
-                        hero.destroy();
+                        hero.destroy(DefeatType.SPIN);
                     }
                 }
             }

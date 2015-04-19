@@ -14,13 +14,11 @@ import dangine.entity.combat.subpower.ProjectilePower;
 import dangine.entity.gameplay.DefeatEvent;
 import dangine.entity.movement.HeroFacing;
 import dangine.entity.movement.HeroMovement;
-import dangine.entity.visual.DefeatedBloxKnockVisual;
-import dangine.entity.visual.DefeatedBloxSplitVisual;
+import dangine.entity.visual.DefeatType;
 import dangine.input.DangineSampleInput;
 import dangine.scenegraph.drawable.BloxAnimator;
 import dangine.scenegraph.drawable.BloxColorer;
 import dangine.scenegraph.drawable.BloxSceneGraph;
-import dangine.utility.MathUtility;
 import dangine.utility.Method;
 import dangine.utility.ScreenUtility;
 import dangine.utility.Utility;
@@ -81,6 +79,10 @@ public class Hero implements IsUpdateable, HasDrawable {
     }
 
     public void destroy() {
+        destroy(DefeatType.randomSwordEffect());
+    }
+
+    public void destroy(DefeatType defeatType) {
         if (destroyed) {
             return;
         }
@@ -91,24 +93,7 @@ public class Hero implements IsUpdateable, HasDrawable {
 
         Vector2f absolutePosition = new Vector2f();
         absolutePosition = ScreenUtility.getWorldPosition(draw.getBody(), absolutePosition);
-        // DefeatedBloxSplitVisual split = new
-        // DefeatedBloxSplitVisual(absolutePosition.x, absolutePosition.y, 0,
-        // playerId);
-
-        if (MathUtility.randomBoolean()) {
-            Color color = Utility.getMatchParameters().getPlayerColor(getPlayerId());
-            DefeatedBloxKnockVisual split = new DefeatedBloxKnockVisual(absolutePosition.x, absolutePosition.y, -30,
-                    color);
-            Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
-            Utility.getActiveScene().addUpdateable(split);
-        } else {
-            DefeatedBloxSplitVisual split = new DefeatedBloxSplitVisual(absolutePosition.x, absolutePosition.y, -30,
-                    playerId);
-            Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
-            Utility.getActiveScene().addUpdateable(split);
-
-        }
-
+        defeatType.applyEffect(absolutePosition.x, absolutePosition.y, playerId);
         Utility.getActiveScene().removeUpdateable(this);
         Utility.getActiveScene().getCameraNode().removeChild(this.getDrawable());
         Utility.getActiveScene().getCameraNode().removeChild(hitbox.getDrawable());
