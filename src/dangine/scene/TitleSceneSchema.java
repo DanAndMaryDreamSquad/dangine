@@ -1,10 +1,15 @@
 package dangine.scene;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.entity.world.World;
 import dangine.input.ControlsExplainSceneGraph;
+import dangine.menu.ControlsAssigner;
 import dangine.menu.TitleMenu;
+import dangine.player.DanginePlayer;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Utility;
@@ -29,16 +34,19 @@ public class TitleSceneSchema implements SceneSchema {
         scene.addUpdateable(menu);
         scene.getParentNode().addChild(menu.getDrawable());
 
-        ControlsExplainSceneGraph controls0 = new ControlsExplainSceneGraph(0);
-        ControlsExplainSceneGraph controls1 = new ControlsExplainSceneGraph(1);
-        float width = Utility.getResolution().x;
-        controls0.getBase().setPosition(width * (1f / 6f), 0);
-        controls1.getBase().setPosition(width * (4f / 6f), 0);
-        Utility.getActiveScene().getParentNode().addChild(controls0.getDrawable());
-        Utility.getActiveScene().getParentNode().addChild(controls1.getDrawable());
+        List<ControlsExplainSceneGraph> controlsGraphs = new ArrayList<ControlsExplainSceneGraph>();
+        for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
+            ControlsExplainSceneGraph graph = new ControlsExplainSceneGraph(player.getPlayerId());
+            scene.getParentNode().addChild(graph.getDrawable());
+            controlsGraphs.add(graph);
+        }
 
         VersioningSceneGraph version = new VersioningSceneGraph();
         Utility.getActiveScene().getParentNode().addChild(version.getDrawable());
+
+        ControlsAssigner controlsAssigner = new ControlsAssigner();
+        scene.addUpdateable(controlsAssigner);
+        scene.getParentNode().addChild(controlsAssigner.getDrawable());
 
     }
 

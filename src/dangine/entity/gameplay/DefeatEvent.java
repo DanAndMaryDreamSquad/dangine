@@ -14,7 +14,7 @@ public class DefeatEvent implements MatchEvent {
     public void process() {
         Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().deductStock(playerId);
 
-        if (!Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().checkSceneOver()) {
+        if (Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().hasLivesLeft(playerId)) {
             Respawner respawner = new Respawner(playerId);
             Utility.getActiveScene().addUpdateable(respawner);
         }

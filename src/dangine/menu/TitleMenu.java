@@ -26,6 +26,9 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
 
     @Override
     public void update() {
+        if (Utility.getPlayers().getPlayers().isEmpty()) {
+            return;
+        }
         selector.update();
         selector.scan(menu.getItems());
     }

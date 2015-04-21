@@ -39,8 +39,8 @@ public class Utility {
         gameContainer.setAlwaysRender(false);
         gameContainer.setVSync(true);
         // GL11.glEnable(GL11.GL_DEPTH_TEST);
-        players.newPlayer();
-        players.newPlayer();
+        // players.newPlayer();
+        // players.newPlayer();
     }
 
     public static Graphics getGraphics() {

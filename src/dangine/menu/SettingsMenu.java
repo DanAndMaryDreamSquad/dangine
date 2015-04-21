@@ -33,6 +33,7 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
     DangineText facingModeEnumText = new DangineText();
 
     public SettingsMenu() {
+        selector.setOnEscape(getExitMenuAction());
         menu.addItem(new DangineMenuItem("Stock: ", getStockIncrementAction(), getStockDecrementAction()));
         menu.addItem(new DangineMenuItem("Change Movement Mode: ", getNextMovementModeAction()));
         menu.getBase().addChild(movementModeTextNode);

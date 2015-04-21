@@ -15,23 +15,26 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
 
     boolean matchOver = false;
     SceneGraphNode base = new SceneGraphNode();
-    SceneGraphNode score1 = new SceneGraphNode();
-    DangineText text1 = new DangineText();
-    SceneGraphNode score2 = new SceneGraphNode();
-    DangineText text2 = new DangineText();
+    List<SceneGraphNode> scoreNodes = new ArrayList<SceneGraphNode>();
+    List<DangineText> textNodes = new ArrayList<DangineText>();
     List<PlayerScore> scores = new ArrayList<PlayerScore>();
     float timer = 0;
     final float FADE_TIME = 4000;
     final float FADE_DELAY = 2000;
 
     public ScoreKeeper() {
-        score1.addChild(text1);
-        score1.setPosition(100, 500);
-        score2.addChild(text2);
-        score2.setPosition(500, 500);
-        base.addChild(score1);
-        base.addChild(score2);
         for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
+            SceneGraphNode score = new SceneGraphNode();
+            DangineText text = new DangineText();
+            score.addChild(text);
+            scoreNodes.add(score);
+            textNodes.add(text);
+            base.addChild(score);
+            int set = player.getPlayerId() / 2;
+            float y = Utility.getResolution().y - (20 * (3 - set));
+            int width = player.getPlayerId() % 2;
+            float x = (Utility.getResolution().x / 2.0f) * width;
+            score.setPosition(x, y);
             scores.add(new PlayerScore(player.getPlayerId()));
         }
         updatePlayerScores();
@@ -45,13 +48,25 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
             if (timer > FADE_DELAY) {
                 alpha = 1.0f - ((timer - FADE_DELAY) / (FADE_TIME - FADE_DELAY));
             }
-            text1.setAlpha(alpha);
-            text2.setAlpha(alpha);
+            for (DangineText text : textNodes) {
+                text.setAlpha(alpha);
+            }
         }
     }
 
     public void addBotToGame() {
         scores.add(new PlayerScore(-1));
+        SceneGraphNode score = new SceneGraphNode();
+        DangineText text = new DangineText();
+        score.addChild(text);
+        scoreNodes.add(score);
+        textNodes.add(text);
+        base.addChild(score);
+        int set = 1 / 2;
+        float y = Utility.getResolution().y - (20 * (3 - set));
+        int width = 1 % 2;
+        float x = (Utility.getResolution().x / 2.0f) * width;
+        score.setPosition(x, y);
         updatePlayerScores();
     }
 
@@ -66,12 +81,17 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     }
 
     public boolean checkSceneOver() {
+        int playersWithLivesLeft = 0;
         for (PlayerScore score : scores) {
-            if (score.getStock() < 0) {
-                return true;
+            if (score.getStock() >= 0) {
+                playersWithLivesLeft++;
             }
         }
-        return false;
+        return playersWithLivesLeft <= 1;
+    }
+
+    public boolean hasLivesLeft(int playerId) {
+        return getPlayerScore(playerId).getStock() >= 0;
     }
 
     public void applyEndOfRound() {
@@ -90,17 +110,17 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     }
 
     private void updatePlayerScores() {
-        int p1Stock = getPlayerScore(0).getStock();
-        text1.setText("Avatars Remaining: " + p1Stock);
-        if (Utility.getPlayers().getPlayers().size() >= 2) {
-            int p2Stock = getPlayerScore(1).getStock();
-            text2.setText("Avatars Remaining: " + p2Stock);
+        if (Utility.getPlayers().getPlayers().isEmpty()) {
+            return;
         }
-        if (Utility.getPlayers().getPlayers().size() < 2) {
-            if (getPlayerScore(-1) != null) {
-                int p2Stock = getPlayerScore(-1).getStock();
-                text2.setText("Avatars Remaining: " + p2Stock);
+        for (PlayerScore score : scores) {
+            if (score.getPlayerId() == -1) {
+                int botStock = getPlayerScore(-1).getStock();
+                textNodes.get(1).setText("Bot Avatars Remaining: " + botStock);
+                continue;
             }
+            int stock = score.getStock();
+            textNodes.get(score.getPlayerId()).setText("P" + score.getPlayerId() + " Avatars Remaining: " + stock);
         }
         timer = 0;
     }

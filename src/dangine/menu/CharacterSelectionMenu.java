@@ -40,13 +40,14 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
         animator.idle();
         node.addChild(menu.getDrawable());
         node.addChild(blox.getDrawable());
-        node.setPosition((200 * (1 + playerId)) + 100, 450);
+        // node.setPosition((200 * (1 + playerId)) + 100, 450);
+        node.setPosition(75 + (playerId * (Utility.getResolution().x / 6.0f)), 450);
         blox.getBase().setPosition(-50, 0);
         menu.addItem(new DangineMenuItem("Ready", getReadyAction()));
         menu.addItem(new DangineMenuItem("Next Color", getNextColorAction()));
         menu.addItem(new DangineMenuItem("Sub Power", getNextPowerAction()));
         menu.getBase().addChild(powerTextNode);
-        menu.addItem(new DangineMenuItem("Back to Title", getOnEscapeAction()));
+        menu.addItem(new DangineMenuItem("Back", getOnEscapeAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
 
         powerTextNode.addChild(powerText);

@@ -37,9 +37,9 @@ public class GameHarness extends BasicGame {
     }
 
     public void restart() {
-        while (Utility.getPlayers().getPlayers().size() < 2) {
-            Utility.getPlayers().newPlayer();
-        }
+        // while (Utility.getPlayers().getPlayers().size() < 2) {
+        // Utility.getPlayers().newPlayer();
+        // }
         dangineGame = provider.get();
         dangineGame.init();
     }

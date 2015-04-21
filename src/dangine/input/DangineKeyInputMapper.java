@@ -8,12 +8,22 @@ import org.newdawn.slick.Input;
 
 import dangine.utility.Utility;
 
-public class DangineKeyInputMapper {
+public class DangineKeyInputMapper implements DangineInputMapper {
     enum Action {
-        BUTTON_ONE, BUTTON_TWO, BUTTON_THREE, UP, DOWN, LEFT, RIGHT;
+        BUTTON_ONE("B_ONE"), BUTTON_TWO("B_TWO"), BUTTON_THREE("B_TREE"), UP("UP"), DOWN("DOWN"), LEFT("LEFT"), RIGHT(
+                "RIGHT");
+        final String name;
+
+        Action(String name) {
+            this.name = name;
+        }
+
+        public String toString() {
+            return name;
+        }
     }
 
-    private static final Map<Action, Integer> DEFAULTS = createDefaults();
+    public static final Map<Action, Integer> DEFAULTS = createDefaults();
 
     private static Map<Action, Integer> createDefaults() {
         Map<Action, Integer> result = new HashMap<Action, Integer>();
@@ -28,7 +38,7 @@ public class DangineKeyInputMapper {
         return Collections.unmodifiableMap(result);
     }
 
-    private static final Map<Action, Integer> DEFAULTS_P2 = createP2Defaults();
+    public static final Map<Action, Integer> DEFAULTS_P2 = createP2Defaults();
 
     private static Map<Action, Integer> createP2Defaults() {
         Map<Action, Integer> result = new HashMap<Action, Integer>();
@@ -58,6 +68,7 @@ public class DangineKeyInputMapper {
         return slickInput.isKeyDown(keyToAction.get(button));
     }
 
+    @Override
     public DangineSampleInput getInput(DangineSampleInput input) {
         input.setUp(isBeingPressed(Action.UP));
         input.setDown(isBeingPressed(Action.DOWN));
