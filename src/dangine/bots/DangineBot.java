@@ -15,7 +15,7 @@ import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.movement.HeroFacing;
 import dangine.entity.movement.HeroMovement;
-import dangine.entity.visual.DefeatedBloxKnockVisual;
+import dangine.entity.visual.DefeatType;
 import dangine.input.DangineSampleInput;
 import dangine.scenegraph.drawable.BloxAnimator;
 import dangine.scenegraph.drawable.BloxColorer;
@@ -75,6 +75,10 @@ public class DangineBot implements IsUpdateable, HasDrawable {
     }
 
     public void destroy() {
+        destroy(DefeatType.randomSwordEffect());
+    }
+
+    public void destroy(DefeatType defeatType) {
         if (destroyed) {
             return;
         }
@@ -86,10 +90,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         Vector2f absolutePosition = new Vector2f();
         absolutePosition = ScreenUtility.getWorldPosition(draw.getBody(), absolutePosition);
 
-        Color color = Utility.getMatchParameters().getPlayerColor(-1);
-        DefeatedBloxKnockVisual split = new DefeatedBloxKnockVisual(absolutePosition.x, absolutePosition.y, -30, color);
-        Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
-        Utility.getActiveScene().addUpdateable(split);
+        defeatType.applyEffect(absolutePosition.x, absolutePosition.y, -1);
 
         Utility.getActiveScene().removeUpdateable(this);
         Utility.getActiveScene().getCameraNode().removeChild(this.getDrawable());

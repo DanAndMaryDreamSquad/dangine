@@ -13,6 +13,21 @@ public enum ObstaclePack {
         public void applyObstacles(Scene scene) {
         }
     },
+    VORTEX {
+        @Override
+        public void applyObstacles(Scene scene) {
+
+            float[][] locations = { { 0.5f, 0.5f } };
+            for (float[] position : locations) {
+                Vortex vortex = new Vortex();
+                vortex.setCenterPosition(Utility.getResolution().x * position[0], Utility.getResolution().y
+                        * position[1]);
+                scene.addUpdateable(vortex);
+                scene.getCameraNode().addChild(vortex.getDrawable());
+            }
+
+        }
+    },
     BLOCKS {
         @Override
         public void applyObstacles(Scene scene) {

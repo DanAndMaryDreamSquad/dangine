@@ -10,8 +10,7 @@ public enum DefeatType {
     SPLIT {
         @Override
         public void applyEffect(float x, float y, int playerId) {
-            Color color = Utility.getMatchParameters().getPlayerColor(playerId);
-            DefeatedBloxKnockVisual split = new DefeatedBloxKnockVisual(x, y, -30, color);
+            DefeatedBloxSplitVisual split = new DefeatedBloxSplitVisual(x, y, -30, playerId);
             Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
             Utility.getActiveScene().addUpdateable(split);
         }
@@ -19,7 +18,8 @@ public enum DefeatType {
     KNOCK {
         @Override
         public void applyEffect(float x, float y, int playerId) {
-            DefeatedBloxSplitVisual split = new DefeatedBloxSplitVisual(x, y, -30, playerId);
+            Color color = Utility.getMatchParameters().getPlayerColor(playerId);
+            DefeatedBloxKnockVisual split = new DefeatedBloxKnockVisual(x, y, -30, color);
             Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
             Utility.getActiveScene().addUpdateable(split);
         }

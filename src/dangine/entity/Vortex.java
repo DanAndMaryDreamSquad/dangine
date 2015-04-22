@@ -2,6 +2,7 @@ package dangine.entity;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.bots.DangineBot;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.visual.DefeatType;
@@ -16,7 +17,7 @@ public class Vortex implements IsUpdateable, HasDrawable {
     SceneGraphNode node = new SceneGraphNode();
     DangineImage image = new DangineImage("vortex");
     final float RADIUS = image.getWidth() / 2;
-    final float HITBOX_SIZE = 5;
+    public final float HITBOX_SIZE = 5;
     final float PULL_HITBOX_SIZE = 100;
     final float SCALE = 2.0f;
     float angle = 0;
@@ -33,10 +34,10 @@ public class Vortex implements IsUpdateable, HasDrawable {
         node.setCenterOfRotation(SCALE * image.getWidth() * 0.5f, SCALE * image.getHeight() * 0.5f);
         node.setScale(SCALE, SCALE);
 
-        onHit = new CombatEvent(-1, position, HITBOX_SIZE, getOnHitBy(), this);
+        onHit = new CombatEvent(-10, position, HITBOX_SIZE, getOnHitBy(), this);
         hitbox = new CombatEventHitbox(onHit);
 
-        onHitPull = new CombatEvent(-1, position, PULL_HITBOX_SIZE, getOnHitByPull(), this);
+        onHitPull = new CombatEvent(-10, position, PULL_HITBOX_SIZE, getOnHitByPull(), this);
         hitboxPull = new CombatEventHitbox(onHitPull);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
         Utility.getActiveScene().getCameraNode().addChild(hitboxPull.getDrawable());
@@ -68,6 +69,12 @@ public class Vortex implements IsUpdateable, HasDrawable {
                         hero.destroy(DefeatType.SPIN);
                     }
                 }
+                if (arg.getCreator() instanceof DangineBot) {
+                    DangineBot hero = (DangineBot) arg.getCreator();
+                    if (!hero.isImmunity()) {
+                        hero.destroy(DefeatType.SPIN);
+                    }
+                }
             }
         };
     }
@@ -87,8 +94,23 @@ public class Vortex implements IsUpdateable, HasDrawable {
                     direction.sub(centerPosition).normalise();
                     hero.getMovement().push(-direction.x, -direction.y, 0.02f);
                 }
+
+                if (arg.getCreator() instanceof DangineBot) {
+                    DangineBot hero = (DangineBot) arg.getCreator();
+                    if (hero.isImmunity()) {
+                        return;
+                    }
+                    direction.x = hero.getPosition().x;
+                    direction.y = hero.getPosition().y;
+                    direction.sub(centerPosition).normalise();
+                    hero.getMovement().push(-direction.x, -direction.y, 0.02f);
+                }
             }
         };
+    }
+
+    public Vector2f getCenterPosition() {
+        return centerPosition;
     }
 
     public void setCenterPosition(float x, float y) {

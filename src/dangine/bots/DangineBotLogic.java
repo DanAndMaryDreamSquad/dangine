@@ -3,7 +3,9 @@ package dangine.bots;
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.bots.BotGreatsword.State;
+import dangine.collision.CollisionUtility;
 import dangine.entity.Hero;
+import dangine.entity.Vortex;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
 
@@ -18,6 +20,7 @@ public class DangineBotLogic {
     public DangineSampleInput getWhatToDo(DangineBot bot) {
         Hero target = Utility.getActiveScene().getHero(0);
         if (target == null) {
+            avoidHazards(bot);
             avoidWalls(bot);
             return input;
         }
@@ -76,6 +79,33 @@ public class DangineBotLogic {
             input.setUp(false);
             input.setDown(true);
         }
+    }
+
+    private void avoidHazards(DangineBot bot) {
+        for (Vortex vortex : Utility.getActiveScene().getVortexes()) {
+            if (CollisionUtility.isCircleCollidingPoint(vortex.getCenterPosition(), vortex.HITBOX_SIZE + 200,
+                    bot.getPosition())) {
+                Vector2f directionToVortex = new Vector2f(vortex.getCenterPosition());
+                float angle = (float) directionToVortex.sub(bot.getPosition()).getTheta();
+                if (angle > -45 && angle < 45) {
+                    input.setLeft(true);
+                }
+                if (angle > 45 && angle < 115) {
+                    input.setDown(true);
+                }
+                if (angle > 115 && angle > 205) {
+                    input.setRight(true);
+                }
+                if (angle > 205 && angle < 295) {
+                    input.setUp(true);
+                }
+                if (angle > 295 && angle < 385) {
+                    input.setLeft(true);
+                }
+
+            }
+        }
+
     }
 
     public DangineSampleInput getWhatDoWithWeapon(BotGreatsword greatsword) {

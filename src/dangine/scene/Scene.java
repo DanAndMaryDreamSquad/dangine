@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import dangine.entity.Bouncer;
 import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.Obstruction;
+import dangine.entity.Vortex;
 import dangine.entity.combat.CombatResolver;
 import dangine.entity.gameplay.MatchOrchestrator;
 import dangine.scenegraph.RenderData;
@@ -23,7 +25,9 @@ public class Scene implements IsUpdateable, IsDrawable {
     List<IsUpdateable> updateables = new ArrayList<IsUpdateable>();
     List<IsUpdateable> toAdd = new LinkedList<IsUpdateable>();
     List<IsUpdateable> toRemove = new LinkedList<IsUpdateable>();
-    List<Obstruction> obstructions = new LinkedList<Obstruction>();
+    final List<Obstruction> obstructions = new LinkedList<Obstruction>();
+    final List<Vortex> vortexes = new LinkedList<Vortex>();
+    final List<Bouncer> bouncers = new LinkedList<Bouncer>();
 
     public Scene() {
         parentNode.addChild(camera.getDrawable());
@@ -59,6 +63,12 @@ public class Scene implements IsUpdateable, IsDrawable {
     public void addUpdateable(IsUpdateable updateable) {
         if (updateable instanceof Obstruction) {
             obstructions.add((Obstruction) updateable);
+        }
+        if (updateable instanceof Vortex) {
+            vortexes.add((Vortex) updateable);
+        }
+        if (updateable instanceof Bouncer) {
+            bouncers.add((Bouncer) updateable);
         }
         toAdd.add(updateable);
     }
@@ -119,5 +129,13 @@ public class Scene implements IsUpdateable, IsDrawable {
 
     public List<Obstruction> getObstructions() {
         return obstructions;
+    }
+
+    public List<Vortex> getVortexes() {
+        return vortexes;
+    }
+
+    public List<Bouncer> getBouncers() {
+        return bouncers;
     }
 }

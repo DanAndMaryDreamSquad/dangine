@@ -18,7 +18,7 @@ public class MatchParameters {
     Color defaultColor = new Color(255, 0, 0);
     Map<Integer, Color> playerIdToColor = new HashMap<Integer, Color>();
     Map<Integer, SubPower> playerIdToPower = new HashMap<Integer, SubPower>();
-    int startingStock = 1;
+    int startingStock = 3;
     MovementMode movementMode = MovementMode.MOVE_FREE_TURN_SWING_LOCK;
     AttackMode attackMode = AttackMode.HOLD_TO_CHARGE;
     FacingMode facingMode = FacingMode.EIGHT_WAY;

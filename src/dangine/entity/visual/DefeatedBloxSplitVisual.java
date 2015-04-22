@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.bots.DangineBot;
 import dangine.entity.HasDrawable;
+import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.scenegraph.FlattenSceneGraphNode;
@@ -24,8 +26,20 @@ public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
     float angle = 0f;
 
     public DefeatedBloxSplitVisual(float x, float y, float angle, int playerId) {
-        if (Utility.getActiveScene().getHero(playerId) != null) {
-            SceneGraphNode toFlat = (SceneGraphNode) Utility.getActiveScene().getHero(playerId).getDrawable();
+        SceneGraphNode node = null;
+        if (playerId >= 0) {
+            Hero hero = Utility.getActiveScene().getHero(playerId);
+            if (hero != null) {
+                node = (SceneGraphNode) hero.getDrawable();
+            }
+        } else {
+            DangineBot bot = Utility.getActiveScene().getUpdateable(DangineBot.class);
+            if (Utility.getActiveScene().getUpdateable(DangineBot.class) != null) {
+                node = (SceneGraphNode) bot.getDrawable();
+            }
+        }
+        if (node != null) {
+            SceneGraphNode toFlat = node;
             SceneGraphNode flat = FlattenSceneGraphNode.flatten(toFlat);
             for (int i = 0; i < flat.getChildNodes().size(); i++) {
                 parts.add(flat.getChildNodes().get(i));
@@ -34,6 +48,7 @@ public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
             }
             base.addChild(flat);
         }
+
     }
 
     @Override
