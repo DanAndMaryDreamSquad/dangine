@@ -3,11 +3,10 @@ package dangine.scene;
 import dangine.bots.BotRespawner;
 import dangine.entity.Creature;
 import dangine.entity.Obstruction;
-import dangine.entity.combat.subpower.SubPower;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.Respawner;
-import dangine.entity.world.World;
+import dangine.entity.world.ObstaclePack;
 import dangine.utility.Utility;
 
 public class BotMatchSceneSchema implements SceneSchema {
@@ -27,7 +26,6 @@ public class BotMatchSceneSchema implements SceneSchema {
         for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {
             scene.addUpdateable(new Respawner(i));
         }
-        World.randomWorld().createWorld(scene);
         scene.addUpdateable(boundaries);
         scene.addUpdateable(scene.getMatchOrchestrator().getScoreKeeper());
         scene.getParentNode().addChild(scene.getMatchOrchestrator().getScoreKeeper().getDrawable());
@@ -35,9 +33,12 @@ public class BotMatchSceneSchema implements SceneSchema {
         scene.addUpdateable(new BotRespawner(-1));
         scene.getMatchOrchestrator().getScoreKeeper().addBotToGame();
 
-        Utility.getMatchParameters().addPlayerPower(0, SubPower.NONE);
-        Utility.getMatchParameters().addPlayerPower(-1, SubPower.COUNTER);
-        // ObstaclePack.FOUR_CORNERS.applyObstacles(scene);
+        Utility.getMatchParameters().getCurrentWorld().createWorld(scene);
+        if (Utility.getMatchParameters().isRandomWorld()) {
+            ObstaclePack.randomObstacles().applyObstacles(scene);
+        } else {
+            Utility.getMatchParameters().getCurrentWorld().getDefaultObstaclePack().applyObstacles(scene);
+        }
     }
 
 }

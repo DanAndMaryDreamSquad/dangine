@@ -163,8 +163,10 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
     public void destroy() {
         heavyHitbox.deactivate();
         lightHitbox.deactivate();
+        counterHitbox.deactivate();
         greatsword.removeHitbox(heavyHitbox.getDrawable());
         greatsword.removeHitbox(lightHitbox.getDrawable());
+        greatsword.removeHitbox(counterHitbox.getDrawable());
         Utility.getActiveScene().removeUpdateable(this);
     }
 

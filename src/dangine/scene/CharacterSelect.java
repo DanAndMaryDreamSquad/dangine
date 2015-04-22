@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dangine.entity.IsUpdateable;
+import dangine.entity.gameplay.MatchStarter.MatchType;
+import dangine.menu.BotSettingsMenu;
 import dangine.menu.CharacterSelectionMenu;
 import dangine.menu.TitleMenu;
 import dangine.menu.WorldSelectionMenu;
@@ -15,11 +17,21 @@ public class CharacterSelect implements IsUpdateable {
     List<CharacterSelectionMenu> menus = new ArrayList<CharacterSelectionMenu>();
 
     public CharacterSelect() {
-        for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
+        // TODO Only one player is allowed right now because the bot cannot
+        // handle multiple targets
+        if (Utility.getMatchParameters().getMatchType() == MatchType.BOT_MATCH) {
+            DanginePlayer player = Utility.getPlayers().getPlayer(0);
             CharacterSelectionMenu menu = new CharacterSelectionMenu(player.getPlayerId());
             Utility.getActiveScene().addUpdateable(menu);
             Utility.getActiveScene().getParentNode().addChild(menu.getDrawable());
             menus.add(menu);
+        } else {
+            for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
+                CharacterSelectionMenu menu = new CharacterSelectionMenu(player.getPlayerId());
+                Utility.getActiveScene().addUpdateable(menu);
+                Utility.getActiveScene().getParentNode().addChild(menu.getDrawable());
+                menus.add(menu);
+            }
         }
     }
 
@@ -46,9 +58,18 @@ public class CharacterSelect implements IsUpdateable {
                 Utility.getActiveScene().getParentNode().removeChild(menu.getDrawable());
             }
             Utility.getActiveScene().removeUpdateable(this);
-            WorldSelectionMenu worldMenu = new WorldSelectionMenu();
-            Utility.getActiveScene().addUpdateable(worldMenu);
-            Utility.getActiveScene().getParentNode().addChild(worldMenu.getDrawable());
+            switch (Utility.getMatchParameters().getMatchType()) {
+            case VERSUS:
+                WorldSelectionMenu worldMenu = new WorldSelectionMenu();
+                Utility.getActiveScene().addUpdateable(worldMenu);
+                Utility.getActiveScene().getParentNode().addChild(worldMenu.getDrawable());
+                break;
+            case BOT_MATCH:
+                BotSettingsMenu botMenu = new BotSettingsMenu();
+                Utility.getActiveScene().addUpdateable(botMenu);
+                Utility.getActiveScene().getParentNode().addChild(botMenu.getDrawable());
+                break;
+            }
 
         }
     }
