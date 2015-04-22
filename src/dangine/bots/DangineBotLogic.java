@@ -4,14 +4,18 @@ import org.newdawn.slick.geom.Vector2f;
 
 import dangine.bots.BotGreatsword.State;
 import dangine.collision.CollisionUtility;
+import dangine.debugger.Debugger;
 import dangine.entity.Hero;
 import dangine.entity.Vortex;
+import dangine.entity.combat.subpower.SubPower;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
 
 public class DangineBotLogic {
 
     final int WALL_BUFFER = 100;
+    final float DASH_DISTANCE = 125 * 125;
+    final float COUNTER_DISTANCE = 10 * 10;
     DangineSampleInput input = new DangineSampleInput();
     DangineSampleInput emptyInput = new DangineSampleInput();
     DangineSampleInput swingInput = new DangineSampleInput();
@@ -19,6 +23,7 @@ public class DangineBotLogic {
 
     public DangineSampleInput getWhatToDo(DangineBot bot) {
         Hero target = Utility.getActiveScene().getHero(0);
+        input.setButtonTwo(false);
         if (target == null) {
             avoidHazards(bot);
             avoidWalls(bot);
@@ -28,8 +33,12 @@ public class DangineBotLogic {
             flee(bot, target.getPosition());
         } else {
             approach(bot, target.getPosition());
+            considerDashing(bot, target.getPosition());
+            considerProjectile(bot, target.getPosition());
+            considerCounter(bot, target.getPosition());
         }
         avoidWalls(bot);
+        avoidHazards(bot);
         return input;
     }
 
@@ -102,10 +111,37 @@ public class DangineBotLogic {
                 if (angle > 295 && angle < 385) {
                     input.setLeft(true);
                 }
-
             }
         }
+    }
 
+    private void considerDashing(DangineBot bot, Vector2f target) {
+        if (Utility.getMatchParameters().getPlayerIdToPower().get(-1) != SubPower.DASH) {
+            return;
+        }
+        input.setButtonTwo(false);
+        if (bot.getDashPower().canDash() && bot.getPosition().distanceSquared(target) < DASH_DISTANCE) {
+            input.setButtonTwo(true);
+        }
+    }
+
+    private void considerProjectile(DangineBot bot, Vector2f target) {
+        if (Utility.getMatchParameters().getPlayerIdToPower().get(-1) != SubPower.PROJECTILE) {
+            return;
+        }
+        input.setButtonTwo(true);
+    }
+
+    private void considerCounter(DangineBot bot, Vector2f target) {
+        if (Utility.getMatchParameters().getPlayerIdToPower().get(-1) != SubPower.COUNTER) {
+            return;
+        }
+        input.setButtonTwo(false);
+        if (bot.getActiveWeapon().getCounterPower().canCounter()
+                && bot.getPosition().distanceSquared(target) < COUNTER_DISTANCE) {
+            Debugger.info("counterin");
+            input.setButtonTwo(true);
+        }
     }
 
     public DangineSampleInput getWhatDoWithWeapon(BotGreatsword greatsword) {

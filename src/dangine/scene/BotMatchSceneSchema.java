@@ -7,7 +7,6 @@ import dangine.entity.combat.subpower.SubPower;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.Respawner;
-import dangine.entity.world.ObstaclePack;
 import dangine.entity.world.World;
 import dangine.utility.Utility;
 
@@ -37,7 +36,8 @@ public class BotMatchSceneSchema implements SceneSchema {
         scene.getMatchOrchestrator().getScoreKeeper().addBotToGame();
 
         Utility.getMatchParameters().addPlayerPower(0, SubPower.NONE);
-        ObstaclePack.FOUR_CORNERS.applyObstacles(scene);
+        Utility.getMatchParameters().addPlayerPower(-1, SubPower.COUNTER);
+        // ObstaclePack.FOUR_CORNERS.applyObstacles(scene);
     }
 
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.newdawn.slick.Color;
 
+import dangine.bots.DangineBot;
 import dangine.entity.Hero;
 import dangine.entity.combat.subpower.SubPower;
 import dangine.entity.movement.AttackMode;
@@ -58,6 +59,13 @@ public class MatchParameters {
 
     public void givePlayerPower(Hero hero) {
         SubPower power = playerIdToPower.get(hero.getPlayerId());
+        if (power != null) {
+            power.givePower(hero);
+        }
+    }
+
+    public void givePlayerPower(DangineBot hero) {
+        SubPower power = playerIdToPower.get(-1);
         if (power != null) {
             power.givePower(hero);
         }

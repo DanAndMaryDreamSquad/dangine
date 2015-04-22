@@ -2,6 +2,8 @@ package dangine.entity.combat.subpower;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.bots.BotGreatsword;
+import dangine.bots.DangineBot;
 import dangine.entity.combat.GreatSword;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.input.DangineSampleInput;
@@ -15,6 +17,10 @@ public class CounterPower {
     float timer = 0;
     final float MAX_TIME = 5000f;
     boolean createdReadyEffect = false;
+
+    public boolean canCounter() {
+        return timer > MAX_TIME;
+    }
 
     public void update(DangineSampleInput input, GreatSword greatSword) {
         timer += Utility.getGameTime().getDeltaTimeF();
@@ -31,7 +37,29 @@ public class CounterPower {
         }
     }
 
+    public void update(DangineSampleInput input, BotGreatsword greatSword) {
+        timer += Utility.getGameTime().getDeltaTimeF();
+        if (timer > MAX_TIME && !createdReadyEffect) {
+            DangineBot bot = Utility.getActiveScene().getUpdateable(DangineBot.class);
+            Vector2f position = bot.getPosition();
+            createCounterReadyEffect(position.x, position.y);
+            createdReadyEffect = true;
+        }
+        if (input.isButtonTwo() && timer > MAX_TIME) {
+            DangineBot bot = Utility.getActiveScene().getUpdateable(DangineBot.class);
+            Vector2f position = bot.getPosition();
+            counter(input, greatSword, position);
+            timer = 0;
+            createdReadyEffect = false;
+        }
+    }
+
     private void counter(DangineSampleInput input, GreatSword greatSword, Vector2f position) {
+        greatSword.counterCharge();
+        createVisualEffect(position.x, position.y, 0, 360);
+    }
+
+    private void counter(DangineSampleInput input, BotGreatsword greatSword, Vector2f position) {
         greatSword.counterCharge();
         createVisualEffect(position.x, position.y, 0, 360);
     }

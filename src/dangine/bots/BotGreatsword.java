@@ -1,5 +1,6 @@
 package dangine.bots;
 
+import dangine.collision.GreatSwordCounterCollider;
 import dangine.collision.GreatSwordHeavyCollider;
 import dangine.collision.GreatSwordLightCollider;
 import dangine.entity.HasDrawable;
@@ -8,34 +9,39 @@ import dangine.entity.IsUpdateable;
 import dangine.entity.combat.GreatSwordAnimator;
 import dangine.entity.combat.GreatSwordSceneGraph;
 import dangine.entity.combat.IsGreatsword;
+import dangine.entity.combat.subpower.CounterPower;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
 
 public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
 
     enum State {
-        IDLE, HEAVY_CHARGE, HEAVY_SWING, LIGHT_CHARGE, LIGHT_SWING;
+        IDLE, HEAVY_CHARGE, HEAVY_SWING, LIGHT_CHARGE, LIGHT_SWING, COUNTER_CHARGE, COUNTERING;
     }
 
     State state = State.IDLE;
     float timer = 0;
     static final float HEAVY_CHARGE_TIME = 500.0f;
     static final float LIGHT_CHARGE_TIME = 250.0f;
+    static final float COUNTER_CHARGE_TIME = 250.0f;
     static final float CHARGE_TIME = 1000.0f;
     final GreatSwordSceneGraph greatsword = new GreatSwordSceneGraph();
     final GreatSwordAnimator animator = new GreatSwordAnimator(greatsword);
     final GreatSwordHeavyCollider heavyHitbox;
     final GreatSwordLightCollider lightHitbox;
+    final GreatSwordCounterCollider counterHitbox;
     DangineBotLogic logic = new DangineBotLogic();
+    CounterPower counterPower = null;
 
     public BotGreatsword() {
         heavyHitbox = new GreatSwordHeavyCollider(-1);
         lightHitbox = new GreatSwordLightCollider(-1);
+        counterHitbox = new GreatSwordCounterCollider(-1);
     }
 
     @Override
     public void update() {
-        if (heavyHitbox.isClashed() || lightHitbox.isClashed()) {
+        if (heavyHitbox.isClashed() || lightHitbox.isClashed() || counterHitbox.isClashed()) {
             idle();
         }
         switch (state) {
@@ -43,6 +49,7 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
             break;
         case LIGHT_CHARGE:
         case HEAVY_CHARGE:
+        case COUNTER_CHARGE:
             timer += Utility.getGameTime().getDeltaTimeF();
             break;
         case LIGHT_SWING:
@@ -53,9 +60,16 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
             timer += Utility.getGameTime().getDeltaTimeF();
             heavyHitbox.update();
             break;
+        case COUNTERING:
+            timer += Utility.getGameTime().getDeltaTimeF();
+            counterHitbox.update();
+            break;
         }
 
         DangineSampleInput input = logic.getWhatDoWithWeapon(this);
+        if (counterPower != null) {
+            counterPower.update(input, this);
+        }
         if (input.isButtonTwo() && state == State.IDLE) {
             lightCharge();
         }
@@ -68,11 +82,17 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
         if (state == State.HEAVY_SWING && timer > animator.HEAVY_SWING_TIME) {
             idle();
         }
+        if (state == State.COUNTERING && timer > CounterPower.COUNTER_DURATION) {
+            idle();
+        }
         if (state == State.LIGHT_CHARGE && timer > LIGHT_CHARGE_TIME) {
             lightSwinging();
         }
         if (state == State.HEAVY_CHARGE && timer > HEAVY_CHARGE_TIME) {
             heavySwinging();
+        }
+        if (state == State.COUNTER_CHARGE && timer > COUNTER_CHARGE_TIME) {
+            counter();
         }
         animator.update();
     }
@@ -87,8 +107,10 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
         animator.idle();
         greatsword.removeHitbox(heavyHitbox.getDrawable());
         greatsword.removeHitbox(lightHitbox.getDrawable());
+        greatsword.removeHitbox(counterHitbox.getDrawable());
         heavyHitbox.deactivate();
         lightHitbox.deactivate();
+        counterHitbox.deactivate();
     }
 
     public void heavyCharge() {
@@ -121,6 +143,23 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
         lightHitbox.update();
     }
 
+    public void counterCharge() {
+        counterHitbox.deactivate();
+        greatsword.removeHitbox(counterHitbox.getDrawable());
+        state = State.COUNTER_CHARGE;
+        animator.counterCharge();
+        timer = 0;
+    }
+
+    public void counter() {
+        state = State.COUNTERING;
+        animator.countering();
+        counterHitbox.activate();
+        counterHitbox.update();
+        greatsword.addHitbox(counterHitbox.getDrawable());
+        timer = 0;
+    }
+
     public void destroy() {
         heavyHitbox.deactivate();
         lightHitbox.deactivate();
@@ -145,6 +184,14 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
     @Override
     public boolean isCharging() {
         return state == State.LIGHT_CHARGE || state == State.HEAVY_CHARGE;
+    }
+
+    public CounterPower getCounterPower() {
+        return counterPower;
+    }
+
+    public void setCounterPower(CounterPower counterPower) {
+        this.counterPower = counterPower;
     }
 
 }

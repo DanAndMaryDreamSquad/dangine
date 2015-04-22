@@ -13,6 +13,8 @@ import dangine.entity.IsUpdateable;
 import dangine.entity.Vortex;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
+import dangine.entity.combat.subpower.DashPower;
+import dangine.entity.combat.subpower.ProjectilePower;
 import dangine.entity.movement.HeroFacing;
 import dangine.entity.movement.HeroMovement;
 import dangine.entity.visual.DefeatType;
@@ -40,6 +42,8 @@ public class DangineBot implements IsUpdateable, HasDrawable {
     boolean destroyed = false;
     BotGreatsword activeWeapon = null;
     DangineBotLogic logic = new DangineBotLogic();
+    DashPower dashPower = null;
+    ProjectilePower projectilePower = null;
 
     public DangineBot() {
         onHit = new CombatEvent(-1, position, HITBOX_SIZE, getOnHitBy(), this);
@@ -59,6 +63,12 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         } else {
             animator.idle();
         }
+        if (dashPower != null) {
+            dashPower.update(input, getMovement(), getPosition());
+        }
+        if (projectilePower != null) {
+            projectilePower.update(input, getMovement(), getPosition());
+        }
         movement.moveHero(this.position, input, activeWeapon);
         draw.getBase().setPosition(position);
         animator.update();
@@ -68,10 +78,6 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         hitbox.setPosition(position);
         hitbox.setPosition(position.x - HITBOX_SIZE, position.y - HITBOX_SIZE);
         Utility.getActiveScene().getCombatResolver().addEvent(onHit);
-
-        if (input.isButtonTwo()) {
-            this.destroy();
-        }
     }
 
     public void destroy() {
@@ -161,5 +167,21 @@ public class DangineBot implements IsUpdateable, HasDrawable {
 
     public BloxAnimator getAnimator() {
         return animator;
+    }
+
+    public void setDashPower(DashPower dashPower) {
+        this.dashPower = dashPower;
+    }
+
+    public void setProjectilePower(ProjectilePower projectilePower) {
+        this.projectilePower = projectilePower;
+    }
+
+    public DashPower getDashPower() {
+        return dashPower;
+    }
+
+    public ProjectilePower getProjectilePower() {
+        return projectilePower;
     }
 }

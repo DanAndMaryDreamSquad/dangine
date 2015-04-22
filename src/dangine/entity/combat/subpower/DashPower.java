@@ -15,6 +15,10 @@ public class DashPower {
     final float MAX_TIME = 3000f;
     boolean createdReadyEffect = false;
 
+    public boolean canDash() {
+        return timer > MAX_TIME;
+    }
+
     public void update(DangineSampleInput input, HeroMovement movement, Vector2f position) {
         timer += Utility.getGameTime().getDeltaTimeF();
         if (timer > MAX_TIME && !createdReadyEffect) {
