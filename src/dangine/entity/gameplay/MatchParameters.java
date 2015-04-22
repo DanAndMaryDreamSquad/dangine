@@ -8,6 +8,7 @@ import org.newdawn.slick.Color;
 import dangine.bots.DangineBot;
 import dangine.entity.Hero;
 import dangine.entity.combat.subpower.SubPower;
+import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.movement.AttackMode;
 import dangine.entity.movement.FacingMode;
 import dangine.entity.movement.MovementMode;
@@ -27,6 +28,7 @@ public class MatchParameters {
     World currentWorld = World.DIMENSION;
     boolean isRandomWorld = false;
     Color textColor = Color.black;
+    MatchType matchType = MatchType.VERSUS;
 
     public int getStartingStock() {
         return startingStock;
@@ -137,6 +139,14 @@ public class MatchParameters {
 
     public void setRandomWorld(boolean isRandomWorld) {
         this.isRandomWorld = isRandomWorld;
+    }
+
+    public MatchType getMatchType() {
+        return matchType;
+    }
+
+    public void setMatchType(MatchType matchType) {
+        this.matchType = matchType;
     }
 
 }

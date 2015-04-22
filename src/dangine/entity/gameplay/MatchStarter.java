@@ -14,7 +14,7 @@ public class MatchStarter implements IsUpdateable {
     MatchParameters matchParameters = null;
 
     public MatchStarter() {
-        this.matchType = MatchType.VERSUS;
+        this.matchType = Utility.getMatchParameters().getMatchType();
     }
 
     public MatchStarter(MatchType matchType) {
@@ -23,7 +23,7 @@ public class MatchStarter implements IsUpdateable {
 
     @Override
     public void update() {
-        Debugger.info("Starting match");
+        Debugger.info("Starting match " + matchType);
         switch (matchType) {
         case VERSUS:
             Utility.getGameHarness().startMatch();
