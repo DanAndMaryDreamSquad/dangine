@@ -4,7 +4,6 @@ import org.newdawn.slick.geom.Vector2f;
 
 import dangine.bots.BotGreatsword.State;
 import dangine.collision.CollisionUtility;
-import dangine.debugger.Debugger;
 import dangine.entity.Hero;
 import dangine.entity.Vortex;
 import dangine.entity.combat.subpower.SubPower;
@@ -15,7 +14,7 @@ public class DangineBotLogic {
 
     final int WALL_BUFFER = 100;
     final float DASH_DISTANCE = 125 * 125;
-    final float COUNTER_DISTANCE = 10 * 10;
+    final float COUNTER_DISTANCE = 100 * 100;
     DangineSampleInput input = new DangineSampleInput();
     DangineSampleInput emptyInput = new DangineSampleInput();
     DangineSampleInput swingInput = new DangineSampleInput();
@@ -35,7 +34,6 @@ public class DangineBotLogic {
             approach(bot, target.getPosition());
             considerDashing(bot, target.getPosition());
             considerProjectile(bot, target.getPosition());
-            considerCounter(bot, target.getPosition());
         }
         avoidWalls(bot);
         avoidHazards(bot);
@@ -132,15 +130,17 @@ public class DangineBotLogic {
         input.setButtonTwo(true);
     }
 
-    private void considerCounter(DangineBot bot, Vector2f target) {
+    private void considerCounter(BotGreatsword greatsword, Vector2f target) {
         if (Utility.getMatchParameters().getPlayerIdToPower().get(-1) != SubPower.COUNTER) {
             return;
         }
-        input.setButtonTwo(false);
+        DangineBot bot = Utility.getActiveScene().getUpdateable(DangineBot.class);
+        swingInput.setButtonThree(false);
         if (bot.getActiveWeapon().getCounterPower().canCounter()
                 && bot.getPosition().distanceSquared(target) < COUNTER_DISTANCE) {
-            Debugger.info("counterin");
-            input.setButtonTwo(true);
+            swingInput.setButtonOne(false);
+            swingInput.setButtonTwo(false);
+            swingInput.setButtonThree(true);
         }
     }
 
@@ -162,6 +162,7 @@ public class DangineBotLogic {
         if (greatsword.getState() == State.LIGHT_SWING) {
             lastSwingWasHeavy = false;
         }
+        considerCounter(greatsword, target.getPosition());
         return swingInput;
     }
 

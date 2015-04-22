@@ -23,7 +23,7 @@ public class GreatSwordCounterCollider implements IsUpdateable, HasDrawable {
 
     int wielderId = 0;
     final int SIZE = 50;
-    final float HITBOX_SIZE = 25;
+    final float HITBOX_SIZE = 50;
     final Vector2f DRAW_POSITION = new Vector2f(-16, 0);
     float MAX_X = Utility.getResolution().x;
     float MAX_Y = Utility.getResolution().y;

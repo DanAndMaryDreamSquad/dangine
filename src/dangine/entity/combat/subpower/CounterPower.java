@@ -45,7 +45,7 @@ public class CounterPower {
             createCounterReadyEffect(position.x, position.y);
             createdReadyEffect = true;
         }
-        if (input.isButtonTwo() && timer > MAX_TIME) {
+        if (input.isButtonThree() && timer > MAX_TIME) {
             DangineBot bot = Utility.getActiveScene().getUpdateable(DangineBot.class);
             Vector2f position = bot.getPosition();
             counter(input, greatSword, position);
