@@ -14,7 +14,7 @@ public class DangineBotLogic {
 
     final int WALL_BUFFER = 100;
     final float DASH_DISTANCE = 125 * 125;
-    final float COUNTER_DISTANCE = 100 * 100;
+    final float COUNTER_DISTANCE = 125 * 125;
     DangineSampleInput input = new DangineSampleInput();
     DangineSampleInput emptyInput = new DangineSampleInput();
     DangineSampleInput swingInput = new DangineSampleInput();

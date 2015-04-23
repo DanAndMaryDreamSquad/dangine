@@ -5,6 +5,7 @@ import java.util.List;
 
 import dangine.entity.IsUpdateable;
 import dangine.entity.gameplay.MatchStarter.MatchType;
+import dangine.menu.BotSettingsMenu;
 import dangine.menu.CharacterSelectionMenu;
 import dangine.menu.TitleMenu;
 import dangine.menu.WorldSelectionMenu;
@@ -57,9 +58,19 @@ public class CharacterSelect implements IsUpdateable {
                 Utility.getActiveScene().getParentNode().removeChild(menu.getDrawable());
             }
             Utility.getActiveScene().removeUpdateable(this);
-            WorldSelectionMenu worldMenu = new WorldSelectionMenu();
-            Utility.getActiveScene().addUpdateable(worldMenu);
-            Utility.getActiveScene().getParentNode().addChild(worldMenu.getDrawable());
+            switch (Utility.getMatchParameters().getMatchType()) {
+            case VERSUS:
+                WorldSelectionMenu worldMenu = new WorldSelectionMenu();
+                Utility.getActiveScene().addUpdateable(worldMenu);
+                Utility.getActiveScene().getParentNode().addChild(worldMenu.getDrawable());
+                break;
+            case BOT_MATCH:
+                BotSettingsMenu botMenu = new BotSettingsMenu();
+                Utility.getActiveScene().addUpdateable(botMenu);
+                Utility.getActiveScene().getParentNode().addChild(botMenu.getDrawable());
+                break;
+            }
+
         }
     }
 

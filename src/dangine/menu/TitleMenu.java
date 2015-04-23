@@ -3,7 +3,6 @@ package dangine.menu;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
-import dangine.entity.gameplay.MatchStarter;
 import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scene.CharacterSelect;
@@ -62,10 +61,6 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
                 Utility.getActiveScene().addUpdateable(characterSelect);
                 Utility.getActiveScene().removeUpdateable(TitleMenu.this);
                 Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
-//                MatchStarter matchStarter = new MatchStarter(MatchType.BOT_MATCH);
-//                Utility.getActiveScene().addUpdateable(matchStarter);
-//                Utility.getActiveScene().removeUpdateable(TitleMenu.this);
-//                Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
             }
         };
     }

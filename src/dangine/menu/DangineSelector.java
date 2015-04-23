@@ -43,7 +43,7 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
         if (currentItem != null) {
             currentItem.activate(input, prevInput);
         }
-        if (onEscape != null && input.isButtonThree()) {
+        if (onEscape != null && input.isButtonThree() && !prevInput.isButtonThree()) {
             onEscape.execute();
         }
         if (currentItem != previousItem) {

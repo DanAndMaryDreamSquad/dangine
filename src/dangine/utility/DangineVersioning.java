@@ -2,8 +2,8 @@ package dangine.utility;
 
 public class DangineVersioning {
 
-    public static final String description = "map mayhem";
-    public static final int major = 3;
+    public static final String description = "bot bonanza";
+    public static final int major = 4;
     public static final int minor = 0;
 
     public static String getVersion() {
