@@ -2,7 +2,6 @@ package dangine.collision;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import dangine.bots.DangineBot;
 import dangine.debugger.Debugger;
 import dangine.entity.Bouncer;
 import dangine.entity.HasDrawable;
@@ -71,7 +70,7 @@ public class GreatSwordHeavyCollider implements IsUpdateable, HasDrawable {
                 }
                 HeroMovement movement = null;
                 if (wielderId < 0) {
-                    movement = Utility.getActiveScene().getUpdateable(DangineBot.class).getMovement();
+                    movement = Utility.getActiveScene().getBot(wielderId).getMovement();
                 } else {
                     movement = Utility.getActiveScene().getHero(wielderId).getMovement();
                 }

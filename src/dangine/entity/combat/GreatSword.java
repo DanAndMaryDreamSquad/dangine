@@ -30,13 +30,6 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
     final GreatSwordCounterCollider counterHitbox;
     CounterPower counterPower = null;
 
-    public GreatSword() {
-        playerId = 0;
-        heavyHitbox = new GreatSwordHeavyCollider(playerId);
-        lightHitbox = new GreatSwordLightCollider(playerId);
-        counterHitbox = new GreatSwordCounterCollider(playerId);
-    }
-
     public GreatSword(int playerId) {
         this.playerId = playerId;
         heavyHitbox = new GreatSwordHeavyCollider(playerId);

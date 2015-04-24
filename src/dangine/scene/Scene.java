@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import dangine.bots.DangineBot;
 import dangine.entity.Bouncer;
 import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
@@ -83,6 +84,18 @@ public class Scene implements IsUpdateable, IsDrawable {
                 Hero hero = (Hero) u;
                 if (hero.getPlayerId() == id) {
                     return hero;
+                }
+            }
+        }
+        return null;
+    }
+
+    public DangineBot getBot(int id) {
+        for (IsUpdateable u : updateables) {
+            if (u instanceof DangineBot) {
+                DangineBot bot = (DangineBot) u;
+                if (bot.getBotId() == id) {
+                    return bot;
                 }
             }
         }

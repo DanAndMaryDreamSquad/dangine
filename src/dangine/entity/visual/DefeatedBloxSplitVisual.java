@@ -33,8 +33,8 @@ public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
                 node = (SceneGraphNode) hero.getDrawable();
             }
         } else {
-            DangineBot bot = Utility.getActiveScene().getUpdateable(DangineBot.class);
-            if (Utility.getActiveScene().getUpdateable(DangineBot.class) != null) {
+            DangineBot bot = Utility.getActiveScene().getBot(playerId);
+            if (bot != null) {
                 node = (SceneGraphNode) bot.getDrawable();
             }
         }

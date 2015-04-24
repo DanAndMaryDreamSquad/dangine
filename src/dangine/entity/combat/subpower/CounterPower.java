@@ -40,13 +40,13 @@ public class CounterPower {
     public void update(DangineSampleInput input, BotGreatsword greatSword) {
         timer += Utility.getGameTime().getDeltaTimeF();
         if (timer > MAX_TIME && !createdReadyEffect) {
-            DangineBot bot = Utility.getActiveScene().getUpdateable(DangineBot.class);
+            DangineBot bot = Utility.getActiveScene().getBot(greatSword.getBotId());
             Vector2f position = bot.getPosition();
             createCounterReadyEffect(position.x, position.y);
             createdReadyEffect = true;
         }
         if (input.isButtonThree() && timer > MAX_TIME) {
-            DangineBot bot = Utility.getActiveScene().getUpdateable(DangineBot.class);
+            DangineBot bot = Utility.getActiveScene().getBot(greatSword.getBotId());
             Vector2f position = bot.getPosition();
             counter(input, greatSword, position);
             timer = 0;

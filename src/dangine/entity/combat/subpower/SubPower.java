@@ -49,8 +49,8 @@ public enum SubPower {
         }
 
         @Override
-        public void givePower(DangineBot hero) {
-            hero.setProjectilePower(new ProjectilePower(-1));
+        public void givePower(DangineBot bot) {
+            bot.setProjectilePower(new ProjectilePower(bot.getBotId()));
         }
 
         @Override

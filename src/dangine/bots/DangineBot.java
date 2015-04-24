@@ -29,7 +29,7 @@ import dangine.utility.Utility;
 public class DangineBot implements IsUpdateable, HasDrawable {
 
     final float SPEED = 0.3f;
-
+    final int botId;
     final Vector2f position = new Vector2f(200, 200);
     final BloxSceneGraph draw = new BloxSceneGraph();
     final BloxAnimator animator = new BloxAnimator(draw);
@@ -45,11 +45,12 @@ public class DangineBot implements IsUpdateable, HasDrawable {
     DashPower dashPower = null;
     ProjectilePower projectilePower = null;
 
-    public DangineBot() {
-        onHit = new CombatEvent(-1, position, HITBOX_SIZE, getOnHitBy(), this);
+    public DangineBot(int botId) {
+        this.botId = botId;
+        onHit = new CombatEvent(botId, position, HITBOX_SIZE, getOnHitBy(), this);
         hitbox = new CombatEventHitbox(onHit);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
-        Color color = Utility.getMatchParameters().getPlayerColor(-1);
+        Color color = Utility.getMatchParameters().getPlayerColor(botId);
         BloxColorer.color(draw, color);
     }
 
@@ -96,12 +97,12 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         Vector2f absolutePosition = new Vector2f();
         absolutePosition = ScreenUtility.getWorldPosition(draw.getBody(), absolutePosition);
 
-        defeatType.applyEffect(absolutePosition.x, absolutePosition.y, -1);
+        defeatType.applyEffect(absolutePosition.x, absolutePosition.y, botId);
 
         Utility.getActiveScene().removeUpdateable(this);
         Utility.getActiveScene().getCameraNode().removeChild(this.getDrawable());
         Utility.getActiveScene().getCameraNode().removeChild(hitbox.getDrawable());
-        Utility.getActiveScene().getMatchOrchestrator().addEvent(new BotDefeatEvent(-1));
+        Utility.getActiveScene().getMatchOrchestrator().addEvent(new BotDefeatEvent(botId));
 
         Debugger.info("destroying bot ");
     }
@@ -183,5 +184,9 @@ public class DangineBot implements IsUpdateable, HasDrawable {
 
     public ProjectilePower getProjectilePower() {
         return projectilePower;
+    }
+
+    public int getBotId() {
+        return botId;
     }
 }

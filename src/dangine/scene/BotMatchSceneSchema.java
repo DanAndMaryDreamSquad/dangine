@@ -30,8 +30,10 @@ public class BotMatchSceneSchema implements SceneSchema {
         scene.addUpdateable(scene.getMatchOrchestrator().getScoreKeeper());
         scene.getParentNode().addChild(scene.getMatchOrchestrator().getScoreKeeper().getDrawable());
 
-        scene.addUpdateable(new BotRespawner(-1));
-        scene.getMatchOrchestrator().getScoreKeeper().addBotToGame();
+        for (int i = 1; i < Utility.getMatchParameters().getNumberOfBots() + 1; i++) {
+            scene.addUpdateable(new BotRespawner(-i));
+            scene.getMatchOrchestrator().getScoreKeeper().addBotToGame(-i);
+        }
 
         Utility.getMatchParameters().getCurrentWorld().createWorld(scene);
         if (Utility.getMatchParameters().isRandomWorld()) {

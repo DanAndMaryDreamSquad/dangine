@@ -21,6 +21,7 @@ public class MatchParameters {
     Map<Integer, Color> playerIdToColor = new HashMap<Integer, Color>();
     Map<Integer, SubPower> playerIdToPower = new HashMap<Integer, SubPower>();
     int startingStock = 3;
+    int numberOfBots = 2;
     MovementMode movementMode = MovementMode.MOVE_FREE_TURN_SWING_LOCK;
     AttackMode attackMode = AttackMode.HOLD_TO_CHARGE;
     FacingMode facingMode = FacingMode.EIGHT_WAY;
@@ -66,10 +67,10 @@ public class MatchParameters {
         }
     }
 
-    public void givePlayerPower(DangineBot hero) {
-        SubPower power = playerIdToPower.get(-1);
+    public void givePlayerPower(DangineBot bot) {
+        SubPower power = playerIdToPower.get(bot.getBotId());
         if (power != null) {
-            power.givePower(hero);
+            power.givePower(bot);
         }
     }
 
@@ -147,6 +148,14 @@ public class MatchParameters {
 
     public void setMatchType(MatchType matchType) {
         this.matchType = matchType;
+    }
+
+    public int getNumberOfBots() {
+        return numberOfBots;
+    }
+
+    public void setNumberOfBots(int numberOfBots) {
+        this.numberOfBots = numberOfBots;
     }
 
 }

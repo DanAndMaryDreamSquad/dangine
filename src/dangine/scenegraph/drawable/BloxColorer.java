@@ -3,6 +3,7 @@ package dangine.scenegraph.drawable;
 import org.newdawn.slick.Color;
 
 import dangine.entity.combat.GreatSwordSceneGraph;
+import dangine.utility.MathUtility;
 
 public class BloxColorer {
 
@@ -50,6 +51,10 @@ public class BloxColorer {
         greatsword.getLeftArmShape().setColor(darker);
         greatsword.getRightArmShape().setColor(lighter);
 
+    }
+
+    public static Color randomColor() {
+        return COLORS[MathUtility.randomInt(0, COLORS.length - 1)];
     }
 
 }

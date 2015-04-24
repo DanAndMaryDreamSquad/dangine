@@ -1,8 +1,11 @@
 package dangine.entity.gameplay;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -18,6 +21,7 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     List<SceneGraphNode> scoreNodes = new ArrayList<SceneGraphNode>();
     List<DangineText> textNodes = new ArrayList<DangineText>();
     List<PlayerScore> scores = new ArrayList<PlayerScore>();
+    Map<Integer, DangineText> playerIdToTextNode = new HashMap<Integer, DangineText>();
     float timer = 0;
     final float FADE_TIME = 4000;
     final float FADE_DELAY = 2000;
@@ -26,12 +30,13 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
         for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
             SceneGraphNode score = new SceneGraphNode();
             DangineText text = new DangineText();
+            playerIdToTextNode.put(player.getPlayerId(), text);
             score.addChild(text);
             scoreNodes.add(score);
             textNodes.add(text);
             base.addChild(score);
-            int set = player.getPlayerId() / 2;
-            float y = Utility.getResolution().y - (20 * (3 - set));
+            int row = player.getPlayerId() / 2;
+            float y = Utility.getResolution().y - (20 * (row + 1));
             int width = player.getPlayerId() % 2;
             float x = (Utility.getResolution().x / 2.0f) * width;
             score.setPosition(x, y);
@@ -54,17 +59,19 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
         }
     }
 
-    public void addBotToGame() {
-        scores.add(new PlayerScore(-1));
+    public void addBotToGame(int botId) {
+        scores.add(new PlayerScore(botId));
         SceneGraphNode score = new SceneGraphNode();
         DangineText text = new DangineText();
+        playerIdToTextNode.put(botId, text);
         score.addChild(text);
         scoreNodes.add(score);
         textNodes.add(text);
         base.addChild(score);
-        int set = 1 / 2;
-        float y = Utility.getResolution().y - (20 * (3 - set));
-        int width = 1 % 2;
+
+        int row = scores.size() / 2;
+        float y = Utility.getResolution().y - (20 * (row + 1));
+        int width = scores.size() % 2;
         float x = (Utility.getResolution().x / 2.0f) * width;
         score.setPosition(x, y);
         updatePlayerScores();
@@ -82,10 +89,18 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
 
     public boolean checkSceneOver() {
         int playersWithLivesLeft = 0;
+        int botsWithLivesLeft = 0;
         for (PlayerScore score : scores) {
             if (score.getStock() >= 0) {
-                playersWithLivesLeft++;
+                if (score.getPlayerId() >= 0) {
+                    playersWithLivesLeft++;
+                } else {
+                    botsWithLivesLeft++;
+                }
             }
+        }
+        if (botsWithLivesLeft > 0) {
+            return playersWithLivesLeft == 0;
         }
         return playersWithLivesLeft <= 1;
     }
@@ -95,17 +110,24 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     }
 
     public void applyEndOfRound() {
+        Debugger.info("round over");
         List<Integer> playersLeft = new ArrayList<Integer>();
+        List<Integer> botsLeft = new ArrayList<Integer>();
         for (PlayerScore score : scores) {
             if (score.getStock() >= 0) {
-                playersLeft.add(score.getPlayerId());
+                if (score.getPlayerId() >= 0) {
+                    playersLeft.add(score.getPlayerId());
+                } else {
+                    botsLeft.add(score.getPlayerId());
+                }
             }
         }
-        if (playersLeft.size() == 1) {
+        if (botsLeft.size() > 0) {
+            Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(botsLeft));
+        } else if (playersLeft.size() == 1) {
             Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(playersLeft.get(0)));
-        }
-        if (playersLeft.size() == 0) {
-            Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(null));
+        } else if (playersLeft.size() == 0) {
+            Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(playersLeft));
         }
     }
 
@@ -114,13 +136,13 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
             return;
         }
         for (PlayerScore score : scores) {
-            if (score.getPlayerId() == -1) {
-                int botStock = getPlayerScore(-1).getStock();
-                textNodes.get(1).setText("Bot Avatars Remaining: " + botStock);
+            if (score.getPlayerId() < 0) {
+                int botStock = getPlayerScore(score.getPlayerId()).getStock();
+                playerIdToTextNode.get(score.playerId).setText("Bot Avatars Remaining: " + botStock);
                 continue;
             }
             int stock = score.getStock();
-            textNodes.get(score.getPlayerId()).setText("P" + score.getPlayerId() + " Avatars Remaining: " + stock);
+            playerIdToTextNode.get(score.playerId).setText("P" + score.getPlayerId() + " Avatars Remaining: " + stock);
         }
         timer = 0;
     }

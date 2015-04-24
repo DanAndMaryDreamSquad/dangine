@@ -19,6 +19,7 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
         IDLE, HEAVY_CHARGE, HEAVY_SWING, LIGHT_CHARGE, LIGHT_SWING, COUNTER_CHARGE, COUNTERING;
     }
 
+    final int botId;
     State state = State.IDLE;
     float timer = 0;
     static final float HEAVY_CHARGE_TIME = 500.0f;
@@ -33,10 +34,11 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
     DangineBotLogic logic = new DangineBotLogic();
     CounterPower counterPower = null;
 
-    public BotGreatsword() {
-        heavyHitbox = new GreatSwordHeavyCollider(-1);
-        lightHitbox = new GreatSwordLightCollider(-1);
-        counterHitbox = new GreatSwordCounterCollider(-1);
+    public BotGreatsword(int botId) {
+        this.botId = botId;
+        heavyHitbox = new GreatSwordHeavyCollider(botId);
+        lightHitbox = new GreatSwordLightCollider(botId);
+        counterHitbox = new GreatSwordCounterCollider(botId);
     }
 
     @Override
@@ -194,6 +196,10 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
 
     public void setCounterPower(CounterPower counterPower) {
         this.counterPower = counterPower;
+    }
+
+    public int getBotId() {
+        return botId;
     }
 
 }

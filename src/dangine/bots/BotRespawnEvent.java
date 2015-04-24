@@ -19,11 +19,11 @@ public class BotRespawnEvent implements MatchEvent {
 
     @Override
     public void process() {
-        DangineBot bot = new DangineBot();
+        DangineBot bot = new DangineBot(botId);
         bot.setPosition(x, y);
         Utility.getActiveScene().addUpdateable(bot);
         Utility.getActiveScene().getCameraNode().addChild(bot.getDrawable());
-        BotGreatsword greatsword = new BotGreatsword();
+        BotGreatsword greatsword = new BotGreatsword(botId);
         bot.equipWeapon(greatsword);
         Utility.getActiveScene().addUpdateable(greatsword);
         Utility.getMatchParameters().givePlayerPower(bot);
