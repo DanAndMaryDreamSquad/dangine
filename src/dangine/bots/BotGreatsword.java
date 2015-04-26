@@ -3,6 +3,7 @@ package dangine.bots;
 import dangine.collision.GreatSwordCounterCollider;
 import dangine.collision.GreatSwordHeavyCollider;
 import dangine.collision.GreatSwordLightCollider;
+import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -163,6 +164,7 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
     }
 
     public void destroy() {
+        Debugger.info("destroying bot weapon");
         heavyHitbox.deactivate();
         lightHitbox.deactivate();
         counterHitbox.deactivate();

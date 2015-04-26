@@ -1,6 +1,7 @@
 package dangine.scene;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class Scene implements IsUpdateable, IsDrawable {
     List<IsUpdateable> updateables = new ArrayList<IsUpdateable>();
     List<IsUpdateable> toAdd = new LinkedList<IsUpdateable>();
     List<IsUpdateable> toRemove = new LinkedList<IsUpdateable>();
+    final List<Hero> heroes = new LinkedList<Hero>();
     final List<Obstruction> obstructions = new LinkedList<Obstruction>();
     final List<Vortex> vortexes = new LinkedList<Vortex>();
     final List<Bouncer> bouncers = new LinkedList<Bouncer>();
@@ -45,14 +47,8 @@ public class Scene implements IsUpdateable, IsDrawable {
         }
         combatResolver.resolveCombat();
         matchOrchestrator.resolveMatchEvents();
-        for (IsUpdateable update : toAdd) {
-            updateables.add(update);
-        }
-        toAdd.clear();
-        for (IsUpdateable update : toRemove) {
-            updateables.remove(update);
-        }
-        toRemove.clear();
+        addAll();
+        removeAll();
     }
 
     @Override
@@ -62,15 +58,6 @@ public class Scene implements IsUpdateable, IsDrawable {
     }
 
     public void addUpdateable(IsUpdateable updateable) {
-        if (updateable instanceof Obstruction) {
-            obstructions.add((Obstruction) updateable);
-        }
-        if (updateable instanceof Vortex) {
-            vortexes.add((Vortex) updateable);
-        }
-        if (updateable instanceof Bouncer) {
-            bouncers.add((Bouncer) updateable);
-        }
         toAdd.add(updateable);
     }
 
@@ -78,16 +65,55 @@ public class Scene implements IsUpdateable, IsDrawable {
         toRemove.add(updateable);
     }
 
+    private void addAll() {
+        for (IsUpdateable update : toAdd) {
+            if (update instanceof Hero) {
+                heroes.add((Hero) update);
+            }
+            if (update instanceof Obstruction) {
+                obstructions.add((Obstruction) update);
+            }
+            if (update instanceof Vortex) {
+                vortexes.add((Vortex) update);
+            }
+            if (update instanceof Bouncer) {
+                bouncers.add((Bouncer) update);
+            }
+            updateables.add(update);
+        }
+        toAdd.clear();
+    }
+
+    private void removeAll() {
+        for (IsUpdateable update : toRemove) {
+            if (update instanceof Hero) {
+                heroes.remove(update);
+            }
+            if (update instanceof Obstruction) {
+                obstructions.remove((Obstruction) update);
+            }
+            if (update instanceof Vortex) {
+                vortexes.remove((Vortex) update);
+            }
+            if (update instanceof Bouncer) {
+                bouncers.remove((Bouncer) update);
+            }
+            updateables.remove(update);
+        }
+        toRemove.clear();
+    }
+
     public Hero getHero(int id) {
-        for (IsUpdateable u : updateables) {
-            if (u instanceof Hero) {
-                Hero hero = (Hero) u;
-                if (hero.getPlayerId() == id) {
-                    return hero;
-                }
+        for (Hero hero : heroes) {
+            if (hero.getPlayerId() == id) {
+                return hero;
             }
         }
         return null;
+    }
+
+    public Iterator<Hero> getHeroes() {
+        return heroes.iterator();
     }
 
     public DangineBot getBot(int id) {

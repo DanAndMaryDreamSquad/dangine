@@ -1,5 +1,7 @@
 package dangine.bots;
 
+import java.util.Iterator;
+
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.bots.BotGreatsword.State;
@@ -21,7 +23,7 @@ public class DangineBotLogic {
     boolean lastSwingWasHeavy = false;
 
     public DangineSampleInput getWhatToDo(DangineBot bot) {
-        Hero target = Utility.getActiveScene().getHero(0);
+        Hero target = getClosestTarget(bot.getPosition());
         input.setButtonTwo(false);
         if (target == null) {
             avoidHazards(bot);
@@ -145,7 +147,12 @@ public class DangineBotLogic {
     }
 
     public DangineSampleInput getWhatDoWithWeapon(BotGreatsword greatsword) {
-        Hero target = Utility.getActiveScene().getHero(0);
+        DangineBot wielder = Utility.getActiveScene().getBot(greatsword.getBotId());
+        if (wielder == null) {
+            return emptyInput;
+        }
+        Vector2f botLocation = wielder.getPosition();
+        Hero target = getClosestTarget(botLocation);
         if (target == null) {
             return emptyInput;
         }
@@ -164,6 +171,21 @@ public class DangineBotLogic {
         }
         considerCounter(greatsword, target.getPosition());
         return swingInput;
+    }
+
+    private Hero getClosestTarget(Vector2f botPosition) {
+        Iterator<Hero> heroes = Utility.getActiveScene().getHeroes();
+        Hero target = null;
+        float minDistance = Float.MAX_VALUE;
+        while (heroes.hasNext()) {
+            Hero hero = heroes.next();
+            float dist = botPosition.distanceSquared(hero.getPosition());
+            if (dist < minDistance) {
+                target = hero;
+                dist = minDistance;
+            }
+        }
+        return target;
     }
 
 }

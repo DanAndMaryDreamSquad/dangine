@@ -51,9 +51,9 @@ public class GameHarness extends BasicGame {
 
     public void startBotMatch() {
 
-        while (Utility.getPlayers().getPlayers().size() > 1) {
-            Utility.getPlayers().removePlayer();
-        }
+        // while (Utility.getPlayers().getPlayers().size() > 1) {
+        // Utility.getPlayers().removePlayer();
+        // }
         dangineGame = provider.get();
         dangineGame.init(new BotMatchSceneSchema());
     }
