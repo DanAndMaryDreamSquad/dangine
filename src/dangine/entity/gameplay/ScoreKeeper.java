@@ -95,6 +95,7 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
         case BOT_MATCH:
             return checkVersusSceneOver();
         case TEAM_VERSUS:
+        case COOP_VS_BOTS:
             return checkTeamBattleSceneOver();
         }
         return false;

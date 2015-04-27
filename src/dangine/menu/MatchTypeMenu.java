@@ -20,6 +20,7 @@ implements IsUpdateable, HasDrawable {
         menu.addItem(new DangineMenuItem("Free For All", getFreeForAllAction()));
         menu.addItem(new DangineMenuItem("Team Battle", getTeamBattleAction()));
         menu.addItem(new DangineMenuItem("Bot Battle", getBotBattleAction()));
+        menu.addItem(new DangineMenuItem("Co-op VS Bots", getCoopVsBotsAction()));
         menu.addItem(new DangineMenuItem("Back", getOnEscapeAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
         menu.getItem(0).getBase().addChild(selector.getDrawable());
@@ -68,6 +69,18 @@ implements IsUpdateable, HasDrawable {
             @Override
             public void execute() {
                 Utility.getMatchParameters().setMatchType(MatchType.BOT_MATCH);
+                removeMatchTypeMenu();
+                goToCharacterSelect();
+            }
+        };
+    }
+
+    private Action getCoopVsBotsAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                Utility.getMatchParameters().setMatchType(MatchType.COOP_VS_BOTS);
                 removeMatchTypeMenu();
                 goToCharacterSelect();
             }

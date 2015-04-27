@@ -48,19 +48,27 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
         node.setPosition(75 + (playerId * (Utility.getResolution().x / 6.0f)), 450);
         blox.getBase().setPosition(-50, 0);
         menu.addItem(new DangineMenuItem("Ready", getReadyAction()));
-        menu.addItem(new DangineMenuItem("Next Color", getNextColorAction()));
-        menu.addItem(new DangineMenuItem("Sub Power", getNextPowerAction()));
-        menu.getBase().addChild(powerTextNode);
-        if (Utility.getMatchParameters().getMatchType() == MatchType.TEAM_VERSUS) {
+        if (Utility.getMatchParameters().getMatchType().isTeamMode()) {
             menu.addItem(new DangineMenuItem("Team:", getNextTeamAction(), getPrevTeamAction()));
             teamTextNode.addChild(teamText);
             menu.getBase().addChild(teamTextNode);
+        } else {
+            menu.addItem(new DangineMenuItem("Next Color", getNextColorAction()));
+        }
+        menu.addItem(new DangineMenuItem("Sub Power", getNextPowerAction()));
+        menu.getBase().addChild(powerTextNode);
+        if (Utility.getMatchParameters().getMatchType() == MatchType.TEAM_VERSUS) {
         }
         menu.addItem(new DangineMenuItem("Back", getOnEscapeAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
 
         powerTextNode.addChild(powerText);
-
+        if (Utility.getMatchParameters().getMatchType().isTeamMode()) {
+            int team = Utility.getMatchParameters().getPlayerTeam(playerId);
+            color = BloxColorer.TEAM_COLORS[team];
+        } else {
+            color = Utility.getMatchParameters().getPlayerColor(playerId);
+        }
         reColor();
         updateText();
     }
@@ -119,6 +127,7 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
                     i = 0;
                 }
                 color = BloxColorer.COLORS[i];
+                Utility.getMatchParameters().addPlayerColor(playerId, color);
                 reColor();
             }
         };
@@ -144,7 +153,10 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
             public void execute() {
                 int team = Utility.getMatchParameters().getPlayerTeam(getPlayerId());
                 team++;
+                team = team % 6;
                 Utility.getMatchParameters().addPlayerTeam(getPlayerId(), team);
+                color = BloxColorer.TEAM_COLORS[team];
+                reColor();
                 updateText();
             }
 
@@ -158,7 +170,10 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
             public void execute() {
                 int team = Utility.getMatchParameters().getPlayerTeam(getPlayerId());
                 team--;
+                team = (team + 6) % 6;
                 Utility.getMatchParameters().addPlayerTeam(getPlayerId(), team);
+                color = BloxColorer.TEAM_COLORS[team];
+                reColor();
                 updateText();
             }
 

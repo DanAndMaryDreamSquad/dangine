@@ -32,14 +32,18 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
     SceneGraphNode facingModeEnumNode = new SceneGraphNode();
     DangineText facingModeEnumText = new DangineText();
 
+    DangineMenuItem friendlyFireItem = new DangineMenuItem("Friendly Fire: "
+            + Utility.getMatchParameters().isFriendlyFire(), getToggleFriendlyFireAction());
+
     public SettingsMenu() {
         selector.setOnEscape(getExitMenuAction());
         menu.addItem(new DangineMenuItem("Stock: ", getStockIncrementAction(), getStockDecrementAction()));
+        menu.addItem(friendlyFireItem);
         menu.addItem(new DangineMenuItem("Change Movement Mode: ", getNextMovementModeAction()));
         menu.getBase().addChild(movementModeTextNode);
-        menu.getBase().addChild(new SceneGraphNode());
-        menu.addItem(new DangineMenuItem("Change Attack Mode: ", getNextAttackModeAction()));
-        menu.getBase().addChild(attackModeTextNode);
+        // menu.addItem(new DangineMenuItem("Change Attack Mode: ",
+        // getNextAttackModeAction()));
+        // menu.getBase().addChild(attackModeTextNode);
         menu.getBase().addChild(new SceneGraphNode());
         menu.addItem(new DangineMenuItem("Change Facing Mode: ", getNextFacingModeAction()));
         menu.getBase().addChild(facingModeTextNode);
@@ -51,9 +55,9 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         movementModeTextNode.addChild(movementModeText);
         movementModeTextNode.addChild(movementModeEnumNode);
         movementModeEnumNode.addChild(movementModeEnumText);
-        attackModeTextNode.addChild(attackModeText);
-        attackModeTextNode.addChild(attackModeEnumNode);
-        attackModeEnumNode.addChild(attackModeEnumText);
+        // attackModeTextNode.addChild(attackModeText);
+        // attackModeTextNode.addChild(attackModeEnumNode);
+        // attackModeEnumNode.addChild(attackModeEnumText);
         facingModeTextNode.addChild(facingModeText);
         facingModeTextNode.addChild(facingModeEnumNode);
         facingModeEnumNode.addChild(facingModeEnumText);
@@ -84,6 +88,7 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
 
     private void updateText() {
         stockText.setText("" + Utility.getMatchParameters().getStartingStock());
+        friendlyFireItem.getItemText().setText("Friendly Fire: " + Utility.getMatchParameters().isFriendlyFire());
         movementModeText.setText("" + Utility.getMatchParameters().getMovementMode().description());
         movementModeEnumText.setText("" + Utility.getMatchParameters().getMovementMode().toString());
         attackModeText.setText("" + Utility.getMatchParameters().getAttackMode().description());
@@ -124,6 +129,20 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         };
     }
 
+    private Action getToggleFriendlyFireAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                boolean isFriendlyFire = Utility.getMatchParameters().isFriendlyFire();
+                isFriendlyFire = !isFriendlyFire;
+                Utility.getMatchParameters().setFriendlyFire(isFriendlyFire);
+                updateText();
+            }
+
+        };
+    }
+
     private Action getNextMovementModeAction() {
         return new Action() {
 
@@ -138,6 +157,7 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         };
     }
 
+    @SuppressWarnings("unused")
     private Action getNextAttackModeAction() {
         return new Action() {
 

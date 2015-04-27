@@ -38,16 +38,10 @@ public class BotGreatsword implements IsUpdateable, HasDrawable, IsGreatsword {
 
     public BotGreatsword(int botId) {
         this.botId = botId;
-        if (Utility.getMatchParameters().getMatchType() == MatchType.TEAM_VERSUS) {
-            int teamId = Utility.getMatchParameters().getPlayerTeam(botId);
-            heavyHitbox = new GreatSwordHeavyCollider(teamId);
-            lightHitbox = new GreatSwordLightCollider(teamId);
-            counterHitbox = new GreatSwordCounterCollider(teamId);
-        } else {
-            heavyHitbox = new GreatSwordHeavyCollider(botId);
-            lightHitbox = new GreatSwordLightCollider(botId);
-            counterHitbox = new GreatSwordCounterCollider(botId);
-        }
+        int colliderId = MatchType.getColliderId(botId);
+        heavyHitbox = new GreatSwordHeavyCollider(colliderId);
+        lightHitbox = new GreatSwordLightCollider(colliderId);
+        counterHitbox = new GreatSwordCounterCollider(colliderId);
     }
 
     @Override

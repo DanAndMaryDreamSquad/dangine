@@ -33,16 +33,10 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
 
     public GreatSword(int playerId) {
         this.playerId = playerId;
-        if (Utility.getMatchParameters().getMatchType() == MatchType.TEAM_VERSUS) {
-            int teamId = Utility.getMatchParameters().getPlayerTeam(playerId);
-            heavyHitbox = new GreatSwordHeavyCollider(teamId);
-            lightHitbox = new GreatSwordLightCollider(teamId);
-            counterHitbox = new GreatSwordCounterCollider(teamId);
-        } else {
-            heavyHitbox = new GreatSwordHeavyCollider(playerId);
-            lightHitbox = new GreatSwordLightCollider(playerId);
-            counterHitbox = new GreatSwordCounterCollider(playerId);
-        }
+        int colliderId = MatchType.getColliderId(playerId);
+        heavyHitbox = new GreatSwordHeavyCollider(colliderId);
+        lightHitbox = new GreatSwordLightCollider(colliderId);
+        counterHitbox = new GreatSwordCounterCollider(colliderId);
     }
 
     @Override

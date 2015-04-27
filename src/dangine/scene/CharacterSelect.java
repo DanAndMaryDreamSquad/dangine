@@ -73,6 +73,7 @@ public class CharacterSelect implements IsUpdateable {
                 Utility.getActiveScene().getParentNode().addChild(worldMenu.getDrawable());
                 break;
             case BOT_MATCH:
+            case COOP_VS_BOTS:
                 BotSettingsMenu botMenu = new BotSettingsMenu();
                 Utility.getActiveScene().addUpdateable(botMenu);
                 Utility.getActiveScene().getParentNode().addChild(botMenu.getDrawable());

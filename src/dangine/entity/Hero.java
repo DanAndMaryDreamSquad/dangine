@@ -45,12 +45,8 @@ public class Hero implements IsUpdateable, HasDrawable {
 
     public Hero(int playerId) {
         this.playerId = playerId;
-        if (Utility.getMatchParameters().getMatchType() == MatchType.TEAM_VERSUS) {
-            onHit = new CombatEvent(Utility.getMatchParameters().getPlayerTeam(playerId), position, HITBOX_SIZE,
-                    getOnHitBy(), this);
-        } else {
-            onHit = new CombatEvent(playerId, position, HITBOX_SIZE, getOnHitBy(), this);
-        }
+        int colliderId = MatchType.getColliderId(playerId);
+        onHit = new CombatEvent(colliderId, position, HITBOX_SIZE, getOnHitBy(), this);
         hitbox = new CombatEventHitbox(onHit);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
         Color color = Utility.getMatchParameters().getPlayerColor(getPlayerId());

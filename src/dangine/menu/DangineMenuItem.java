@@ -45,17 +45,20 @@ public class DangineMenuItem implements HasDrawable {
 
     SelectionStyle selectionStyle = SelectionStyle.SIMPLE;
     SceneGraphNode base = new SceneGraphNode();
+    DangineText itemText;
     Action actionA = null;
     Action actionB = null;
     Action actionC = null;
 
     public DangineMenuItem(String text, Action onActivate) {
-        base.addChild(new DangineText(text, Color.black));
+        itemText = new DangineText(text, Color.black);
+        base.addChild(itemText);
         this.actionA = onActivate;
     }
 
     public DangineMenuItem(String text, Action actionA, Action actionB) {
-        base.addChild(new DangineText(text, Color.black));
+        itemText = new DangineText(text, Color.black);
+        base.addChild(itemText);
         this.actionA = actionA;
         this.actionB = actionB;
         selectionStyle = SelectionStyle.LEFT_RIGHT;
@@ -88,6 +91,10 @@ public class DangineMenuItem implements HasDrawable {
         if (actionC != null) {
             actionC.execute();
         }
+    }
+
+    public DangineText getItemText() {
+        return itemText;
     }
 
 }
