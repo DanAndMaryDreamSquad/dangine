@@ -43,8 +43,9 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
             @Override
             public void execute() {
                 Utility.getMatchParameters().setMatchType(MatchType.VERSUS);
-                CharacterSelect characterSelect = new CharacterSelect();
-                Utility.getActiveScene().addUpdateable(characterSelect);
+                MatchTypeMenu matchTypeMenu = new MatchTypeMenu();
+                Utility.getActiveScene().addUpdateable(matchTypeMenu);
+                Utility.getActiveScene().getParentNode().addChild(matchTypeMenu.getDrawable());
                 Utility.getActiveScene().removeUpdateable(TitleMenu.this);
                 Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
             }

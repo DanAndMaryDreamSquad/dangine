@@ -8,6 +8,7 @@ import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.subpower.SubPower;
+import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.BloxAnimator;
@@ -25,6 +26,9 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
     final DangineSelector selector;
     final SceneGraphNode powerTextNode = new SceneGraphNode();
     final DangineText powerText = new DangineText();
+    final SceneGraphNode teamTextNode = new SceneGraphNode();
+    final DangineText teamText = new DangineText();
+
     BloxSceneGraph blox = new BloxSceneGraph();
     BloxAnimator animator = new BloxAnimator(blox);
     Color color = Color.red;
@@ -47,6 +51,11 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
         menu.addItem(new DangineMenuItem("Next Color", getNextColorAction()));
         menu.addItem(new DangineMenuItem("Sub Power", getNextPowerAction()));
         menu.getBase().addChild(powerTextNode);
+        if (Utility.getMatchParameters().getMatchType() == MatchType.TEAM_VERSUS) {
+            menu.addItem(new DangineMenuItem("Team:", getNextTeamAction(), getPrevTeamAction()));
+            teamTextNode.addChild(teamText);
+            menu.getBase().addChild(teamTextNode);
+        }
         menu.addItem(new DangineMenuItem("Back", getOnEscapeAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
 
@@ -84,6 +93,7 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
 
     private void updateText() {
         powerText.setText("" + Utility.getMatchParameters().getPlayerPower(getPlayerId()));
+        teamText.setText("" + Utility.getMatchParameters().getPlayerTeam(getPlayerId()));
     }
 
     private Action getReadyAction() {
@@ -124,6 +134,34 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
                 Utility.getMatchParameters().addPlayerPower(getPlayerId(), power);
                 updateText();
             }
+        };
+    }
+
+    private Action getNextTeamAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                int team = Utility.getMatchParameters().getPlayerTeam(getPlayerId());
+                team++;
+                Utility.getMatchParameters().addPlayerTeam(getPlayerId(), team);
+                updateText();
+            }
+
+        };
+    }
+
+    private Action getPrevTeamAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                int team = Utility.getMatchParameters().getPlayerTeam(getPlayerId());
+                team--;
+                Utility.getMatchParameters().addPlayerTeam(getPlayerId(), team);
+                updateText();
+            }
+
         };
     }
 

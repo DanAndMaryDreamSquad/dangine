@@ -7,7 +7,7 @@ import dangine.utility.Utility;
 public class MatchStarter implements IsUpdateable {
 
     public enum MatchType {
-        VERSUS, BOT_MATCH
+        VERSUS, TEAM_VERSUS, BOT_MATCH
     }
 
     MatchType matchType;
@@ -26,6 +26,9 @@ public class MatchStarter implements IsUpdateable {
         Debugger.info("Starting match " + matchType);
         switch (matchType) {
         case VERSUS:
+            Utility.getGameHarness().startMatch();
+            return;
+        case TEAM_VERSUS:
             Utility.getGameHarness().startMatch();
             return;
         case BOT_MATCH:

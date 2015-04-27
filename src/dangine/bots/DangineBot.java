@@ -15,6 +15,7 @@ import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.combat.subpower.DashPower;
 import dangine.entity.combat.subpower.ProjectilePower;
+import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.movement.HeroFacing;
 import dangine.entity.movement.HeroMovement;
 import dangine.entity.visual.DefeatType;
@@ -47,7 +48,12 @@ public class DangineBot implements IsUpdateable, HasDrawable {
 
     public DangineBot(int botId) {
         this.botId = botId;
-        onHit = new CombatEvent(botId, position, HITBOX_SIZE, getOnHitBy(), this);
+        if (Utility.getMatchParameters().getMatchType() == MatchType.TEAM_VERSUS) {
+            onHit = new CombatEvent(Utility.getMatchParameters().getPlayerTeam(botId), position, HITBOX_SIZE,
+                    getOnHitBy(), this);
+        } else {
+            onHit = new CombatEvent(botId, position, HITBOX_SIZE, getOnHitBy(), this);
+        }
         hitbox = new CombatEventHitbox(onHit);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
         Color color = Utility.getMatchParameters().getPlayerColor(botId);

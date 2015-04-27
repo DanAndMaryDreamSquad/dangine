@@ -20,7 +20,8 @@ public class MatchParameters {
     Color defaultColor = new Color(255, 0, 0);
     Map<Integer, Color> playerIdToColor = new HashMap<Integer, Color>();
     Map<Integer, SubPower> playerIdToPower = new HashMap<Integer, SubPower>();
-    int startingStock = 3;
+    final Map<Integer, Integer> playerIdToTeam = new HashMap<Integer, Integer>();
+    int startingStock = 0;
     int numberOfBots = 2;
     MovementMode movementMode = MovementMode.MOVE_FREE_TURN_SWING_LOCK;
     AttackMode attackMode = AttackMode.HOLD_TO_CHARGE;
@@ -45,6 +46,10 @@ public class MatchParameters {
 
     public void addPlayerPower(int playerId, SubPower power) {
         playerIdToPower.put(playerId, power);
+    }
+
+    public void addPlayerTeam(int playerId, int team) {
+        playerIdToTeam.put(playerId, team);
     }
 
     public Map<Integer, Color> getPlayerIdToColor() {
@@ -80,6 +85,14 @@ public class MatchParameters {
             return SubPower.NONE;
         }
         return power;
+    }
+
+    public int getPlayerTeam(int playerId) {
+        Integer team = playerIdToTeam.get(playerId);
+        if (team == null) {
+            return 0;
+        }
+        return team;
     }
 
     public MovementMode getMovementMode() {
@@ -156,6 +169,10 @@ public class MatchParameters {
 
     public void setNumberOfBots(int numberOfBots) {
         this.numberOfBots = numberOfBots;
+    }
+
+    public Map<Integer, Integer> getPlayerIdToTeam() {
+        return playerIdToTeam;
     }
 
 }

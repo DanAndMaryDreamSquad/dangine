@@ -12,6 +12,7 @@ import dangine.entity.combat.GreatSword;
 import dangine.entity.combat.subpower.DashPower;
 import dangine.entity.combat.subpower.ProjectilePower;
 import dangine.entity.gameplay.DefeatEvent;
+import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.movement.HeroFacing;
 import dangine.entity.movement.HeroMovement;
 import dangine.entity.visual.DefeatType;
@@ -44,7 +45,12 @@ public class Hero implements IsUpdateable, HasDrawable {
 
     public Hero(int playerId) {
         this.playerId = playerId;
-        onHit = new CombatEvent(playerId, position, HITBOX_SIZE, getOnHitBy(), this);
+        if (Utility.getMatchParameters().getMatchType() == MatchType.TEAM_VERSUS) {
+            onHit = new CombatEvent(Utility.getMatchParameters().getPlayerTeam(playerId), position, HITBOX_SIZE,
+                    getOnHitBy(), this);
+        } else {
+            onHit = new CombatEvent(playerId, position, HITBOX_SIZE, getOnHitBy(), this);
+        }
         hitbox = new CombatEventHitbox(onHit);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
         Color color = Utility.getMatchParameters().getPlayerColor(getPlayerId());

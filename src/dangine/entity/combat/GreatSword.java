@@ -7,6 +7,7 @@ import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.subpower.CounterPower;
+import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.movement.AttackMode;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
@@ -32,9 +33,16 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
 
     public GreatSword(int playerId) {
         this.playerId = playerId;
-        heavyHitbox = new GreatSwordHeavyCollider(playerId);
-        lightHitbox = new GreatSwordLightCollider(playerId);
-        counterHitbox = new GreatSwordCounterCollider(playerId);
+        if (Utility.getMatchParameters().getMatchType() == MatchType.TEAM_VERSUS) {
+            int teamId = Utility.getMatchParameters().getPlayerTeam(playerId);
+            heavyHitbox = new GreatSwordHeavyCollider(teamId);
+            lightHitbox = new GreatSwordLightCollider(teamId);
+            counterHitbox = new GreatSwordCounterCollider(teamId);
+        } else {
+            heavyHitbox = new GreatSwordHeavyCollider(playerId);
+            lightHitbox = new GreatSwordLightCollider(playerId);
+            counterHitbox = new GreatSwordCounterCollider(playerId);
+        }
     }
 
     @Override

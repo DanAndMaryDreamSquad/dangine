@@ -39,7 +39,7 @@ public class DangineMenuItem implements HasDrawable {
         abstract boolean shouldDoActionB(DangineSampleInput currentInput, DangineSampleInput previousInput);
     }
 
-    interface Action {
+    public interface Action {
         void execute();
     }
 

@@ -2,8 +2,10 @@ package dangine.entity.gameplay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
@@ -88,6 +90,17 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     }
 
     public boolean checkSceneOver() {
+        switch (Utility.getMatchParameters().getMatchType()) {
+        case VERSUS:
+        case BOT_MATCH:
+            return checkVersusSceneOver();
+        case TEAM_VERSUS:
+            return checkTeamBattleSceneOver();
+        }
+        return false;
+    }
+
+    public boolean checkVersusSceneOver() {
         int playersWithLivesLeft = 0;
         int botsWithLivesLeft = 0;
         for (PlayerScore score : scores) {
@@ -103,6 +116,17 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
             return playersWithLivesLeft == 0;
         }
         return playersWithLivesLeft <= 1;
+    }
+
+    public boolean checkTeamBattleSceneOver() {
+        Set<Integer> teams = new HashSet<Integer>();
+        for (PlayerScore score : scores) {
+            if (score.getStock() >= 0) {
+                int teamId = Utility.getMatchParameters().getPlayerTeam(score.getPlayerId());
+                teams.add(teamId);
+            }
+        }
+        return teams.size() <= 1;
     }
 
     public boolean hasLivesLeft(int playerId) {
@@ -128,7 +152,10 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
             Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(playersLeft.get(0)));
         } else if (playersLeft.size() == 0) {
             Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(playersLeft));
+        } else if (playersLeft.size() > 0) {
+            Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(playersLeft));
         }
+
     }
 
     private void updatePlayerScores() {

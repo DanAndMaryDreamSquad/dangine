@@ -53,20 +53,20 @@ public class CharacterSelect implements IsUpdateable {
 
             if (menu.isEscaping()) {
                 removeMenus();
+                Utility.getActiveScene().removeUpdateable(this);
                 TitleMenu titleMenu = new TitleMenu();
                 Utility.getActiveScene().addUpdateable(titleMenu);
-                Utility.getActiveScene().removeUpdateable(this);
                 Utility.getActiveScene().getParentNode().addChild(titleMenu.getDrawable());
             }
         }
         if (done) {
             for (CharacterSelectionMenu menu : menus) {
                 Utility.getMatchParameters().addPlayerColor(menu.getPlayerId(), menu.getColor());
-                Utility.getActiveScene().removeUpdateable(menu);
-                Utility.getActiveScene().getParentNode().removeChild(menu.getDrawable());
             }
+            removeMenus();
             Utility.getActiveScene().removeUpdateable(this);
             switch (Utility.getMatchParameters().getMatchType()) {
+            case TEAM_VERSUS:
             case VERSUS:
                 WorldSelectionMenu worldMenu = new WorldSelectionMenu();
                 Utility.getActiveScene().addUpdateable(worldMenu);
