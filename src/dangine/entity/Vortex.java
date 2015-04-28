@@ -70,6 +70,9 @@ public class Vortex implements IsUpdateable, HasDrawable {
                     }
                 }
                 if (arg.getCreator() instanceof DangineBot) {
+                    if (Utility.getMatchParameters().getBotType().ignoresObstacles()) {
+                        return;
+                    }
                     DangineBot hero = (DangineBot) arg.getCreator();
                     if (!hero.isImmunity()) {
                         hero.destroy(DefeatType.SPIN);
@@ -96,6 +99,9 @@ public class Vortex implements IsUpdateable, HasDrawable {
                 }
 
                 if (arg.getCreator() instanceof DangineBot) {
+                    if (Utility.getMatchParameters().getBotType().ignoresObstacles()) {
+                        return;
+                    }
                     DangineBot hero = (DangineBot) arg.getCreator();
                     if (hero.isImmunity()) {
                         return;

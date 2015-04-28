@@ -70,12 +70,18 @@ public class GreatSwordHeavyCollider implements IsUpdateable, HasDrawable {
                     return;
                 }
                 HeroMovement movement = null;
+                boolean applyKnockback = true;
                 if (wielderId < 0) {
                     movement = Utility.getActiveScene().getBot(wielderId).getMovement();
+                    if (Utility.getMatchParameters().getBotType().ignoresKnockback()) {
+                        applyKnockback = false;
+                    }
                 } else {
                     movement = Utility.getActiveScene().getHero(wielderId).getMovement();
                 }
-                CollisionUtility.applyKnockback(movement, arg, absolutePosition);
+                if (applyKnockback) {
+                    CollisionUtility.applyKnockback(movement, arg, absolutePosition);
+                }
                 createVisualEffect();
                 clashed();
             }

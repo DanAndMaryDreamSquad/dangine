@@ -70,6 +70,9 @@ public class Bouncer implements IsUpdateable, HasDrawable {
                     bump();
                 }
                 if (arg.getCreator() instanceof DangineBot) {
+                    if (Utility.getMatchParameters().getBotType().ignoresObstacles()) {
+                        return;
+                    }
                     DangineBot hero = (DangineBot) arg.getCreator();
                     if (hero.isImmunity()) {
                         return;

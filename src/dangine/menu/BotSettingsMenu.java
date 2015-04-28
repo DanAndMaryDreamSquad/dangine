@@ -2,6 +2,7 @@ package dangine.menu;
 
 import org.newdawn.slick.Color;
 
+import dangine.bots.BotType;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -19,6 +20,8 @@ public class BotSettingsMenu implements IsUpdateable, HasDrawable {
     DangineSelector selector = new DangineSelector();
     final SceneGraphNode powerTextNode = new SceneGraphNode();
     final DangineText powerText = new DangineText();
+    final SceneGraphNode typeTextNode = new SceneGraphNode();
+    final DangineText typeText = new DangineText();
     SceneGraphNode botNumberTextNode = new SceneGraphNode();
     DangineText botNumberText = new DangineText();
 
@@ -28,6 +31,8 @@ public class BotSettingsMenu implements IsUpdateable, HasDrawable {
         menu.addItem(new DangineMenuItem("Bot Sub Power", getNextPowerAction()));
         menu.getBase().addChild(powerTextNode);
         menu.addItem(new DangineMenuItem("Number of Bots:", getBotsIncrementAction(), getBotsDecrementAction()));
+        menu.addItem(new DangineMenuItem("Bot Type:", getNextBotTypeAction()));
+        menu.getBase().addChild(typeTextNode);
         menu.addItem(new DangineMenuItem("Back", getOnEscapeAction()));
         menu.getBase().addChild(botNumberTextNode);
         DangineFormatter.format(menu.getBase().getChildNodes());
@@ -35,6 +40,7 @@ public class BotSettingsMenu implements IsUpdateable, HasDrawable {
         menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.75f));
 
         powerTextNode.addChild(powerText);
+        typeTextNode.addChild(typeText);
         botNumberTextNode.addChild(botNumberText);
         botNumberTextNode.setPosition(140, 60);
         updateText();
@@ -54,6 +60,7 @@ public class BotSettingsMenu implements IsUpdateable, HasDrawable {
     private void updateText() {
         powerText.setText("" + Utility.getMatchParameters().getPlayerPower(-1));
         botNumberText.setText("" + Utility.getMatchParameters().getNumberOfBots());
+        typeText.setText("" + Utility.getMatchParameters().getBotType());
     }
 
     private Action getBotsIncrementAction() {
@@ -114,6 +121,19 @@ public class BotSettingsMenu implements IsUpdateable, HasDrawable {
                 SubPower power = Utility.getMatchParameters().getPlayerPower(-1);
                 power = power.nextPower();
                 Utility.getMatchParameters().addPlayerPower(-1, power);
+                updateText();
+            }
+        };
+    }
+
+    private Action getNextBotTypeAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                BotType type = Utility.getMatchParameters().getBotType();
+                type = type.nextType();
+                Utility.getMatchParameters().setBotType(type);
                 updateText();
             }
         };

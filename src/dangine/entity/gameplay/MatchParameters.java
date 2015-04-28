@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.newdawn.slick.Color;
 
+import dangine.bots.BotType;
 import dangine.bots.DangineBot;
 import dangine.entity.Hero;
 import dangine.entity.combat.subpower.SubPower;
@@ -32,6 +33,7 @@ public class MatchParameters {
     boolean isFriendlyFire = false;
     Color textColor = Color.black;
     MatchType matchType = MatchType.VERSUS;
+    BotType botType = BotType.NORMAL;
 
     public int getStartingStock() {
         return startingStock;
@@ -182,6 +184,14 @@ public class MatchParameters {
 
     public void setFriendlyFire(boolean isFriendlyFire) {
         this.isFriendlyFire = isFriendlyFire;
+    }
+
+    public BotType getBotType() {
+        return botType;
+    }
+
+    public void setBotType(BotType botType) {
+        this.botType = botType;
     }
 
 }
