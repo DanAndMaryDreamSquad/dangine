@@ -9,8 +9,10 @@ import dangine.utility.Utility;
 
 public class Main {
 
+    static AppGameContainer app;
+
     public static void main(String[] args) throws SlickException {
-        AppGameContainer app = new AppGameContainer(new GameHarness("Stardust Symphony", new Provider<DangineGame>() {
+        app = new AppGameContainer(new GameHarness("Stardust Symphony", new Provider<DangineGame>() {
 
             @Override
             public DangineGame get() {
