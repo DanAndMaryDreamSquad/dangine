@@ -29,7 +29,7 @@ public class GameHarness extends BasicGame {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        Utility.initialize(this, gc);
+        Utility.initialize(this, gc, null);
         Utility.devMode();
         Resources.initialize();
         dangineGame = provider.get();
