@@ -19,7 +19,7 @@ public class DangineParticle implements IsDrawable {
     @Override
     public void draw() {
         for (DangineParticleData p : particles) {
-            Utility.getGraphics().setColor(p.color);
+//            Utility.getGraphics().setColor(p.color);
             Utility.getGraphics().fillRect(p.offset.x, p.offset.y, p.width, p.height);
         }
     }

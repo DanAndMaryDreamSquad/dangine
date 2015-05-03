@@ -5,6 +5,8 @@ import org.newdawn.slick.SlickException;
 
 import dangine.demogame.DemoGame;
 import dangine.game.DangineGame;
+import dangine.graphics.DangineOpenGL;
+import dangine.graphics.DangineShaders;
 import dangine.utility.Utility;
 
 public class Main {
