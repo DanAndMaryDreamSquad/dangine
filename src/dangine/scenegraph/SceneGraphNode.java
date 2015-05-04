@@ -24,6 +24,17 @@ public class SceneGraphNode implements IsDrawable {
     List<SceneGraphNode> childNodes = new ArrayList<SceneGraphNode>();
     List<IsDrawable> children = new ArrayList<IsDrawable>();
     Matrix4 matrix = new Matrix4();
+    
+    public void propagate() {
+        for (SceneGraphNode childNode : childNodes) {
+            childNode.updateTransformsAndPropagate();
+        }
+        for (IsDrawable child : children) {
+            RenderData data = child.getRenderData();
+            data.updateBuffer(getMatrix());
+            Utility.getRenderQueue().add(data);
+        }        
+    }
 
     public void updateTransformsAndPropagate() {
         transform();

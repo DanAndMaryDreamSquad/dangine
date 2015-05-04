@@ -9,6 +9,9 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import com.badlogic.gdx.math.Matrix4;
+
+import dangine.debugger.Debugger;
 import dangine.harness.Vertex;
 
 public class DangineQuad {
@@ -77,7 +80,7 @@ public class DangineQuad {
     
     public void drawQuad() {
 //        GL20.glUseProgram(DangineShaders.getColorProgramId());
-        GL20.glUseProgram(DangineShaders.getTransformProgramId());
+        GL20.glUseProgram(DangineShaders.getColorProgramId());
         
         // Bind to the VAO that has all the information about the vertices
         GL30.glBindVertexArray(vaoId);

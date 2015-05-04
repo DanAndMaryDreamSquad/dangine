@@ -27,6 +27,7 @@ import org.lwjgl.util.vector.Vector3f;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.GdxNativesLoader;
  
+import dangine.image.TextureLoader;
 import de.matthiasmann.twl.utils.PNGDecoder;
 import de.matthiasmann.twl.utils.PNGDecoder.Format;
  
@@ -46,7 +47,7 @@ public class TextureExample {
     private int vboId = 0;
     private int vboiId = 0;
     private int indicesCount = 0;
-    private VertexData[] vertices = null;
+    private VertexDataForTexture[] vertices = null;
     private ByteBuffer verticesByteBuffer = null;
     // Shader variables
     private int pId = 0;
@@ -127,8 +128,8 @@ public class TextureExample {
     }
  
     private void setupTextures() {
-        texIds[0] = DangineTextures.loadPNGTexture("src/assets/images/bgs/snowsky1.png", GL13.GL_TEXTURE0);
-        texIds[1] = DangineTextures.loadPNGTexture("src/assets/images/bgs/snowsky1.png", GL13.GL_TEXTURE0);
+        texIds[0] = TextureLoader.loadPNGTexture("src/assets/images/bgs/snowsky1.png", GL13.GL_TEXTURE0);
+        texIds[1] = TextureLoader.loadPNGTexture("src/assets/images/bgs/snowsky1.png", GL13.GL_TEXTURE0);
          
         this.exitOnGLError("setupTexture");
     }
@@ -162,20 +163,20 @@ public class TextureExample {
      
     private void setupQuad() {
         // We'll define our quad using 4 vertices of the custom 'TexturedVertex' class
-        VertexData v0 = new VertexData(); 
+        VertexDataForTexture v0 = new VertexDataForTexture(); 
         v0.setXYZ(-0.5f, 0.5f, 0); v0.setRGB(1, 0, 0); v0.setST(0, 0);
-        VertexData v1 = new VertexData(); 
+        VertexDataForTexture v1 = new VertexDataForTexture(); 
         v1.setXYZ(-0.5f, -0.5f, 0); v1.setRGB(0, 1, 0); v1.setST(0, 1);
-        VertexData v2 = new VertexData(); 
+        VertexDataForTexture v2 = new VertexDataForTexture(); 
         v2.setXYZ(0.5f, -0.5f, 0); v2.setRGB(0, 0, 1); v2.setST(1, 1);
-        VertexData v3 = new VertexData(); 
+        VertexDataForTexture v3 = new VertexDataForTexture(); 
         v3.setXYZ(0.5f, 0.5f, 0); v3.setRGB(1, 1, 1); v3.setST(1, 0);
          
-        vertices = new VertexData[] {v0, v1, v2, v3};
+        vertices = new VertexDataForTexture[] {v0, v1, v2, v3};
          
         // Put each 'Vertex' in one FloatBuffer
         verticesByteBuffer = BufferUtils.createByteBuffer(vertices.length * 
-                VertexData.stride);             
+                VertexDataForTexture.stride);             
         FloatBuffer verticesFloatBuffer = verticesByteBuffer.asFloatBuffer();
         for (int i = 0; i < vertices.length; i++) {
             // Add position, color and texture floats to the buffer
@@ -204,14 +205,14 @@ public class TextureExample {
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesFloatBuffer, GL15.GL_STREAM_DRAW);
          
         // Put the position coordinates in attribute list 0
-        GL20.glVertexAttribPointer(0, VertexData.positionElementCount, GL11.GL_FLOAT, 
-                false, VertexData.stride, VertexData.positionByteOffset);
+        GL20.glVertexAttribPointer(0, VertexDataForTexture.positionElementCount, GL11.GL_FLOAT, 
+                false, VertexDataForTexture.stride, VertexDataForTexture.positionByteOffset);
         // Put the color components in attribute list 1
-        GL20.glVertexAttribPointer(1, VertexData.colorElementCount, GL11.GL_FLOAT, 
-                false, VertexData.stride, VertexData.colorByteOffset);
+        GL20.glVertexAttribPointer(1, VertexDataForTexture.colorElementCount, GL11.GL_FLOAT, 
+                false, VertexDataForTexture.stride, VertexDataForTexture.colorByteOffset);
         // Put the texture coordinates in attribute list 2
-        GL20.glVertexAttribPointer(2, VertexData.textureElementCount, GL11.GL_FLOAT, 
-                false, VertexData.stride, VertexData.textureByteOffset);
+        GL20.glVertexAttribPointer(2, VertexDataForTexture.textureElementCount, GL11.GL_FLOAT, 
+                false, VertexDataForTexture.stride, VertexDataForTexture.textureByteOffset);
          
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
          

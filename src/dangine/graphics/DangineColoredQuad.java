@@ -5,14 +5,18 @@ import java.nio.FloatBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.Color;
 
 import com.badlogic.gdx.math.Matrix4;
 
-public class DangineTexturedQuad {
+import dangine.debugger.Debugger;
+import dangine.harness.Vertex;
+
+public class DangineColoredQuad {
+
     // Quad variables
     private int vaoId = 0;
     private int vboId = 0;
@@ -21,51 +25,35 @@ public class DangineTexturedQuad {
     private int transformMatrixLocation = 0;
     private FloatBuffer matrix44Buffer = BufferUtils.createFloatBuffer(16);
 
-    DangineTexture texture;
-
-    public DangineTexturedQuad(DangineTexture texture) {
-        this.texture = texture;
-        initQuad();
-    }
-
-    public DangineTexturedQuad(String imageName) {
-        this.texture = DangineTextures.getImageByName(imageName);
-        initQuad();
-    }
-
-    private void initQuad() {
+    /**
+     * Stores the color and vertex information for a quad. The Quad itself needs to be transformed by a matrix before drawn
+     */
+    public DangineColoredQuad(Color color) {
         // Get matrices uniform locations
-        transformMatrixLocation = GL20.glGetUniformLocation(DangineShaders.getTextureProgramId(), "transformMatrix");
+        transformMatrixLocation = GL20.glGetUniformLocation(DangineShaders.getColorProgramId(), "transformMatrix");
+        
+        // We'll define our quad using 4 vertices of the custom 'Vertex' class
+        Vertex v0 = new Vertex();
+        v0.setXYZ(-0.5f, 0.5f, 0f);
+        v0.setRGB(color.getRed(), color.getGreen(), color.getBlue());
+        Vertex v1 = new Vertex();
+        v1.setXYZ(-0.5f, -0.5f, 0f);
+        v1.setRGB(color.getRed(), color.getGreen(), color.getBlue());
+        Vertex v2 = new Vertex();
+        v2.setXYZ(0.5f, -0.5f, 0f);
+        v2.setRGB(color.getRed(), color.getGreen(), color.getBlue());
+        Vertex v3 = new Vertex();
+        v3.setXYZ(0.5f, 0.5f, 0f);
+        v3.setRGB(color.getRed(), color.getGreen(), color.getBlue());
 
-        // We'll define our quad using 4 vertices of the custom 'TexturedVertex'
-        // class
-        VertexDataForTexture v0 = new VertexDataForTexture();
-        v0.setXYZ(-0.5f, 0.5f, 0);
-        v0.setRGB(1, 0, 0);
-        v0.setST(0, 0);
-        VertexDataForTexture v1 = new VertexDataForTexture();
-        v1.setXYZ(-0.5f, -0.5f, 0);
-        v1.setRGB(0, 1, 0);
-        v1.setST(0, 1);
-        VertexDataForTexture v2 = new VertexDataForTexture();
-        v2.setXYZ(0.5f, -0.5f, 0);
-        v2.setRGB(0, 0, 1);
-        v2.setST(1, 1);
-        VertexDataForTexture v3 = new VertexDataForTexture();
-        v3.setXYZ(0.5f, 0.5f, 0);
-        v3.setRGB(1, 1, 1);
-        v3.setST(1, 0);
-
-        VertexDataForTexture[] vertices = new VertexDataForTexture[] { v0, v1, v2, v3 };
-
+        Vertex[] vertices = new Vertex[] { v0, v1, v2, v3 };
         // Put each 'Vertex' in one FloatBuffer
-        ByteBuffer verticesByteBuffer = BufferUtils.createByteBuffer(vertices.length * VertexDataForTexture.stride);
-        FloatBuffer verticesFloatBuffer = verticesByteBuffer.asFloatBuffer();
+        FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length * Vertex.elementCount);
         for (int i = 0; i < vertices.length; i++) {
-            // Add position, color and texture floats to the buffer
-            verticesFloatBuffer.put(vertices[i].getElements());
+            verticesBuffer.put(vertices[i].getXYZW());
+            verticesBuffer.put(vertices[i].getRGBA());
         }
-        verticesFloatBuffer.flip();
+        verticesBuffer.flip();
 
         // OpenGL expects to draw vertices in counter clockwise order by default
         byte[] indices = { 0, 1, 2, 2, 3, 0 };
@@ -81,18 +69,11 @@ public class DangineTexturedQuad {
         // Create a new Vertex Buffer Object in memory and select it (bind)
         vboId = GL15.glGenBuffers();
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesFloatBuffer, GL15.GL_STREAM_DRAW);
-
-        // Put the position coordinates in attribute list 0
-        GL20.glVertexAttribPointer(0, VertexDataForTexture.positionElementCount, GL11.GL_FLOAT, false,
-                VertexDataForTexture.stride, VertexDataForTexture.positionByteOffset);
-        // Put the color components in attribute list 1
-        GL20.glVertexAttribPointer(1, VertexDataForTexture.colorElementCount, GL11.GL_FLOAT, false,
-                VertexDataForTexture.stride, VertexDataForTexture.colorByteOffset);
-        // Put the texture coordinates in attribute list 2
-        GL20.glVertexAttribPointer(2, VertexDataForTexture.textureElementCount, GL11.GL_FLOAT, false,
-                VertexDataForTexture.stride, VertexDataForTexture.textureByteOffset);
-
+        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesBuffer, GL15.GL_STATIC_DRAW);
+        // Put the positions in attribute list 0
+        GL20.glVertexAttribPointer(0, 4, GL11.GL_FLOAT, false, Vertex.sizeInBytes, 0);
+        // Put the colors in attribute list 1
+        GL20.glVertexAttribPointer(1, 4, GL11.GL_FLOAT, false, Vertex.sizeInBytes, Vertex.elementBytes * 4);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 
         // Deselect (bind to 0) the VAO
@@ -105,28 +86,14 @@ public class DangineTexturedQuad {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
-    public void updateTransformationMatrixOfShader(Matrix4 matrix) {
-        // Upload matrices to the uniform variables
-        GL20.glUseProgram(DangineShaders.getTextureProgramId());
-
-        matrix44Buffer.put(matrix.val);
-        matrix44Buffer.flip();
-        GL20.glUniformMatrix4(transformMatrixLocation, false, matrix44Buffer);
-        GL20.glUseProgram(0);
-    }
-
     public void drawQuad() {
-        GL20.glUseProgram(DangineShaders.getTextureProgramId());
-
-        // Bind the texture
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureId());
+        // Use the shader that draws colors with a transformation
+        GL20.glUseProgram(DangineShaders.getColorProgramId());
 
         // Bind to the VAO that has all the information about the vertices
         GL30.glBindVertexArray(vaoId);
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
-        GL20.glEnableVertexAttribArray(2);
 
         // Bind to the index VBO that has all the information about the order of
         // the vertices
@@ -139,10 +106,24 @@ public class DangineTexturedQuad {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
-        GL20.glDisableVertexAttribArray(2);
         GL30.glBindVertexArray(0);
         GL20.glUseProgram(0);
     }
+    
+    public void updateTransformationMatrixOfShader(Matrix4 matrix) {
+
+        // badlogic result
+        Debugger.info("colorquad result:\n" + matrix.toString());
+        
+        // Upload matrices to the uniform variables
+        GL20.glUseProgram(DangineShaders.getColorProgramId());
+
+        matrix44Buffer.put(matrix.val);
+        matrix44Buffer.flip();
+        GL20.glUniformMatrix4(transformMatrixLocation, false, matrix44Buffer);
+        GL20.glUseProgram(0);        
+    }
+    
 
     public void destroyQuad() {
         // Select the VAO
@@ -151,7 +132,6 @@ public class DangineTexturedQuad {
         // Disable the VBO index from the VAO attributes list
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
-        GL20.glDisableVertexAttribArray(2);
 
         // Delete the vertex VBO
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);

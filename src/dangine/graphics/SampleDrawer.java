@@ -13,10 +13,11 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import dangine.debugger.Debugger;
+import dangine.scenegraph.SceneGraphNode;
 
 public class SampleDrawer {
-    private final int WIDTH = 300;
-    private final int HEIGHT = 200;
+    public static final int WIDTH = 300;
+    public static final int HEIGHT = 200;
     private final double PI = 3.14159265358979323846;
 
     private int transformMatrixLocation = 0;
@@ -34,15 +35,22 @@ public class SampleDrawer {
     private Matrix4 viewMatrix2 = new Matrix4().idt();
     private Matrix4 modelMatrix2 = new Matrix4().idt();
 
+    public static final SceneGraphNode PARENT_ORTHO_NODE = new SceneGraphNode();
+
+    private DangineBox box;
+    private DanginePicture picture;
+    private DanginePicture pictureCreated;
+
     // Entry point for the application
     public static void main(String[] args) {
         new SampleDrawer();
     }
 
     DangineQuad dangineQuad;
-    DangineTexturedQuad dangineTexturedQuad;
+    DangineTexturedQuadSample dangineTexturedQuad;
 
     public SampleDrawer() {
+        PARENT_ORTHO_NODE.setMatrix(new Matrix4().setToOrtho(0, WIDTH, HEIGHT, 0, -100, 100));
         GdxNativesLoader.load();
 
         // Set the default quad rotation, scale and position values
@@ -55,17 +63,29 @@ public class SampleDrawer {
 
         // Initialize OpenGL (Display)
         DangineOpenGL.setupOpenGL();
+        DangineTextures.initialize();
         dangineQuad = new DangineQuad();
-        dangineTexturedQuad = new DangineTexturedQuad();
+        dangineTexturedQuad = new DangineTexturedQuadSample();
         DangineShaders.setupShaders();
         this.setupMatrices();
-//        DangineTextureGenerator.generateTexture();
+        box = new DangineBox();
+        picture = new DanginePicture("snowsky1");
+        DangineTextureGenerator.generateTexture();
+        pictureCreated = new DanginePicture(new DangineTexture(DangineTextureGenerator.createdTexture, "created"));
+        PARENT_ORTHO_NODE.addChild(box.getNode());
+        PARENT_ORTHO_NODE.addChild(picture.getNode());
+        PARENT_ORTHO_NODE.addChild(pictureCreated.getNode());
+        
+        PARENT_ORTHO_NODE.propagate();
 
         // Get matrices uniform locations
-        transformMatrixLocation = GL20.glGetUniformLocation(DangineShaders.getTransformProgramId(), "transformMatrix");
-        
+        transformMatrixLocation = GL20.glGetUniformLocation(DangineShaders.getColorProgramId(), "transformMatrix");
+
         // Get matrices uniform locations
-        textureTransformMatrixLocation = GL20.glGetUniformLocation(DangineShaders.getTextureProgramId(), "transformMatrix");
+        textureTransformMatrixLocation = GL20.glGetUniformLocation(DangineShaders.getTextureProgramId(),
+                "transformMatrix");
+
+        boolean madeTexture = false;
 
         while (!Display.isCloseRequested()) {
             // Do a single loop (logic/render)
@@ -142,7 +162,7 @@ public class SampleDrawer {
 
         // lwjgl result
         Matrix4f result = new Matrix4f();
-        Debugger.info("lwjgl proj:\n" + projectionMatrix.toString());
+        // Debugger.info("lwjgl proj:\n" + projectionMatrix.toString());
         Matrix4f.mul(projectionMatrix, viewMatrix, result);
         Matrix4f.mul(result, modelMatrix, result);
 
@@ -153,11 +173,8 @@ public class SampleDrawer {
         modelMatrix2.rotate(0, 1, 0, modelAngle.y);
         modelMatrix2.rotate(0, 0, 1, modelAngle.z);
 
-        // badlogic result
-        Debugger.info("baglogic proj:\n" + projectMatrix2.toString());
         result2 = projectMatrix2.cpy();
         result2 = result2.mul(viewMatrix2).mul(modelMatrix2);
-
 
         // Upload matrices to the uniform variables
         GL20.glUseProgram(DangineShaders.getTextureProgramId());
@@ -167,22 +184,27 @@ public class SampleDrawer {
         matrix44Buffer.flip();
         GL20.glUniformMatrix4(textureTransformMatrixLocation, false, matrix44Buffer);
 
-        
         // Upload matrices to the uniform variables
-        GL20.glUseProgram(DangineShaders.getTransformProgramId());
+        GL20.glUseProgram(DangineShaders.getColorProgramId());
 
         // result.store(matrix44Buffer);
         matrix44Buffer.put(result2.val);
         matrix44Buffer.flip();
         GL20.glUniformMatrix4(transformMatrixLocation, false, matrix44Buffer);
         GL20.glUseProgram(0);
+
+        // badlogic result
+        Debugger.info("baglogic result:\n" + result2.toString());
     }
 
     public void renderCycle() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
-//        dangineQuad.drawQuad();
-        dangineTexturedQuad.drawQuad();
+        // dangineQuad.drawQuad();
+        box.draw();
+        picture.draw();
+        pictureCreated.draw();
+//        dangineTexturedQuad.drawQuad();
     }
 
     public void destroy() {
@@ -201,7 +223,8 @@ public class SampleDrawer {
     }
 
     // Method to create and return a 2D orthographic projection matrix
-    public static Matrix4f createOrthoProjectionMatrix(float left, float right, float top, float bottom, float near, float far) {
+    public static Matrix4f createOrthoProjectionMatrix(float left, float right, float top, float bottom, float near,
+            float far) {
         Matrix4f m = new Matrix4f();
 
         m.m00 = 2.0f / (right - left);

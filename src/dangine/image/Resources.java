@@ -12,7 +12,6 @@ public class Resources {
     private static Map<String, Image> imageMap = new HashMap<String, Image>();
 
     public static void initialize() {
-
         if (shouldUseManifest()) {
             ResourceManifest manifest = ResourceManifest.load();
             imageMap = ImageLoader.loadImages(manifest);

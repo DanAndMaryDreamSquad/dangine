@@ -1,6 +1,6 @@
 package dangine.graphics;
 
-public class VertexData {
+public class VertexDataForTexture {
     // Vertex data
     private float[] xyzw = new float[] {0f, 0f, 0f, 1f};
     private float[] rgba = new float[] {1f, 1f, 1f, 1f};
@@ -54,7 +54,7 @@ public class VertexData {
      
     // Getters  
     public float[] getElements() {
-        float[] out = new float[VertexData.elementCount];
+        float[] out = new float[VertexDataForTexture.elementCount];
         int i = 0;
          
         // Insert XYZW elements

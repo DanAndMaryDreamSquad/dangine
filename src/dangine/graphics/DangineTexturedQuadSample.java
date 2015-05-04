@@ -10,33 +10,26 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import com.badlogic.gdx.math.Matrix4;
+import dangine.image.TextureLoader;
 
-public class DangineTexturedQuad {
+public class DangineTexturedQuadSample {
+
     // Quad variables
     private int vaoId = 0;
     private int vboId = 0;
     private int vboiId = 0;
     private int indicesCount = 0;
-    private int transformMatrixLocation = 0;
-    private FloatBuffer matrix44Buffer = BufferUtils.createFloatBuffer(16);
 
-    DangineTexture texture;
+    // private int texId =
+    // DangineTextures.loadPNGTexture("src/assets/images/bgs/snowsky1.png",
+    // GL13.GL_TEXTURE0);
+    private int texId = TextureLoader.loadPNGTexture("src/assets/images/weapons/greatsword.png", GL13.GL_TEXTURE0);
 
-    public DangineTexturedQuad(DangineTexture texture) {
-        this.texture = texture;
-        initQuad();
+    public DangineTexturedQuadSample() {
+        setupQuad();
     }
 
-    public DangineTexturedQuad(String imageName) {
-        this.texture = DangineTextures.getImageByName(imageName);
-        initQuad();
-    }
-
-    private void initQuad() {
-        // Get matrices uniform locations
-        transformMatrixLocation = GL20.glGetUniformLocation(DangineShaders.getTextureProgramId(), "transformMatrix");
-
+    private void setupQuad() {
         // We'll define our quad using 4 vertices of the custom 'TexturedVertex'
         // class
         VertexDataForTexture v0 = new VertexDataForTexture();
@@ -84,14 +77,14 @@ public class DangineTexturedQuad {
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesFloatBuffer, GL15.GL_STREAM_DRAW);
 
         // Put the position coordinates in attribute list 0
-        GL20.glVertexAttribPointer(0, VertexDataForTexture.positionElementCount, GL11.GL_FLOAT, false,
-                VertexDataForTexture.stride, VertexDataForTexture.positionByteOffset);
+        GL20.glVertexAttribPointer(0, VertexDataForTexture.positionElementCount, GL11.GL_FLOAT, false, VertexDataForTexture.stride,
+                VertexDataForTexture.positionByteOffset);
         // Put the color components in attribute list 1
-        GL20.glVertexAttribPointer(1, VertexDataForTexture.colorElementCount, GL11.GL_FLOAT, false,
-                VertexDataForTexture.stride, VertexDataForTexture.colorByteOffset);
+        GL20.glVertexAttribPointer(1, VertexDataForTexture.colorElementCount, GL11.GL_FLOAT, false, VertexDataForTexture.stride,
+                VertexDataForTexture.colorByteOffset);
         // Put the texture coordinates in attribute list 2
-        GL20.glVertexAttribPointer(2, VertexDataForTexture.textureElementCount, GL11.GL_FLOAT, false,
-                VertexDataForTexture.stride, VertexDataForTexture.textureByteOffset);
+        GL20.glVertexAttribPointer(2, VertexDataForTexture.textureElementCount, GL11.GL_FLOAT, false, VertexDataForTexture.stride,
+                VertexDataForTexture.textureByteOffset);
 
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 
@@ -105,22 +98,16 @@ public class DangineTexturedQuad {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
-    public void updateTransformationMatrixOfShader(Matrix4 matrix) {
-        // Upload matrices to the uniform variables
-        GL20.glUseProgram(DangineShaders.getTextureProgramId());
-
-        matrix44Buffer.put(matrix.val);
-        matrix44Buffer.flip();
-        GL20.glUniformMatrix4(transformMatrixLocation, false, matrix44Buffer);
-        GL20.glUseProgram(0);
-    }
-
     public void drawQuad() {
+        // GL20.glUseProgram(DangineShaders.getColorProgramId());
         GL20.glUseProgram(DangineShaders.getTextureProgramId());
+        // GL20.glUseProgram(DangineShaders.getTransformProgramId());
 
+        
         // Bind the texture
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureId());
+//        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texId);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, DangineTextureGenerator.createdTexture);
 
         // Bind to the VAO that has all the information about the vertices
         GL30.glBindVertexArray(vaoId);
@@ -142,28 +129,6 @@ public class DangineTexturedQuad {
         GL20.glDisableVertexAttribArray(2);
         GL30.glBindVertexArray(0);
         GL20.glUseProgram(0);
-    }
-
-    public void destroyQuad() {
-        // Select the VAO
-        GL30.glBindVertexArray(vaoId);
-
-        // Disable the VBO index from the VAO attributes list
-        GL20.glDisableVertexAttribArray(0);
-        GL20.glDisableVertexAttribArray(1);
-        GL20.glDisableVertexAttribArray(2);
-
-        // Delete the vertex VBO
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-        GL15.glDeleteBuffers(vboId);
-
-        // Delete the index VBO
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-        GL15.glDeleteBuffers(vboiId);
-
-        // Delete the VAO
-        GL30.glBindVertexArray(0);
-        GL30.glDeleteVertexArrays(vaoId);
     }
 
 }
