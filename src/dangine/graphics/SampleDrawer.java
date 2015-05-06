@@ -69,13 +69,13 @@ public class SampleDrawer {
         DangineShaders.setupShaders();
         this.setupMatrices();
         box = new DangineBox();
-        picture = new DanginePicture("snowsky1");
+        picture = new DanginePicture("starfont");
         DangineTextureGenerator.generateTexture();
-        pictureCreated = new DanginePicture(new DangineTexture(DangineTextureGenerator.createdTexture, "created"));
+        pictureCreated = new DanginePicture(new DangineTexture(DangineTextureGenerator.createdTexture, "created", 0, 0));
         PARENT_ORTHO_NODE.addChild(box.getNode());
         PARENT_ORTHO_NODE.addChild(picture.getNode());
         PARENT_ORTHO_NODE.addChild(pictureCreated.getNode());
-        
+
         PARENT_ORTHO_NODE.propagate();
 
         // Get matrices uniform locations
@@ -203,8 +203,8 @@ public class SampleDrawer {
         // dangineQuad.drawQuad();
         box.draw();
         picture.draw();
-        pictureCreated.draw();
-//        dangineTexturedQuad.drawQuad();
+        // pictureCreated.draw();
+        // dangineTexturedQuad.drawQuad();
     }
 
     public void destroy() {

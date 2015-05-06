@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
- 
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.ContextAttribs;
@@ -86,15 +86,15 @@ public class TheQuadExampleInterleaved {
      
     public void setupQuad() {
         // We'll define our quad using 4 vertices of the custom 'Vertex' class
-        Vertex v0 = new Vertex(); v0.setXYZ(-0.5f, 0.5f, 0f); v0.setRGB(1, 0, 0);
-        Vertex v1 = new Vertex(); v1.setXYZ(-0.5f, -0.5f, 0f); v1.setRGB(0, 1, 0);
-        Vertex v2 = new Vertex(); v2.setXYZ(0.5f, -0.5f, 0f); v2.setRGB(0, 0, 1);
-        Vertex v3 = new Vertex(); v3.setXYZ(0.5f, 0.5f, 0f); v3.setRGB(1, 1, 1);
+        VertexDataForColor v0 = new VertexDataForColor(); v0.setXYZ(-0.5f, 0.5f, 0f); v0.setRGB(1, 0, 0);
+        VertexDataForColor v1 = new VertexDataForColor(); v1.setXYZ(-0.5f, -0.5f, 0f); v1.setRGB(0, 1, 0);
+        VertexDataForColor v2 = new VertexDataForColor(); v2.setXYZ(0.5f, -0.5f, 0f); v2.setRGB(0, 0, 1);
+        VertexDataForColor v3 = new VertexDataForColor(); v3.setXYZ(0.5f, 0.5f, 0f); v3.setRGB(1, 1, 1);
          
-        Vertex[] vertices = new Vertex[] {v0, v1, v2, v3};
+        VertexDataForColor[] vertices = new VertexDataForColor[] {v0, v1, v2, v3};
         // Put each 'Vertex' in one FloatBuffer
         FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length *
-                Vertex.elementCount);
+                VertexDataForColor.elementCount);
         for (int i = 0; i < vertices.length; i++) {
             verticesBuffer.put(vertices[i].getXYZW());
             verticesBuffer.put(vertices[i].getRGBA());
@@ -120,10 +120,10 @@ public class TheQuadExampleInterleaved {
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesBuffer, GL15.GL_STATIC_DRAW);
         // Put the positions in attribute list 0
-        GL20.glVertexAttribPointer(0, 4, GL11.GL_FLOAT, false, Vertex.sizeInBytes, 0);
+        GL20.glVertexAttribPointer(0, 4, GL11.GL_FLOAT, false, VertexDataForColor.sizeInBytes, 0);
         // Put the colors in attribute list 1
-        GL20.glVertexAttribPointer(1, 4, GL11.GL_FLOAT, false, Vertex.sizeInBytes, 
-                Vertex.elementBytes * 4);
+        GL20.glVertexAttribPointer(1, 4, GL11.GL_FLOAT, false, VertexDataForColor.sizeInBytes, 
+                VertexDataForColor.elementBytes * 4);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
          
         // Deselect (bind to 0) the VAO

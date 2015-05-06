@@ -9,8 +9,6 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL32;
 
-import com.badlogic.gdx.Gdx;
-
 import dangine.debugger.Debugger;
 
 public class DangineTextureGenerator {
@@ -63,6 +61,8 @@ public class DangineTextureGenerator {
         
         DangineBox box = new DangineBox();
         box.draw();
+        DanginePicture picture = new DanginePicture("joystix_font");
+        picture.draw();
 //        DangineQuad quad1 = new DangineQuad();
 //        quad1.drawQuad();
 //        DangineTexturedQuadSample quad2 = new DangineTexturedQuadSample();

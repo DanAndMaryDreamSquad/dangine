@@ -1,6 +1,6 @@
 package dangine.harness;
 
-public class Vertex {
+public class VertexDataForColor {
     // Vertex data
     private float[] xyzw = new float[] {0f, 0f, 0f, 1f};
     private float[] rgba = new float[] {1f, 1f, 1f, 1f};

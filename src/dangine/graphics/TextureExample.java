@@ -1,13 +1,11 @@
 package dangine.graphics;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
- 
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -26,10 +24,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.GdxNativesLoader;
- 
+
 import dangine.image.TextureLoader;
-import de.matthiasmann.twl.utils.PNGDecoder;
-import de.matthiasmann.twl.utils.PNGDecoder.Format;
  
 public class TextureExample {
     // Entry point for the application

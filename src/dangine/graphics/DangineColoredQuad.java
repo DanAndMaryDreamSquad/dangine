@@ -13,7 +13,7 @@ import org.lwjgl.util.Color;
 import com.badlogic.gdx.math.Matrix4;
 
 import dangine.debugger.Debugger;
-import dangine.harness.Vertex;
+import dangine.harness.VertexDataForColor;
 
 public class DangineColoredQuad {
 
@@ -33,22 +33,22 @@ public class DangineColoredQuad {
         transformMatrixLocation = GL20.glGetUniformLocation(DangineShaders.getColorProgramId(), "transformMatrix");
         
         // We'll define our quad using 4 vertices of the custom 'Vertex' class
-        Vertex v0 = new Vertex();
+        VertexDataForColor v0 = new VertexDataForColor();
         v0.setXYZ(-0.5f, 0.5f, 0f);
         v0.setRGB(color.getRed(), color.getGreen(), color.getBlue());
-        Vertex v1 = new Vertex();
+        VertexDataForColor v1 = new VertexDataForColor();
         v1.setXYZ(-0.5f, -0.5f, 0f);
         v1.setRGB(color.getRed(), color.getGreen(), color.getBlue());
-        Vertex v2 = new Vertex();
+        VertexDataForColor v2 = new VertexDataForColor();
         v2.setXYZ(0.5f, -0.5f, 0f);
         v2.setRGB(color.getRed(), color.getGreen(), color.getBlue());
-        Vertex v3 = new Vertex();
+        VertexDataForColor v3 = new VertexDataForColor();
         v3.setXYZ(0.5f, 0.5f, 0f);
         v3.setRGB(color.getRed(), color.getGreen(), color.getBlue());
 
-        Vertex[] vertices = new Vertex[] { v0, v1, v2, v3 };
+        VertexDataForColor[] vertices = new VertexDataForColor[] { v0, v1, v2, v3 };
         // Put each 'Vertex' in one FloatBuffer
-        FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length * Vertex.elementCount);
+        FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length * VertexDataForColor.elementCount);
         for (int i = 0; i < vertices.length; i++) {
             verticesBuffer.put(vertices[i].getXYZW());
             verticesBuffer.put(vertices[i].getRGBA());
@@ -71,9 +71,9 @@ public class DangineColoredQuad {
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesBuffer, GL15.GL_STATIC_DRAW);
         // Put the positions in attribute list 0
-        GL20.glVertexAttribPointer(0, 4, GL11.GL_FLOAT, false, Vertex.sizeInBytes, 0);
+        GL20.glVertexAttribPointer(0, 4, GL11.GL_FLOAT, false, VertexDataForColor.sizeInBytes, 0);
         // Put the colors in attribute list 1
-        GL20.glVertexAttribPointer(1, 4, GL11.GL_FLOAT, false, Vertex.sizeInBytes, Vertex.elementBytes * 4);
+        GL20.glVertexAttribPointer(1, 4, GL11.GL_FLOAT, false, VertexDataForColor.sizeInBytes, VertexDataForColor.elementBytes * 4);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 
         // Deselect (bind to 0) the VAO
@@ -83,7 +83,7 @@ public class DangineColoredQuad {
         vboiId = GL15.glGenBuffers();
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboiId);
         GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL15.GL_STATIC_DRAW);
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);                                   
     }
 
     public void drawQuad() {
@@ -124,7 +124,6 @@ public class DangineColoredQuad {
         GL20.glUseProgram(0);        
     }
     
-
     public void destroyQuad() {
         // Select the VAO
         GL30.glBindVertexArray(vaoId);

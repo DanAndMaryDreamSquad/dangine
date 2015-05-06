@@ -5,10 +5,14 @@ public class DangineTexture {
 
     final private int textureId;
     final private String name;
+    final private int width;
+    final private int height;
     
-    public DangineTexture(int textureId, String filename) {
+    public DangineTexture(int textureId, String filename, int width, int height) {
         this.textureId = textureId;
         this.name = filename;
+        this.width = width;
+        this.height = height;
     }
     
     /**
@@ -25,6 +29,20 @@ public class DangineTexture {
      */
     public String getName() {
         return name;        
+    }
+
+    /**
+     * The width in pixels of the actual image file, as pulled from the .png
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * The height in pixels of the actual image file, as pulled from the .png
+     */
+    public int getHeight() {
+        return height;
     }
 
 }

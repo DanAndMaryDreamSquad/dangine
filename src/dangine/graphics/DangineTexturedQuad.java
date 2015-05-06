@@ -2,6 +2,8 @@ package dangine.graphics;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -11,6 +13,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 
 public class DangineTexturedQuad {
     // Quad variables
@@ -20,7 +23,8 @@ public class DangineTexturedQuad {
     private int indicesCount = 0;
     private int transformMatrixLocation = 0;
     private FloatBuffer matrix44Buffer = BufferUtils.createFloatBuffer(16);
-
+    VertexDataForTexture[] vertices;
+    ByteBuffer verticesByteBuffer;
     DangineTexture texture;
 
     public DangineTexturedQuad(DangineTexture texture) {
@@ -33,10 +37,7 @@ public class DangineTexturedQuad {
         initQuad();
     }
 
-    private void initQuad() {
-        // Get matrices uniform locations
-        transformMatrixLocation = GL20.glGetUniformLocation(DangineShaders.getTextureProgramId(), "transformMatrix");
-
+    private VertexDataForTexture[] getVertexDataForTexture() {
         // We'll define our quad using 4 vertices of the custom 'TexturedVertex'
         // class
         VertexDataForTexture v0 = new VertexDataForTexture();
@@ -46,20 +47,28 @@ public class DangineTexturedQuad {
         VertexDataForTexture v1 = new VertexDataForTexture();
         v1.setXYZ(-0.5f, -0.5f, 0);
         v1.setRGB(0, 1, 0);
-        v1.setST(0, 1);
+        // v1.setST(0, 1);
+        v1.setST(0, 0.5f);
         VertexDataForTexture v2 = new VertexDataForTexture();
         v2.setXYZ(0.5f, -0.5f, 0);
         v2.setRGB(0, 0, 1);
-        v2.setST(1, 1);
+        // v2.setST(1, 1);
+        v2.setST(0.5f, 0.5f);
         VertexDataForTexture v3 = new VertexDataForTexture();
         v3.setXYZ(0.5f, 0.5f, 0);
         v3.setRGB(1, 1, 1);
-        v3.setST(1, 0);
+        // v3.setST(1, 0);
+        v3.setST(0.5f, 0);
+        return new VertexDataForTexture[] { v0, v1, v2, v3 };
+    }
 
-        VertexDataForTexture[] vertices = new VertexDataForTexture[] { v0, v1, v2, v3 };
+    private void initQuad() {
+        // Get matrices uniform locations
+        transformMatrixLocation = GL20.glGetUniformLocation(DangineShaders.getTextureProgramId(), "transformMatrix");
 
+        vertices = getVertexDataForTexture();
         // Put each 'Vertex' in one FloatBuffer
-        ByteBuffer verticesByteBuffer = BufferUtils.createByteBuffer(vertices.length * VertexDataForTexture.stride);
+        verticesByteBuffer = BufferUtils.createByteBuffer(vertices.length * VertexDataForTexture.stride);
         FloatBuffer verticesFloatBuffer = verticesByteBuffer.asFloatBuffer();
         for (int i = 0; i < vertices.length; i++) {
             // Add position, color and texture floats to the buffer
@@ -142,6 +151,45 @@ public class DangineTexturedQuad {
         GL20.glDisableVertexAttribArray(2);
         GL30.glBindVertexArray(0);
         GL20.glUseProgram(0);
+    }
+
+    public void changeTextureCoordinates(CharacterCoordinates coordinates) {
+        changeTextureCoordinates(coordinates.getTopLeft().getX(), coordinates.getTopLeft().getY(),
+                coordinates.getBottomRight().getX(), coordinates.getBottomRight().getY());
+    }
+
+    public void changeTextureCoordinates(int x1, int y1, int x2, int y2) {
+        List<Vector2> newTextureCoordinates = new ArrayList<Vector2>();
+        newTextureCoordinates.add(new Vector2(x1, y1));
+        newTextureCoordinates.add(new Vector2(x1, y2));
+        newTextureCoordinates.add(new Vector2(x2, y2));
+        newTextureCoordinates.add(new Vector2(x2, y1));
+
+        // Update vertices in the VBO, first bind the VBO
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
+
+        // Apply and update vertex data
+        for (int i = 0; i < vertices.length; i++) {
+            VertexDataForTexture vertex = vertices[i];
+
+            // // Offset the vertex position
+            // float[] st = vertex.getST();
+            // vertex.setST(st[0] * 2, st[1] * 2);
+            Vector2 st = newTextureCoordinates.get(i);
+            vertex.setST(st.x / (float) texture.getWidth(), st.y / (float) texture.getHeight());
+
+            // Put the new data in a ByteBuffer (in the view of a FloatBuffer)
+            FloatBuffer vertexFloatBuffer = verticesByteBuffer.asFloatBuffer();
+            vertexFloatBuffer.rewind();
+            vertexFloatBuffer.put(vertex.getElements());
+            vertexFloatBuffer.flip();
+
+            GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, i * VertexDataForTexture.stride, vertexFloatBuffer);
+        }
+
+        // And of course unbind
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+
     }
 
     public void destroyQuad() {
