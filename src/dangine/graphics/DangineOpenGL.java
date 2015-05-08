@@ -45,9 +45,7 @@ public class DangineOpenGL {
         GL11.glClearColor(0.4f, 0.6f, 0.9f, 0f);
 
         // Map the internal OpenGL coordinate system to the entire screen
-        GL11.glViewport(0, 0, WIDTH, HEIGHT);
-        
-        
+        GL11.glViewport(0, 0, WIDTH, HEIGHT);                
     }
 
     public static void destroyOpenGL() {

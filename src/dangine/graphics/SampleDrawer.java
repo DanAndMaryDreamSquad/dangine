@@ -40,6 +40,7 @@ public class SampleDrawer {
     private DangineBox box;
     private DanginePicture picture;
     private DanginePicture pictureCreated;
+    private DangineDrawString drawString;
 
     // Entry point for the application
     public static void main(String[] args) {
@@ -70,11 +71,16 @@ public class SampleDrawer {
         this.setupMatrices();
         box = new DangineBox();
         picture = new DanginePicture("starfont");
+        drawString = new DangineDrawString("i love mary!");
         DangineTextureGenerator.generateTexture();
-        pictureCreated = new DanginePicture(new DangineTexture(DangineTextureGenerator.createdTexture, "created", 0, 0));
+        // pictureCreated = new DanginePicture(new
+        // DangineTexture(DangineTextureGenerator.createdTexture, "created", 0,
+        // 0));
+        pictureCreated = new DanginePicture(DangineTextureGenerator.generateStringTexture("i love\nmary!"));
         PARENT_ORTHO_NODE.addChild(box.getNode());
         PARENT_ORTHO_NODE.addChild(picture.getNode());
         PARENT_ORTHO_NODE.addChild(pictureCreated.getNode());
+        PARENT_ORTHO_NODE.addChild(drawString.getNode());
 
         PARENT_ORTHO_NODE.propagate();
 
@@ -203,7 +209,8 @@ public class SampleDrawer {
         // dangineQuad.drawQuad();
         box.draw();
         picture.draw();
-        // pictureCreated.draw();
+        drawString.draw();
+        pictureCreated.draw();
         // dangineTexturedQuad.drawQuad();
     }
 

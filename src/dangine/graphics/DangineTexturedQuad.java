@@ -47,18 +47,18 @@ public class DangineTexturedQuad {
         VertexDataForTexture v1 = new VertexDataForTexture();
         v1.setXYZ(-0.5f, -0.5f, 0);
         v1.setRGB(0, 1, 0);
-        // v1.setST(0, 1);
-        v1.setST(0, 0.5f);
+        v1.setST(0, 1);
+        // v1.setST(0, 0.5f);
         VertexDataForTexture v2 = new VertexDataForTexture();
         v2.setXYZ(0.5f, -0.5f, 0);
         v2.setRGB(0, 0, 1);
-        // v2.setST(1, 1);
-        v2.setST(0.5f, 0.5f);
+        v2.setST(1, 1);
+        // v2.setST(0.5f, 0.5f);
         VertexDataForTexture v3 = new VertexDataForTexture();
         v3.setXYZ(0.5f, 0.5f, 0);
         v3.setRGB(1, 1, 1);
-        // v3.setST(1, 0);
-        v3.setST(0.5f, 0);
+        v3.setST(1, 0);
+        // v3.setST(0.5f, 0);
         return new VertexDataForTexture[] { v0, v1, v2, v3 };
     }
 
@@ -125,6 +125,11 @@ public class DangineTexturedQuad {
     }
 
     public void drawQuad() {
+        // Filter code
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+        
+        
         GL20.glUseProgram(DangineShaders.getTextureProgramId());
 
         // Bind the texture
@@ -154,8 +159,8 @@ public class DangineTexturedQuad {
     }
 
     public void changeTextureCoordinates(CharacterCoordinates coordinates) {
-        changeTextureCoordinates(coordinates.getTopLeft().getX(), coordinates.getTopLeft().getY(),
-                coordinates.getBottomRight().getX(), coordinates.getBottomRight().getY());
+        changeTextureCoordinates(coordinates.getTopLeft().getX(), coordinates.getTopLeft().getY(), coordinates
+                .getBottomRight().getX(), coordinates.getBottomRight().getY());
     }
 
     public void changeTextureCoordinates(int x1, int y1, int x2, int y2) {

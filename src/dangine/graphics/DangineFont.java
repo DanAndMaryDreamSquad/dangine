@@ -5,7 +5,9 @@ import org.lwjgl.util.Point;
 public class DangineFont {
 
     public final static char[] ALPHABET = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-            'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+            'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', //
+            '!', '?', ':', ' ', //
+            '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
     public final static String FONT_NAME = "starfont";
     public final static int CHARACTER_WIDTH_IN_PIXELS = 10;
     public final static int CHARACTER_HEIGHT_IN_PIXELS = 10;

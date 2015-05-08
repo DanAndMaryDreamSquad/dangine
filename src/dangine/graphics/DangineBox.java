@@ -9,6 +9,11 @@ public class DangineBox {
     DangineColoredQuad quad;
     SceneGraphNode node = new SceneGraphNode();
 
+    public DangineBox(Color color) {
+        quad = new DangineColoredQuad(new Color(color));
+        node.setScale(100, 100);
+        node.setPosition(200, 100);
+    }
     public DangineBox() {
         quad = new DangineColoredQuad(new Color(Color.RED));
         node.setScale(100, 100);

@@ -8,7 +8,7 @@ public class DanginePicture {
 
     public DanginePicture(String imageName) {
         quad = new DangineTexturedQuad(imageName);
-        quad.changeTextureCoordinates(DangineFont.getCoordinatesOfCharacter('e'));
+        quad.changeTextureCoordinates(DangineFont.getCoordinatesOfCharacter('x'));
 //        quad.changeTextureCoordinates(10, 10, 20, 20);
         node.setScale(100, -100);
         node.setPosition(100, 100);
@@ -17,7 +17,7 @@ public class DanginePicture {
     public DanginePicture(DangineTexture texture) {
         quad = new DangineTexturedQuad(texture);
 //        quad.changeTextureCoordinates();
-        node.setScale(100, 100);
+        node.setScale(texture.getWidth(), texture.getHeight());
         node.setPosition(100, 100);
     }
 
