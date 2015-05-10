@@ -1,10 +1,10 @@
 package dangine.demogame;
 
-import org.newdawn.slick.Color;
-
 import dangine.game.DangineGame;
 import dangine.scene.Scene;
 import dangine.scene.SceneSchema;
+import dangine.scene.TitleSceneSchema32;
+import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Utility;
 
 public class LWJGL32Game implements DangineGame {
@@ -14,6 +14,9 @@ public class LWJGL32Game implements DangineGame {
     @Override
     public void init() {
         Utility.setActiveScene(scene);
+        TitleSceneSchema32 schema = new TitleSceneSchema32();
+        schema.apply(scene);
+        
     }
 
     @Override

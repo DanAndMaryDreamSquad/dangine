@@ -34,4 +34,11 @@ public class DanginePicture {
         return node;
     }
 
+    public int getWidth() {
+        return quad.getTexture().getWidth();
+    }
+    public int getHeight() {
+        return quad.getTexture().getHeight();
+    }
+
 }

@@ -219,4 +219,8 @@ public class DangineTexturedQuad {
         GL30.glDeleteVertexArrays(vaoId);
     }
 
+    public DangineTexture getTexture() {
+        return texture;
+    }
+
 }

@@ -23,6 +23,7 @@ public class SceneGraphNode implements IsDrawable {
     SceneGraphNode parent = null;
     List<SceneGraphNode> childNodes = new ArrayList<SceneGraphNode>();
     List<IsDrawable> children = new ArrayList<IsDrawable>();
+    List<IsDrawable32> children32 = new ArrayList<IsDrawable32>();
     Matrix4 matrix = new Matrix4();
     
     public void propagate() {
