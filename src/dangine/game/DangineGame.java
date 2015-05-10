@@ -6,7 +6,7 @@ public interface DangineGame {
 
     public void update();
 
-    public void draw();
+    public void populateRenderQueue();
 
     public void init();
 

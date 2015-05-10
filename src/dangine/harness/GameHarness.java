@@ -79,7 +79,7 @@ public class GameHarness extends BasicGame {
         // node.addChild(other);
         // node.updateTransforms();
         //
-        dangineGame.draw();
+        dangineGame.populateRenderQueue();
 
         Utility.getRenderQueue().render();
         Utility.getRenderQueue().clear();

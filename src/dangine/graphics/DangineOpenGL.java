@@ -13,18 +13,10 @@ public class DangineOpenGL {
 
     // Setup variables
     static private final String WINDOW_TITLE = "Sample";
-    static private final int WIDTH = 300;
-    static private final int HEIGHT = 200;
-
-    static private Matrix4 projection;
-    static private Matrix4 model;
-    static private Matrix4 view;
+    static private final int WIDTH = 800;
+    static private final int HEIGHT = 600;
 
     public static void setupOpenGL() {
-        projection = new Matrix4().setToOrtho2D(0, 0, WIDTH, HEIGHT, -1, 1);
-        model = new Matrix4();
-        view = new Matrix4();
-        
         // Setup an OpenGL context with API version 3.2
         try {
             PixelFormat pixelFormat = new PixelFormat();

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Matrix4;
 
 import dangine.scenegraph.SceneGraphNode;
 
-public class DangineDrawString {
+public class DangineStringDrawer {
     
     class CharacterMatrix {
         final Matrix4 transformation;
@@ -39,7 +39,7 @@ public class DangineDrawString {
     List<CharacterMatrix> characers = new LinkedList<CharacterMatrix>();
     final String text;
 
-    public DangineDrawString(String text) {
+    public DangineStringDrawer(String text) {
         quad = new DangineTexturedQuad(DangineFont.FONT_NAME);
         node.setScale(10, -10);
         node.setPosition(5, 5);

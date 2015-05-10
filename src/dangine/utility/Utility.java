@@ -5,8 +5,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.entity.gameplay.MatchParameters;
+import dangine.graphics.GameLoop;
+import dangine.graphics.RenderQueue32;
 import dangine.harness.GameHarness;
-import dangine.harness.GameLoop;
 import dangine.player.Players;
 import dangine.scene.Scene;
 import dangine.scenegraph.RenderQueue;
@@ -19,6 +20,7 @@ public class Utility {
     private static Players players;
     private static Scene activeScene;
     private static RenderQueue renderQueue;
+    private static RenderQueue32 renderQueue32;
     private static GameLoop gameLoop;
     final private static Vector2f gameWindowResolution = new Vector2f(800, 600);
     final private static Vector2f gameSpaceResolution = new Vector2f(800, 600);
@@ -30,6 +32,7 @@ public class Utility {
         Utility.gameTime = new GameTime();
         Utility.players = new Players();
         Utility.renderQueue = new RenderQueue();
+        Utility.renderQueue32 = new RenderQueue32();
         Utility.gameLoop = gameLoop;
     }
 
@@ -72,6 +75,10 @@ public class Utility {
 
     public static RenderQueue getRenderQueue() {
         return renderQueue;
+    }
+    
+    public static RenderQueue32 getRenderQueue32() {
+        return renderQueue32;
     }
 
     public static Vector2f getResolution() {

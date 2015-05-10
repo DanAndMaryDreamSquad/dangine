@@ -78,7 +78,7 @@ public class DangineTextureGenerator {
         Matrix4 result = new Matrix4();
         DangineBox box = new DangineBox(new Color(Color.BLUE));
         box.draw();
-        DangineDrawString drawString = new DangineDrawString("i love mary!");
+        DangineStringDrawer drawString = new DangineStringDrawer("i love mary!");
         // drawString.getNode().getMatrix().scl(10f / 128f, 10f / 128f, 1);
         drawString.getNode().setMatrix(result.mul(ortho).mul(scale).mul(transformation));
         drawString.draw();
@@ -130,27 +130,19 @@ public class DangineTextureGenerator {
         // Set "renderedTexture" as our colour attachement #0
         GL32.glFramebufferTexture(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, createdTexture, 0);
 
-        // Set the list of draw buffers.
-        // GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
-        IntBuffer buffers = BufferUtils.createIntBuffer(1);
-        buffers.put(0, GL30.GL_COLOR_ATTACHMENT0);
-        GL20.glDrawBuffers(buffers);
-
         // Always check that our framebuffer is ok
         if (GL30.glCheckFramebufferStatus(GL30.GL_FRAMEBUFFER) != GL30.GL_FRAMEBUFFER_COMPLETE) {
             Debugger.warn("bad frame buffer");
             System.exit(-1);
         }
 
-        GL11.glViewport(0, 0, textureWidth, textureHeight); // Render on the
-                                                            // whole
-                                                            // framebuffer,
+        // Render on the whole framebuffer,
         // complete from the lower left corner
         // to the upper right
+        GL11.glViewport(0, 0, textureWidth, textureHeight);
 
         // clear our framebuffer
-        // Setup an different XNA like background color
-
+        // Setup an different background color
         GL11.glClearColor(0.9f, 0.6f, 0.4f, 0f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
@@ -165,7 +157,7 @@ public class DangineTextureGenerator {
         for (int i = 0; i < lines.length; i++) {
             Matrix4 result = new Matrix4();
             String line = lines[i];
-            DangineDrawString drawString = new DangineDrawString(line);
+            DangineStringDrawer drawString = new DangineStringDrawer(line);
             transformation = new Matrix4();
             transformation.translate(0.5f, -(0.5f + i), 0);
             drawString.getNode().setMatrix(result.mul(ortho).mul(scale).mul(transformation));
@@ -175,7 +167,6 @@ public class DangineTextureGenerator {
         createdDangineTexture = new DangineTexture(createdTexture, "s_", textureWidth, textureHeight);
 
         // Setup an XNA like background color
-
         GL11.glClearColor(0.4f, 0.6f, 0.9f, 0f);
 
         GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
