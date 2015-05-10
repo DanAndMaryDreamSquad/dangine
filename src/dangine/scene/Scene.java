@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.badlogic.gdx.math.Matrix4;
+
 import dangine.bots.DangineBot;
 import dangine.entity.Bouncer;
 import dangine.entity.Hero;
@@ -14,9 +16,9 @@ import dangine.entity.Obstruction;
 import dangine.entity.Vortex;
 import dangine.entity.combat.CombatResolver;
 import dangine.entity.gameplay.MatchOrchestrator;
+import dangine.graphics.DangineOpenGL;
 import dangine.scenegraph.RenderData;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.utility.Utility;
 
 public class Scene implements IsUpdateable, IsDrawable {
 
@@ -33,11 +35,14 @@ public class Scene implements IsUpdateable, IsDrawable {
     final List<Bouncer> bouncers = new LinkedList<Bouncer>();
 
     public Scene() {
-        parentNode.addChild(camera.getDrawable());
+        // parentNode.addChild(camera.getDrawable());
         this.addUpdateable(camera);
-        float xResolutionScale = Utility.getGameWindowResolution().x / Utility.getResolution().x;
-        float yResolutionScale = Utility.getGameWindowResolution().y / Utility.getResolution().y;
-        parentNode.setScale(xResolutionScale, yResolutionScale);
+        // float xResolutionScale = Utility.getGameWindowResolution().x /
+        // Utility.getResolution().x;
+        // float yResolutionScale = Utility.getGameWindowResolution().y /
+        // Utility.getResolution().y;
+        // parentNode.setScale(xResolutionScale, yResolutionScale);
+        parentNode.setMatrix(new Matrix4().setToOrtho(0, DangineOpenGL.WIDTH, DangineOpenGL.HEIGHT, 0, 1000, -1000));
     }
 
     @Override
@@ -54,7 +59,8 @@ public class Scene implements IsUpdateable, IsDrawable {
     @Override
     public void draw() {
         // parentNode.draw();
-        parentNode.updateTransformsAndPropagate();
+        // parentNode.updateTransformsAndPropagate();
+        parentNode.propagate();
     }
 
     public void addUpdateable(IsUpdateable updateable) {

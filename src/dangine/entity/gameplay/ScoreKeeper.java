@@ -11,9 +11,9 @@ import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.graphics.DangineStringPicture;
 import dangine.player.DanginePlayer;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineText;
 import dangine.utility.Utility;
 
 public class ScoreKeeper implements IsUpdateable, HasDrawable {
@@ -21,9 +21,9 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     boolean matchOver = false;
     SceneGraphNode base = new SceneGraphNode();
     List<SceneGraphNode> scoreNodes = new ArrayList<SceneGraphNode>();
-    List<DangineText> textNodes = new ArrayList<DangineText>();
+    List<DangineStringPicture> textNodes = new ArrayList<DangineStringPicture>();
     List<PlayerScore> scores = new ArrayList<PlayerScore>();
-    Map<Integer, DangineText> playerIdToTextNode = new HashMap<Integer, DangineText>();
+    Map<Integer, DangineStringPicture> playerIdToTextNode = new HashMap<Integer, DangineStringPicture>();
     float timer = 0;
     final float FADE_TIME = 4000;
     final float FADE_DELAY = 2000;
@@ -31,7 +31,7 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     public ScoreKeeper() {
         for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
             SceneGraphNode score = new SceneGraphNode();
-            DangineText text = new DangineText();
+            DangineStringPicture text = new DangineStringPicture();
             playerIdToTextNode.put(player.getPlayerId(), text);
             score.addChild(text);
             scoreNodes.add(score);
@@ -55,7 +55,7 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
             if (timer > FADE_DELAY) {
                 alpha = 1.0f - ((timer - FADE_DELAY) / (FADE_TIME - FADE_DELAY));
             }
-            for (DangineText text : textNodes) {
+            for (DangineStringPicture text : textNodes) {
                 text.setAlpha(alpha);
             }
         }
@@ -64,7 +64,7 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     public void addBotToGame(int botId) {
         scores.add(new PlayerScore(botId));
         SceneGraphNode score = new SceneGraphNode();
-        DangineText text = new DangineText();
+        DangineStringPicture text = new DangineStringPicture();
         playerIdToTextNode.put(botId, text);
         score.addChild(text);
         scoreNodes.add(score);

@@ -1,10 +1,10 @@
 package dangine.entity;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.graphics.DangineBox;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineShape;
 import dangine.utility.Utility;
 
 public class Creature implements IsUpdateable, HasDrawable {
@@ -19,7 +19,7 @@ public class Creature implements IsUpdateable, HasDrawable {
         position.y = 100;
         node = new SceneGraphNode();
         node.setPosition(position);
-        node.addChild(new DangineShape());
+        node.addChild(new DangineBox());
         float[][] arms = { { 10, 10 }, { -10, -10 }, { 10, -10 }, { -10, 10 } };
         SceneGraphNode arm = null;
         for (float[] pos : arms) {
@@ -33,7 +33,7 @@ public class Creature implements IsUpdateable, HasDrawable {
     private SceneGraphNode createArm(float x, float y) {
         SceneGraphNode arm = new SceneGraphNode();
         arm.setPosition(x, y);
-        arm.addChild(new DangineShape(10, 10, Color.blue));
+        arm.addChild(new DangineBox(10, 10, new Color(Color.BLUE)));
         return arm;
     }
 

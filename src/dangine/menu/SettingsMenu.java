@@ -6,9 +6,9 @@ import dangine.entity.IsUpdateable;
 import dangine.entity.movement.AttackMode;
 import dangine.entity.movement.FacingMode;
 import dangine.entity.movement.MovementMode;
+import dangine.graphics.DangineStringPicture;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineText;
 import dangine.utility.Utility;
 
 public class SettingsMenu implements IsUpdateable, HasDrawable {
@@ -16,21 +16,21 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
     DangineMenu menu = new DangineMenu();
     DangineSelector selector = new DangineSelector();
     SceneGraphNode stockTextNode = new SceneGraphNode();
-    DangineText stockText = new DangineText();
+    DangineStringPicture stockText = new DangineStringPicture();
     SceneGraphNode movementModeTextNode = new SceneGraphNode();
-    DangineText movementModeText = new DangineText();
+    DangineStringPicture movementModeText = new DangineStringPicture();
     SceneGraphNode movementModeEnumNode = new SceneGraphNode();
-    DangineText movementModeEnumText = new DangineText();
+    DangineStringPicture movementModeEnumText = new DangineStringPicture();
 
     SceneGraphNode attackModeTextNode = new SceneGraphNode();
-    DangineText attackModeText = new DangineText();
+    DangineStringPicture attackModeText = new DangineStringPicture();
     SceneGraphNode attackModeEnumNode = new SceneGraphNode();
-    DangineText attackModeEnumText = new DangineText();
+    DangineStringPicture attackModeEnumText = new DangineStringPicture();
 
     SceneGraphNode facingModeTextNode = new SceneGraphNode();
-    DangineText facingModeText = new DangineText();
+    DangineStringPicture facingModeText = new DangineStringPicture();
     SceneGraphNode facingModeEnumNode = new SceneGraphNode();
-    DangineText facingModeEnumText = new DangineText();
+    DangineStringPicture facingModeEnumText = new DangineStringPicture();
 
     DangineMenuItem friendlyFireItem = new DangineMenuItem("Friendly Fire: "
             + Utility.getMatchParameters().isFriendlyFire(), getToggleFriendlyFireAction());

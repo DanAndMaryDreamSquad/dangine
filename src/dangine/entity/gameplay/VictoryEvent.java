@@ -2,14 +2,14 @@ package dangine.entity.gameplay;
 
 import java.util.List;
 
+import dangine.graphics.DangineStringPicture;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineText;
 import dangine.utility.Utility;
 
 public class VictoryEvent implements MatchEvent {
 
     SceneGraphNode node = new SceneGraphNode();
-    DangineText text = new DangineText();
+    DangineStringPicture text = new DangineStringPicture();
 
     Integer victorId;
 

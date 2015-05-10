@@ -1,6 +1,6 @@
 package dangine.entity;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.bots.DangineBot;

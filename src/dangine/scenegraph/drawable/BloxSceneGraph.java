@@ -1,9 +1,10 @@
 package dangine.scenegraph.drawable;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
 
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
+import dangine.graphics.DangineBox;
 import dangine.scenegraph.SceneGraphNode;
 
 public class BloxSceneGraph implements HasDrawable {
@@ -15,11 +16,11 @@ public class BloxSceneGraph implements HasDrawable {
     SceneGraphNode rightLeg = new SceneGraphNode();
     SceneGraphNode leftArm = new SceneGraphNode();
     SceneGraphNode rightArm = new SceneGraphNode();
-    final DangineShape bodyShape = new DangineShape();
-    final DangineShape leftLegShape = new DangineShape(10, 20, Color.magenta);
-    final DangineShape rightLegShape = new DangineShape(10, 20, Color.pink);
-    final DangineShape leftArmShape = new DangineShape(10, 10, Color.green);
-    final DangineShape rightArmShape = new DangineShape(10, 10, Color.cyan);
+    final DangineBox bodyShape = new DangineBox();
+    final DangineBox leftLegShape = new DangineBox(10, 20, new Color(Color.PURPLE));
+    final DangineBox rightLegShape = new DangineBox(10, 20, new Color(Color.RED));
+    final DangineBox leftArmShape = new DangineBox(10, 10, new Color(Color.GREEN));
+    final DangineBox rightArmShape = new DangineBox(10, 10, new Color(Color.CYAN));
 
     public BloxSceneGraph() {
         body.addChild(bodyShape);
@@ -74,23 +75,23 @@ public class BloxSceneGraph implements HasDrawable {
         return getBase();
     }
 
-    public DangineShape getBodyShape() {
+    public DangineBox getBodyShape() {
         return bodyShape;
     }
 
-    public DangineShape getLeftLegShape() {
+    public DangineBox getLeftLegShape() {
         return leftLegShape;
     }
 
-    public DangineShape getRightLegShape() {
+    public DangineBox getRightLegShape() {
         return rightLegShape;
     }
 
-    public DangineShape getLeftArmShape() {
+    public DangineBox getLeftArmShape() {
         return leftArmShape;
     }
 
-    public DangineShape getRightArmShape() {
+    public DangineBox getRightArmShape() {
         return rightArmShape;
     }
 }

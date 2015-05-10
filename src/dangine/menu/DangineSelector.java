@@ -5,10 +5,10 @@ import java.util.List;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.graphics.DangineBox;
 import dangine.input.DangineSampleInput;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineShape;
 import dangine.utility.Utility;
 
 public class DangineSelector implements IsUpdateable, HasDrawable {
@@ -17,7 +17,8 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
     final float ROTATION_SPEED = 0.16f;
     float angle = 0.0f;
     SceneGraphNode node = new SceneGraphNode();
-    DangineShape shape = new DangineShape();
+    // DangineShape shape = new DangineShape();
+    DangineBox shape = new DangineBox();
     DangineMenuItem previousItem = null;
     DangineMenuItem currentItem = null;
     Action onEscape = null;

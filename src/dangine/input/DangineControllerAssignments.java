@@ -11,7 +11,6 @@ import com.esotericsoftware.controller.device.Button;
 import com.esotericsoftware.controller.input.XInputXboxController;
 
 import dangine.input.DangineKeyInputMapper.Action;
-import dangine.utility.Utility;
 
 public class DangineControllerAssignments {
 
@@ -25,8 +24,12 @@ public class DangineControllerAssignments {
                     return false;
                 }
                 int key = DangineKeyInputMapper.DEFAULTS.get(Action.BUTTON_ONE);
-                Input slickInput = Utility.getGameContainer().getInput();
-                return slickInput.isKeyDown(key);
+                // Input slickInput = Utility.getGameContainer().getInput();
+                // return slickInput.isKeyDown(key);
+                if (DangineOpenGLInput.isKeyDown(key)) {
+                    return true;
+                }
+                return false;
             }
         },
         KEYBOARD_RIGHT {
@@ -36,8 +39,10 @@ public class DangineControllerAssignments {
                     return false;
                 }
                 int key = DangineKeyInputMapper.DEFAULTS_P2.get(Action.BUTTON_ONE);
-                Input slickInput = Utility.getGameContainer().getInput();
-                return slickInput.isKeyDown(key);
+                if (DangineOpenGLInput.isKeyDown(key)) {
+                    return true;
+                }
+                return false;
             }
         },
         CONTROLLER_ONE {

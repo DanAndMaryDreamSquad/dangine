@@ -18,6 +18,7 @@ public class ScreenUtility {
 
     private static float[] temp = new float[3];
 
+    @Deprecated
     public static void matrixIntoGLLoad(FloatBuffer buffer, Matrix4 matrix) {
         buffer.put(matrix.getValues(), 0, 16);
         buffer.flip();
@@ -26,8 +27,9 @@ public class ScreenUtility {
 
     public static Vector2f getScreenPosition(SceneGraphNode node, Vector2f inOutPosition) {
         node.transform();
-        ScreenUtility.matrixIntoGLLoad(BufferUtils.createFloatBuffer(16), node.getMatrix());
-        inOutPosition = gluProject(inOutPosition);
+        // ScreenUtility.matrixIntoGLLoad(BufferUtils.createFloatBuffer(16),
+        // node.getMatrix());
+        inOutPosition = gluProject(node, inOutPosition);
         inOutPosition.y = Utility.getGameWindowResolution().y - inOutPosition.y;
         return inOutPosition;
     }
@@ -58,15 +60,20 @@ public class ScreenUtility {
         return parents;
     }
 
-    public static Vector2f gluProject(Vector2f inOutPosition) {
+    public static Vector2f gluProject(SceneGraphNode node, Vector2f inOutPosition) {
         IntBuffer viewport = BufferUtils.createIntBuffer(16);
         FloatBuffer modelview = BufferUtils.createFloatBuffer(16);
         FloatBuffer projection = BufferUtils.createFloatBuffer(16);
         FloatBuffer position = BufferUtils.createFloatBuffer(3);
-        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelview);
-        GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
+        modelview.put(node.getMatrix().getValues());
+        modelview.flip();
+        projection.put(Utility.getActiveScene().getParentNode().getMatrix().getValues());
+        projection.flip();
+        // GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelview);
+        // GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
         GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
 
+        // GLU.gluProject(0, 0, 0, modelview, projection, viewport, position);
         GLU.gluProject(0, 0, 0, modelview, projection, viewport, position);
         return floatBufferToVector2f(position, inOutPosition);
     }

@@ -8,6 +8,8 @@ import org.newdawn.slick.geom.Vector2f;
 import com.badlogic.gdx.math.Matrix4;
 
 import dangine.entity.IsDrawable;
+import dangine.graphics.IsDrawable32;
+import dangine.graphics.RenderData32;
 import dangine.utility.Utility;
 
 public class SceneGraphNode implements IsDrawable {
@@ -23,8 +25,9 @@ public class SceneGraphNode implements IsDrawable {
     SceneGraphNode parent = null;
     List<SceneGraphNode> childNodes = new ArrayList<SceneGraphNode>();
     List<IsDrawable> children = new ArrayList<IsDrawable>();
+    List<IsDrawable32> children32 = new ArrayList<IsDrawable32>();
     Matrix4 matrix = new Matrix4();
-    
+
     public void propagate() {
         for (SceneGraphNode childNode : childNodes) {
             childNode.updateTransformsAndPropagate();
@@ -33,7 +36,13 @@ public class SceneGraphNode implements IsDrawable {
             RenderData data = child.getRenderData();
             data.updateBuffer(getMatrix());
             Utility.getRenderQueue().add(data);
-        }        
+        }
+        for (IsDrawable32 child : children32) {
+            child.getNode().transform();
+            RenderData32 data = child.getRenderData32();
+            data.updateBuffer(child.getNode().getMatrix());
+            Utility.getRenderQueue32().add(data);
+        }
     }
 
     public void updateTransformsAndPropagate() {
@@ -45,6 +54,12 @@ public class SceneGraphNode implements IsDrawable {
             RenderData data = child.getRenderData();
             data.updateBuffer(getMatrix());
             Utility.getRenderQueue().add(data);
+        }
+        for (IsDrawable32 child : children32) {
+            child.getNode().transform();
+            RenderData32 data = child.getRenderData32();
+            data.updateBuffer(child.getNode().getMatrix());
+            Utility.getRenderQueue32().add(data);
         }
     }
 
@@ -93,12 +108,21 @@ public class SceneGraphNode implements IsDrawable {
         children.add(drawable);
     }
 
+    public void addChild(IsDrawable32 drawable) {
+        drawable.getNode().setParent(this);
+        children32.add(drawable);
+    }
+
     public void removeChild(IsDrawable target) {
         if (target instanceof SceneGraphNode) {
             SceneGraphNode n = (SceneGraphNode) target;
             childNodes.remove(n);
             return;
         }
+        children.remove(target);
+    }
+
+    public void removeChild(IsDrawable32 target) {
         children.remove(target);
     }
 

@@ -1,12 +1,12 @@
 package dangine.menu;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
 
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
+import dangine.graphics.DangineStringPicture;
 import dangine.input.DangineSampleInput;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineText;
 
 public class DangineMenuItem implements HasDrawable {
 
@@ -45,19 +45,20 @@ public class DangineMenuItem implements HasDrawable {
 
     SelectionStyle selectionStyle = SelectionStyle.SIMPLE;
     SceneGraphNode base = new SceneGraphNode();
-    DangineText itemText;
+    // DangineText itemText;
+    DangineStringPicture itemText;
     Action actionA = null;
     Action actionB = null;
     Action actionC = null;
 
     public DangineMenuItem(String text, Action onActivate) {
-        itemText = new DangineText(text, Color.black);
+        itemText = new DangineStringPicture(text, new Color(Color.BLACK));
         base.addChild(itemText);
         this.actionA = onActivate;
     }
 
     public DangineMenuItem(String text, Action actionA, Action actionB) {
-        itemText = new DangineText(text, Color.black);
+        itemText = new DangineStringPicture(text, new Color(Color.BLACK));
         base.addChild(itemText);
         this.actionA = actionA;
         this.actionB = actionB;
@@ -93,7 +94,7 @@ public class DangineMenuItem implements HasDrawable {
         }
     }
 
-    public DangineText getItemText() {
+    public DangineStringPicture getItemText() {
         return itemText;
     }
 

@@ -1,12 +1,12 @@
 package dangine.entity.combat;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
 
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
+import dangine.graphics.DangineBox;
+import dangine.graphics.DanginePicture;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineImage;
-import dangine.scenegraph.drawable.DangineShape;
 
 public class GreatSwordSceneGraph implements HasDrawable {
 
@@ -14,12 +14,12 @@ public class GreatSwordSceneGraph implements HasDrawable {
     SceneGraphNode base = new SceneGraphNode();
     SceneGraphNode sword = new SceneGraphNode();
     SceneGraphNode leftArm = new SceneGraphNode();
-    DangineShape leftArmShape = new DangineShape(5, 5, Color.green);
+    DangineBox leftArmShape = new DangineBox(5, 5, new Color(Color.GREEN));
     SceneGraphNode rightArm = new SceneGraphNode();
-    DangineShape rightArmShape = new DangineShape(5, 5, Color.cyan);
+    DangineBox rightArmShape = new DangineBox(5, 5, new Color(Color.CYAN));
 
     public GreatSwordSceneGraph() {
-        sword.addChild(new DangineImage("greatsword"));
+        sword.addChild(new DanginePicture("greatsword"));
         sword.setZValue(-0.5f);
         sword.setScale(scale, scale);
 
@@ -60,11 +60,11 @@ public class GreatSwordSceneGraph implements HasDrawable {
         return getBase();
     }
 
-    public DangineShape getLeftArmShape() {
+    public DangineBox getLeftArmShape() {
         return leftArmShape;
     }
 
-    public DangineShape getRightArmShape() {
+    public DangineBox getRightArmShape() {
         return rightArmShape;
     }
 

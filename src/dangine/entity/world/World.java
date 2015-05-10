@@ -1,6 +1,6 @@
 package dangine.entity.world;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
 
 import dangine.scene.Scene;
 import dangine.utility.MathUtility;
@@ -13,7 +13,7 @@ public enum World {
         public void createWorld(Scene scene) {
             PanningSceneGraph background = new PanningSceneGraph(Background.EXTRADIMENSIONAL);
             World.addPanningSceneGraphs(scene, background);
-            Utility.getMatchParameters().setTextColor(Color.black);
+            Utility.getMatchParameters().setTextColor(new Color(Color.BLACK));
         }
 
         @Override
@@ -27,7 +27,7 @@ public enum World {
             PanningSceneGraph middleground = new PanningSceneGraph(Middleground.SQUARE_CLOUDS_LIGHT);
             PanningSceneGraph middleground2 = new PanningSceneGraph(Middleground.SQUARE_CLOUDS_LIGHT_2);
             World.addPanningSceneGraphs(scene, background, middleground, middleground2);
-            Utility.getMatchParameters().setTextColor(Color.black);
+            Utility.getMatchParameters().setTextColor(new Color(Color.BLACK));
         }
 
         @Override
@@ -40,7 +40,7 @@ public enum World {
             PanningSceneGraph background = new PanningSceneGraph(Background.SNOW_SKY);
             PanningSceneGraph middleground = new PanningSceneGraph(Middleground.SNOW_TREES);
             World.addPanningSceneGraphs(scene, background, middleground);
-            Utility.getMatchParameters().setTextColor(Color.black);
+            Utility.getMatchParameters().setTextColor(new Color(Color.BLACK));
         }
 
         @Override
@@ -55,7 +55,7 @@ public enum World {
             PanningSceneGraph background = new PanningSceneGraph(Background.FOREST);
             PanningSceneGraph middleground = new PanningSceneGraph(Middleground.SQUARE_CLOUDS_LIGHT_SMALL);
             World.addPanningSceneGraphs(scene, background, middleground);
-            Utility.getMatchParameters().setTextColor(Color.black);
+            Utility.getMatchParameters().setTextColor(new Color(Color.BLACK));
         }
 
         @Override
@@ -68,7 +68,7 @@ public enum World {
             PanningSceneGraph background = new PanningSceneGraph(Background.SPACE_ONE);
             PanningSceneGraph middleground = new PanningSceneGraph(Middleground.STARS);
             World.addPanningSceneGraphs(scene, background, middleground);
-            Utility.getMatchParameters().setTextColor(Color.black);
+            Utility.getMatchParameters().setTextColor(new Color(Color.BLACK));
         }
 
         @Override
@@ -80,7 +80,7 @@ public enum World {
         public void createWorld(Scene scene) {
             PanningSceneGraph background = new PanningSceneGraph(Background.SPACE_TWO);
             World.addPanningSceneGraphs(scene, background);
-            Utility.getMatchParameters().setTextColor(Color.black);
+            Utility.getMatchParameters().setTextColor(new Color(Color.BLACK));
         }
 
         @Override

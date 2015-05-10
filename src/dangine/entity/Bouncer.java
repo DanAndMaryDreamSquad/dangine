@@ -5,15 +5,15 @@ import org.newdawn.slick.geom.Vector2f;
 import dangine.bots.DangineBot;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
+import dangine.graphics.DanginePicture;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Method;
 import dangine.utility.Utility;
 
 public class Bouncer implements IsUpdateable, HasDrawable {
     SceneGraphNode node = new SceneGraphNode();
     SceneGraphNode bumperChild = new SceneGraphNode();
-    DangineImage image = new DangineImage("bumper");
+    DanginePicture image = new DanginePicture("bumper");
     final float RADIUS = image.getWidth() / 2;
     final float HITBOX_SIZE = 65;
     final float BUMP_TIME = 50f;

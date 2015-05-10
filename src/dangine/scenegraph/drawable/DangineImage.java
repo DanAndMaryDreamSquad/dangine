@@ -16,14 +16,17 @@ public class DangineImage implements IsDrawable {
     Image image;
     RenderData data = new RenderData(this);
 
+    @Deprecated
     public DangineImage(Image image) {
         this(image, 20, 20, Color.red);
     }
 
+    @Deprecated
     public DangineImage(String image) {
         this(Resources.getImageByName(image));
     }
 
+    @Deprecated
     public DangineImage(Image image, int width, int height, Color color) {
         this.image = image;
         this.width = width;
@@ -42,7 +45,7 @@ public class DangineImage implements IsDrawable {
     @Override
     public void draw() {
         Utility.getGraphics().setColor(color);
-//        Utility.getGraphics().drawImage(image, 0, 0);
+        // Utility.getGraphics().drawImage(image, 0, 0);
     }
 
     @Override

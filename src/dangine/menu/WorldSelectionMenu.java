@@ -4,17 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
 
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.gameplay.MatchStarter;
 import dangine.entity.world.World;
+import dangine.graphics.DanginePicture;
+import dangine.graphics.DangineStringPicture;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineImage;
-import dangine.scenegraph.drawable.DangineText;
 import dangine.utility.Utility;
 
 public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
@@ -22,12 +22,12 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
     DangineMenu menu = new DangineMenu();
     DangineSelector selector = new DangineSelector();
     SceneGraphNode stockTextNode = new SceneGraphNode();
-    DangineText stockText = new DangineText();
+    DangineStringPicture stockText = new DangineStringPicture();
     SceneGraphNode movementModeTextNode = new SceneGraphNode();
-    DangineText movementModeText = new DangineText();
+    DangineStringPicture movementModeText = new DangineStringPicture();
     SceneGraphNode worldPreviewNode = new SceneGraphNode();
-    Map<World, DangineImage> worldToPreviewImage = new HashMap<World, DangineImage>();
-    DangineText randomPreview = new DangineText("? ? ?\n? ? ?\n? ? ?", Color.black);
+    Map<World, DanginePicture> worldToPreviewImage = new HashMap<World, DanginePicture>();
+    DangineStringPicture randomPreview = new DangineStringPicture("? ? ?\n? ? ?\n? ? ?", new Color(Color.BLACK));
     final float PREVIEW_SCALE = 0.25f;
 
     public WorldSelectionMenu() {
@@ -38,7 +38,7 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
             DangineMenuItem item = new DangineMenuItem(world.name(), getWorldAction(world));
             item.withOnHover(getOnHoverAction(world));
             menu.addItem(item);
-            worldToPreviewImage.put(world, new DangineImage(world.getPreviewImage()));
+            worldToPreviewImage.put(world, new DanginePicture(world.getPreviewImage()));
         }
         menu.addItem(new DangineMenuItem("Back", getExitMenuAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
@@ -63,8 +63,8 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
     }
 
     private void clearPreviewImage() {
-        for (Entry<World, DangineImage> entry : worldToPreviewImage.entrySet()) {
-            DangineImage image = worldToPreviewImage.get(entry.getKey());
+        for (Entry<World, DanginePicture> entry : worldToPreviewImage.entrySet()) {
+            DanginePicture image = worldToPreviewImage.get(entry.getKey());
             worldPreviewNode.removeChild(image);
         }
         worldPreviewNode.removeChild(randomPreview);

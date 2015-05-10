@@ -13,10 +13,12 @@ public class DangineText implements IsDrawable {
     RenderData data = new RenderData(this);
     float alpha = 1.0f;
 
+    @Deprecated
     public DangineText() {
         this("Sample Text", new Color(Color.black));
     }
 
+    @Deprecated
     public DangineText(String text, Color color) {
         this.color = color;
         this.text = text;
@@ -24,7 +26,7 @@ public class DangineText implements IsDrawable {
 
     @Override
     public void draw() {
-        Color c = Utility.getMatchParameters().getTextColor();
+        Color c = Color.black; // Utility.getMatchParameters().getTextColor();
         c.a = alpha;
         Utility.getGraphics().setColor(c);
         Utility.getGraphics().drawString(text, 0, 0);

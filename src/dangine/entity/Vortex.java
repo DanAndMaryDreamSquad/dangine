@@ -6,8 +6,8 @@ import dangine.bots.DangineBot;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.visual.DefeatType;
+import dangine.graphics.DanginePicture;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Method;
 import dangine.utility.Utility;
 
@@ -15,7 +15,7 @@ public class Vortex implements IsUpdateable, HasDrawable {
 
     static final float ROTATION_SPEED = 0.18f;
     SceneGraphNode node = new SceneGraphNode();
-    DangineImage image = new DangineImage("vortex");
+    DanginePicture image = new DanginePicture("vortex");
     final float RADIUS = image.getWidth() / 2;
     public final float HITBOX_SIZE = 5;
     final float PULL_HITBOX_SIZE = 100;
