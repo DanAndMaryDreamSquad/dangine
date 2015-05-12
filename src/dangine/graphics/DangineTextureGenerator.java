@@ -8,7 +8,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL32;
-import org.lwjgl.util.Color;
 
 import com.badlogic.gdx.math.Matrix4;
 
@@ -76,7 +75,7 @@ public class DangineTextureGenerator {
         // scale.scl((1f/6.4f), (1f/6.4f), 1);
         scale.scl(10f, -10f, 1);
         Matrix4 result = new Matrix4();
-        DangineBox box = new DangineBox(new Color(Color.BLUE));
+        DangineBox box = new DangineBox();
         box.draw();
         DangineStringDrawer drawString = new DangineStringDrawer("i love mary!");
         // drawString.getNode().getMatrix().scl(10f / 128f, 10f / 128f, 1);
@@ -99,6 +98,7 @@ public class DangineTextureGenerator {
     }
 
     public static DangineTexture generateStringTexture(String message) {
+        message = message.toLowerCase();
         int textureHeight = calculateTextureHeight(message);
         int textureWidth = calculateTextureWidth(message);
 
@@ -119,7 +119,7 @@ public class DangineTextureGenerator {
         // GL11.glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB, 1024, 768, 0,GL_RGB,
         // GL_UNSIGNED_BYTE, 0);
         buf = ByteBuffer.allocateDirect(4 * textureWidth * textureHeight);
-        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, textureWidth, textureHeight, 0, GL11.GL_RGBA,
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, textureWidth, textureHeight, 0, GL11.GL_RGBA,
                 GL11.GL_UNSIGNED_BYTE, buf);
 
         // This filtering is what the texture looks like when scaled.
@@ -143,7 +143,7 @@ public class DangineTextureGenerator {
 
         // clear our framebuffer
         // Setup an different background color
-        GL11.glClearColor(0.9f, 0.6f, 0.4f, 0f);
+        GL11.glClearColor(0.9f, 0.6f, 0.4f, 0.0f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
         Matrix4 ortho = new Matrix4().setToOrtho(0, textureWidth, textureHeight, 0, -100, 100);
@@ -151,8 +151,6 @@ public class DangineTextureGenerator {
         transformation.translate(0.5f, -0.5f, 0);
         Matrix4 scale = new Matrix4();
         scale.scl(10f, -10f, 1);
-        DangineBox box = new DangineBox(new Color(Color.BLUE));
-        box.draw();
         String[] lines = message.split("\n");
         for (int i = 0; i < lines.length; i++) {
             Matrix4 result = new Matrix4();
@@ -171,7 +169,9 @@ public class DangineTextureGenerator {
 
         GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 
-        GL11.glViewport(0, 0, 300, 200); // return to normal viewport
+        DangineOpenGL.viewportPortOpenGL();
+        // GL11.glViewport(0, 0, DangineOpenGL., 200); // return to normal
+        // viewport
         return createdDangineTexture;
     }
 

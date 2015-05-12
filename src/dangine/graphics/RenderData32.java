@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Matrix4;
 import dangine.debugger.Debugger;
 import dangine.utility.Utility;
 
-public class RenderData32  implements Comparable<RenderData32>  {
+public class RenderData32 implements Comparable<RenderData32> {
 
     IsDrawable32 draw;
     FloatBuffer buffer = BufferUtils.createFloatBuffer(16);

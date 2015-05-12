@@ -8,12 +8,12 @@ import com.badlogic.gdx.math.Matrix4;
 import dangine.scenegraph.SceneGraphNode;
 
 public class DangineStringDrawer {
-    
+
     class CharacterMatrix {
         final Matrix4 transformation;
         final char character;
         final CharacterCoordinates coordinates;
-        
+
         public CharacterMatrix(char character, Matrix4 parentMatrix, int index) {
             this.character = character;
             this.coordinates = DangineFont.getCoordinatesOfCharacter(character);
@@ -33,7 +33,7 @@ public class DangineStringDrawer {
             return coordinates;
         }
     }
-    
+
     DangineTexturedQuad quad;
     SceneGraphNode node = new SceneGraphNode();
     List<CharacterMatrix> characers = new LinkedList<CharacterMatrix>();
@@ -47,12 +47,12 @@ public class DangineStringDrawer {
     }
 
     private void precomputeString(String text) {
-        char [] charArray = text.toCharArray();
+        char[] charArray = text.toCharArray();
         for (int i = 0; i < charArray.length; i++) {
             characers.add(new CharacterMatrix(charArray[i], node.getMatrix(), i));
         }
     }
-    
+
     public void update() {
 
     }
@@ -62,10 +62,10 @@ public class DangineStringDrawer {
         for (CharacterMatrix cm : characers) {
             quad.updateTransformationMatrixOfShader(cm.getTransformation());
             quad.changeTextureCoordinates(cm.getCoordinates());
-            quad.drawQuad();            
+            quad.drawQuad();
         }
-//        quad.updateTransformationMatrixOfShader(node.getMatrix());
-//        quad.drawQuad();            
+        // quad.updateTransformationMatrixOfShader(node.getMatrix());
+        // quad.drawQuad();
     }
 
     public SceneGraphNode getNode() {

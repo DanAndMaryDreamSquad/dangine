@@ -2,23 +2,21 @@ package dangine.graphics;
 
 import dangine.scenegraph.SceneGraphNode;
 
-public class DanginePicture {
+public class DanginePicture implements IsDrawable32 {
+    RenderData32 data = new RenderData32(this);
     DangineTexturedQuad quad;
     SceneGraphNode node = new SceneGraphNode();
 
     public DanginePicture(String imageName) {
         quad = new DangineTexturedQuad(imageName);
-        quad.changeTextureCoordinates(DangineFont.getCoordinatesOfCharacter('x'));
-//        quad.changeTextureCoordinates(10, 10, 20, 20);
-        node.setScale(100, -100);
-        node.setPosition(100, 100);
+        node.setPosition(getWidth() / 2, getHeight() / 2);
+        node.setScale(getWidth(), -getHeight());
     }
-    
+
     public DanginePicture(DangineTexture texture) {
         quad = new DangineTexturedQuad(texture);
-//        quad.changeTextureCoordinates();
-        node.setScale(texture.getWidth(), texture.getHeight());
-        node.setPosition(100, 100);
+        node.setPosition(getWidth() / 2, getHeight() / 2);
+        node.setScale(getWidth(), -getHeight());
     }
 
     public void update() {
@@ -37,8 +35,19 @@ public class DanginePicture {
     public int getWidth() {
         return quad.getTexture().getWidth();
     }
+
     public int getHeight() {
         return quad.getTexture().getHeight();
+    }
+
+    @Override
+    public RenderData32 getRenderData32() {
+        return data;
+    }
+
+    @Override
+    public IsDrawable32 copy() {
+        return new DanginePicture(quad.getTexture());
     }
 
 }

@@ -76,7 +76,7 @@ public class Utility {
     public static RenderQueue getRenderQueue() {
         return renderQueue;
     }
-    
+
     public static RenderQueue32 getRenderQueue32() {
         return renderQueue32;
     }

@@ -4,9 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Input;
-
-import dangine.utility.Utility;
 
 public class DangineKeyInputMapper implements DangineInputMapper {
     enum Action {
@@ -27,13 +26,20 @@ public class DangineKeyInputMapper implements DangineInputMapper {
 
     private static Map<Action, Integer> createDefaults() {
         Map<Action, Integer> result = new HashMap<Action, Integer>();
-        result.put(Action.BUTTON_ONE, Input.KEY_SPACE);
-        result.put(Action.BUTTON_TWO, Input.KEY_LSHIFT);
-        result.put(Action.BUTTON_THREE, Input.KEY_ESCAPE);
-        result.put(Action.UP, Input.KEY_W);
-        result.put(Action.DOWN, Input.KEY_S);
-        result.put(Action.LEFT, Input.KEY_A);
-        result.put(Action.RIGHT, Input.KEY_D);
+        // result.put(Action.BUTTON_ONE, Input.KEY_SPACE);
+        // result.put(Action.BUTTON_TWO, Input.KEY_LSHIFT);
+        // result.put(Action.BUTTON_THREE, Input.KEY_ESCAPE);
+        // result.put(Action.UP, Input.KEY_W);
+        // result.put(Action.DOWN, Input.KEY_S);
+        // result.put(Action.LEFT, Input.KEY_A);
+        // result.put(Action.RIGHT, Input.KEY_D);
+        result.put(Action.BUTTON_ONE, Keyboard.KEY_SPACE);
+        result.put(Action.BUTTON_TWO, Keyboard.KEY_LSHIFT);
+        result.put(Action.BUTTON_THREE, Keyboard.KEY_ESCAPE);
+        result.put(Action.UP, Keyboard.KEY_W);
+        result.put(Action.DOWN, Keyboard.KEY_S);
+        result.put(Action.LEFT, Keyboard.KEY_A);
+        result.put(Action.RIGHT, Keyboard.KEY_D);
 
         return Collections.unmodifiableMap(result);
     }
@@ -42,13 +48,20 @@ public class DangineKeyInputMapper implements DangineInputMapper {
 
     private static Map<Action, Integer> createP2Defaults() {
         Map<Action, Integer> result = new HashMap<Action, Integer>();
-        result.put(Action.BUTTON_ONE, Input.KEY_ENTER);
-        result.put(Action.BUTTON_TWO, Input.KEY_RSHIFT);
-        result.put(Action.BUTTON_THREE, Input.KEY_BACK);
-        result.put(Action.UP, Input.KEY_UP);
-        result.put(Action.DOWN, Input.KEY_DOWN);
-        result.put(Action.LEFT, Input.KEY_LEFT);
-        result.put(Action.RIGHT, Input.KEY_RIGHT);
+        // result.put(Action.BUTTON_ONE, Input.KEY_ENTER);
+        // result.put(Action.BUTTON_TWO, Input.KEY_RSHIFT);
+        // result.put(Action.BUTTON_THREE, Input.KEY_BACK);
+        // result.put(Action.UP, Input.KEY_UP);
+        // result.put(Action.DOWN, Input.KEY_DOWN);
+        // result.put(Action.LEFT, Input.KEY_LEFT);
+        // result.put(Action.RIGHT, Input.KEY_RIGHT);
+        result.put(Action.BUTTON_ONE, Keyboard.KEY_RETURN);
+        result.put(Action.BUTTON_TWO, Keyboard.KEY_RSHIFT);
+        result.put(Action.BUTTON_THREE, Keyboard.KEY_BACK);
+        result.put(Action.UP, Keyboard.KEY_UP);
+        result.put(Action.DOWN, Keyboard.KEY_DOWN);
+        result.put(Action.LEFT, Keyboard.KEY_LEFT);
+        result.put(Action.RIGHT, Keyboard.KEY_RIGHT);
 
         return Collections.unmodifiableMap(result);
     }
@@ -64,8 +77,10 @@ public class DangineKeyInputMapper implements DangineInputMapper {
     }
 
     private boolean isBeingPressed(Action button) {
-        Input slickInput = Utility.getGameContainer().getInput();
-        return slickInput.isKeyDown(keyToAction.get(button));
+        // Input slickInput = Utility.getGameContainer().getInput();
+        // return slickInput.isKeyDown(keyToAction.get(button));
+        int key = keyToAction.get(button);
+        return DangineOpenGLInput.isKeyDown(key);
     }
 
     @Override

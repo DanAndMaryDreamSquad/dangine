@@ -3,17 +3,21 @@ package dangine.entity.world;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.graphics.DanginePicture;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Utility;
 
 public class PanningSceneGraph implements HasDrawable, IsUpdateable {
 
     final Tessellation tessellation;
-    DangineImage background1;
-    DangineImage background2;
-    DangineImage background3;
-    DangineImage background4;
+    // DangineImage background1;
+    // DangineImage background2;
+    // DangineImage background3;
+    // DangineImage background4;
+    DanginePicture background1;
+    DanginePicture background2;
+    DanginePicture background3;
+    DanginePicture background4;
     SceneGraphNode base = new SceneGraphNode();
     SceneGraphNode node1 = new SceneGraphNode();
     SceneGraphNode node2 = new SceneGraphNode();
@@ -41,10 +45,10 @@ public class PanningSceneGraph implements HasDrawable, IsUpdateable {
 
     public PanningSceneGraph(String image, float panSpeedX, float panSpeedY, float scale, Tessellation tessellation) {
         this.tessellation = tessellation;
-        background1 = new DangineImage(image);
-        background2 = new DangineImage(image);
-        background3 = new DangineImage(image);
-        background4 = new DangineImage(image);
+        background1 = new DanginePicture(image);
+        background2 = new DanginePicture(image);
+        background3 = new DanginePicture(image);
+        background4 = new DanginePicture(image);
         this.panSpeedX = panSpeedX;
         this.panSpeedY = panSpeedY;
 

@@ -42,7 +42,7 @@ public class DangineImage implements IsDrawable {
     @Override
     public void draw() {
         Utility.getGraphics().setColor(color);
-//        Utility.getGraphics().drawImage(image, 0, 0);
+        // Utility.getGraphics().drawImage(image, 0, 0);
     }
 
     @Override

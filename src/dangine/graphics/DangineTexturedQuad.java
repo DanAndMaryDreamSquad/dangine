@@ -41,20 +41,24 @@ public class DangineTexturedQuad {
         // We'll define our quad using 4 vertices of the custom 'TexturedVertex'
         // class
         VertexDataForTexture v0 = new VertexDataForTexture();
+        // v0.setXYZ(-0.5f, 0.5f, 0);
         v0.setXYZ(-0.5f, 0.5f, 0);
         v0.setRGB(1, 0, 0);
         v0.setST(0, 0);
         VertexDataForTexture v1 = new VertexDataForTexture();
+        // v1.setXYZ(-0.5f, -0.5f, 0);
         v1.setXYZ(-0.5f, -0.5f, 0);
         v1.setRGB(0, 1, 0);
         v1.setST(0, 1);
         // v1.setST(0, 0.5f);
         VertexDataForTexture v2 = new VertexDataForTexture();
+        // v2.setXYZ(0.5f, -0.5f, 0);
         v2.setXYZ(0.5f, -0.5f, 0);
         v2.setRGB(0, 0, 1);
         v2.setST(1, 1);
         // v2.setST(0.5f, 0.5f);
         VertexDataForTexture v3 = new VertexDataForTexture();
+        // v3.setXYZ(0.5f, 0.5f, 0);
         v3.setXYZ(0.5f, 0.5f, 0);
         v3.setRGB(1, 1, 1);
         v3.setST(1, 0);
@@ -128,8 +132,7 @@ public class DangineTexturedQuad {
         // Filter code
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-        
-        
+
         GL20.glUseProgram(DangineShaders.getTextureProgramId());
 
         // Bind the texture
@@ -221,6 +224,10 @@ public class DangineTexturedQuad {
 
     public DangineTexture getTexture() {
         return texture;
+    }
+
+    public void setTexture(DangineTexture texture) {
+        this.texture = texture;
     }
 
 }

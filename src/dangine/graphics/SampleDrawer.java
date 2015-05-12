@@ -6,6 +6,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.util.Color;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -78,8 +79,8 @@ public class SampleDrawer {
         // DangineTexture(DangineTextureGenerator.createdTexture, "created", 0,
         // 0));
         pictureCreated = new DanginePicture(DangineTextureGenerator.generateStringTexture("i love\nmary!"));
-        stringPic = new DangineStringPicture("mary is\nthe best!");
-        stringPic.changeText("boo boo");
+        stringPic = new DangineStringPicture("mary is\nthe best!", new Color(Color.BLACK));
+        stringPic.setText("boo boo");
         PARENT_ORTHO_NODE.addChild(box.getNode());
         PARENT_ORTHO_NODE.addChild(picture.getNode());
         PARENT_ORTHO_NODE.addChild(pictureCreated.getNode());
@@ -214,7 +215,7 @@ public class SampleDrawer {
         box.draw();
         picture.draw();
         drawString.draw();
-        //pictureCreated.draw();
+        // pictureCreated.draw();
         stringPic.draw();
         // dangineTexturedQuad.drawQuad();
     }

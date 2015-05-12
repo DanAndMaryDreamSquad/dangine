@@ -9,7 +9,7 @@ import dangine.graphics.GameLoop;
 public class LWJGLMain {
     public static void main(String[] args) throws SlickException {
         Provider<DangineGame> provider = new Provider<DangineGame>() {
-            
+
             @Override
             public DangineGame get() {
                 return new LWJGL32Game();

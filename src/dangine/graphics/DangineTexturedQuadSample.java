@@ -77,14 +77,14 @@ public class DangineTexturedQuadSample {
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, verticesFloatBuffer, GL15.GL_STREAM_DRAW);
 
         // Put the position coordinates in attribute list 0
-        GL20.glVertexAttribPointer(0, VertexDataForTexture.positionElementCount, GL11.GL_FLOAT, false, VertexDataForTexture.stride,
-                VertexDataForTexture.positionByteOffset);
+        GL20.glVertexAttribPointer(0, VertexDataForTexture.positionElementCount, GL11.GL_FLOAT, false,
+                VertexDataForTexture.stride, VertexDataForTexture.positionByteOffset);
         // Put the color components in attribute list 1
-        GL20.glVertexAttribPointer(1, VertexDataForTexture.colorElementCount, GL11.GL_FLOAT, false, VertexDataForTexture.stride,
-                VertexDataForTexture.colorByteOffset);
+        GL20.glVertexAttribPointer(1, VertexDataForTexture.colorElementCount, GL11.GL_FLOAT, false,
+                VertexDataForTexture.stride, VertexDataForTexture.colorByteOffset);
         // Put the texture coordinates in attribute list 2
-        GL20.glVertexAttribPointer(2, VertexDataForTexture.textureElementCount, GL11.GL_FLOAT, false, VertexDataForTexture.stride,
-                VertexDataForTexture.textureByteOffset);
+        GL20.glVertexAttribPointer(2, VertexDataForTexture.textureElementCount, GL11.GL_FLOAT, false,
+                VertexDataForTexture.stride, VertexDataForTexture.textureByteOffset);
 
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 
@@ -103,10 +103,9 @@ public class DangineTexturedQuadSample {
         GL20.glUseProgram(DangineShaders.getTextureProgramId());
         // GL20.glUseProgram(DangineShaders.getTransformProgramId());
 
-        
         // Bind the texture
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-//        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texId);
+        // GL11.glBindTexture(GL11.GL_TEXTURE_2D, texId);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, DangineTextureGenerator.createdTexture);
 
         // Bind to the VAO that has all the information about the vertices

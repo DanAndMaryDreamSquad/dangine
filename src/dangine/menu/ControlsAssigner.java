@@ -4,16 +4,17 @@ import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.graphics.DangineStringPicture;
 import dangine.input.ControlsExplainSceneGraph;
 import dangine.input.DangineControllerAssignments;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineText;
 import dangine.utility.Utility;
 
 public class ControlsAssigner implements IsUpdateable, HasDrawable {
 
     SceneGraphNode node = new SceneGraphNode();
-    DangineText text = new DangineText();
+    // DangineText text = new DangineText();
+    DangineStringPicture text = new DangineStringPicture();
 
     public ControlsAssigner() {
         node.addChild(text);

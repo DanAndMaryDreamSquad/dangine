@@ -4,9 +4,11 @@ import org.newdawn.slick.geom.Vector2f;
 
 import dangine.entity.world.World;
 import dangine.graphics.DanginePicture;
+import dangine.menu.ControlsAssigner;
+import dangine.menu.TitleMenu;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Utility;
+import dangine.utility.VersioningSceneGraph;
 
 public class TitleSceneSchema32 implements SceneSchema {
 
@@ -15,13 +17,23 @@ public class TitleSceneSchema32 implements SceneSchema {
     public void apply(Scene scene) {
         float logoScale = 8.0f;
         DanginePicture logo = new DanginePicture("logoblack");
-//        World.randomWorld().createWorld(scene);
         node.addChild(logo);
+        scene.getParentNode().addChild(node);
+        World.randomWorld().createWorld(scene);
         Vector2f center = new Vector2f(Utility.getResolution()).scale(0.5f);
         Vector2f dimensions = new Vector2f(logo.getWidth(), logo.getHeight()).scale(logoScale / 2);
         node.setPosition(center.sub(dimensions));
         node.setScale(logoScale, logoScale);
-        scene.getParentNode().addChild(node);
 
+        TitleMenu menu = new TitleMenu();
+        scene.addUpdateable(menu);
+        scene.getParentNode().addChild(menu.getDrawable());
+
+        VersioningSceneGraph version = new VersioningSceneGraph();
+        Utility.getActiveScene().getParentNode().addChild(version.getDrawable());
+
+        ControlsAssigner controlsAssigner = new ControlsAssigner();
+        scene.addUpdateable(controlsAssigner);
+        scene.getParentNode().addChild(controlsAssigner.getDrawable());
     }
 }

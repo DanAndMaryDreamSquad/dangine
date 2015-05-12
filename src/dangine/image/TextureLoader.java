@@ -46,7 +46,7 @@ public class TextureLoader {
         if (!filename.contains(".png")) {
             return;
         }
-        
+
         DangineTexture texture = loadPNGDangineTexture(filename, GL13.GL_TEXTURE0);
         images.put(texture.getName(), texture);
 
@@ -101,7 +101,7 @@ public class TextureLoader {
 
         return texId;
     }
-    
+
     public static DangineTexture loadPNGDangineTexture(String filename, int textureUnit) {
         ByteBuffer buf = null;
         int tWidth = 0;
@@ -137,7 +137,7 @@ public class TextureLoader {
         GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
 
         // Upload the texture data and generate mip maps (for scaling)
-        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, tWidth, tHeight, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE,
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, tWidth, tHeight, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE,
                 buf);
         GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 
@@ -153,7 +153,7 @@ public class TextureLoader {
         DangineTexture texture = new DangineTexture(texId, name, tWidth, tHeight);
         return texture;
     }
-    
+
     public static String translateFilePathToImageName(String filename) {
         // wipe off the directory
         int last = filename.lastIndexOf(System.getProperty("file.separator"));

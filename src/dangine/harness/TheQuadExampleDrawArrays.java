@@ -30,7 +30,6 @@ public class TheQuadExampleDrawArrays {
     private int colorVboId = 0;
     private int vertexCount = 0;
     private int colorCount = 0;
-    
 
     public TheQuadExampleDrawArrays() {
         // Initialize OpenGL (Display)
@@ -89,20 +88,12 @@ public class TheQuadExampleDrawArrays {
         FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
         verticesBuffer.put(vertices);
         verticesBuffer.flip();
-        
 
-        float triangleColors[] =
-            {
-                1.0f, 0.0f, 0.0f, 1.0f,
-                0.0f, 1.0f, 0.0f, 1.0f,
-                0.0f, 1.0f, 0.0f, 1.0f,
-            };     
+        float triangleColors[] = { 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, };
         // Sending data to OpenGL requires the usage of (flipped) byte buffers
         FloatBuffer colorsBuffer = BufferUtils.createFloatBuffer(triangleColors.length);
         colorsBuffer.put(triangleColors);
         colorsBuffer.flip();
-        
-
 
         vertexCount = 6;
         colorCount = 3;
@@ -121,12 +112,11 @@ public class TheQuadExampleDrawArrays {
         // Put the VBO in the attributes list at index 0
         GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
 
-//        // Put the colors in the VBA       
-//        colorVboId = GL15.glGenBuffers();
-//        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, colorVboId);
-//        GL11.glColorPointer(3, 4, colorsBuffer);
+        // // Put the colors in the VBA
+        // colorVboId = GL15.glGenBuffers();
+        // GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, colorVboId);
+        // GL11.glColorPointer(3, 4, colorsBuffer);
 
-        
         // Deselect (bind to 0) the VBO
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 

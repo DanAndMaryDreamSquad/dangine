@@ -26,12 +26,13 @@ public class DangineColoredQuad {
     private FloatBuffer matrix44Buffer = BufferUtils.createFloatBuffer(16);
 
     /**
-     * Stores the color and vertex information for a quad. The Quad itself needs to be transformed by a matrix before drawn
+     * Stores the color and vertex information for a quad. The Quad itself needs
+     * to be transformed by a matrix before drawn
      */
     public DangineColoredQuad(Color color) {
         // Get matrices uniform locations
         transformMatrixLocation = GL20.glGetUniformLocation(DangineShaders.getColorProgramId(), "transformMatrix");
-        
+
         // We'll define our quad using 4 vertices of the custom 'Vertex' class
         VertexDataForColor v0 = new VertexDataForColor();
         v0.setXYZ(-0.5f, 0.5f, 0f);
@@ -73,7 +74,8 @@ public class DangineColoredQuad {
         // Put the positions in attribute list 0
         GL20.glVertexAttribPointer(0, 4, GL11.GL_FLOAT, false, VertexDataForColor.sizeInBytes, 0);
         // Put the colors in attribute list 1
-        GL20.glVertexAttribPointer(1, 4, GL11.GL_FLOAT, false, VertexDataForColor.sizeInBytes, VertexDataForColor.elementBytes * 4);
+        GL20.glVertexAttribPointer(1, 4, GL11.GL_FLOAT, false, VertexDataForColor.sizeInBytes,
+                VertexDataForColor.elementBytes * 4);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 
         // Deselect (bind to 0) the VAO
@@ -83,7 +85,7 @@ public class DangineColoredQuad {
         vboiId = GL15.glGenBuffers();
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboiId);
         GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL15.GL_STATIC_DRAW);
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);                                   
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
     public void drawQuad() {
@@ -109,21 +111,21 @@ public class DangineColoredQuad {
         GL30.glBindVertexArray(0);
         GL20.glUseProgram(0);
     }
-    
+
     public void updateTransformationMatrixOfShader(Matrix4 matrix) {
 
         // badlogic result
         Debugger.info("colorquad result:\n" + matrix.toString());
-        
+
         // Upload matrices to the uniform variables
         GL20.glUseProgram(DangineShaders.getColorProgramId());
 
         matrix44Buffer.put(matrix.val);
         matrix44Buffer.flip();
         GL20.glUniformMatrix4(transformMatrixLocation, false, matrix44Buffer);
-        GL20.glUseProgram(0);        
+        GL20.glUseProgram(0);
     }
-    
+
     public void destroyQuad() {
         // Select the VAO
         GL30.glBindVertexArray(vaoId);

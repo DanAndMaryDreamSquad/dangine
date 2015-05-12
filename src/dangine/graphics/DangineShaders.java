@@ -10,15 +10,18 @@ import org.lwjgl.opengl.GL20;
 public class DangineShaders {
 
     static DangineShader testShader;
-    static DangineShader colorShader;   
-    static DangineShader textureShader;  
-    static DangineShader sampleShader;   
-   
+    static DangineShader colorShader;
+    static DangineShader textureShader;
+    static DangineShader sampleShader;
+
     public static void setupShaders() {
         testShader = new DangineShader("src/dangine/graphics/vertex.glsl", "src/dangine/graphics/fragment.glsl", false);
-        colorShader = new DangineShader("src/dangine/graphics/color_vertex.glsl", "src/dangine/graphics/color_fragment.glsl", false);
-        textureShader = new DangineShader("src/dangine/graphics/texture_vertex.glsl", "src/dangine/graphics/texture_fragment.glsl", true);      
-        sampleShader = new DangineShader("src/dangine/graphics/sample_vertex.glsl", "src/dangine/graphics/sample_fragment.glsl", true);        
+        colorShader = new DangineShader("src/dangine/graphics/color_vertex.glsl",
+                "src/dangine/graphics/color_fragment.glsl", false);
+        textureShader = new DangineShader("src/dangine/graphics/texture_vertex.glsl",
+                "src/dangine/graphics/texture_fragment.glsl", true);
+        sampleShader = new DangineShader("src/dangine/graphics/sample_vertex.glsl",
+                "src/dangine/graphics/sample_fragment.glsl", true);
     }
 
     @SuppressWarnings("deprecation")
@@ -61,15 +64,15 @@ public class DangineShaders {
     public static int getTestProgramId() {
         return testShader.getProgramId();
     }
-    
+
     public static int getColorProgramId() {
         return colorShader.getProgramId();
     }
-    
+
     public static int getTextureProgramId() {
         return textureShader.getProgramId();
     }
-    
+
     public static int getSampleProgramId() {
         return sampleShader.getProgramId();
     }

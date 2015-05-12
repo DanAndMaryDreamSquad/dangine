@@ -1,15 +1,14 @@
 package dangine.graphics;
 
-import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import dangine.game.DangineGame;
 import dangine.harness.Provider;
+import dangine.input.DangineOpenGLInput;
 import dangine.utility.Utility;
 
 public class GameLoop {
@@ -32,6 +31,8 @@ public class GameLoop {
         GdxNativesLoader.load();
         DangineOpenGL.setupOpenGL();
         Utility.initialize(null, null, this);
+        DangineTextures.initialize();
+        DangineShaders.setupShaders();
         this.dangineGame = provider.get();
         this.dangineGame.init();
         getDelta(); // call once before loop to initialise lastFrame
@@ -50,6 +51,7 @@ public class GameLoop {
     }
 
     private void update() {
+        DangineOpenGLInput.poll();
         Utility.getPlayers().updateInput();
         dangineGame.update();
         updateFPS();
