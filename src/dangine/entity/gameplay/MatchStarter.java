@@ -65,14 +65,14 @@ public class MatchStarter implements IsUpdateable {
         Debugger.info("Starting match " + matchType);
         switch (matchType) {
         case VERSUS:
-            Utility.getGameHarness().startMatch();
+            Utility.getGameLoop().startMatch();
             return;
         case TEAM_VERSUS:
-            Utility.getGameHarness().startMatch();
+            Utility.getGameLoop().startMatch();
             return;
         case BOT_MATCH:
         case COOP_VS_BOTS:
-            Utility.getGameHarness().startBotMatch();
+            Utility.getGameLoop().startBotMatch();
             return;
         }
     }

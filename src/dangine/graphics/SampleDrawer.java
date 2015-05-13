@@ -29,6 +29,7 @@ public class SampleDrawer {
     private Vector3f modelPos = null;
     private Vector3f modelAngle = null;
     private Vector3f modelScale = null;
+    @SuppressWarnings("unused")
     private Vector3f cameraPos = null;
     private FloatBuffer matrix44Buffer = null;
 
@@ -96,6 +97,7 @@ public class SampleDrawer {
         textureTransformMatrixLocation = GL20.glGetUniformLocation(DangineShaders.getTextureProgramId(),
                 "transformMatrix");
 
+        @SuppressWarnings("unused")
         boolean madeTexture = false;
 
         while (!Display.isCloseRequested()) {
@@ -113,6 +115,7 @@ public class SampleDrawer {
         this.destroy();
     }
 
+    @SuppressWarnings("unused")
     private void setupMatrices() {
         // Setup projection matrix
         projectionMatrix = new Matrix4f();

@@ -12,6 +12,7 @@ public class DangineParticle implements IsDrawable {
     RenderData data = new RenderData(this);
     List<DangineParticleData> particles = new ArrayList<DangineParticleData>();
 
+    @Deprecated
     public DangineParticle(List<DangineParticleData> particles) {
         this.particles = particles;
     }

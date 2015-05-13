@@ -224,6 +224,8 @@ public class TheQuadExampleInterleaved {
         Display.destroy();
     }
 
+    // TODO find new shader loader
+    @SuppressWarnings("deprecation")
     public int loadShader(String filename, int type) {
         StringBuilder shaderSource = new StringBuilder();
         int shaderID = 0;

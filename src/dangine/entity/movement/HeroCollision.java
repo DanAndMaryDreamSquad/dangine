@@ -6,7 +6,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 import dangine.entity.Obstruction;
 import dangine.entity.visual.ExplosionVisual;
-import dangine.scenegraph.drawable.DangineParticle;
+import dangine.graphics.DanginePictureParticle;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Utility;
 
@@ -46,7 +46,7 @@ public class HeroCollision {
     }
 
     private void createVisualEffect(float x, float y) {
-        DangineParticle particle = ParticleEffectFactory.create(8, 8, ParticleEffectFactory.energyColors);
+        DanginePictureParticle particle = ParticleEffectFactory.create(8, 8, ParticleEffectFactory.energyColors);
         ExplosionVisual visual = new ExplosionVisual(x, y, particle, 0, 360, 0.01f, 0.1f, 500f);
         Utility.getActiveScene().addUpdateable(visual);
         Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());

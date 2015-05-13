@@ -10,12 +10,18 @@ public class DangineOpenGLInput {
     static Set<Integer> keysDown = new HashSet<Integer>();
 
     public static void poll() {
-        keysDown.clear();
+        // keysDown.clear();
 
         while (Keyboard.next()) {
+            // LWJGL Jargon for wether or not
+            // the key was pressed (true) or
+            // lifted (false)
             if (Keyboard.getEventKeyState()) {
                 keysDown.add(Keyboard.getEventKey());
+            } else {
+                keysDown.remove(Keyboard.getEventKey());
             }
+
         }
 
     }

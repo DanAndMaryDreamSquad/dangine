@@ -33,6 +33,8 @@ public class RenderData implements Comparable<RenderData> {
         }
     }
 
+    // No longer used
+    @SuppressWarnings("deprecation")
     public void draw() {
         ScreenUtility.matrixIntoGLLoad(buffer, matrix);
         draw.draw();

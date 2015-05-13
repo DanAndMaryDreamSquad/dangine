@@ -8,8 +8,8 @@ import org.newdawn.slick.geom.Vector2f;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.graphics.DanginePictureParticle;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineParticle;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Utility;
 
@@ -19,7 +19,7 @@ public class RespawnVisual implements IsUpdateable, HasDrawable {
     final float SPEED = 0.046f;
     float timer = 0;
     SceneGraphNode node = new SceneGraphNode();
-    DangineParticle shape = ParticleEffectFactory.create(8, 40, ParticleEffectFactory.energyColors);
+    DanginePictureParticle shape = ParticleEffectFactory.create(8, 40, ParticleEffectFactory.energyColors);
     List<Vector2f> velocities = new ArrayList<Vector2f>();
 
     public RespawnVisual(float x, float y) {

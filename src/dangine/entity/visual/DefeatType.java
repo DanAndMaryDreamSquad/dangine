@@ -42,7 +42,7 @@ public enum DefeatType {
     }
 
     public static DefeatType randomSwordEffect() {
-        DefeatType[] vals = { SPLIT, KNOCK };
+        DefeatType[] vals = { SPLIT, SPLIT };
         return vals[MathUtility.randomInt(0, vals.length - 1)];
 
     }

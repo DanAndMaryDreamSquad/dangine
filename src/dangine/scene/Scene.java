@@ -35,7 +35,7 @@ public class Scene implements IsUpdateable, IsDrawable {
     final List<Bouncer> bouncers = new LinkedList<Bouncer>();
 
     public Scene() {
-        // parentNode.addChild(camera.getDrawable());
+        parentNode.addChild(camera.getDrawable());
         this.addUpdateable(camera);
         // float xResolutionScale = Utility.getGameWindowResolution().x /
         // Utility.getResolution().x;

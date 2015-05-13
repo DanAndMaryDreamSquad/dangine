@@ -85,12 +85,17 @@ public class Utility {
         return gameSpaceResolution;
     }
 
+    @Deprecated
     public static GameHarness getGameHarness() {
         return gameHarness;
     }
 
     public static Vector2f getGameWindowResolution() {
         return gameWindowResolution;
+    }
+
+    public static GameLoop getGameLoop() {
+        return gameLoop;
     }
 
 }

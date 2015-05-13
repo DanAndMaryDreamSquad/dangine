@@ -4,8 +4,8 @@ import org.newdawn.slick.geom.Vector2f;
 
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
+import dangine.graphics.DangineCirclePicture;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineCircle;
 
 public class CombatEventHitbox implements HasDrawable {
 
@@ -14,7 +14,7 @@ public class CombatEventHitbox implements HasDrawable {
 
     public CombatEventHitbox(CombatEvent event) {
         this.event = event;
-        node.addChild(new DangineCircle(event.getRadius()));
+        node.addChild(new DangineCirclePicture(event.getRadius()));
         node.setPosition(event.getPosition());
         node.setZValue(-5);
     }

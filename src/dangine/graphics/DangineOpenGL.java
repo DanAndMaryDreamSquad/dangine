@@ -13,6 +13,8 @@ public class DangineOpenGL {
     static private final String WINDOW_TITLE = "Sample";
     static public final int WIDTH = 800;
     static public final int HEIGHT = 600;
+    static public final int DISPLAY_WIDTH = 800;
+    static public final int DISPLAY_HEIGHT = 600;
 
     public static void setupOpenGL() {
         // Setup an OpenGL context with API version 3.2
@@ -21,11 +23,11 @@ public class DangineOpenGL {
             ContextAttribs contextAtrributes = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(
                     true);
 
-            Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+            Display.setDisplayMode(new DisplayMode(DISPLAY_WIDTH, DISPLAY_HEIGHT));
             Display.setTitle(WINDOW_TITLE);
             Display.create(pixelFormat, contextAtrributes);
 
-            GL11.glViewport(0, 0, WIDTH, HEIGHT);
+            GL11.glViewport(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
         } catch (LWJGLException e) {
             e.printStackTrace();
             System.exit(-1);
@@ -35,25 +37,18 @@ public class DangineOpenGL {
         GL11.glClearColor(0.4f, 0.6f, 0.9f, 0f);
 
         // Map the internal OpenGL coordinate system to the entire screen
-        GL11.glViewport(0, 0, WIDTH, HEIGHT);
+        GL11.glViewport(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
         GL11.glEnable(GL11.GL_BLEND); // you enable blending function (for
                                       // images with transparency)
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); // Some
-                                                                          // sort
-                                                                          // of
-                                                                          // blending
-                                                                          // function
-                                                                          // that
-                                                                          // supports
-                                                                          // images
-                                                                          // with
-                                                                          // transparency
+        // Some sort of blending function that
+        // supports images with transparency
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    public static void viewportPortOpenGL() {
+    public static void viewportOpenGL() {
         // Map the internal OpenGL coordinate system to the entire screen
-        GL11.glViewport(0, 0, WIDTH, HEIGHT);
+        GL11.glViewport(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
     }
 
     public static void destroyOpenGL() {

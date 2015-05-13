@@ -9,8 +9,8 @@ import dangine.entity.Vortex;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.visual.ExplosionVisual;
+import dangine.graphics.DanginePictureParticle;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineParticle;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Method;
 import dangine.utility.Utility;
@@ -62,7 +62,7 @@ public class ProjectileShot implements IsUpdateable, HasDrawable {
         Utility.getActiveScene().getCameraNode().removeChild(hitbox.getDrawable());
 
         Vector2f position = draw.getBase().getPosition();
-        DangineParticle particle = ParticleEffectFactory.create(8, 16, ParticleEffectFactory.energyColors);
+        DanginePictureParticle particle = ParticleEffectFactory.create(8, 16, ParticleEffectFactory.energyColors);
         ExplosionVisual visual = new ExplosionVisual(position.x, position.y, particle, 0, 360, 0.01f, 0.1f, 500f);
         Utility.getActiveScene().addUpdateable(visual);
         Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());

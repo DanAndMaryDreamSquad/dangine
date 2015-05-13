@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Vector2f;
 import com.badlogic.gdx.math.Matrix4;
 
 import dangine.entity.IsDrawable;
+import dangine.graphics.DangineOpenGL;
 import dangine.graphics.IsDrawable32;
 import dangine.graphics.RenderData32;
 import dangine.utility.Utility;
@@ -80,9 +81,13 @@ public class SceneGraphNode implements IsDrawable {
         this.pullTransformsFromMatrix(getMatrix());
     }
 
+    // TODO get the scale and angles right.
     public void pullTransformsFromMatrix(Matrix4 pullMatrix) {
         position.x = pullMatrix.val[Matrix4.M03];
+        position.x = ((position.x * DangineOpenGL.WIDTH) / 2.0f) + (DangineOpenGL.WIDTH / 2.0f);
         position.y = pullMatrix.val[Matrix4.M13];
+        position.y = DangineOpenGL.HEIGHT
+                - (((position.y * DangineOpenGL.HEIGHT) / 2.0f) + (DangineOpenGL.HEIGHT / 2.0f));
         zValue = pullMatrix.val[Matrix4.M23] * 1000;
 
         scale.x = pullMatrix.getScaleX();
@@ -225,6 +230,10 @@ public class SceneGraphNode implements IsDrawable {
 
     public List<IsDrawable> getChildren() {
         return children;
+    }
+
+    public List<IsDrawable32> getChildren32() {
+        return children32;
     }
 
     @Override
