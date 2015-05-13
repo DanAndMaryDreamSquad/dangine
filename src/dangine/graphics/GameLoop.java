@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import dangine.game.DangineGame;
 import dangine.harness.Provider;
 import dangine.input.DangineOpenGLInput;
+import dangine.scene.BotMatchSceneSchema;
+import dangine.scene.MatchSceneSchema;
 import dangine.utility.Utility;
 
 public class GameLoop {
@@ -64,6 +66,23 @@ public class GameLoop {
         Utility.getRenderQueue32().render();
         Utility.getRenderQueue32().clear();
     }
+    
+
+    public void restart() {
+        dangineGame = provider.get();
+        dangineGame.init();
+    }
+
+    public void startMatch() {
+        dangineGame = provider.get();
+        dangineGame.init(new MatchSceneSchema());
+    }
+
+    public void startBotMatch() {
+        dangineGame = provider.get();
+        dangineGame.init(new BotMatchSceneSchema());
+    }
+
 
     /**
      * Calculate how many milliseconds have passed since last frame.

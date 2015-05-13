@@ -71,6 +71,6 @@ public class DangineStringPicture implements IsDrawable32 {
     @Deprecated
     public void setAlpha(float alpha) {
         // unsupported currently in opengl32 mode
-        Debugger.warn("Set alpha for text not yet supported in opengl 32 mode!");
+//        Debugger.warn("Set alpha for text not yet supported in opengl 32 mode!");
     }
 }

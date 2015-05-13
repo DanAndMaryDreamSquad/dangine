@@ -19,7 +19,7 @@ public class MatchRestarter implements IsUpdateable {
 
         if (timer > MAX_TIME) {
             Debugger.info("Restarting match");
-            Utility.getGameHarness().restart();
+            Utility.getGameLoop().restart();
         }
 
     }

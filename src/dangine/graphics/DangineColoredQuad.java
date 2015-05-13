@@ -115,7 +115,7 @@ public class DangineColoredQuad {
     public void updateTransformationMatrixOfShader(Matrix4 matrix) {
 
         // badlogic result
-        Debugger.info("colorquad result:\n" + matrix.toString());
+//        Debugger.info("colorquad result:\n" + matrix.toString());
 
         // Upload matrices to the uniform variables
         GL20.glUseProgram(DangineShaders.getColorProgramId());
