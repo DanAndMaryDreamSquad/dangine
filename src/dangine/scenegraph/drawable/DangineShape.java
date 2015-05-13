@@ -13,10 +13,12 @@ public class DangineShape implements IsDrawable {
     Color color;
     RenderData data = new RenderData(this);
 
+    @Deprecated
     public DangineShape() {
         this(20, 20, Color.red);
     }
 
+    @Deprecated
     public DangineShape(int width, int height, Color color) {
         this.width = width;
         this.height = height;

@@ -3,7 +3,7 @@ package dangine.entity.gameplay;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
 
 import dangine.bots.BotType;
 import dangine.bots.DangineBot;
@@ -31,7 +31,7 @@ public class MatchParameters {
     World currentWorld = World.DIMENSION;
     boolean isRandomWorld = false;
     boolean isFriendlyFire = false;
-    Color textColor = Color.black;
+    Color textColor = new Color(Color.BLACK);
     MatchType matchType = MatchType.VERSUS;
     BotType botType = BotType.NORMAL;
 

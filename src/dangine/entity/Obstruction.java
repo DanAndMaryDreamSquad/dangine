@@ -2,14 +2,14 @@ package dangine.entity;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import dangine.graphics.DanginePicture;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineImage;
 import dangine.utility.Utility;
 
 public class Obstruction implements IsUpdateable, HasDrawable {
 
     SceneGraphNode node = new SceneGraphNode();
-    DangineImage image = new DangineImage("wood");
+    DanginePicture image = new DanginePicture("wood");
 
     public Obstruction() {
         node.addChild(image);

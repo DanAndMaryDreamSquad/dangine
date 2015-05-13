@@ -2,14 +2,14 @@ package dangine.input;
 
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
+import dangine.graphics.DangineStringPicture;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineText;
 import dangine.utility.Utility;
 
 public class ControlsExplainSceneGraph implements HasDrawable {
 
     final SceneGraphNode base = new SceneGraphNode();
-    final DangineText text = new DangineText();
+    final DangineStringPicture text = new DangineStringPicture();
 
     public ControlsExplainSceneGraph(int playerId) {
         base.addChild(text);

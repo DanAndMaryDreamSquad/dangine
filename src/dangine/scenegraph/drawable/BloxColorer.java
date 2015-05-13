@@ -1,21 +1,21 @@
 package dangine.scenegraph.drawable;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
+import org.lwjgl.util.ReadableColor;
 
 import dangine.entity.combat.GreatSwordSceneGraph;
 import dangine.utility.MathUtility;
 
 public class BloxColorer {
 
-    public static final Color[] COLORS = { Color.black, Color.blue, Color.cyan, Color.darkGray, Color.gray,
-            Color.green, Color.lightGray, Color.magenta, Color.orange, Color.pink, Color.red, Color.white, Color.yellow };
+    public static final ReadableColor[] COLORS = { Color.BLACK, Color.BLUE, Color.CYAN, Color.DKGREY, Color.GREY,
+            Color.GREEN, Color.LTGREY, Color.PURPLE, Color.ORANGE, Color.RED, Color.WHITE, Color.YELLOW };
 
-    public static final Color[] TEAM_COLORS = { Color.red, Color.blue, Color.green, Color.yellow, Color.magenta,
-            Color.lightGray };
+    public static final ReadableColor[] TEAM_COLORS = { Color.BLACK, Color.BLUE, Color.CYAN, Color.DKGREY };
 
     public static final int indexOf(Color color) {
         for (int i = 0; i < COLORS.length; i++) {
-            Color c = COLORS[i];
+            Color c = new Color(COLORS[i]);
             if (c.equals(color)) {
                 return i;
             }
@@ -57,7 +57,7 @@ public class BloxColorer {
     }
 
     public static Color randomColor() {
-        return COLORS[MathUtility.randomInt(0, COLORS.length - 1)];
+        return new Color(COLORS[MathUtility.randomInt(0, COLORS.length - 1)]);
     }
 
 }

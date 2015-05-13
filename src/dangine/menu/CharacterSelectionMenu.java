@@ -1,6 +1,6 @@
 package dangine.menu;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
 import org.newdawn.slick.geom.Vector2f;
 
 import dangine.debugger.Debugger;
@@ -9,12 +9,12 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.subpower.SubPower;
 import dangine.entity.gameplay.MatchStarter.MatchType;
+import dangine.graphics.DangineStringPicture;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.BloxAnimator;
 import dangine.scenegraph.drawable.BloxColorer;
 import dangine.scenegraph.drawable.BloxSceneGraph;
-import dangine.scenegraph.drawable.DangineText;
 import dangine.utility.ScreenUtility;
 import dangine.utility.Utility;
 
@@ -25,13 +25,13 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
     final DangineMenu menu = new DangineMenu();
     final DangineSelector selector;
     final SceneGraphNode powerTextNode = new SceneGraphNode();
-    final DangineText powerText = new DangineText();
+    final DangineStringPicture powerText = new DangineStringPicture();
     final SceneGraphNode teamTextNode = new SceneGraphNode();
-    final DangineText teamText = new DangineText();
+    final DangineStringPicture teamText = new DangineStringPicture();
 
     BloxSceneGraph blox = new BloxSceneGraph();
     BloxAnimator animator = new BloxAnimator(blox);
-    Color color = Color.red;
+    Color color = new Color(Color.RED);
     boolean isDone = false;
     boolean isEscaping = false;
     float timer = 0;
@@ -65,7 +65,7 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
         powerTextNode.addChild(powerText);
         if (Utility.getMatchParameters().getMatchType().isTeamMode()) {
             int team = Utility.getMatchParameters().getPlayerTeam(playerId);
-            color = BloxColorer.TEAM_COLORS[team];
+            color = new Color(BloxColorer.TEAM_COLORS[team]);
         } else {
             color = Utility.getMatchParameters().getPlayerColor(playerId);
         }
@@ -126,7 +126,7 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
                 if (i >= BloxColorer.COLORS.length) {
                     i = 0;
                 }
-                color = BloxColorer.COLORS[i];
+                color = new Color(BloxColorer.COLORS[i]);
                 Utility.getMatchParameters().addPlayerColor(playerId, color);
                 reColor();
             }
@@ -155,7 +155,7 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
                 team++;
                 team = team % 6;
                 Utility.getMatchParameters().addPlayerTeam(getPlayerId(), team);
-                color = BloxColorer.TEAM_COLORS[team];
+                color = new Color(BloxColorer.TEAM_COLORS[team]);
                 reColor();
                 updateText();
             }
@@ -172,7 +172,7 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
                 team--;
                 team = (team + 6) % 6;
                 Utility.getMatchParameters().addPlayerTeam(getPlayerId(), team);
-                color = BloxColorer.TEAM_COLORS[team];
+                color = new Color(BloxColorer.TEAM_COLORS[team]);
                 reColor();
                 updateText();
             }

@@ -1,17 +1,17 @@
 package dangine.menu;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
 
 import dangine.bots.BotType;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.subpower.SubPower;
+import dangine.graphics.DangineStringPicture;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scene.CharacterSelect;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.BloxColorer;
-import dangine.scenegraph.drawable.DangineText;
 import dangine.utility.Utility;
 
 public class BotSettingsMenu implements IsUpdateable, HasDrawable {
@@ -19,11 +19,11 @@ public class BotSettingsMenu implements IsUpdateable, HasDrawable {
     DangineMenu menu = new DangineMenu();
     DangineSelector selector = new DangineSelector();
     final SceneGraphNode powerTextNode = new SceneGraphNode();
-    final DangineText powerText = new DangineText();
+    final DangineStringPicture powerText = new DangineStringPicture();
     final SceneGraphNode typeTextNode = new SceneGraphNode();
-    final DangineText typeText = new DangineText();
+    final DangineStringPicture typeText = new DangineStringPicture();
     SceneGraphNode botNumberTextNode = new SceneGraphNode();
-    DangineText botNumberText = new DangineText();
+    DangineStringPicture botNumberText = new DangineStringPicture();
 
     public BotSettingsMenu() {
         selector.setOnEscape(getOnEscapeAction());

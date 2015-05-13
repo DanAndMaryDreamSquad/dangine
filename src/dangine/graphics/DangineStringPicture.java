@@ -3,6 +3,7 @@ package dangine.graphics;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
 
+import dangine.debugger.Debugger;
 import dangine.scenegraph.SceneGraphNode;
 
 public class DangineStringPicture implements IsDrawable32 {
@@ -65,5 +66,11 @@ public class DangineStringPicture implements IsDrawable32 {
     @Override
     public IsDrawable32 copy() {
         return new DangineStringPicture(text, color);
+    }
+
+    @Deprecated
+    public void setAlpha(float alpha) {
+        // unsupported currently in opengl32 mode
+        Debugger.warn("Set alpha for text not yet supported in opengl 32 mode!");
     }
 }

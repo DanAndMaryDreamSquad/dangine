@@ -1,6 +1,6 @@
 package dangine.entity.visual;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
 
 import dangine.utility.MathUtility;
 import dangine.utility.Utility;
