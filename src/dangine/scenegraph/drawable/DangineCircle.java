@@ -12,10 +12,12 @@ public class DangineCircle implements IsDrawable {
     Color color;
     RenderData data = new RenderData(this);
 
+    @Deprecated
     public DangineCircle(float radius) {
         this(radius, Color.pink);
     }
 
+    @Deprecated
     public DangineCircle(float radius, Color color) {
         this.radius = radius;
         this.color = color;

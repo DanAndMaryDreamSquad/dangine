@@ -1,5 +1,6 @@
 package dangine.time;
 
+
 public class GameTime {
     private static final int TICK_RATE = 33;
     private long startPoint;

@@ -13,8 +13,8 @@ import dangine.entity.Vortex;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.visual.ExplosionVisual;
+import dangine.graphics.DanginePictureParticle;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineParticle;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Method;
 import dangine.utility.ScreenUtility;
@@ -83,7 +83,7 @@ public class GreatSwordCounterCollider implements IsUpdateable, HasDrawable {
         float x = absolutePosition.x;
         float y = absolutePosition.y;
         Debugger.info("" + absolutePosition);
-        DangineParticle particle = ParticleEffectFactory.create(4, 4, ParticleEffectFactory.yellowColors);
+        DanginePictureParticle particle = ParticleEffectFactory.create(4, 4, ParticleEffectFactory.yellowColors);
         ExplosionVisual visual = new ExplosionVisual(x, y, particle, 0, 360, 0.01f, 0.1f, 500f);
         Utility.getActiveScene().addUpdateable(visual);
         Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());

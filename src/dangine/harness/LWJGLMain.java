@@ -1,13 +1,11 @@
 package dangine.harness;
 
-import org.newdawn.slick.SlickException;
-
 import dangine.demogame.LWJGL32Game;
 import dangine.game.DangineGame;
 import dangine.graphics.GameLoop;
 
 public class LWJGLMain {
-    public static void main(String[] args) throws SlickException {
+    public static void main(String[] args) {
         Provider<DangineGame> provider = new Provider<DangineGame>() {
 
             @Override

@@ -8,8 +8,8 @@ import org.newdawn.slick.geom.Vector2f;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.graphics.DanginePictureParticle;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.scenegraph.drawable.DangineParticle;
 import dangine.utility.MathUtility;
 import dangine.utility.Utility;
 
@@ -18,10 +18,10 @@ public class ExplosionVisual implements IsUpdateable, HasDrawable {
     final float duration;
     float timer = 0;
     SceneGraphNode node = new SceneGraphNode();
-    final DangineParticle shape;
+    final DanginePictureParticle shape;
     List<Vector2f> velocities = new ArrayList<Vector2f>();
 
-    public ExplosionVisual(float x, float y, DangineParticle particles, float minAngle, float maxAngle, float speed,
+    public ExplosionVisual(float x, float y, DanginePictureParticle particles, float minAngle, float maxAngle, float speed,
             float duration) {
         this.shape = particles;
         this.duration = duration;
@@ -35,7 +35,7 @@ public class ExplosionVisual implements IsUpdateable, HasDrawable {
         }
     }
 
-    public ExplosionVisual(float x, float y, DangineParticle particles, float minAngle, float maxAngle, float minSpeed,
+    public ExplosionVisual(float x, float y, DanginePictureParticle particles, float minAngle, float maxAngle, float minSpeed,
             float maxSpeed, float duration) {
         this.shape = particles;
 
@@ -63,7 +63,7 @@ public class ExplosionVisual implements IsUpdateable, HasDrawable {
             Vector2f velocity = velocities.get(i);
             Vector2f offset = shape.getParticles().get(i).getOffset();
             float alpha = 1.0f - (timer / duration);
-            shape.getParticles().get(i).getColor().a = alpha;
+            shape.getParticles().get(i).getColor().setAlpha((int)(alpha * 255f));
             offset.x += velocity.x * Utility.getGameTime().getDeltaTimeF();
             offset.y += velocity.y * Utility.getGameTime().getDeltaTimeF();
         }

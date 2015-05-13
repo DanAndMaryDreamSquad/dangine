@@ -3,7 +3,7 @@ package dangine.entity.combat.subpower;
 import dangine.bots.DangineBot;
 import dangine.entity.Hero;
 import dangine.entity.visual.ExplosionVisual;
-import dangine.scenegraph.drawable.DangineParticle;
+import dangine.graphics.DanginePictureParticle;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Utility;
 
@@ -36,7 +36,7 @@ public enum SubPower {
 
         @Override
         public void createEffect(float x, float y) {
-            DangineParticle particle = ParticleEffectFactory.create(16, 16, ParticleEffectFactory.greenColors);
+            DanginePictureParticle particle = ParticleEffectFactory.create(16, 16, ParticleEffectFactory.greenColors);
             ExplosionVisual visual = new ExplosionVisual(x, y, particle, 0, 360, 0.01f, 0.1f, 500f);
             Utility.getActiveScene().addUpdateable(visual);
             Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());
@@ -55,7 +55,7 @@ public enum SubPower {
 
         @Override
         public void createEffect(float x, float y) {
-            DangineParticle particle = ParticleEffectFactory.create(16, 16, ParticleEffectFactory.energyColors);
+            DanginePictureParticle particle = ParticleEffectFactory.create(16, 16, ParticleEffectFactory.energyColors);
             ExplosionVisual visual = new ExplosionVisual(x, y, particle, 0, 360, 0.01f, 0.1f, 500f);
             Utility.getActiveScene().addUpdateable(visual);
             Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());
@@ -80,7 +80,7 @@ public enum SubPower {
 
         @Override
         public void createEffect(float x, float y) {
-            DangineParticle particle = ParticleEffectFactory.create(16, 16, ParticleEffectFactory.yellowColors);
+            DanginePictureParticle particle = ParticleEffectFactory.create(16, 16, ParticleEffectFactory.yellowColors);
             ExplosionVisual visual = new ExplosionVisual(x, y, particle, 0, 360, 0.01f, 0.1f, 500f);
             Utility.getActiveScene().addUpdateable(visual);
             Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());

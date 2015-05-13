@@ -1,6 +1,6 @@
 package dangine.scenegraph.drawable;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.util.Color;
 import org.newdawn.slick.geom.Vector2f;
 
 public class DangineParticleData {
@@ -31,6 +31,14 @@ public class DangineParticleData {
 
     public Color getColor() {
         return color;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
 }

@@ -3,7 +3,6 @@ package dangine.graphics;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
 
-import dangine.debugger.Debugger;
 import dangine.scenegraph.SceneGraphNode;
 
 public class DangineStringPicture implements IsDrawable32 {
