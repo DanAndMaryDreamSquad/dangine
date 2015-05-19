@@ -1,1 +1,1 @@
-java -classpath .;star.jar;star_lib\* dangine.harness.Main
+java -classpath .;star.jar;star_lib\* dangine.harness.LWJGLMain

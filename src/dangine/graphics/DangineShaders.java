@@ -3,9 +3,15 @@ package dangine.graphics;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+
+import dangine.debugger.Debugger;
+import dangine.image.ResourceManifest;
+import dangine.image.Resources;
 
 public class DangineShaders {
 
@@ -30,12 +36,30 @@ public class DangineShaders {
         int shaderID = 0;
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                shaderSource.append(line).append("\n");
+            if (Resources.shouldUseManifest()) {
+                Debugger.info("manifesting via " + filename);
+                filename = filename.replace('\\', '/');
+                filename = filename.replace("src/", "");
+                Debugger.info("now via " + filename);
+                InputStream in = ResourceManifest.class.getClassLoader().getResourceAsStream(filename);
+
+                Debugger.info("Input Stream? " + in);
+                Debugger.info("bytes in " + filename + " " + in.available() + " ");
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    shaderSource.append(line).append("\n");
+                }
+                reader.close();
+            } else {
+                BufferedReader reader = new BufferedReader(new FileReader(filename));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    shaderSource.append(line).append("\n");
+                }
+                reader.close();
             }
-            reader.close();
         } catch (IOException e) {
             System.err.println("Could not read file.");
             e.printStackTrace();
