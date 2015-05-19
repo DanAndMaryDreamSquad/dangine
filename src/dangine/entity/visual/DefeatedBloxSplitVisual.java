@@ -3,8 +3,6 @@ package dangine.entity.visual;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.bots.DangineBot;
 import dangine.entity.HasDrawable;
 import dangine.entity.Hero;
@@ -13,6 +11,7 @@ import dangine.entity.IsUpdateable;
 import dangine.scenegraph.FlattenSceneGraphNode;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
 
@@ -44,7 +43,9 @@ public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
             for (int i = 0; i < flat.getChildNodes().size(); i++) {
                 parts.add(flat.getChildNodes().get(i));
                 float velAngle = (360 / flat.getChildNodes().size()) * i;
-                velocities.add(new Vector2f(velAngle).scale(MOVE_SPEED));
+                Vector2f vel = new Vector2f(velAngle);
+                vel.scale(MOVE_SPEED);
+                velocities.add(vel);
             }
             base.addChild(flat);
         }

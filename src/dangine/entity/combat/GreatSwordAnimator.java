@@ -1,9 +1,8 @@
 package dangine.entity.combat;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.entity.IsUpdateable;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class GreatSwordAnimator implements IsUpdateable {
 
@@ -17,7 +16,7 @@ public class GreatSwordAnimator implements IsUpdateable {
     public final float HEAVY_SWING_TIME = 390.0f / HEAVY_SWING_SPEED;
     public final float LIGHT_SWING_TIME = 400.0f;
     Vector2f absolutePosition = new Vector2f(0, 0);
-    Vector2f stabDirection = new Vector2f(260.0f - 90.0f).normalise();
+    Vector2f stabDirection = new Vector2f(260.0f - 90.0f);
     final GreatSwordSceneGraph greatsword;
     float angle = 0;
     float timer = 0;

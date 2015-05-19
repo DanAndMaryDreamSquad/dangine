@@ -1,21 +1,14 @@
 package dangine.utility;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.entity.gameplay.MatchParameters;
 import dangine.graphics.GameLoop;
 import dangine.graphics.RenderQueue32;
-import dangine.harness.GameHarness;
 import dangine.player.Players;
 import dangine.scene.Scene;
 import dangine.scenegraph.RenderQueue;
 import dangine.time.GameTime;
 
 public class Utility {
-    private static GameContainer gameContainer;
-    private static GameHarness gameHarness;
     private static GameTime gameTime;
     private static Players players;
     private static Scene activeScene;
@@ -26,9 +19,7 @@ public class Utility {
     final private static Vector2f gameSpaceResolution = new Vector2f(800, 600);
     private static MatchParameters matchParameters = new MatchParameters();
 
-    public static void initialize(GameHarness gameharness, GameContainer gameContainer, GameLoop gameLoop) {
-        Utility.gameHarness = gameharness;
-        Utility.gameContainer = gameContainer;
+    public static void initialize(GameLoop gameLoop) {
         Utility.gameTime = new GameTime();
         Utility.players = new Players();
         Utility.renderQueue = new RenderQueue();
@@ -41,24 +32,13 @@ public class Utility {
     }
 
     public static void devMode() {
-        gameContainer.setTargetFrameRate(60);
-        gameContainer.setAlwaysRender(false);
-        gameContainer.setVSync(true);
         // GL11.glEnable(GL11.GL_DEPTH_TEST);
         // players.newPlayer();
         // players.newPlayer();
     }
 
-    public static Graphics getGraphics() {
-        return gameContainer.getGraphics();
-    }
-
     public static GameTime getGameTime() {
         return gameTime;
-    }
-
-    public static GameContainer getGameContainer() {
-        return gameContainer;
     }
 
     public static Players getPlayers() {
@@ -83,11 +63,6 @@ public class Utility {
 
     public static Vector2f getResolution() {
         return gameSpaceResolution;
-    }
-
-    @Deprecated
-    public static GameHarness getGameHarness() {
-        return gameHarness;
     }
 
     public static Vector2f getGameWindowResolution() {

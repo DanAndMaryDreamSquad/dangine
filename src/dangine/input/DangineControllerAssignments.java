@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.newdawn.slick.Input;
+import org.lwjgl.input.Keyboard;
 
 import com.esotericsoftware.controller.device.Button;
 import com.esotericsoftware.controller.input.XInputXboxController;
@@ -136,11 +136,11 @@ public class DangineControllerAssignments {
         buffer.append("Press ");
         if (!inUse(Device.KEYBOARD_LEFT)) {
             int key = DangineKeyInputMapper.DEFAULTS.get(Action.BUTTON_ONE);
-            buffer.append(Input.getKeyName(key) + ", ");
+            buffer.append(Keyboard.getKeyName(key) + ", ");
         }
         if (!inUse(Device.KEYBOARD_RIGHT)) {
             int key = DangineKeyInputMapper.DEFAULTS_P2.get(Action.BUTTON_ONE);
-            buffer.append(Input.getKeyName(key) + ", ");
+            buffer.append(Keyboard.getKeyName(key) + ", ");
         }
         if (!inUse(Device.CONTROLLER_ONE) || !inUse(Device.CONTROLLER_TWO) || !inUse(Device.CONTROLLER_THREE)
                 || !inUse(Device.CONTROLLER_FOUR)) {

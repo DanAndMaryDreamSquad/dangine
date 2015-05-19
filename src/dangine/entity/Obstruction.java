@@ -1,10 +1,9 @@
 package dangine.entity;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.graphics.DanginePicture;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class Obstruction implements IsUpdateable, HasDrawable {
 

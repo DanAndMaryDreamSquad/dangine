@@ -3,8 +3,6 @@ package dangine.entity.gameplay;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.entity.Hero;
 import dangine.entity.IsUpdateable;
 import dangine.entity.visual.ExplosionVisual;
@@ -12,6 +10,7 @@ import dangine.graphics.DanginePictureParticle;
 import dangine.player.DanginePlayer;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class Boundaries implements IsUpdateable {
 

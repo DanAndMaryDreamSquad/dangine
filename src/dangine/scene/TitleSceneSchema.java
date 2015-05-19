@@ -3,8 +3,6 @@ package dangine.scene;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.entity.world.World;
 import dangine.graphics.DanginePicture;
 import dangine.input.ControlsExplainSceneGraph;
@@ -13,6 +11,7 @@ import dangine.menu.TitleMenu;
 import dangine.player.DanginePlayer;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 import dangine.utility.VersioningSceneGraph;
 
 public class TitleSceneSchema implements SceneSchema {

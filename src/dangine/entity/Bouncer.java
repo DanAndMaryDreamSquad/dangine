@@ -1,7 +1,5 @@
 package dangine.entity;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.bots.DangineBot;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
@@ -9,6 +7,7 @@ import dangine.graphics.DanginePicture;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Method;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class Bouncer implements IsUpdateable, HasDrawable {
     SceneGraphNode node = new SceneGraphNode();

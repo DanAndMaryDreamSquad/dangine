@@ -1,11 +1,11 @@
 package dangine.entity;
 
 import org.lwjgl.util.Color;
-import org.newdawn.slick.geom.Vector2f;
 
 import dangine.graphics.DangineBox;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class Creature implements IsUpdateable, HasDrawable {
 

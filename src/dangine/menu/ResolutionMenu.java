@@ -1,7 +1,5 @@
 package dangine.menu;
 
-import org.newdawn.slick.SlickException;
-
 import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
@@ -38,25 +36,17 @@ public class ResolutionMenu implements IsUpdateable, HasDrawable {
         selector.scan(menu.getItems());
     }
 
+    // TODO
     private void updateText() {
-        if (Utility.getGameContainer().isFullscreen()) {
-            fullScreenItem.getItemText().setText("Windowed");
-        } else {
-            fullScreenItem.getItemText().setText("Fullscreen");
-        }
     }
 
+    // TODO
     private Action getFullscreenResolutionAction() {
         return new Action() {
 
             @Override
             public void execute() {
                 Debugger.info("woo");
-                try {
-                    Utility.getGameContainer().setFullscreen(!Utility.getGameContainer().isFullscreen());
-                } catch (SlickException e) {
-                    e.printStackTrace();
-                }
                 updateText();
             }
         };

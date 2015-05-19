@@ -1,11 +1,10 @@
 package dangine.entity.combat;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.graphics.DangineCirclePicture;
 import dangine.scenegraph.SceneGraphNode;
+import dangine.utility.Vector2f;
 
 public class CombatEventHitbox implements HasDrawable {
 

@@ -1,10 +1,9 @@
 package dangine.entity.movement;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.entity.combat.IsGreatsword;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class HeroMovement {
 

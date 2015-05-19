@@ -2,8 +2,6 @@ package dangine.bots;
 
 import java.util.Iterator;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.bots.BotGreatsword.State;
 import dangine.collision.CollisionUtility;
 import dangine.entity.Hero;
@@ -11,6 +9,7 @@ import dangine.entity.Vortex;
 import dangine.entity.combat.subpower.SubPower;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class DangineBotLogic {
 

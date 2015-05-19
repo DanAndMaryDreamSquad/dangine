@@ -1,13 +1,12 @@
 package dangine.entity.combat.subpower;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.entity.movement.HeroMovement;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.graphics.DanginePictureParticle;
 import dangine.input.DangineSampleInput;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class ProjectilePower {
 

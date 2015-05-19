@@ -1,13 +1,12 @@
 package dangine.scene;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.entity.world.World;
 import dangine.graphics.DanginePicture;
 import dangine.menu.ControlsAssigner;
 import dangine.menu.TitleMenu;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 import dangine.utility.VersioningSceneGraph;
 
 public class TitleSceneSchema32 implements SceneSchema {

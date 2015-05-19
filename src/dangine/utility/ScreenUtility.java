@@ -8,7 +8,6 @@ import java.util.List;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
-import org.newdawn.slick.geom.Vector2f;
 
 import com.badlogic.gdx.math.Matrix4;
 
@@ -95,7 +94,8 @@ public class ScreenUtility {
     }
 
     public static Vector2f floatBufferToVector2f(FloatBuffer floatBuffer, Vector2f inOutPosition) {
-        return inOutPosition.set(floatBuffer.get(0), floatBuffer.get(1));
+        inOutPosition.set(floatBuffer.get(0), floatBuffer.get(1));
+        return inOutPosition;
     }
 
 }
