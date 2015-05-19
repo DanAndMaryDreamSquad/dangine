@@ -32,7 +32,7 @@ public class GameLoop {
     public void run() {
         GdxNativesLoader.load();
         DangineOpenGL.setupOpenGL();
-        Utility.initialize(null, null, this);
+        Utility.initialize(this);
         DangineTextures.initialize();
         DangineShaders.setupShaders();
         this.dangineGame = provider.get();

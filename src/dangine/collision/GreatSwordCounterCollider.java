@@ -1,7 +1,5 @@
 package dangine.collision;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.bots.DangineBot;
 import dangine.debugger.Debugger;
 import dangine.entity.Bouncer;
@@ -19,6 +17,7 @@ import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Method;
 import dangine.utility.ScreenUtility;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class GreatSwordCounterCollider implements IsUpdateable, HasDrawable {
 

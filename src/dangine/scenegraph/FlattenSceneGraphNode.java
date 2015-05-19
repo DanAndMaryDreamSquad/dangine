@@ -3,11 +3,10 @@ package dangine.scenegraph;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.debugger.Debugger;
 import dangine.entity.IsDrawable;
 import dangine.graphics.IsDrawable32;
+import dangine.utility.Vector2f;
 
 public class FlattenSceneGraphNode {
 

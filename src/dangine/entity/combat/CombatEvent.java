@@ -2,10 +2,9 @@ package dangine.entity.combat;
 
 import java.util.List;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.collision.CollisionUtility;
 import dangine.utility.Method;
+import dangine.utility.Vector2f;
 
 public class CombatEvent {
 

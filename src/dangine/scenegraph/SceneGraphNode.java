@@ -3,8 +3,6 @@ package dangine.scenegraph;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import com.badlogic.gdx.math.Matrix4;
 
 import dangine.entity.IsDrawable;
@@ -12,6 +10,7 @@ import dangine.graphics.DangineOpenGL;
 import dangine.graphics.IsDrawable32;
 import dangine.graphics.RenderData32;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class SceneGraphNode implements IsDrawable {
 

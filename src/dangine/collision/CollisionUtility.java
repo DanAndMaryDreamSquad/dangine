@@ -1,9 +1,8 @@
 package dangine.collision;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.movement.HeroMovement;
+import dangine.utility.Vector2f;
 
 public class CollisionUtility {
 

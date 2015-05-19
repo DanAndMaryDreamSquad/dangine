@@ -1,7 +1,6 @@
 package dangine.bots;
 
 import org.lwjgl.util.Color;
-import org.newdawn.slick.geom.Vector2f;
 
 import dangine.collision.GreatSwordCounterCollider;
 import dangine.debugger.Debugger;
@@ -26,6 +25,7 @@ import dangine.scenegraph.drawable.BloxSceneGraph;
 import dangine.utility.Method;
 import dangine.utility.ScreenUtility;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class DangineBot implements IsUpdateable, HasDrawable {
 

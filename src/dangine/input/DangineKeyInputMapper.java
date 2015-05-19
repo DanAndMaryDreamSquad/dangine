@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.Input;
 
 public class DangineKeyInputMapper implements DangineInputMapper {
     enum Action {
@@ -101,7 +100,7 @@ public class DangineKeyInputMapper implements DangineInputMapper {
                 Action.BUTTON_THREE };
         for (Action a : order) {
             Integer i = keyToAction.get(a);
-            buffer.append(a.toString()).append(" -> ").append(Input.getKeyName(i)).append("\n");
+            buffer.append(a.toString()).append(" -> ").append(Keyboard.getKeyName(i)).append("\n");
         }
         return buffer.toString();
     }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import dangine.entity.IsDrawable;
 import dangine.scenegraph.RenderData;
-import dangine.utility.Utility;
 
 public class DangineParticle implements IsDrawable {
 
@@ -19,10 +18,11 @@ public class DangineParticle implements IsDrawable {
 
     @Override
     public void draw() {
-        for (DangineParticleData p : particles) {
-            // Utility.getGraphics().setColor(p.color);
-            Utility.getGraphics().fillRect(p.offset.x, p.offset.y, p.width, p.height);
-        }
+        // for (DangineParticleData p : particles) {
+        // Utility.getGraphics().setColor(p.color);
+        // Utility.getGraphics().fillRect(p.offset.x, p.offset.y, p.width,
+        // p.height);
+        // }
     }
 
     @Override

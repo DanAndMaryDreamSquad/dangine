@@ -1,7 +1,6 @@
 package dangine.entity.visual;
 
 import org.lwjgl.util.Color;
-import org.newdawn.slick.geom.Vector2f;
 
 import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
@@ -10,6 +9,7 @@ import dangine.entity.IsUpdateable;
 import dangine.scenegraph.drawable.BloxColorer;
 import dangine.scenegraph.drawable.BloxSceneGraph;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class DefeatedBloxKnockVisual implements IsUpdateable, HasDrawable {
 
@@ -23,7 +23,9 @@ public class DefeatedBloxKnockVisual implements IsUpdateable, HasDrawable {
 
     public DefeatedBloxKnockVisual(float x, float y, float angle, Color color) {
         blox.getBase().setPosition(x, y);
-        velocity = new Vector2f(angle).scale(MOVE_SPEED);
+
+        velocity = new Vector2f(angle);
+        velocity.scale(MOVE_SPEED);
         blox.getBase().setCenterOfRotation(10, 10);
         Debugger.info(x + " " + y);
         BloxColorer.color(blox, color);

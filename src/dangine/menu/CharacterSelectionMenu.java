@@ -1,7 +1,6 @@
 package dangine.menu;
 
 import org.lwjgl.util.Color;
-import org.newdawn.slick.geom.Vector2f;
 
 import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
@@ -17,6 +16,7 @@ import dangine.scenegraph.drawable.BloxColorer;
 import dangine.scenegraph.drawable.BloxSceneGraph;
 import dangine.utility.ScreenUtility;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
 

@@ -1,7 +1,8 @@
 package dangine.scenegraph.drawable;
 
 import org.lwjgl.util.Color;
-import org.newdawn.slick.geom.Vector2f;
+
+import dangine.utility.Vector2f;
 
 public class DangineParticleData {
 

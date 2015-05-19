@@ -1,7 +1,5 @@
 package dangine.entity.combat.subpower;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.bots.BotGreatsword;
 import dangine.bots.DangineBot;
 import dangine.entity.combat.GreatSword;
@@ -10,6 +8,7 @@ import dangine.graphics.DanginePictureParticle;
 import dangine.input.DangineSampleInput;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class CounterPower {
 

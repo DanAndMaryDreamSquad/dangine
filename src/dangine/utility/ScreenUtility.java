@@ -8,11 +8,9 @@ import java.util.List;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
-import org.newdawn.slick.geom.Vector2f;
 
 import com.badlogic.gdx.math.Matrix4;
 
-import dangine.debugger.Debugger;
 import dangine.graphics.DangineOpenGL;
 import dangine.scenegraph.SceneGraphNode;
 
@@ -51,7 +49,6 @@ public class ScreenUtility {
 
     public static Vector2f getWorldPosition(SceneGraphNode node, Vector2f inOutPosition) {
         Vector2f screenPosition = getScreenPosition(node, inOutPosition);
-        Debugger.info("screen position: " + screenPosition);
         return getWorldPositionFromScreenPosition(screenPosition);
     }
 
@@ -76,26 +73,21 @@ public class ScreenUtility {
         Matrix4 mv = projectionInverse.mul(mvp);
 
         modelview.put(mv.getValues());
-        // modelview.put(mv.getValues());
         modelview.flip();
         projection.put(Utility.getActiveScene().getParentNode().getMatrix().getValues());
         projection.flip();
-        // GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelview);
-        // GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
 
         GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
 
-        // GLU.gluProject(0, 0, 0, modelview, projection, viewport, position);
         GLU.gluProject(0, 0, 0, modelview, projection, viewport, position);
 
-        Debugger.info("unprojected, MV:n" + modelview.toString() + "\nP:\n" + projection);
         Vector2f r = floatBufferToVector2f(position, inOutPosition);
-        Debugger.info("result: " + r.toString());
         return r;
     }
 
     public static Vector2f floatBufferToVector2f(FloatBuffer floatBuffer, Vector2f inOutPosition) {
-        return inOutPosition.set(floatBuffer.get(0), floatBuffer.get(1));
+        inOutPosition.set(floatBuffer.get(0), floatBuffer.get(1));
+        return inOutPosition;
     }
 
 }

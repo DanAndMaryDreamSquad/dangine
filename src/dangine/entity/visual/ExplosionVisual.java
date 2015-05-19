@@ -3,8 +3,6 @@ package dangine.entity.visual;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -12,6 +10,7 @@ import dangine.graphics.DanginePictureParticle;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.MathUtility;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class ExplosionVisual implements IsUpdateable, HasDrawable {
 
@@ -31,7 +30,9 @@ public class ExplosionVisual implements IsUpdateable, HasDrawable {
             float range = maxAngle - minAngle;
             float angleOffset = (range / shape.getParticles().size()) * i;
             float angle = angleOffset + minAngle;
-            velocities.add(new Vector2f(angle).scale(speed));
+            Vector2f vel = new Vector2f(angle);
+            vel.scale(speed);
+            velocities.add(vel);
         }
     }
 
@@ -47,7 +48,9 @@ public class ExplosionVisual implements IsUpdateable, HasDrawable {
         for (int i = 0; i < shape.getParticles().size(); i++) {
             float angle = MathUtility.randomFloat(minAngle, maxAngle);
             float speed = MathUtility.randomFloat(minSpeed, maxSpeed);
-            velocities.add(new Vector2f(angle).scale(speed));
+            Vector2f vel = new Vector2f(angle);
+            vel.scale(speed);
+            velocities.add(vel);
         }
     }
 

@@ -3,8 +3,6 @@ package dangine.entity.visual;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.newdawn.slick.geom.Vector2f;
-
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -12,6 +10,7 @@ import dangine.graphics.DanginePictureParticle;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Utility;
+import dangine.utility.Vector2f;
 
 public class RespawnVisual implements IsUpdateable, HasDrawable {
 
