@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 import dangine.debugger.Debugger;
 import dangine.entity.IsDrawable;
+import dangine.graphics.IsDrawable32;
 import dangine.utility.ScreenUtility;
 
 public class FlattenSceneGraphNode {
@@ -19,15 +20,15 @@ public class FlattenSceneGraphNode {
         List<SceneGraphNode> nodes = fetchCreateChildNodes(node, new ArrayList<SceneGraphNode>());
         for (SceneGraphNode childNode : nodes) {
             Vector2f vector = childNode.getPosition();
-            vector = ScreenUtility.getWorldPositionFromScreenPosition(vector);
-            childNode.setPosition(vector);
+//            vector = ScreenUtility.getWorldPositionFromScreenPosition(vector);
+//            childNode.setPosition(vector);
             result.addChild(childNode);
         }
         if (result.childNodes.size() > 10) {
             Debugger.warn("large flatten operation size " + result.childNodes.size());
         }
         Vector2f cameraTranslation = new Vector2f(0, 0);
-        ScreenUtility.getWorldPositionFromScreenPosition(cameraTranslation);
+//        ScreenUtility.getWorldPositionFromScreenPosition(cameraTranslation);
         result.setPosition(cameraTranslation.x, cameraTranslation.y);
         return result;
     }
@@ -36,6 +37,13 @@ public class FlattenSceneGraphNode {
         for (IsDrawable childShape : node.getChildren()) {
             SceneGraphNode newNode = new SceneGraphNode();
             newNode.pullTransformsFromMatrix(node.getMatrix());
+            newNode.addChild(childShape.copy());
+            nodes.add(newNode);
+        }
+        for (IsDrawable32 childShape : node.getChildren32()) {
+            SceneGraphNode newNode = new SceneGraphNode();
+            newNode.pullTransformsFromMatrix(node.getMatrix()); // TODO get the scale right
+            newNode.setScale(1.0f, -1.0f);
             newNode.addChild(childShape.copy());
             nodes.add(newNode);
         }

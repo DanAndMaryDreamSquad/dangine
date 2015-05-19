@@ -12,6 +12,8 @@ import org.newdawn.slick.geom.Vector2f;
 
 import com.badlogic.gdx.math.Matrix4;
 
+import dangine.debugger.Debugger;
+import dangine.graphics.DangineOpenGL;
 import dangine.scenegraph.SceneGraphNode;
 
 public class ScreenUtility {
@@ -30,7 +32,7 @@ public class ScreenUtility {
         // ScreenUtility.matrixIntoGLLoad(BufferUtils.createFloatBuffer(16),
         // node.getMatrix());
         inOutPosition = gluProject(node, inOutPosition);
-        inOutPosition.y = Utility.getGameWindowResolution().y - inOutPosition.y;
+        inOutPosition.y = DangineOpenGL.DISPLAY_HEIGHT - inOutPosition.y;
         return inOutPosition;
     }
 
@@ -65,17 +67,27 @@ public class ScreenUtility {
         FloatBuffer modelview = BufferUtils.createFloatBuffer(16);
         FloatBuffer projection = BufferUtils.createFloatBuffer(16);
         FloatBuffer position = BufferUtils.createFloatBuffer(3);
-        modelview.put(node.getMatrix().getValues());
+
+        Matrix4 mvp = node.getMatrix().cpy();
+        Matrix4 projectionInverse = Utility.getActiveScene().getParentNode().getMatrix().cpy().inv();
+        Matrix4 mv = projectionInverse.mul(mvp);
+
+        modelview.put(mvp.getValues());
+        // modelview.put(mv.getValues());
         modelview.flip();
         projection.put(Utility.getActiveScene().getParentNode().getMatrix().getValues());
         projection.flip();
         // GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelview);
         // GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
+
         GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
 
         // GLU.gluProject(0, 0, 0, modelview, projection, viewport, position);
         GLU.gluProject(0, 0, 0, modelview, projection, viewport, position);
-        return floatBufferToVector2f(position, inOutPosition);
+        Debugger.info("unprojected, MV:n" + modelview.toString() + "\nP:\n" + projection);
+        Vector2f r =  floatBufferToVector2f(position, inOutPosition);
+        Debugger.info("result: " + r.toString());
+        return r;
     }
 
     public static Vector2f floatBufferToVector2f(FloatBuffer floatBuffer, Vector2f inOutPosition) {

@@ -169,7 +169,7 @@ public class DangineTextureGenerator {
 
         GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 
-        DangineOpenGL.viewportPortOpenGL();
+        DangineOpenGL.viewportOpenGL();
         // GL11.glViewport(0, 0, DangineOpenGL., 200); // return to normal
         // viewport
         return createdDangineTexture;
