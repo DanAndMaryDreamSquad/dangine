@@ -23,6 +23,7 @@ public class DangineTexturedQuadSample {
     // private int texId =
     // DangineTextures.loadPNGTexture("src/assets/images/bgs/snowsky1.png",
     // GL13.GL_TEXTURE0);
+    @SuppressWarnings("unused")
     private int texId = TextureLoader.loadPNGTexture("src/assets/images/weapons/greatsword.png", GL13.GL_TEXTURE0);
 
     public DangineTexturedQuadSample() {

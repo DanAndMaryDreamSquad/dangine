@@ -18,6 +18,7 @@ import dangine.scenegraph.SceneGraphNode;
 
 public class ScreenUtility {
 
+    @SuppressWarnings("unused")
     private static float[] temp = new float[3];
 
     @Deprecated
@@ -37,18 +38,20 @@ public class ScreenUtility {
     }
 
     public static Vector2f getWorldPositionFromScreenPosition(Vector2f inOutPosition) {
-        temp[0] = inOutPosition.x;
-        temp[1] = inOutPosition.y;
-        temp[2] = 0;
-        Matrix4 camera = Utility.getActiveScene().getCameraNode().getMatrix().cpy();
-        Matrix4.mulVec(camera.inv().getValues(), temp);
-        inOutPosition.x = temp[0];
-        inOutPosition.y = temp[1];
+        // temp[0] = inOutPosition.x;
+        // temp[1] = inOutPosition.y;
+        // temp[2] = 0;
+        // Matrix4 camera =
+        // Utility.getActiveScene().getCameraNode().getMatrix().cpy();
+        // Matrix4.mulVec(camera.inv().getValues(), temp);
+        inOutPosition.x = inOutPosition.x * ((float) DangineOpenGL.WIDTH / (float) DangineOpenGL.DISPLAY_WIDTH);
+        inOutPosition.y = inOutPosition.y * ((float) DangineOpenGL.HEIGHT / (float) DangineOpenGL.DISPLAY_HEIGHT);
         return inOutPosition;
     }
 
     public static Vector2f getWorldPosition(SceneGraphNode node, Vector2f inOutPosition) {
         Vector2f screenPosition = getScreenPosition(node, inOutPosition);
+        Debugger.info("screen position: " + screenPosition);
         return getWorldPositionFromScreenPosition(screenPosition);
     }
 
@@ -72,7 +75,7 @@ public class ScreenUtility {
         Matrix4 projectionInverse = Utility.getActiveScene().getParentNode().getMatrix().cpy().inv();
         Matrix4 mv = projectionInverse.mul(mvp);
 
-        modelview.put(mvp.getValues());
+        modelview.put(mv.getValues());
         // modelview.put(mv.getValues());
         modelview.flip();
         projection.put(Utility.getActiveScene().getParentNode().getMatrix().getValues());
@@ -84,8 +87,9 @@ public class ScreenUtility {
 
         // GLU.gluProject(0, 0, 0, modelview, projection, viewport, position);
         GLU.gluProject(0, 0, 0, modelview, projection, viewport, position);
+
         Debugger.info("unprojected, MV:n" + modelview.toString() + "\nP:\n" + projection);
-        Vector2f r =  floatBufferToVector2f(position, inOutPosition);
+        Vector2f r = floatBufferToVector2f(position, inOutPosition);
         Debugger.info("result: " + r.toString());
         return r;
     }

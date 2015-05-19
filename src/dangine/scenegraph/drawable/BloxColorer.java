@@ -32,10 +32,10 @@ public class BloxColorer {
         int r = color.getRed();
         int g = color.getGreen();
         int b = color.getBlue();
-        Color darker = new Color((int)Math.max(0, r - SHADE_OFFSET), (int)Math.max(0, g - SHADE_OFFSET), (int)Math.max(0, b
-                - SHADE_OFFSET));
-        Color lighter = new Color((int)Math.min(255, r + SHADE_OFFSET), (int)Math.min(255, g + SHADE_OFFSET), (int)Math.min(255, b
-                + SHADE_OFFSET));
+        Color darker = new Color((int) Math.max(0, r - SHADE_OFFSET), (int) Math.max(0, g - SHADE_OFFSET),
+                (int) Math.max(0, b - SHADE_OFFSET));
+        Color lighter = new Color((int) Math.min(255, r + SHADE_OFFSET), (int) Math.min(255, g + SHADE_OFFSET),
+                (int) Math.min(255, b + SHADE_OFFSET));
         blox.getBodyShape().setColor(color);
         blox.getLeftArmShape().setColor(darker);
         blox.getRightArmShape().setColor(lighter);
@@ -51,10 +51,10 @@ public class BloxColorer {
         int r = color.getRed();
         int g = color.getGreen();
         int b = color.getBlue();
-        Color darker = new Color((int)Math.max(0, r - SHADE_OFFSET), (int)Math.max(0, g - SHADE_OFFSET), (int)Math.max(0, b
-                - SHADE_OFFSET));
-        Color lighter = new Color((int)Math.min(255, r + SHADE_OFFSET), (int)Math.min(255, g + SHADE_OFFSET), (int)Math.min(255, b
-                + SHADE_OFFSET));
+        Color darker = new Color((int) Math.max(0, r - SHADE_OFFSET), (int) Math.max(0, g - SHADE_OFFSET),
+                (int) Math.max(0, b - SHADE_OFFSET));
+        Color lighter = new Color((int) Math.min(255, r + SHADE_OFFSET), (int) Math.min(255, g + SHADE_OFFSET),
+                (int) Math.min(255, b + SHADE_OFFSET));
         greatsword.getLeftArmShape().setColor(darker);
         greatsword.getRightArmShape().setColor(lighter);
 

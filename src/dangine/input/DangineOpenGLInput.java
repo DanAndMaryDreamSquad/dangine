@@ -16,7 +16,7 @@ public class DangineOpenGLInput {
             // LWJGL Jargon for wether or not
             // the key was pressed (true) or
             // lifted (false)
-            if (Keyboard.getEventKeyState()) { 
+            if (Keyboard.getEventKeyState()) {
                 keysDown.add(Keyboard.getEventKey());
             } else {
                 keysDown.remove(Keyboard.getEventKey());

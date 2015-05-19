@@ -21,8 +21,8 @@ public class ExplosionVisual implements IsUpdateable, HasDrawable {
     final DanginePictureParticle shape;
     List<Vector2f> velocities = new ArrayList<Vector2f>();
 
-    public ExplosionVisual(float x, float y, DanginePictureParticle particles, float minAngle, float maxAngle, float speed,
-            float duration) {
+    public ExplosionVisual(float x, float y, DanginePictureParticle particles, float minAngle, float maxAngle,
+            float speed, float duration) {
         this.shape = particles;
         this.duration = duration;
         node.setPosition(x, y);
@@ -35,8 +35,8 @@ public class ExplosionVisual implements IsUpdateable, HasDrawable {
         }
     }
 
-    public ExplosionVisual(float x, float y, DanginePictureParticle particles, float minAngle, float maxAngle, float minSpeed,
-            float maxSpeed, float duration) {
+    public ExplosionVisual(float x, float y, DanginePictureParticle particles, float minAngle, float maxAngle,
+            float minSpeed, float maxSpeed, float duration) {
         this.shape = particles;
 
         // TODO: Add min and max durations.
@@ -63,7 +63,7 @@ public class ExplosionVisual implements IsUpdateable, HasDrawable {
             Vector2f velocity = velocities.get(i);
             Vector2f offset = shape.getParticles().get(i).getOffset();
             float alpha = 1.0f - (timer / duration);
-            shape.getParticles().get(i).getColor().setAlpha((int)(alpha * 255f));
+            shape.getParticles().get(i).getColor().setAlpha((int) (alpha * 255f));
             offset.x += velocity.x * Utility.getGameTime().getDeltaTimeF();
             offset.y += velocity.y * Utility.getGameTime().getDeltaTimeF();
         }

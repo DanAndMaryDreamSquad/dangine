@@ -8,10 +8,9 @@ import org.newdawn.slick.geom.Vector2f;
 import com.badlogic.gdx.math.Matrix4;
 
 import dangine.entity.IsDrawable;
+import dangine.graphics.DangineOpenGL;
 import dangine.graphics.IsDrawable32;
 import dangine.graphics.RenderData32;
-import dangine.graphics.DangineOpenGL;
-import dangine.input.DangineOpenGLInput;
 import dangine.utility.Utility;
 
 public class SceneGraphNode implements IsDrawable {
@@ -87,7 +86,8 @@ public class SceneGraphNode implements IsDrawable {
         position.x = pullMatrix.val[Matrix4.M03];
         position.x = ((position.x * DangineOpenGL.WIDTH) / 2.0f) + (DangineOpenGL.WIDTH / 2.0f);
         position.y = pullMatrix.val[Matrix4.M13];
-        position.y = DangineOpenGL.HEIGHT - (((position.y * DangineOpenGL.HEIGHT) / 2.0f) + (DangineOpenGL.HEIGHT / 2.0f));
+        position.y = DangineOpenGL.HEIGHT
+                - (((position.y * DangineOpenGL.HEIGHT) / 2.0f) + (DangineOpenGL.HEIGHT / 2.0f));
         zValue = pullMatrix.val[Matrix4.M23] * 1000;
 
         scale.x = pullMatrix.getScaleX();

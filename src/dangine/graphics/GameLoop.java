@@ -66,7 +66,6 @@ public class GameLoop {
         Utility.getRenderQueue32().render();
         Utility.getRenderQueue32().clear();
     }
-    
 
     public void restart() {
         dangineGame = provider.get();
@@ -82,7 +81,6 @@ public class GameLoop {
         dangineGame = provider.get();
         dangineGame.init(new BotMatchSceneSchema());
     }
-
 
     /**
      * Calculate how many milliseconds have passed since last frame.

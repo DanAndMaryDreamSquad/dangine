@@ -21,7 +21,7 @@ public class DanginePictureParticle implements IsDrawable32 {
         node.setPosition(getWidth() / 2, getHeight() / 2);
         node.setScale(getWidth(), -getHeight());
     }
-   
+
     public void draw() {
         for (int i = 0; i < particles.size(); i++) {
             DangineColoredQuad quad = quads.get(i);

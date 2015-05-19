@@ -27,8 +27,10 @@ public class TheQuadExampleDrawArrays {
     // Quad variables
     private int vaoId = 0;
     private int vboId = 0;
+    @SuppressWarnings("unused")
     private int colorVboId = 0;
     private int vertexCount = 0;
+    @SuppressWarnings("unused")
     private int colorCount = 0;
 
     public TheQuadExampleDrawArrays() {

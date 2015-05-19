@@ -13,8 +13,8 @@ public class ShotSceneGraph implements HasDrawable {
 
     final SceneGraphNode base = new SceneGraphNode();
     final SceneGraphNode ring = new SceneGraphNode();
-    final DanginePictureParticle ringParticle = ParticleEffectFactory.createCircle(8, 8, ParticleEffectFactory.energyColors,
-            ProjectileShot.HITBOX_SIZE);
+    final DanginePictureParticle ringParticle = ParticleEffectFactory.createCircle(8, 8,
+            ParticleEffectFactory.energyColors, ProjectileShot.HITBOX_SIZE);
     final SceneGraphNode core = new SceneGraphNode();
     final DangineBox coreShape = new DangineBox(20, 20, new Color(Color.BLUE));
 

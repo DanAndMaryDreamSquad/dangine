@@ -28,7 +28,8 @@ public class ParticleEffectFactory {
         return new DanginePictureParticle(data);
     }
 
-    public static DanginePictureParticle createCircle(int numberOfParticles, int size, ReadableColor[] colors, float radius) {
+    public static DanginePictureParticle createCircle(int numberOfParticles, int size, ReadableColor[] colors,
+            float radius) {
         List<DangineParticleData> data = new ArrayList<DangineParticleData>();
         for (int i = 0; i < numberOfParticles; i++) {
             Color color = new Color(colors[i % colors.length]);
