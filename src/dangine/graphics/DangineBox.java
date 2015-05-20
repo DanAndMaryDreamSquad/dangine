@@ -62,9 +62,8 @@ public class DangineBox implements IsDrawable32 {
     }
 
     public void setColor(Color color) {
-        quad.destroyQuad();
-        quad = new DangineColoredQuad(color);
         this.color = color;
+        quad.setQuadColor(color);
     }
 
 }

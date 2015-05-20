@@ -23,6 +23,8 @@ public class DangineColoredQuad {
     private int indicesCount = 0;
     private int transformMatrixLocation = 0;
     private FloatBuffer matrix44Buffer = BufferUtils.createFloatBuffer(16);
+    VertexDataForColor[] vertices;
+    FloatBuffer verticesBuffer;
 
     /**
      * Stores the color and vertex information for a quad. The Quad itself needs
@@ -46,9 +48,9 @@ public class DangineColoredQuad {
         v3.setXYZ(0.5f, 0.5f, 0f);
         v3.setRGBA(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
 
-        VertexDataForColor[] vertices = new VertexDataForColor[] { v0, v1, v2, v3 };
+        vertices = new VertexDataForColor[] { v0, v1, v2, v3 };
         // Put each 'Vertex' in one FloatBuffer
-        FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length * VertexDataForColor.elementCount);
+        verticesBuffer = BufferUtils.createFloatBuffer(vertices.length * VertexDataForColor.elementCount);
         for (int i = 0; i < vertices.length; i++) {
             verticesBuffer.put(vertices[i].getXYZW());
             verticesBuffer.put(vertices[i].getRGBA());
@@ -109,6 +111,31 @@ public class DangineColoredQuad {
         GL20.glDisableVertexAttribArray(1);
         GL30.glBindVertexArray(0);
         GL20.glUseProgram(0);
+    }
+
+    public void setQuadColor(Color color) {
+        // Update vertices in the VBO, first bind the VBO
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
+
+        // Apply and update vertex data
+        for (int i = 0; i < vertices.length; i++) {
+            VertexDataForColor vertex = vertices[i];
+            vertex.setRGBA(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f,
+                    color.getAlpha() / 255f);
+        }
+
+        FloatBuffer vertexFloatBuffer = verticesBuffer;
+        vertexFloatBuffer.rewind();
+        for (int j = 0; j < vertices.length; j++) {
+            verticesBuffer.put(vertices[j].getXYZW());
+            verticesBuffer.put(vertices[j].getRGBA());
+        }
+        vertexFloatBuffer.flip();
+
+        GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, 0, vertexFloatBuffer);
+
+        // And of course unbind
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
     public void updateTransformationMatrixOfShader(Matrix4 matrix) {
