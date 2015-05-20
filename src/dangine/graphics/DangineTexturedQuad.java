@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.Color;
 
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -43,18 +44,18 @@ public class DangineTexturedQuad {
         VertexDataForTexture v0 = new VertexDataForTexture();
         // v0.setXYZ(-0.5f, 0.5f, 0);
         v0.setXYZ(-0.5f, 0.5f, 0);
-        v0.setRGB(1, 0, 0);
+        v0.setRGB(1, 1, 1);
         v0.setST(0, 0);
         VertexDataForTexture v1 = new VertexDataForTexture();
         // v1.setXYZ(-0.5f, -0.5f, 0);
         v1.setXYZ(-0.5f, -0.5f, 0);
-        v1.setRGB(0, 1, 0);
+        v1.setRGB(1, 1, 1);
         v1.setST(0, 1);
         // v1.setST(0, 0.5f);
         VertexDataForTexture v2 = new VertexDataForTexture();
         // v2.setXYZ(0.5f, -0.5f, 0);
         v2.setXYZ(0.5f, -0.5f, 0);
-        v2.setRGB(0, 0, 1);
+        v2.setRGB(1, 1, 1);
         v2.setST(1, 1);
         // v2.setST(0.5f, 0.5f);
         VertexDataForTexture v3 = new VertexDataForTexture();
@@ -197,7 +198,29 @@ public class DangineTexturedQuad {
 
         // And of course unbind
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    }
 
+    public void setTextureColor(Color color) {
+        // Update vertices in the VBO, first bind the VBO
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
+
+        // Apply and update vertex data
+        for (int i = 0; i < vertices.length; i++) {
+            VertexDataForTexture vertex = vertices[i];
+            vertex.setRGBA(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f,
+                    color.getAlpha() / 255f);
+
+            // Put the new data in a ByteBuffer (in the view of a FloatBuffer)
+            FloatBuffer vertexFloatBuffer = verticesByteBuffer.asFloatBuffer();
+            vertexFloatBuffer.rewind();
+            vertexFloatBuffer.put(vertex.getElements());
+            vertexFloatBuffer.flip();
+
+            GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, i * VertexDataForTexture.stride, vertexFloatBuffer);
+        }
+
+        // And of course unbind
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
     public void destroyQuad() {

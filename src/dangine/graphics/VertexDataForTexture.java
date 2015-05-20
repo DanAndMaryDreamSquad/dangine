@@ -47,7 +47,7 @@ public class VertexDataForTexture {
     }
 
     public void setRGBA(float r, float g, float b, float a) {
-        this.rgba = new float[] { r, g, b, 1f };
+        this.rgba = new float[] { r, g, b, a };
     }
 
     // Getters

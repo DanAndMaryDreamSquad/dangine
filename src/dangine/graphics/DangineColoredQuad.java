@@ -35,16 +35,16 @@ public class DangineColoredQuad {
         // We'll define our quad using 4 vertices of the custom 'Vertex' class
         VertexDataForColor v0 = new VertexDataForColor();
         v0.setXYZ(-0.5f, 0.5f, 0f);
-        v0.setRGB(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
+        v0.setRGBA(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
         VertexDataForColor v1 = new VertexDataForColor();
         v1.setXYZ(-0.5f, -0.5f, 0f);
-        v1.setRGB(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
+        v1.setRGBA(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
         VertexDataForColor v2 = new VertexDataForColor();
         v2.setXYZ(0.5f, -0.5f, 0f);
-        v2.setRGB(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
+        v2.setRGBA(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
         VertexDataForColor v3 = new VertexDataForColor();
         v3.setXYZ(0.5f, 0.5f, 0f);
-        v3.setRGB(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
+        v3.setRGBA(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
 
         VertexDataForColor[] vertices = new VertexDataForColor[] { v0, v1, v2, v3 };
         // Put each 'Vertex' in one FloatBuffer
