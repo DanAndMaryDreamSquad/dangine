@@ -5,7 +5,6 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.menu.DangineMenuItem.Action;
-import dangine.scene.CharacterSelect;
 import dangine.utility.Utility;
 
 public class MatchTypeMenu
@@ -88,10 +87,7 @@ implements IsUpdateable, HasDrawable {
     }
 
     private void goToCharacterSelect() {
-        CharacterSelect characterSelect = new CharacterSelect();
-        Utility.getActiveScene().addUpdateable(characterSelect);
-        Utility.getActiveScene().removeUpdateable(MatchTypeMenu.this);
-        Utility.getActiveScene().getParentNode().removeChild(MatchTypeMenu.this.getDrawable());
+        Utility.getGameLoop().startCharacterSelect();
     }
 
     private void removeMatchTypeMenu() {

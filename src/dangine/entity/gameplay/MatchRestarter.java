@@ -10,7 +10,7 @@ public class MatchRestarter implements IsUpdateable {
     float timer = 0;
 
     public MatchRestarter() {
-        Debugger.info("Restarting match in 5...");
+        Debugger.info("Restarting game in 5...");
     }
 
     @Override
@@ -18,8 +18,8 @@ public class MatchRestarter implements IsUpdateable {
         timer += Utility.getGameTime().getDeltaTimeF();
 
         if (timer > MAX_TIME) {
-            Debugger.info("Restarting match");
-            Utility.getGameLoop().restart();
+            Debugger.info("Restarting game");
+            Utility.getGameLoop().startCharacterSelect();
         }
 
     }

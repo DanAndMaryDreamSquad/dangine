@@ -10,7 +10,9 @@ import dangine.game.DangineGame;
 import dangine.harness.Provider;
 import dangine.input.DangineOpenGLInput;
 import dangine.scene.BotMatchSceneSchema;
+import dangine.scene.CharacterSelectSchema;
 import dangine.scene.MatchSceneSchema;
+import dangine.scene.TitleSceneSchema32;
 import dangine.utility.Utility;
 
 public class GameLoop {
@@ -35,8 +37,7 @@ public class GameLoop {
         Utility.initialize(this);
         DangineTextures.initialize();
         DangineShaders.setupShaders();
-        this.dangineGame = provider.get();
-        this.dangineGame.init();
+        this.startTitleMenu();
         getDelta(); // call once before loop to initialise lastFrame
         lastFPS = getTime(); // call before loop to initialise fps timer
         while (!Display.isCloseRequested()) {
@@ -67,9 +68,14 @@ public class GameLoop {
         Utility.getRenderQueue32().clear();
     }
 
-    public void restart() {
+    public void startTitleMenu() {
         dangineGame = provider.get();
-        dangineGame.init();
+        dangineGame.init(new TitleSceneSchema32());
+    }
+
+    public void startCharacterSelect() {
+        dangineGame = provider.get();
+        dangineGame.init(new CharacterSelectSchema());
     }
 
     public void startMatch() {

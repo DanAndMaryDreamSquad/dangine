@@ -8,8 +8,6 @@ public interface DangineGame {
 
     public void populateRenderQueue();
 
-    public void init();
-
     public void init(SceneSchema schema);
 
 }

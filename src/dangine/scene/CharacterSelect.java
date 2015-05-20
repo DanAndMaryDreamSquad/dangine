@@ -6,7 +6,6 @@ import java.util.List;
 import dangine.entity.IsUpdateable;
 import dangine.menu.BotSettingsMenu;
 import dangine.menu.CharacterSelectionMenu;
-import dangine.menu.TitleMenu;
 import dangine.menu.WorldSelectionMenu;
 import dangine.player.DanginePlayer;
 import dangine.utility.Utility;
@@ -52,11 +51,7 @@ public class CharacterSelect implements IsUpdateable {
             }
 
             if (menu.isEscaping()) {
-                removeMenus();
-                Utility.getActiveScene().removeUpdateable(this);
-                TitleMenu titleMenu = new TitleMenu();
-                Utility.getActiveScene().addUpdateable(titleMenu);
-                Utility.getActiveScene().getParentNode().addChild(titleMenu.getDrawable());
+                Utility.getGameLoop().startTitleMenu();
             }
         }
         if (done) {
