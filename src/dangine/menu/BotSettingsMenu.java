@@ -42,7 +42,7 @@ public class BotSettingsMenu implements IsUpdateable, HasDrawable {
         powerTextNode.addChild(powerText);
         typeTextNode.addChild(typeText);
         botNumberTextNode.addChild(botNumberText);
-        botNumberTextNode.setPosition(140, 60);
+        botNumberTextNode.setPosition(150, 60);
         updateText();
     }
 
