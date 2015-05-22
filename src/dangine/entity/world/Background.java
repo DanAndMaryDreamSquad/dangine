@@ -14,7 +14,7 @@ public enum Background {
     SPACE_TWO("space4", 8.0f, 0.005f, -0.005f, Tessellation.FLIP_TO_SMOOTH), //
     SNOW_FULL("snow1full", 8.0f, 0.005f, 0.0f, Tessellation.FLIP_TO_SMOOTH), //
     SNOW_SKY("snowsky1", 8.0f, 0.008f, 0.008f, Tessellation.FLIP_TO_SMOOTH), //
-    FOREST("forest1", 8.0f, 0.035f, -0.0f, Tessellation.NONE);
+    FOREST("forest1", 10.0f, 0.035f, -0.0f, Tessellation.NONE);
 
     final String bgImage;
     final float scale;
