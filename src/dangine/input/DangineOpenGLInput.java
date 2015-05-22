@@ -30,4 +30,8 @@ public class DangineOpenGLInput {
         return keysDown.contains(key);
     }
 
+    public static void clearKeyStates() {
+        keysDown.clear();
+    }
+
 }

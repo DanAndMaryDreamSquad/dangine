@@ -83,10 +83,11 @@ public class SceneGraphNode implements IsDrawable {
     // TODO get the scale and angles right.
     public void pullTransformsFromMatrix(Matrix4 pullMatrix) {
         position.x = pullMatrix.val[Matrix4.M03];
-        position.x = ((position.x * DangineOpenGL.WIDTH) / 2.0f) + (DangineOpenGL.WIDTH / 2.0f);
+        position.x = ((position.x * DangineOpenGL.WORLD_RESOLUTION.x) / 2.0f)
+                + (DangineOpenGL.WORLD_RESOLUTION.x / 2.0f);
         position.y = pullMatrix.val[Matrix4.M13];
-        position.y = DangineOpenGL.HEIGHT
-                - (((position.y * DangineOpenGL.HEIGHT) / 2.0f) + (DangineOpenGL.HEIGHT / 2.0f));
+        position.y = DangineOpenGL.WORLD_RESOLUTION.y
+                - (((position.y * DangineOpenGL.WORLD_RESOLUTION.y) / 2.0f) + (DangineOpenGL.WORLD_RESOLUTION.y / 2.0f));
         zValue = pullMatrix.val[Matrix4.M23] * 1000;
 
         scale.x = pullMatrix.getScaleX();

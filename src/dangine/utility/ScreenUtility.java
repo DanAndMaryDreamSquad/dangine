@@ -31,7 +31,7 @@ public class ScreenUtility {
         // ScreenUtility.matrixIntoGLLoad(BufferUtils.createFloatBuffer(16),
         // node.getMatrix());
         inOutPosition = gluProject(node, inOutPosition);
-        inOutPosition.y = DangineOpenGL.DISPLAY_HEIGHT - inOutPosition.y;
+        inOutPosition.y = DangineOpenGL.WINDOW_RESOLUTION.y - inOutPosition.y;
         return inOutPosition;
     }
 
@@ -42,8 +42,10 @@ public class ScreenUtility {
         // Matrix4 camera =
         // Utility.getActiveScene().getCameraNode().getMatrix().cpy();
         // Matrix4.mulVec(camera.inv().getValues(), temp);
-        inOutPosition.x = inOutPosition.x * ((float) DangineOpenGL.WIDTH / (float) DangineOpenGL.DISPLAY_WIDTH);
-        inOutPosition.y = inOutPosition.y * ((float) DangineOpenGL.HEIGHT / (float) DangineOpenGL.DISPLAY_HEIGHT);
+        inOutPosition.x = inOutPosition.x
+                * ((float) DangineOpenGL.WORLD_RESOLUTION.x / (float) DangineOpenGL.WINDOW_RESOLUTION.x);
+        inOutPosition.y = inOutPosition.y
+                * ((float) DangineOpenGL.WORLD_RESOLUTION.y / (float) DangineOpenGL.WINDOW_RESOLUTION.y);
         return inOutPosition;
     }
 

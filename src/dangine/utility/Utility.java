@@ -1,6 +1,7 @@
 package dangine.utility;
 
 import dangine.entity.gameplay.MatchParameters;
+import dangine.graphics.DangineOpenGL;
 import dangine.graphics.GameLoop;
 import dangine.graphics.RenderQueue32;
 import dangine.player.Players;
@@ -15,8 +16,6 @@ public class Utility {
     private static RenderQueue renderQueue;
     private static RenderQueue32 renderQueue32;
     private static GameLoop gameLoop;
-    final private static Vector2f gameWindowResolution = new Vector2f(800, 600);
-    final private static Vector2f gameSpaceResolution = new Vector2f(800, 600);
     private static MatchParameters matchParameters = new MatchParameters();
 
     public static void initialize(GameLoop gameLoop) {
@@ -62,11 +61,11 @@ public class Utility {
     }
 
     public static Vector2f getResolution() {
-        return gameSpaceResolution;
+        return DangineOpenGL.WORLD_RESOLUTION;
     }
 
     public static Vector2f getGameWindowResolution() {
-        return gameWindowResolution;
+        return DangineOpenGL.WINDOW_RESOLUTION;
     }
 
     public static GameLoop getGameLoop() {

@@ -42,7 +42,8 @@ public class Scene implements IsUpdateable, IsDrawable {
         // float yResolutionScale = Utility.getGameWindowResolution().y /
         // Utility.getResolution().y;
         // parentNode.setScale(xResolutionScale, yResolutionScale);
-        parentNode.setMatrix(new Matrix4().setToOrtho(0, DangineOpenGL.WIDTH, DangineOpenGL.HEIGHT, 0, 1000, -1000));
+        parentNode.setMatrix(new Matrix4().setToOrtho(0, DangineOpenGL.WORLD_RESOLUTION.x,
+                DangineOpenGL.WORLD_RESOLUTION.y, 0, 1000, -1000));
     }
 
     @Override
