@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import dangine.game.DangineGame;
 import dangine.harness.Provider;
+import dangine.image.Resources;
 import dangine.input.DangineOpenGLInput;
 import dangine.scene.BotMatchSceneSchema;
 import dangine.scene.CharacterSelectSchema;
@@ -35,7 +36,7 @@ public class GameLoop {
         GdxNativesLoader.load();
         DangineOpenGL.setupOpenGL();
         Utility.initialize(this);
-        DangineTextures.initialize();
+        Resources.initialize();
         DangineShaders.setupShaders();
         this.startTitleMenu();
         getDelta(); // call once before loop to initialise lastFrame

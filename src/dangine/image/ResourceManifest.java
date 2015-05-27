@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 public class ResourceManifest implements Serializable {
@@ -55,14 +56,19 @@ public class ResourceManifest implements Serializable {
     private static final long serialVersionUID = 7187080574081090778L;
 
     List<String> images;
+    List<String> sounds;
 
-    public ResourceManifest(List<String> images) {
+    public ResourceManifest(List<String> images, List<String> sounds) {
         this.images = images;
+        this.sounds = sounds;
+        Collections.sort(this.images);
+        Collections.sort(this.sounds);
     }
 
     private void writeObject(java.io.ObjectOutputStream out) {
         try {
             out.writeObject(images);
+            out.writeObject(sounds);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,6 +78,7 @@ public class ResourceManifest implements Serializable {
     private void readObject(java.io.ObjectInputStream in) {
         try {
             images = (List<String>) in.readObject();
+            sounds = (List<String>) in.readObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -81,5 +88,9 @@ public class ResourceManifest implements Serializable {
 
     public List<String> getImages() {
         return images;
+    }
+
+    public List<String> getSounds() {
+        return sounds;
     }
 }

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dangine.debugger.Debugger;
-import dangine.image.ResourceManifest;
 import dangine.image.Resources;
 import dangine.image.TextureLoader;
 
@@ -13,12 +12,11 @@ public class DangineTextures {
     private static Map<String, DangineTexture> textureMap = new HashMap<String, DangineTexture>();
 
     public static void initialize() {
+        Debugger.info("Loading images...");
         if (Resources.shouldUseManifest()) {
-            ResourceManifest manifest = ResourceManifest.load();
-            textureMap = TextureLoader.loadImages(manifest);
+            textureMap = TextureLoader.loadImages(Resources.getResouceManifest());
         } else {
             textureMap = TextureLoader.loadImages();
-
         }
     }
 

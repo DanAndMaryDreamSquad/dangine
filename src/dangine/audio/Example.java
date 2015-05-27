@@ -61,7 +61,7 @@ public class Example {
         java.io.FileInputStream fin = null;
         java.io.BufferedInputStream bin = null;
         try {
-            fin = new FileInputStream("src/dangine/audio/combobreak.wav");
+            fin = new FileInputStream("src/assets/sounds/combobreak.wav");
             bin = new BufferedInputStream(fin);
         } catch (java.io.FileNotFoundException ex) {
             ex.printStackTrace();
