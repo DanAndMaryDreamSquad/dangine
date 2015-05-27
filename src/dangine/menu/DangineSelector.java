@@ -2,6 +2,8 @@ package dangine.menu;
 
 import java.util.List;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -90,6 +92,8 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
             }
             newSelection.getBase().addChild(getDrawable());
             currentItem = newSelection;
+            
+            SoundPlayer.play(SoundEffect.SELECT);
         }
     }
 

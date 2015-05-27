@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import dangine.audio.DangineOpenAL;
 import dangine.game.DangineGame;
 import dangine.harness.Provider;
 import dangine.image.Resources;
@@ -35,6 +36,7 @@ public class GameLoop {
     public void run() {
         GdxNativesLoader.load();
         DangineOpenGL.setupOpenGL();
+        DangineOpenAL.setupOpenAL();
         Utility.initialize(this);
         Resources.initialize();
         DangineShaders.setupShaders();
@@ -52,6 +54,7 @@ public class GameLoop {
             Display.sync(60); // cap fps to 60fps
         }
         DangineOpenGL.destroyOpenGL();
+        DangineOpenAL.destroyOpenAL();
     }
 
     private void update() {
