@@ -59,11 +59,11 @@ public class DangineSound {
     public void play() {
         AL10.alSourcePlay(source.get(0));
     }
-    
+
     public void stop() {
         AL10.alSourceStop(source.get(0));
     }
-    
+
     public void pause() {
         AL10.alSourcePause(source.get(0));
     }

@@ -92,7 +92,7 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
             }
             newSelection.getBase().addChild(getDrawable());
             currentItem = newSelection;
-            
+
             SoundPlayer.play(SoundEffect.SELECT);
         }
     }

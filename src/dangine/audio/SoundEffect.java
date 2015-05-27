@@ -2,10 +2,10 @@ package dangine.audio;
 
 public enum SoundEffect {
 
-    SELECT("chime1b"),
-    DEFEAT("combobreak");
-    
+    SELECT("chime1b"), DEFEAT("combobreak");
+
     String name;
+
     // TODO support multiple different sounds per effect.
     SoundEffect(String name) {
         this.name = name;
@@ -22,5 +22,5 @@ public enum SoundEffect {
     void stop() {
         DangineSounds.getSoundByName(name).stop();
     }
-    
+
 }
