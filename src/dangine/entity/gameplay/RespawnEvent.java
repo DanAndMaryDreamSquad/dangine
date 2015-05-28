@@ -1,5 +1,7 @@
 package dangine.entity.gameplay;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.debugger.Debugger;
 import dangine.entity.Hero;
 import dangine.entity.combat.GreatSword;
@@ -21,6 +23,7 @@ public class RespawnEvent implements MatchEvent {
 
     @Override
     public void process() {
+        SoundPlayer.play(SoundEffect.RESPAWN_END);
         Debugger.info("Player: " + playerId + " spawning in");
 
         Hero hero = new Hero(playerId);

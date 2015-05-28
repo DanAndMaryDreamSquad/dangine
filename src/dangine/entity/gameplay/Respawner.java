@@ -1,5 +1,7 @@
 package dangine.entity.gameplay;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.entity.IsUpdateable;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.entity.visual.RespawnVisual;
@@ -25,10 +27,14 @@ public class Respawner implements IsUpdateable {
 
     @Override
     public void update() {
+        if (timer == 0) {
+            SoundPlayer.play(SoundEffect.RESPAWN_START);
+        }
         timer += Utility.getGameTime().getDeltaTimeF();
         pulseTimer += Utility.getGameTime().getDeltaTimeF();
         if (pulseTimer > PULSE_MAX_TIME) {
             pulseTimer = 0;
+            SoundPlayer.play(SoundEffect.RESPAWN_PULSE);
             ExplosionVisual visual = RespawnVisual.createRespawnVisual(x, y);
             Utility.getActiveScene().addUpdateable(visual);
             Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());

@@ -1,5 +1,7 @@
 package dangine.entity;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.bots.DangineBot;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
@@ -62,6 +64,7 @@ public class Bouncer implements IsUpdateable, HasDrawable {
                     if (hero.isImmunity()) {
                         return;
                     }
+                    SoundPlayer.play(SoundEffect.BUMPER_HIT);
                     direction.x = hero.getPosition().x;
                     direction.y = hero.getPosition().y;
                     direction.sub(centerPosition).normalise();
@@ -76,6 +79,7 @@ public class Bouncer implements IsUpdateable, HasDrawable {
                     if (hero.isImmunity()) {
                         return;
                     }
+                    SoundPlayer.play(SoundEffect.BUMPER_HIT);
                     direction.x = hero.getPosition().x;
                     direction.y = hero.getPosition().y;
                     direction.sub(centerPosition).normalise();

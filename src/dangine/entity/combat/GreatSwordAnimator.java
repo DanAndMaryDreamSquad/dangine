@@ -1,5 +1,7 @@
 package dangine.entity.combat;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.entity.IsUpdateable;
 import dangine.utility.Utility;
 import dangine.utility.Vector2f;
@@ -78,6 +80,7 @@ public class GreatSwordAnimator implements IsUpdateable {
     }
 
     public void heavyCharge() {
+        SoundPlayer.play(SoundEffect.CHARGE_SWING_HEAVY);
         state = State.HEAVY_CHARGE;
         angle = 120.0f;
         float scale = greatsword.getSword().getScale().x;
@@ -87,6 +90,7 @@ public class GreatSwordAnimator implements IsUpdateable {
     }
 
     public void heavySwinging() {
+        SoundPlayer.play(SoundEffect.START_SWING_HEAVY);
         state = State.HEAVY_SWINGING;
         angle = 60.0f;
         float scale = greatsword.getSword().getScale().x;
@@ -96,6 +100,7 @@ public class GreatSwordAnimator implements IsUpdateable {
     }
 
     public void stabCharge() {
+        SoundPlayer.play(SoundEffect.CHARGE_SWING_LIGHT);
         state = State.STAB_CHARGE;
         angle = 260.0f;
         float scale = greatsword.getSword().getScale().x;
@@ -104,6 +109,7 @@ public class GreatSwordAnimator implements IsUpdateable {
     }
 
     public void stabSwinging() {
+        SoundPlayer.play(SoundEffect.START_SWING_LIGHT);
         state = State.STAB_SWINGING;
         angle = 260.0f;
         float scale = greatsword.getSword().getScale().x;
@@ -113,6 +119,7 @@ public class GreatSwordAnimator implements IsUpdateable {
     }
 
     public void counterCharge() {
+        SoundPlayer.play(SoundEffect.COUNTER_START);
         state = State.COUNTER_CHARGE;
         angle = 220.0f;
         float scale = greatsword.getSword().getScale().x;
@@ -121,6 +128,7 @@ public class GreatSwordAnimator implements IsUpdateable {
     }
 
     public void countering() {
+        SoundPlayer.play(SoundEffect.COUNTER_START);
         state = State.COUNTERING;
         angle = 120.0f;
         float scale = greatsword.getSword().getScale().x;
@@ -144,5 +152,9 @@ public class GreatSwordAnimator implements IsUpdateable {
 
     public void oneHandSwinging() {
         // TODO potentially needs keyframes to work
+    }
+
+    public State getState() {
+        return state;
     }
 }

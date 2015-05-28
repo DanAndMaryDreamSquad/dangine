@@ -1,5 +1,7 @@
 package dangine.bots;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.entity.gameplay.MatchEvent;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.entity.visual.RespawnVisual;
@@ -19,6 +21,7 @@ public class BotRespawnEvent implements MatchEvent {
 
     @Override
     public void process() {
+        SoundPlayer.play(SoundEffect.RESPAWN_END);
         DangineBot bot = new DangineBot(botId);
         bot.setPosition(x, y);
         Utility.getActiveScene().addUpdateable(bot);

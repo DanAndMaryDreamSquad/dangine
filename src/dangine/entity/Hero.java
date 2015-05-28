@@ -2,14 +2,19 @@ package dangine.entity;
 
 import org.lwjgl.util.Color;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.bots.DangineBot;
 import dangine.collision.GreatSwordCounterCollider;
+import dangine.collision.GreatSwordHeavyCollider;
+import dangine.collision.GreatSwordLightCollider;
 import dangine.debugger.Debugger;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.combat.GreatSword;
 import dangine.entity.combat.subpower.DashPower;
 import dangine.entity.combat.subpower.ProjectilePower;
+import dangine.entity.combat.subpower.ProjectileShot;
 import dangine.entity.gameplay.DefeatEvent;
 import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.movement.HeroFacing;
@@ -123,6 +128,12 @@ public class Hero implements IsUpdateable, HasDrawable {
                     return;
                 }
                 if (!isImmunity()) {
+                    if (arg.getCreator() instanceof GreatSwordLightCollider
+                            || arg.getCreator() instanceof GreatSwordHeavyCollider) {
+                        SoundPlayer.play(SoundEffect.SWORD_DEFEAT);
+                    } else if (arg.getCreator() instanceof ProjectileShot) {
+                        SoundPlayer.play(SoundEffect.PROJECTILE_HIT);
+                    }
                     destroy();
                 }
             }

@@ -2,6 +2,8 @@ package dangine.menu;
 
 import org.lwjgl.util.Color;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.graphics.DangineStringPicture;
@@ -81,9 +83,11 @@ public class DangineMenuItem implements HasDrawable {
 
     public void activate(DangineSampleInput currentInput, DangineSampleInput previousInput) {
         if (selectionStyle.shouldDoActionA(currentInput, previousInput)) {
+            SoundPlayer.play(SoundEffect.MENU_SELECT);
             actionA.execute();
         }
         if (selectionStyle.shouldDoActionB(currentInput, previousInput)) {
+            SoundPlayer.play(SoundEffect.MENU_SELECT);
             actionB.execute();
         }
     }

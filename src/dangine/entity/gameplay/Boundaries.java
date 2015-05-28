@@ -3,6 +3,8 @@ package dangine.entity.gameplay;
 import java.util.ArrayList;
 import java.util.List;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.entity.Hero;
 import dangine.entity.IsUpdateable;
 import dangine.entity.visual.ExplosionVisual;
@@ -36,6 +38,7 @@ public class Boundaries implements IsUpdateable {
         boolean needsClear = false;
         for (Hero hero : heroes) {
             if (isOutOfBounds(hero.getPosition()) && !hero.isImmunity()) {
+                SoundPlayer.play(SoundEffect.RINGOUT_DEFEAT);
                 hero.destroy();
                 needsClear = true;
                 Vector2f position = hero.getPosition();

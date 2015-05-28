@@ -1,5 +1,7 @@
 package dangine.entity.combat.subpower;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.entity.movement.HeroMovement;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.graphics.DanginePictureParticle;
@@ -21,10 +23,12 @@ public class DashPower {
     public void update(DangineSampleInput input, HeroMovement movement, Vector2f position) {
         timer += Utility.getGameTime().getDeltaTimeF();
         if (timer > MAX_TIME && !createdReadyEffect) {
+            SoundPlayer.play(SoundEffect.DASH_READY);
             createDashReadyEffect(position.x, position.y);
             createdReadyEffect = true;
         }
         if (input.isButtonTwo() && timer > MAX_TIME) {
+            SoundPlayer.play(SoundEffect.DASH_START);
             dash(input, movement, position);
             timer = 0;
             createdReadyEffect = false;

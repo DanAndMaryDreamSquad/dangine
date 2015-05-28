@@ -176,7 +176,9 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
     }
 
     private void holdChargeChangeStance() {
-        animator.heavyCharge();
+        if (animator.getState() != GreatSwordAnimator.State.HEAVY_CHARGE) {
+            animator.heavyCharge();
+        }
     }
 
     public void counterCharge() {

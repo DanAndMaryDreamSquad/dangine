@@ -1,5 +1,7 @@
 package dangine.collision;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.bots.DangineBot;
 import dangine.debugger.Debugger;
 import dangine.entity.Bouncer;
@@ -81,6 +83,7 @@ public class GreatSwordLightCollider implements IsUpdateable, HasDrawable {
                 if (applyKnockback) {
                     CollisionUtility.applyKnockback(movement, arg, absolutePosition);
                 }
+                SoundPlayer.play(SoundEffect.CLASH_LIGHT);
                 createVisualEffect();
                 clashed();
             }

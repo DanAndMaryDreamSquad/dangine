@@ -1,5 +1,7 @@
 package dangine.collision;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.bots.DangineBot;
 import dangine.debugger.Debugger;
 import dangine.entity.Bouncer;
@@ -67,6 +69,7 @@ public class GreatSwordCounterCollider implements IsUpdateable, HasDrawable {
                         || arg.getCreator() instanceof Vortex || arg.getCreator() instanceof Bouncer) {
                     return;
                 }
+                SoundPlayer.play(SoundEffect.COUNTER_CLASH);
                 createVisualEffect();
                 clashed();
             }

@@ -1,5 +1,7 @@
 package dangine.entity;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.bots.DangineBot;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
@@ -65,6 +67,7 @@ public class Vortex implements IsUpdateable, HasDrawable {
                 if (arg.getCreator() instanceof Hero) {
                     Hero hero = (Hero) arg.getCreator();
                     if (!hero.isImmunity()) {
+                        SoundPlayer.play(SoundEffect.VORTEX_DEFEAT);
                         hero.destroy(DefeatType.SPIN);
                     }
                 }
@@ -74,6 +77,7 @@ public class Vortex implements IsUpdateable, HasDrawable {
                     }
                     DangineBot hero = (DangineBot) arg.getCreator();
                     if (!hero.isImmunity()) {
+                        SoundPlayer.play(SoundEffect.VORTEX_DEFEAT);
                         hero.destroy(DefeatType.SPIN);
                     }
                 }

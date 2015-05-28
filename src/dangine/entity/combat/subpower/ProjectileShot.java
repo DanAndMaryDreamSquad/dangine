@@ -1,5 +1,7 @@
 package dangine.entity.combat.subpower;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -75,6 +77,7 @@ public class ProjectileShot implements IsUpdateable, HasDrawable {
                 if (arg.getCreator() instanceof Vortex) {
                     return;
                 }
+                SoundPlayer.play(SoundEffect.PROJECTILE_CLASH);
                 ProjectileShot.this.destroy();
             }
         };

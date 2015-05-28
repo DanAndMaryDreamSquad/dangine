@@ -1,5 +1,7 @@
 package dangine.entity.combat.subpower;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.bots.BotGreatsword;
 import dangine.bots.DangineBot;
 import dangine.entity.combat.GreatSword;
@@ -24,11 +26,13 @@ public class CounterPower {
     public void update(DangineSampleInput input, GreatSword greatSword) {
         timer += Utility.getGameTime().getDeltaTimeF();
         if (timer > MAX_TIME && !createdReadyEffect) {
+            SoundPlayer.play(SoundEffect.COUNTER_READY);
             Vector2f position = Utility.getActiveScene().getHero(greatSword.getPlayerId()).getPosition();
             createCounterReadyEffect(position.x, position.y);
             createdReadyEffect = true;
         }
         if (input.isButtonTwo() && timer > MAX_TIME) {
+            SoundPlayer.play(SoundEffect.COUNTER_START);
             Vector2f position = Utility.getActiveScene().getHero(greatSword.getPlayerId()).getPosition();
             counter(input, greatSword, position);
             timer = 0;
@@ -39,12 +43,14 @@ public class CounterPower {
     public void update(DangineSampleInput input, BotGreatsword greatSword) {
         timer += Utility.getGameTime().getDeltaTimeF();
         if (timer > MAX_TIME && !createdReadyEffect) {
+            SoundPlayer.play(SoundEffect.COUNTER_READY);
             DangineBot bot = Utility.getActiveScene().getBot(greatSword.getBotId());
             Vector2f position = bot.getPosition();
             createCounterReadyEffect(position.x, position.y);
             createdReadyEffect = true;
         }
         if (input.isButtonThree() && timer > MAX_TIME) {
+            SoundPlayer.play(SoundEffect.COUNTER_START);
             DangineBot bot = Utility.getActiveScene().getBot(greatSword.getBotId());
             Vector2f position = bot.getPosition();
             counter(input, greatSword, position);

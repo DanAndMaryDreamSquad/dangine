@@ -1,5 +1,7 @@
 package dangine.entity.combat.subpower;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.entity.movement.HeroMovement;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.graphics.DanginePictureParticle;
@@ -22,10 +24,12 @@ public class ProjectilePower {
     public void update(DangineSampleInput input, HeroMovement movement, Vector2f position) {
         timer += Utility.getGameTime().getDeltaTimeF();
         if (timer > MAX_TIME && !createdReadyEffect) {
+            SoundPlayer.play(SoundEffect.PROJECTILE_READY);
             createReadyEffect(position.x, position.y);
             createdReadyEffect = true;
         }
         if (input.isButtonTwo() && timer > MAX_TIME) {
+            SoundPlayer.play(SoundEffect.PROJECTILE_START);
             shoot(input, movement, position);
             timer = 0;
             createdReadyEffect = false;

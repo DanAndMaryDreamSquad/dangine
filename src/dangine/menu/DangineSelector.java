@@ -47,6 +47,7 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
             currentItem.activate(input, prevInput);
         }
         if (onEscape != null && input.isButtonThree() && !prevInput.isButtonThree()) {
+            SoundPlayer.play(SoundEffect.MENU_BACK);
             onEscape.execute();
         }
         if (currentItem != previousItem) {
@@ -93,7 +94,7 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
             newSelection.getBase().addChild(getDrawable());
             currentItem = newSelection;
 
-            SoundPlayer.play(SoundEffect.SELECT);
+            SoundPlayer.play(SoundEffect.MENU_TICK);
         }
     }
 

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
 import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
@@ -136,6 +138,7 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
 
     public void applyEndOfRound() {
         Debugger.info("round over");
+        SoundPlayer.play(SoundEffect.ROUND_OVER);
         List<Integer> playersLeft = new ArrayList<Integer>();
         List<Integer> botsLeft = new ArrayList<Integer>();
         for (PlayerScore score : scores) {
