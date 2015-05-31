@@ -8,73 +8,74 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.lwjgl.util.WaveData;
-
 import dangine.debugger.Debugger;
 import dangine.image.DirectoryRecursor;
 import dangine.image.ResourceManifest;
 import dangine.image.Resources;
 
-public class SoundLoader {
+public class MusicLoader {
 
-    public static final String DEFAULT_SOUND_DIRECTORY = "src" + System.getProperty("file.separator") + "assets"
-            + System.getProperty("file.separator") + "sounds";
+    public static final String DEFAULT_MUSIC_DIRECTORY = "src" + System.getProperty("file.separator") + "assets"
+            + System.getProperty("file.separator") + "music";
     public static List<String> filePlusDirectories;
 
-    public static Map<String, DangineSound> loadSounds(ResourceManifest manifest) {
-        return loadSounds(manifest.getSounds());
+    public static Map<String, DangineMusic> loadMusics(ResourceManifest manifest) {
+        return loadMusics(manifest.getMusics());
     }
 
-    public static Map<String, DangineSound> loadSounds() {
-        filePlusDirectories = DirectoryRecursor.listFileNames(DEFAULT_SOUND_DIRECTORY);
-        return loadSounds(filePlusDirectories);
+    public static Map<String, DangineMusic> loadMusics() {
+        filePlusDirectories = DirectoryRecursor.listFileNames(DEFAULT_MUSIC_DIRECTORY);
+        return loadMusics(filePlusDirectories);
     }
 
-    private static Map<String, DangineSound> loadSounds(List<String> filenames) {
-        Map<String, DangineSound> sounds = new HashMap<String, DangineSound>();
+    private static Map<String, DangineMusic> loadMusics(List<String> filenames) {
+        Map<String, DangineMusic> musics = new HashMap<String, DangineMusic>();
         for (String filename : filenames) {
-            SoundLoader.addSoundWithFilename(filename, sounds);
+            MusicLoader.addMusicWithFilename(filename, musics);
         }
-        return sounds;
+        return musics;
     }
 
-    private static void addSoundWithFilename(String filename, Map<String, DangineSound> sounds) {
+    private static void addMusicWithFilename(String filename, Map<String, DangineMusic> musics) {
 
-        if (!filename.contains(".wav")) {
+        if (!filename.contains(".ogg")) {
             return;
         }
 
-        DangineSound sound = loadWaveDangineSound(filename);
-        sounds.put(sound.getName(), sound);
+        DangineMusic sound = loadOggDangineMusic(filename);
+        musics.put(sound.getName(), sound);
 
     }
 
-    public static DangineSound loadWaveDangineSound(String filename) {
-        DangineSound sound = null;
+    public static DangineMusic loadOggDangineMusic(String filename) {
+        DangineMusic music = null;
         InputStream in = null;
         java.io.BufferedInputStream bin = null;
+        String path = "";
         try {
             if (Resources.shouldUseManifest()) {
-                Debugger.info("manifesting sound via " + filename);
+                Debugger.info("manifesting music via " + filename);
                 filename = filename.replace('\\', '/');
                 in = ResourceManifest.class.getClassLoader().getResourceAsStream(filename);
                 bin = new BufferedInputStream(in);
+                path = filename;
             } else {
-                Debugger.info("eclipse load sound via " + filename);
+                Debugger.info("eclipse load music via " + filename);
                 in = new FileInputStream(filename);
                 bin = new BufferedInputStream(in);
+                path = filename;
             }
             Debugger.info("Input Stream? " + bin);
             Debugger.info("bytes in " + filename + " " + bin.available() + " ");
-            WaveData waveFile = WaveData.create(bin);
+            // WaveData waveFile = WaveData.create(bin);
             String name = translateFilePathToSoundName(filename);
-            sound = new DangineSound(name, waveFile);
+            music = new DangineMusic(name, in, path);
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return sound;
+        return music;
     }
 
     public static String translateFilePathToSoundName(String filename) {
@@ -86,7 +87,7 @@ public class SoundLoader {
         soundname = soundname.substring(last + 1, soundname.length());
 
         // Get rid of file extension
-        soundname = soundname.replace(".wav", "");
+        soundname = soundname.replace(".ogg", "");
 
         // just in case, ha ha ha
         soundname = soundname.toLowerCase();

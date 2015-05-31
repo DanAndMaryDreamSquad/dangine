@@ -57,18 +57,22 @@ public class ResourceManifest implements Serializable {
 
     List<String> images;
     List<String> sounds;
+    List<String> musics;
 
-    public ResourceManifest(List<String> images, List<String> sounds) {
+    public ResourceManifest(List<String> images, List<String> sounds, List<String> musics) {
         this.images = images;
         this.sounds = sounds;
+        this.musics = musics;
         Collections.sort(this.images);
         Collections.sort(this.sounds);
+        Collections.sort(this.musics);
     }
 
     private void writeObject(java.io.ObjectOutputStream out) {
         try {
             out.writeObject(images);
             out.writeObject(sounds);
+            out.writeObject(musics);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,6 +83,7 @@ public class ResourceManifest implements Serializable {
         try {
             images = (List<String>) in.readObject();
             sounds = (List<String>) in.readObject();
+            musics = (List<String>) in.readObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -92,5 +97,9 @@ public class ResourceManifest implements Serializable {
 
     public List<String> getSounds() {
         return sounds;
+    }
+
+    public List<String> getMusics() {
+        return musics;
     }
 }

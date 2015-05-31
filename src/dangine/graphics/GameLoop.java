@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import dangine.audio.DangineMusicPlayer;
 import dangine.audio.DangineOpenAL;
 import dangine.game.DangineGame;
 import dangine.harness.Provider;
@@ -40,9 +41,12 @@ public class GameLoop {
         Utility.initialize(this);
         Resources.initialize();
         DangineShaders.setupShaders();
+        DangineMusicPlayer.initialize();
+        DangineMusicPlayer.startMusicPlayerThread();
         this.startTitleMenu();
         getDelta(); // call once before loop to initialise lastFrame
         lastFPS = getTime(); // call before loop to initialise fps timer
+
         while (!Display.isCloseRequested()) {
             int delta = getDelta();
             Utility.getGameTime().updateTime(delta);
@@ -53,6 +57,7 @@ public class GameLoop {
             Display.update();
             Display.sync(60); // cap fps to 60fps
         }
+        DangineMusicPlayer.destroyMusicPlayerThread();
         DangineOpenGL.destroyOpenGL();
         DangineOpenAL.destroyOpenAL();
     }

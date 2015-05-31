@@ -1,5 +1,7 @@
 package dangine.scene;
 
+import dangine.audio.DangineMusicPlayer;
+import dangine.audio.MusicEffect;
 import dangine.entity.world.World;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
@@ -17,5 +19,7 @@ public class CharacterSelectSchema implements SceneSchema {
 
         VersioningSceneGraph version = new VersioningSceneGraph();
         Utility.getActiveScene().getParentNode().addChild(version.getDrawable());
+
+        DangineMusicPlayer.startTrack(MusicEffect.CHARACTER_SELECT);
     }
 }

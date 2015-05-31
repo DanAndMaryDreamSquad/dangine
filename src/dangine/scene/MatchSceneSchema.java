@@ -1,5 +1,7 @@
 package dangine.scene;
 
+import dangine.audio.DangineMusicPlayer;
+import dangine.audio.MusicEffect;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.Respawner;
@@ -35,6 +37,8 @@ public class MatchSceneSchema implements SceneSchema {
         } else {
             Utility.getMatchParameters().getCurrentWorld().getDefaultObstaclePack().applyObstacles(scene);
         }
+
+        DangineMusicPlayer.startTrack(MusicEffect.BATTLE_SCENE);
     }
 
 }

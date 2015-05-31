@@ -1,5 +1,7 @@
 package dangine.scene;
 
+import dangine.audio.DangineMusicPlayer;
+import dangine.audio.MusicEffect;
 import dangine.entity.world.World;
 import dangine.graphics.DanginePicture;
 import dangine.menu.ControlsAssigner;
@@ -34,5 +36,7 @@ public class TitleSceneSchema32 implements SceneSchema {
         ControlsAssigner controlsAssigner = new ControlsAssigner();
         scene.addUpdateable(controlsAssigner);
         scene.getParentNode().addChild(controlsAssigner.getDrawable());
+
+        DangineMusicPlayer.startTrack(MusicEffect.TITLE_MENU);
     }
 }

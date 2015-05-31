@@ -1,6 +1,8 @@
 package dangine.image;
 
+import dangine.audio.DangineMusics;
 import dangine.audio.DangineSounds;
+import dangine.audio.MusicLoader;
 import dangine.audio.SoundLoader;
 import dangine.debugger.Debugger;
 import dangine.graphics.DangineTextures;
@@ -13,10 +15,11 @@ public class Resources {
     public static void initialize() {
         DangineTextures.initialize();
         DangineSounds.initialize();
+        DangineMusics.initialize();
 
         if (!shouldUseManifest()) {
             ResourceManifest manifest = new ResourceManifest(TextureLoader.getFilePlusDirectories(),
-                    SoundLoader.getFilePlusDirectories());
+                    SoundLoader.getFilePlusDirectories(), MusicLoader.getFilePlusDirectories());
             manifest.save();
         }
 
