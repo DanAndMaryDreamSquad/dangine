@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import dangine.audio.DangineMusicPlayer;
 import dangine.audio.DangineOpenAL;
+import dangine.audio.DangineSounds;
 import dangine.game.DangineGame;
 import dangine.harness.Provider;
 import dangine.image.Resources;
@@ -60,6 +61,7 @@ public class GameLoop {
         }
         DangineMusicPlayer.destroyMusicPlayerThread();
         DangineOpenGL.destroyOpenGL();
+        DangineSounds.destroySounds();
         DangineOpenAL.destroyOpenAL();
     }
 

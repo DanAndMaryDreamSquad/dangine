@@ -1,5 +1,7 @@
 package dangine.audio;
 
+import java.util.List;
+
 public enum SoundEffect {
 
     // menu
@@ -11,7 +13,7 @@ public enum SoundEffect {
     CHARGE_SWING_LIGHT("charge1"), //
     CHARGE_SWING_HEAVY("charge1"), //
     START_SWING_LIGHT("swing1"), //
-    START_SWING_HEAVY("swing1"), //
+    START_SWING_HEAVY("swing1", "charge1"), //
     CLASH_LIGHT("clash2"), //
     CLASH_MEDIUM("clash2"), //
     CLASH_HEAVY("clash2"), //
@@ -41,28 +43,45 @@ public enum SoundEffect {
     BUMPER_HIT("chime1b"), //
     ROUND_OVER("chime1b");
 
-    String name;
+    String[] names;
+    int index = 0;
 
     // TODO support multiple different sounds per effect.
-    SoundEffect(String name) {
-        this.name = name;
+    SoundEffect(String... names) {
+        this.names = names;
     }
 
-    void play() {
-        DangineSounds.getSoundByName(name).play();
+    DangineSound play() {
+        DangineSound instance = DangineSounds.getSoundByName(names[index]);
+        instance.play();
+        index = (index + 1) % names.length;
+        return instance;
     }
 
-    void pause() {
-        DangineSounds.getSoundByName(name).pause();
+    // TODO support pausing of duplicate sounds
+    void pauseAll() {
+        for (String name : names) {
+            List<DangineSound> sounds = DangineSounds.getAllSoundsByName(name);
+            for (DangineSound sound : sounds) {
+                sound.pause();
+            }
+        }
     }
 
-    void stop() {
-        DangineSounds.getSoundByName(name).stop();
+    void stopAll() {
+        for (String name : names) {
+            List<DangineSound> sounds = DangineSounds.getAllSoundsByName(name);
+            for (DangineSound sound : sounds) {
+                sound.stop();
+            }
+        }
     }
 
     public static void updateVolumeOfAllSoundEffects(float newVolume) {
         for (SoundEffect soundEffect : SoundEffect.values()) {
-            DangineSounds.getSoundByName(soundEffect.name).updateVolume(newVolume);
+            for (String name : soundEffect.names) {
+                DangineSounds.getSoundByName(name).updateVolume(newVolume);
+            }
         }
     }
 

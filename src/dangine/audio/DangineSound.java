@@ -82,4 +82,8 @@ public class DangineSound {
         return name;
     }
 
+    public DangineSound copy() {
+        return new DangineSound(getName(), waveData);
+    }
+
 }

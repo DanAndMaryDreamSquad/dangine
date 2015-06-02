@@ -10,11 +10,11 @@ public class SoundPlayer {
     }
 
     public static void pause(SoundEffect effect) {
-        effect.pause();
+        effect.pauseAll();
     }
 
     public static void stop(SoundEffect effect) {
-        effect.stop();
+        effect.stopAll();
     }
 
 }
