@@ -3,12 +3,14 @@ package dangine.graphics;
 import org.lwjgl.util.Color;
 
 import dangine.scenegraph.SceneGraphNode;
+import dangine.utility.FunctionKeyEvents;
 
 public class DangineCirclePicture implements IsDrawable32 {
     RenderData32 data = new RenderData32(this);
     DangineTexturedQuad quad;
     SceneGraphNode node = new SceneGraphNode();
     float radius;
+    boolean isHitbox = false;
 
     public DangineCirclePicture(float radius) {
         this(radius, new Color(Color.BLACK));
@@ -27,8 +29,10 @@ public class DangineCirclePicture implements IsDrawable32 {
     }
 
     public void draw() {
-        quad.updateTransformationMatrixOfShader(node.getMatrix());
-        quad.drawQuad();
+        if (!isHitbox || FunctionKeyEvents.isHitBoxesVisible()) {
+            quad.updateTransformationMatrixOfShader(node.getMatrix());
+            quad.drawQuad();
+        }
     }
 
     public SceneGraphNode getNode() {
@@ -41,6 +45,10 @@ public class DangineCirclePicture implements IsDrawable32 {
 
     public int getHeight() {
         return quad.getTexture().getHeight();
+    }
+
+    public void setHitbox(boolean isHitbox) {
+        this.isHitbox = isHitbox;
     }
 
     @Override

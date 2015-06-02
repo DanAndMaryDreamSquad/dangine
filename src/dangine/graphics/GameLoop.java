@@ -16,6 +16,7 @@ import dangine.scene.BotMatchSceneSchema;
 import dangine.scene.CharacterSelectSchema;
 import dangine.scene.MatchSceneSchema;
 import dangine.scene.TitleSceneSchema32;
+import dangine.utility.FunctionKeyEvents;
 import dangine.utility.Utility;
 
 public class GameLoop {
@@ -64,6 +65,7 @@ public class GameLoop {
 
     private void update() {
         DangineOpenGLInput.poll();
+        FunctionKeyEvents.processFunctionKeys();
         Utility.getPlayers().updateInput();
         dangineGame.update();
         updateFPS();

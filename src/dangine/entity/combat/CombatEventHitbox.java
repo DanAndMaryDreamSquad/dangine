@@ -13,7 +13,9 @@ public class CombatEventHitbox implements HasDrawable {
 
     public CombatEventHitbox(CombatEvent event) {
         this.event = event;
-        node.addChild(new DangineCirclePicture(event.getRadius()));
+        DangineCirclePicture hitbox = new DangineCirclePicture(event.getRadius());
+        hitbox.setHitbox(true);
+        node.addChild(hitbox);
         node.setPosition(event.getPosition());
         node.setZValue(-5);
     }

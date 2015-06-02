@@ -23,7 +23,6 @@ public class DangineOpenGLInput {
             }
 
         }
-
     }
 
     public static boolean isKeyDown(int key) {
