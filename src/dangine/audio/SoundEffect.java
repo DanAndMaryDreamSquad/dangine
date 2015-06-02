@@ -60,4 +60,10 @@ public enum SoundEffect {
         DangineSounds.getSoundByName(name).stop();
     }
 
+    public static void updateVolumeOfAllSoundEffects(float newVolume) {
+        for (SoundEffect soundEffect : SoundEffect.values()) {
+            DangineSounds.getSoundByName(soundEffect.name).updateVolume(newVolume);
+        }
+    }
+
 }

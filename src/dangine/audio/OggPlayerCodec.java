@@ -332,7 +332,7 @@ public class OggPlayerCodec {
         Page joggPage = oggPlayerDTO.getJoggPage();
         StreamState joggStreamState = oggPlayerDTO.getJoggStreamState();
         Packet joggPacket = oggPlayerDTO.getJoggPacket();
-        Debugger.info("Reading the body.");
+        // Debugger.info("Reading the body.");
 
         /*
          * Variable used in loops below, like in readHeader(). While we need

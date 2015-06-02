@@ -35,6 +35,10 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
     DangineMenuItem musicVolumeItem = new DangineMenuItem("Music Volume "
             + Utility.getGameParameters().getMusicVolumeString(), getMusicVolumeUpAction(), getMusicVolumeDownAction());
 
+    DangineMenuItem soundVolumeItem = new DangineMenuItem("Sound Effect Volume "
+            + Utility.getGameParameters().getSoundEffectVolumeString(), getSoundEffectVolumeUpAction(),
+            getSoundEffectVolumeDownAction());
+
     DangineMenuItem friendlyFireItem = new DangineMenuItem("Friendly Fire: "
             + Utility.getMatchParameters().isFriendlyFire(), getToggleFriendlyFireAction());
 
@@ -51,6 +55,7 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         menu.addItem(new DangineMenuItem("Change Facing Mode: ", getNextFacingModeAction()));
         menu.getBase().addChild(facingModeTextNode);
         menu.addItem(musicVolumeItem);
+        menu.addItem(soundVolumeItem);
         menu.addItem(new DangineMenuItem("Done", getExitMenuAction()));
         menu.getBase().addChild(stockTextNode);
         DangineFormatter.format(menu.getBase().getChildNodes());
@@ -74,7 +79,7 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         attackModeEnumNode.setPosition(0, -20);
         facingModeEnumNode.setPosition(0, -20);
 
-        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.65f));
+        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.6f));
         menu.getItem(0).getBase().addChild(selector.getDrawable());
         updateText();
     }
@@ -217,6 +222,38 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
                 Utility.getGameParameters().setMusicVolume(volume);
                 musicVolumeItem.getItemText().setText(
                         "Music Volume " + Utility.getGameParameters().getMusicVolumeString());
+            }
+
+        };
+    }
+
+    private Action getSoundEffectVolumeUpAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                float volume = Utility.getGameParameters().getSoundEffectVolume();
+                volume += 0.1f;
+                volume = Math.min(1.0f, volume);
+                Utility.getGameParameters().setSoundEffectVolume(volume);
+                soundVolumeItem.getItemText().setText(
+                        "Sound Effect Volume " + Utility.getGameParameters().getSoundEffectVolumeString());
+            }
+
+        };
+    }
+
+    private Action getSoundEffectVolumeDownAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                float volume = Utility.getGameParameters().getSoundEffectVolume();
+                volume -= 0.1f;
+                volume = Math.max(0, volume);
+                Utility.getGameParameters().setSoundEffectVolume(volume);
+                soundVolumeItem.getItemText().setText(
+                        "Sound Effect Volume " + Utility.getGameParameters().getSoundEffectVolumeString());
             }
 
         };

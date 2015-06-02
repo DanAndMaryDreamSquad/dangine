@@ -68,6 +68,10 @@ public class DangineSound {
         AL10.alSourcePause(source.get(0));
     }
 
+    public void updateVolume(float newVolume) {
+        AL10.alSourcef(source.get(0), AL10.AL_GAIN, newVolume);
+    }
+
     public void destroy() {
         waveData.dispose();
         AL10.alDeleteSources(source);
