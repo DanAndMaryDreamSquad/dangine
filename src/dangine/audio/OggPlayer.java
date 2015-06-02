@@ -7,6 +7,8 @@ public class OggPlayer {
     private volatile boolean isStopRequested = false;
     private volatile boolean isStartRequested = false;
     private volatile boolean isResetRequested = false;
+    private volatile boolean isPauseRequested = false;
+    private volatile boolean isResumeRequested = false;
     private volatile boolean isNoMusicPlaying = true;
     private volatile boolean isRepeating = true;
     private volatile boolean needToReadHeader = true;
@@ -32,6 +34,12 @@ public class OggPlayer {
         }
         if (isStopRequested) {
             isNoMusicPlaying = true;
+            return;
+        }
+        if (isResumeRequested) {
+            resumeTrack();
+        }
+        if (isPauseRequested) {
             return;
         }
 
@@ -76,6 +84,14 @@ public class OggPlayer {
         isResetRequested = true;
     }
 
+    public void requestPauseTrack() {
+        isPauseRequested = true;
+    }
+
+    public void requestResumeTrack() {
+        isResumeRequested = true;
+    }
+
     public void requestSetVolume(float volume) {
         if (this.volume == volume) {
             return;
@@ -98,6 +114,11 @@ public class OggPlayer {
         oggPlayerDTO.resetTrack();
         OggPlayerCodec.readHeader(oggPlayerDTO);
         isResetRequested = false;
+    }
+
+    private void resumeTrack() {
+        isResumeRequested = false;
+        isPauseRequested = false;
     }
 
     private void onNoMusicPlaying() {

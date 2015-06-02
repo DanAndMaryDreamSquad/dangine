@@ -31,6 +31,14 @@ public class DangineMusicPlayer {
         musicPlayingRunnable.stopTrack();
     }
 
+    public static void pauseCurrentTrack() {
+        musicPlayingRunnable.pauseTrack();
+    }
+
+    public static void resumeCurrentTrack() {
+        musicPlayingRunnable.resumeTrack();
+    }
+
     public static void resetCurrentTrack() {
         musicPlayingRunnable.resetTrack();
     }

@@ -44,6 +44,14 @@ public class DangineMusicPlayerRunnable implements Runnable {
         player.requestResetTrack();
     }
 
+    public void pauseTrack() {
+        player.requestPauseTrack();
+    }
+
+    public void resumeTrack() {
+        player.requestResumeTrack();
+    }
+
     public void setVolume(float volume) {
         player.requestSetVolume(volume);
     }
