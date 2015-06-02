@@ -32,6 +32,9 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
     SceneGraphNode facingModeEnumNode = new SceneGraphNode();
     DangineStringPicture facingModeEnumText = new DangineStringPicture();
 
+    DangineMenuItem musicVolumeItem = new DangineMenuItem("Music Volume "
+            + Utility.getGameParameters().getMusicVolumeString(), getMusicVolumeUpAction(), getMusicVolumeDownAction());
+
     DangineMenuItem friendlyFireItem = new DangineMenuItem("Friendly Fire: "
             + Utility.getMatchParameters().isFriendlyFire(), getToggleFriendlyFireAction());
 
@@ -47,6 +50,7 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         menu.getBase().addChild(new SceneGraphNode());
         menu.addItem(new DangineMenuItem("Change Facing Mode: ", getNextFacingModeAction()));
         menu.getBase().addChild(facingModeTextNode);
+        menu.addItem(musicVolumeItem);
         menu.addItem(new DangineMenuItem("Done", getExitMenuAction()));
         menu.getBase().addChild(stockTextNode);
         DangineFormatter.format(menu.getBase().getChildNodes());
@@ -181,6 +185,38 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
                 facingMode = facingMode.nextMode();
                 Utility.getMatchParameters().setFacingMode(facingMode);
                 updateText();
+            }
+
+        };
+    }
+
+    private Action getMusicVolumeUpAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                float volume = Utility.getGameParameters().getMusicVolume();
+                volume += 0.1f;
+                volume = Math.min(1.0f, volume);
+                Utility.getGameParameters().setMusicVolume(volume);
+                musicVolumeItem.getItemText().setText(
+                        "Music Volume " + Utility.getGameParameters().getMusicVolumeString());
+            }
+
+        };
+    }
+
+    private Action getMusicVolumeDownAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                float volume = Utility.getGameParameters().getMusicVolume();
+                volume -= 0.1f;
+                volume = Math.max(0, volume);
+                Utility.getGameParameters().setMusicVolume(volume);
+                musicVolumeItem.getItemText().setText(
+                        "Music Volume " + Utility.getGameParameters().getMusicVolumeString());
             }
 
         };

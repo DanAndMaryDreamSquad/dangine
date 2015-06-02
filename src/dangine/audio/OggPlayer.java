@@ -1,5 +1,7 @@
 package dangine.audio;
 
+import javax.sound.sampled.FloatControl;
+
 public class OggPlayer {
 
     private volatile boolean isStopRequested = false;
@@ -8,8 +10,10 @@ public class OggPlayer {
     private volatile boolean isNoMusicPlaying = true;
     private volatile boolean isRepeating = true;
     private volatile boolean needToReadHeader = true;
+    private volatile boolean needToChangeVolume = true;
     MusicEffect currentTrack = null;
     OggPlayerDTO oggPlayerDTO = new OggPlayerDTO();
+    float volume = 1.0f;
     public boolean ready = false;
 
     public OggPlayer() {
@@ -36,6 +40,10 @@ public class OggPlayer {
                 needToReadHeader = false;
             }
         }
+        if (needToChangeVolume) {
+            updateVolume();
+            needToChangeVolume = false;
+        }
         OggPlayerCodec.readBody(oggPlayerDTO);
 
         if (isTrackFinished()) {
@@ -61,10 +69,19 @@ public class OggPlayer {
         isStopRequested = false;
         isStartRequested = true;
         isNoMusicPlaying = false;
+        needToChangeVolume = true;
     }
 
     public void requestResetTrack() {
         isResetRequested = true;
+    }
+
+    public void requestSetVolume(float volume) {
+        if (this.volume == volume) {
+            return;
+        }
+        this.volume = volume;
+        needToChangeVolume = true;
     }
 
     private void startTrack() {
@@ -94,6 +111,27 @@ public class OggPlayer {
 
     private boolean isTrackFinished() {
         return oggPlayerDTO.getJoggPage().eos() != 0;
+    }
+
+    public void updateVolume() {
+        float gain = volume;
+        try {
+            FloatControl control = (FloatControl) oggPlayerDTO.getOutputLine()
+                    .getControl(FloatControl.Type.MASTER_GAIN);
+            if (gain == -1) {
+                control.setValue(0);
+            } else {
+                float max = control.getMaximum();
+                float min = control.getMinimum(); // negative values all seem to
+                                                  // be zero?
+                float range = max - min;
+
+                control.setValue(min + (range * gain));
+            }
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

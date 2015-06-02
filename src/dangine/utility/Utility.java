@@ -1,5 +1,6 @@
 package dangine.utility;
 
+import dangine.entity.gameplay.GameParameters;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.graphics.DangineOpenGL;
 import dangine.graphics.GameLoop;
@@ -17,6 +18,7 @@ public class Utility {
     private static RenderQueue32 renderQueue32;
     private static GameLoop gameLoop;
     private static MatchParameters matchParameters = new MatchParameters();
+    private static GameParameters gameParameters = new GameParameters();
 
     public static void initialize(GameLoop gameLoop) {
         Utility.gameTime = new GameTime();
@@ -70,6 +72,10 @@ public class Utility {
 
     public static GameLoop getGameLoop() {
         return gameLoop;
+    }
+
+    public static GameParameters getGameParameters() {
+        return gameParameters;
     }
 
 }

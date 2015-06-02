@@ -35,4 +35,7 @@ public class DangineMusicPlayer {
         musicPlayingRunnable.resetTrack();
     }
 
+    public static void setVolume(float volume) {
+        musicPlayingRunnable.setVolume(volume);
+    }
 }

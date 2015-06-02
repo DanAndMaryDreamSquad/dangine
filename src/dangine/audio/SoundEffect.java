@@ -8,19 +8,19 @@ public enum SoundEffect {
     MENU_BACK("chime1b"), //
 
     // sword
-    CHARGE_SWING_LIGHT("chime1b"), //
-    CHARGE_SWING_HEAVY("chime1b"), //
-    START_SWING_LIGHT("chime1b"), //
-    START_SWING_HEAVY("chime1b"), //
-    CLASH_LIGHT("chime1b"), //
-    CLASH_MEDIUM("chime1b"), //
-    CLASH_HEAVY("chime1b"), //
+    CHARGE_SWING_LIGHT("charge1"), //
+    CHARGE_SWING_HEAVY("charge1"), //
+    START_SWING_LIGHT("swing1"), //
+    START_SWING_HEAVY("swing1"), //
+    CLASH_LIGHT("clash2"), //
+    CLASH_MEDIUM("clash2"), //
+    CLASH_HEAVY("clash2"), //
 
     // powers
     DASH_READY("chime1b"), //
-    DASH_START("chime1b"), //
+    DASH_START("dash"), //
     PROJECTILE_READY("chime1b"), //
-    PROJECTILE_START("chime1b"), //
+    PROJECTILE_START("projectilefire"), //
     PROJECTILE_CLASH("chime1b"), //
     PROJECTILE_HIT("chime1b"), //
     COUNTER_READY("chime1b"), //
@@ -28,7 +28,7 @@ public enum SoundEffect {
     COUNTER_CLASH("chime1b"), //
 
     // defeat
-    VORTEX_DEFEAT("chime1b"), //
+    VORTEX_DEFEAT("vortexdefeat"), //
     SWORD_DEFEAT("chime1b"), //
     RINGOUT_DEFEAT("chime1b"), //
 
