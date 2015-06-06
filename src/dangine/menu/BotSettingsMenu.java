@@ -7,6 +7,7 @@ import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.subpower.SubPower;
+import dangine.graphics.DangineOpenGL;
 import dangine.graphics.DangineStringPicture;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scene.CharacterSelect;
@@ -42,7 +43,7 @@ public class BotSettingsMenu implements IsUpdateable, HasDrawable {
         powerTextNode.addChild(powerText);
         typeTextNode.addChild(typeText);
         botNumberTextNode.addChild(botNumberText);
-        botNumberTextNode.setPosition(150, 60);
+        botNumberTextNode.setPosition(150 * DangineOpenGL.getWindowWorldAspectX(), 60);
         updateText();
     }
 

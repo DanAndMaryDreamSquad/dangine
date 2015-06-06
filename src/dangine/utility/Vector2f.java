@@ -43,6 +43,9 @@ public class Vector2f {
 
     public Vector2f normalise() {
         float magnitude = (float) Math.sqrt((x * x) + (y * y));
+        if (magnitude == 0) {
+            return this;
+        }
         this.x = x / magnitude;
         this.y = y / magnitude;
         return this;

@@ -165,4 +165,12 @@ public class DangineOpenGL {
         }
         return true;
     }
+
+    public static float getWindowWorldAspectX() {
+        return DangineOpenGL.WORLD_RESOLUTION.x / DangineOpenGL.WINDOW_RESOLUTION.x;
+    }
+
+    public static float getWindowWorldAspectY() {
+        return DangineOpenGL.WORLD_RESOLUTION.y / DangineOpenGL.WINDOW_RESOLUTION.y;
+    }
 }

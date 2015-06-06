@@ -6,6 +6,7 @@ import dangine.entity.IsUpdateable;
 import dangine.entity.movement.AttackMode;
 import dangine.entity.movement.FacingMode;
 import dangine.entity.movement.MovementMode;
+import dangine.graphics.DangineOpenGL;
 import dangine.graphics.DangineStringPicture;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
@@ -72,7 +73,7 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         facingModeTextNode.addChild(facingModeEnumNode);
         facingModeEnumNode.addChild(facingModeEnumText);
 
-        stockTextNode.setPosition(60, 0);
+        stockTextNode.setPosition(60 * DangineOpenGL.getWindowWorldAspectX(), 0);
         movementModeTextNode.setPosition(-Utility.getResolution().x / 2, movementModeTextNode.getPosition().y);
         attackModeTextNode.setPosition(-Utility.getResolution().x / 2, attackModeTextNode.getPosition().y);
         facingModeTextNode.setPosition(-Utility.getResolution().x / 2, facingModeTextNode.getPosition().y);

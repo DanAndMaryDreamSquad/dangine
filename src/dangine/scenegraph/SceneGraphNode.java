@@ -128,7 +128,7 @@ public class SceneGraphNode implements IsDrawable {
     }
 
     public void removeChild(IsDrawable32 target) {
-        children.remove(target);
+        children32.remove(target);
     }
 
     public void setPosition(Vector2f position) {
