@@ -9,6 +9,7 @@ import dangine.entity.movement.MovementMode;
 import dangine.graphics.DangineStringPicture;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
+import dangine.utility.DangineSavedSettings;
 import dangine.utility.Utility;
 
 public class SettingsMenu implements IsUpdateable, HasDrawable {
@@ -264,6 +265,7 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
 
             @Override
             public void execute() {
+                DangineSavedSettings.INSTANCE.save();
                 TitleMenu titleMenu = new TitleMenu();
                 Utility.getActiveScene().addUpdateable(titleMenu);
                 Utility.getActiveScene().removeUpdateable(SettingsMenu.this);

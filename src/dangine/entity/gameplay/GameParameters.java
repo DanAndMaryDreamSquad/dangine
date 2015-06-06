@@ -2,6 +2,7 @@ package dangine.entity.gameplay;
 
 import dangine.audio.DangineMusicPlayer;
 import dangine.audio.SoundEffect;
+import dangine.utility.DangineSavedSettings;
 
 public class GameParameters {
 
@@ -19,6 +20,7 @@ public class GameParameters {
     public void setMusicVolume(float musicVolume) {
         musicVolume = (Math.round((musicVolume * 10)) * 10) / 100.0f;
         DangineMusicPlayer.setVolume(musicVolume);
+        DangineSavedSettings.INSTANCE.setMusicVolumePercent(Math.round(musicVolume * 100));
         this.musicVolume = musicVolume;
     }
 
@@ -33,6 +35,7 @@ public class GameParameters {
     public void setSoundEffectVolume(float soundVolume) {
         soundVolume = (Math.round((soundVolume * 10)) * 10) / 100.0f;
         SoundEffect.updateVolumeOfAllSoundEffects(soundVolume);
+        DangineSavedSettings.INSTANCE.setSoundVolumePercent(Math.round(soundVolume * 100));
         this.soundVolume = soundVolume;
     }
 

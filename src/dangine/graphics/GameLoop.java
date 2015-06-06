@@ -17,6 +17,7 @@ import dangine.scene.BotMatchSceneSchema;
 import dangine.scene.CharacterSelectSchema;
 import dangine.scene.MatchSceneSchema;
 import dangine.scene.TitleSceneSchema32;
+import dangine.utility.DangineSavedSettings;
 import dangine.utility.FunctionKeyEvents;
 import dangine.utility.Utility;
 
@@ -44,6 +45,10 @@ public class GameLoop {
         Resources.initialize();
         DangineShaders.setupShaders();
         DangineMusicPlayer.initialize();
+        Utility.getGameParameters().setMusicVolume(
+                ((float) DangineSavedSettings.INSTANCE.getMusicVolumePercent()) / 100.0f);
+        Utility.getGameParameters().setSoundEffectVolume(
+                ((float) DangineSavedSettings.INSTANCE.getSoundVolumePercent()) / 100.0f);
         DangineMusicPlayer.startMusicPlayerThread();
         this.startTitleMenu();
         getDelta(); // call once before loop to initialise lastFrame

@@ -32,6 +32,8 @@ public class DangineSavedSettings {
     JSONObject settings;
     int resolutionX;
     int resolutionY;
+    int musicVolumePercent;
+    int soundVolumePercent;
     boolean borderlessWindow;
     boolean fullscreen;
 
@@ -42,6 +44,9 @@ public class DangineSavedSettings {
             resolutionY = settings.getInt("resolutionY");
             borderlessWindow = settings.getBoolean("borderlessWindow");
             fullscreen = settings.getBoolean("fullscreen");
+
+            musicVolumePercent = settings.getInt("musicVolumePercent");
+            soundVolumePercent = settings.getInt("soundVolmePercent");
         } catch (JSONException e) {
             Debugger.warn("Loaded settings.txt, but found some corrupted value. Generating default settings.");
             e.printStackTrace();
@@ -58,6 +63,9 @@ public class DangineSavedSettings {
         resolutionY = Display.getDesktopDisplayMode().getHeight();
         fullscreen = false;
         borderlessWindow = true;
+
+        musicVolumePercent = 50;
+        soundVolumePercent = 50;
         save();
     }
 
@@ -68,6 +76,9 @@ public class DangineSavedSettings {
             settings.put("resolutionY", resolutionY);
             settings.put("borderlessWindow", borderlessWindow);
             settings.put("fullscreen", fullscreen);
+
+            settings.put("musicVolumePercent", musicVolumePercent);
+            settings.put("soundVolmePercent", soundVolumePercent);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -103,5 +114,21 @@ public class DangineSavedSettings {
 
     public void setFullscreen(boolean fullscreen) {
         this.fullscreen = fullscreen;
+    }
+
+    public int getMusicVolumePercent() {
+        return musicVolumePercent;
+    }
+
+    public void setMusicVolumePercent(int musicVolumePercent) {
+        this.musicVolumePercent = musicVolumePercent;
+    }
+
+    public int getSoundVolumePercent() {
+        return soundVolumePercent;
+    }
+
+    public void setSoundVolumePercent(int soundVolumePercent) {
+        this.soundVolumePercent = soundVolumePercent;
     }
 }
