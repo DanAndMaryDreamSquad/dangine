@@ -22,10 +22,10 @@ public class CollisionUtility {
         Vector2f angleOfAttack = new Vector2f(absolutePosition.x, absolutePosition.y);
         angleOfAttack = angleOfAttack.sub(arg.getPosition()).normalise();
         if (arg.getCreator() instanceof GreatSwordHeavyCollider) {
-            movement.push(angleOfAttack.x, angleOfAttack.y, 4.0f);
+            movement.push(angleOfAttack.x, angleOfAttack.y, 5.0f);
         }
         if (arg.getCreator() instanceof GreatSwordLightCollider) {
-            movement.push(angleOfAttack.x, angleOfAttack.y, 0.25f);
+            movement.push(angleOfAttack.x, angleOfAttack.y, 3.0f);
         }
         if (arg.getCreator() instanceof GreatSwordCounterCollider) {
             movement.dash(angleOfAttack.x * 2.0f, angleOfAttack.y * 2.0f);

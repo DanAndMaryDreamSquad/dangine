@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import dangine.audio.DangineMusicPlayer;
 import dangine.audio.DangineOpenAL;
 import dangine.audio.DangineSounds;
+import dangine.debugger.Debugger;
 import dangine.game.DangineGame;
 import dangine.harness.Provider;
 import dangine.image.Resources;
@@ -38,6 +39,8 @@ public class GameLoop {
     }
 
     public void run() {
+        int refreshRate = Display.getDesktopDisplayMode().getFrequency();
+        Debugger.info("Detected desktop refresh rate: " + refreshRate);
         GdxNativesLoader.load();
         DangineOpenGL.setupOpenGL();
         DangineOpenAL.setupOpenAL();
@@ -62,7 +65,7 @@ public class GameLoop {
             draw();
 
             Display.update();
-            Display.sync(300); // cap fps to 60fps
+            Display.sync(refreshRate); // cap fps to 60fps
         }
         DangineMusicPlayer.destroyMusicPlayerThread();
         DangineOpenGL.destroyOpenGL();

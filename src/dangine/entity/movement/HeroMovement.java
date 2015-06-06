@@ -11,6 +11,7 @@ public class HeroMovement {
     public static final float ACCELERATION = 0.00055f;
     public static final float DASH_VELOCITY = 0.50f;
     public static final float DASH_TIME = 150f;
+    public static final float DRAG = ACCELERATION * 2;
     boolean isDashing = false;
     float dashTimer = 0;
     Vector2f velocity = new Vector2f(0, 0);
@@ -54,10 +55,39 @@ public class HeroMovement {
     }
 
     private void enforceMaximumVelocity() {
-        velocity.y = Math.min(velocity.y, MAX_VELOCITY);
-        velocity.y = Math.max(velocity.y, -MAX_VELOCITY);
-        velocity.x = Math.min(velocity.x, MAX_VELOCITY);
-        velocity.x = Math.max(velocity.x, -MAX_VELOCITY);
+        float overShootY = 0;
+        float overShootX = 0;
+        if (velocity.y > MAX_VELOCITY) {
+            overShootY = velocity.y - MAX_VELOCITY;
+            velocity.y -= DRAG * Utility.getGameTime().getDeltaTimeF();
+            if (overShootY < DRAG * Utility.getGameTime().getDeltaTimeF() * 1) {
+                velocity.y = Math.min(velocity.y, MAX_VELOCITY);
+            }
+        } else if (velocity.y < -MAX_VELOCITY) {
+            overShootY = velocity.y + MAX_VELOCITY;
+            velocity.y += DRAG * Utility.getGameTime().getDeltaTimeF();
+            if (overShootY > -DRAG * Utility.getGameTime().getDeltaTimeF() * 1) {
+                velocity.y = Math.max(velocity.y, -MAX_VELOCITY);
+            }
+        }
+        if (velocity.x > MAX_VELOCITY) {
+            overShootX = velocity.x - MAX_VELOCITY;
+            velocity.x -= DRAG * Utility.getGameTime().getDeltaTimeF();
+            if (overShootX < DRAG * Utility.getGameTime().getDeltaTimeF() * 1) {
+                velocity.x = Math.min(velocity.x, MAX_VELOCITY);
+            }
+        } else if (velocity.x < -MAX_VELOCITY) {
+            overShootX = velocity.x + MAX_VELOCITY;
+            velocity.x += DRAG * Utility.getGameTime().getDeltaTimeF();
+            if (overShootY > -DRAG * Utility.getGameTime().getDeltaTimeF() * 1) {
+                velocity.x = Math.max(velocity.x, -MAX_VELOCITY);
+            }
+        }
+
+        // velocity.y = Math.min(velocity.y, MAX_VELOCITY);
+        // velocity.y = Math.max(velocity.y, -MAX_VELOCITY);
+        // velocity.x = Math.min(velocity.x, MAX_VELOCITY);
+        // velocity.x = Math.max(velocity.x, -MAX_VELOCITY);
     }
 
     public Vector2f updatePosition(Vector2f position) {

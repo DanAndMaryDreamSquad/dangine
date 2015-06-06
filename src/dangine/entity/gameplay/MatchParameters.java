@@ -85,7 +85,8 @@ public class MatchParameters {
     public SubPower getPlayerPower(int playerId) {
         SubPower power = playerIdToPower.get(playerId);
         if (power == null) {
-            return SubPower.NONE;
+            playerIdToPower.put(playerId, SubPower.DASH);
+            return SubPower.DASH;
         }
         return power;
     }
