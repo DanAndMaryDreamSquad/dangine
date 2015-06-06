@@ -2,6 +2,7 @@ package dangine.entity.gameplay;
 
 import dangine.audio.DangineMusicPlayer;
 import dangine.audio.SoundEffect;
+import dangine.debugger.Debugger;
 import dangine.utility.DangineSavedSettings;
 
 public class GameParameters {
@@ -19,6 +20,7 @@ public class GameParameters {
 
     public void setMusicVolume(float musicVolume) {
         musicVolume = (Math.round((musicVolume * 10)) * 10) / 100.0f;
+        Debugger.info("Setting music volume to " + musicVolume);
         DangineMusicPlayer.setVolume(musicVolume);
         DangineSavedSettings.INSTANCE.setMusicVolumePercent(Math.round(musicVolume * 100));
         this.musicVolume = musicVolume;

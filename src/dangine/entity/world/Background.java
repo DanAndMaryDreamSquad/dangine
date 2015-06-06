@@ -4,14 +4,14 @@ import dangine.utility.MathUtility;
 
 public enum Background {
 
-    SUNSET("sunset3", 40.0f, 0.05f, 0, Tessellation.FLIP_TO_SMOOTH), //
-    EXTRADIMENSIONAL("cloudy", 40.0f, -0.05f, 0.025f, Tessellation.NONE), //
+    SUNSET("sunset3", 48.0f, 0.05f, 0, Tessellation.FLIP_TO_SMOOTH), //
+    EXTRADIMENSIONAL("cloudy", 80.0f, -0.05f, 0.025f, Tessellation.NONE), //
     SKYLAND("sky2", 20.0f, 0.035f, -0.035f, Tessellation.NONE), //
-    SPACE_ONE("space1", 16.0f, 0.005f, -0.005f, Tessellation.FLIP_TO_SMOOTH), //
-    SPACE_TWO("space4", 8.0f, 0.005f, -0.005f, Tessellation.FLIP_TO_SMOOTH), //
-    SNOW_FULL("snow1full", 8.0f, 0.005f, 0.0f, Tessellation.FLIP_TO_SMOOTH), //
-    SNOW_SKY("snowsky1", 8.0f, 0.008f, 0.008f, Tessellation.FLIP_TO_SMOOTH), //
-    FOREST("forest1", 10.0f, 0.035f, -0.0f, Tessellation.NONE);
+    SPACE_ONE("space1", 38.0f, 0.005f, -0.005f, Tessellation.FLIP_TO_SMOOTH), //
+    SPACE_TWO("space4", 19.0f, 0.005f, -0.005f, Tessellation.FLIP_TO_SMOOTH), //
+    SNOW_FULL("snow1full", 19.0f, 0.005f, 0.0f, Tessellation.FLIP_TO_SMOOTH), //
+    SNOW_SKY("snowsky1", 19.0f, 0.008f, 0.008f, Tessellation.FLIP_TO_SMOOTH), //
+    FOREST("forest1", 20.0f, 0.035f, -0.0f, Tessellation.NONE);
 
     final String bgImage;
     final float scale;

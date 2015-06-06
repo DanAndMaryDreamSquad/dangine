@@ -51,7 +51,7 @@ public class DangineOpenGL {
             } else {
                 mode = new DisplayMode((int) WINDOW_RESOLUTION.x, (int) WINDOW_RESOLUTION.y);
             }
-
+            Display.setVSyncEnabled(true);
             Display.setDisplayMode(mode);
             Display.setTitle(WINDOW_TITLE);
             Display.create(pixelFormat, contextAtrributes);

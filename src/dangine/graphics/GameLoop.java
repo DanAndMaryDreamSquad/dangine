@@ -62,7 +62,7 @@ public class GameLoop {
             draw();
 
             Display.update();
-            Display.sync(60); // cap fps to 60fps
+            Display.sync(300); // cap fps to 60fps
         }
         DangineMusicPlayer.destroyMusicPlayerThread();
         DangineOpenGL.destroyOpenGL();
