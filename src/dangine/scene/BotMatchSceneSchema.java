@@ -1,5 +1,7 @@
 package dangine.scene;
 
+import dangine.audio.DangineMusicPlayer;
+import dangine.audio.MusicEffect;
 import dangine.bots.BotRespawner;
 import dangine.entity.Creature;
 import dangine.entity.Obstruction;
@@ -48,6 +50,8 @@ public class BotMatchSceneSchema implements SceneSchema {
         } else {
             Utility.getMatchParameters().getCurrentWorld().getDefaultObstaclePack().applyObstacles(scene);
         }
+
+        DangineMusicPlayer.startTrack(MusicEffect.BATTLE_SCENE);
     }
 
 }
