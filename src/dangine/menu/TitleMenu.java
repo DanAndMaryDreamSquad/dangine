@@ -84,7 +84,7 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
 
             @Override
             public void execute() {
-                System.exit(0);
+                Utility.setCloseRequested(true);
             }
         };
     }

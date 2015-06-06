@@ -1,5 +1,8 @@
 package dangine.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -11,6 +14,7 @@ import dangine.entity.IsUpdateable;
 import dangine.graphics.DangineOpenGL;
 import dangine.input.DangineOpenGLInput;
 import dangine.menu.DangineMenuItem.Action;
+import dangine.utility.DangineSavedSettings;
 import dangine.utility.Utility;
 
 public class ResolutionMenu implements IsUpdateable, HasDrawable {
@@ -18,12 +22,20 @@ public class ResolutionMenu implements IsUpdateable, HasDrawable {
     DangineMenu menu = new DangineMenu();
     DangineSelector selector = new DangineSelector();
 
-    DangineMenuItem displayModeItem = new DangineMenuItem("Fullscreen", getDisplayModeAction());
+    DangineMenuItem displayModeItem = new DangineMenuItem("Set to Fullscreen", getDisplayModeAction());
+
+    DangineMenuItem borderlessWindowItem = new DangineMenuItem("Borderless Window ?", getBorderlessWindowModeAction());
+    List<DangineMenuItem> resolutionItems = buildResolutionItems();
+    DangineMenuItem doneItem = new DangineMenuItem("Done", getExitMenuAction());
 
     public ResolutionMenu() {
         selector.setOnEscape(getExitMenuAction());
         menu.addItem(displayModeItem);
-        menu.addItem(new DangineMenuItem("Done", getExitMenuAction()));
+        menu.addItem(borderlessWindowItem);
+        for (DangineMenuItem item : resolutionItems) {
+            menu.addItem(item);
+        }
+        menu.addItem(doneItem);
         DangineFormatter.format(menu.getBase().getChildNodes());
 
         menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.65f));
@@ -44,10 +56,49 @@ public class ResolutionMenu implements IsUpdateable, HasDrawable {
 
     private void updateText() {
         if (Display.isFullscreen()) {
-            displayModeItem.getItemText().setText("Windowed");
+            displayModeItem.getItemText().setText("Set to Windowed");
         } else {
-            displayModeItem.getItemText().setText("Fullscreen");
+            displayModeItem.getItemText().setText("Set to Fullscreen");
         }
+        if (DangineSavedSettings.INSTANCE.isBorderlessWindow()) {
+            borderlessWindowItem.getItemText().setText("Set Bordered Window");
+        } else {
+            borderlessWindowItem.getItemText().setText("Set Borderless Window");
+        }
+        List<int[]> resolutionPairs = DangineOpenGL.getSortedDisplayResolutionsAscending();
+        for (int i = 0; i < resolutionItems.size(); i++) {
+            DangineMenuItem item = resolutionItems.get(i);
+            int[] pair = resolutionPairs.get(i);
+            item.getItemText().setText(pair[0] + " x " + pair[1]);
+        }
+        doneItem.getItemText().setText("Done");
+
+    }
+
+    private List<DangineMenuItem> buildResolutionItems() {
+        List<DangineMenuItem> items = new ArrayList<DangineMenuItem>();
+        List<int[]> resolutionPairs = DangineOpenGL.getSortedDisplayResolutionsAscending();
+        for (int[] pair : resolutionPairs) {
+            items.add(new DangineMenuItem(pair[0] + " x " + pair[1], getChangeResolutionAction(pair[0], pair[1])));
+        }
+        return items;
+    }
+
+    private Action getChangeResolutionAction(final int x, final int y) {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                DangineSavedSettings.INSTANCE.setResolutionX(x);
+                DangineSavedSettings.INSTANCE.setResolutionY(y);
+                setResolution(x, y, DangineSavedSettings.INSTANCE.isFullscreen());
+                DangineOpenGL.WINDOW_RESOLUTION.set(DangineSavedSettings.INSTANCE.getResolutionX(),
+                        DangineSavedSettings.INSTANCE.getResolutionY());
+                DangineSavedSettings.INSTANCE.save();
+                DangineOpenGLInput.clearKeyStates();
+                updateText();
+            }
+        };
     }
 
     private Action getDisplayModeAction() {
@@ -70,14 +121,44 @@ public class ResolutionMenu implements IsUpdateable, HasDrawable {
         };
     }
 
-    // TODO: Create resolution change actions.
+    private Action getBorderlessWindowModeAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                if (Display.isFullscreen()) {
+                    Debugger.warn("Borderless window trying to be changed in full screen");
+                } else {
+                    toggleBorderlessWindow();
+                }
+            }
+        };
+    }
+
+    private void toggleBorderlessWindow() {
+        boolean isBorderless = Boolean.parseBoolean(System.getProperty("org.lwjgl.opengl.Window.undecorated"));
+        Debugger.info("borderless right now? " + isBorderless);
+        isBorderless = !isBorderless;
+        DangineSavedSettings.INSTANCE.setBorderlessWindow(isBorderless);
+        System.setProperty("org.lwjgl.opengl.Window.undecorated",
+                String.valueOf(DangineSavedSettings.INSTANCE.isBorderlessWindow()));
+        DangineSavedSettings.INSTANCE.save();
+        Utility.setReRunRequested(true);
+        Utility.setCloseRequested(true);
+        DangineOpenGLInput.clearKeyStates();
+    }
 
     public void setFullScreenMode() {
 
         try {
-            Display.setDisplayMode(Display.getDesktopDisplayMode());
+            Display.setDisplayMode(DangineOpenGL.findBestDisplayModeForFullscreenResolution(
+                    DangineSavedSettings.INSTANCE.getResolutionX(), DangineSavedSettings.INSTANCE.getResolutionY()));
             Display.setFullscreen(true);
+            DangineSavedSettings.INSTANCE.setFullscreen(true);
             DangineOpenGL.WINDOW_RESOLUTION.set(Display.getWidth(), Display.getHeight());
+            DangineOpenGL.WINDOW_RESOLUTION.set(DangineSavedSettings.INSTANCE.getResolutionX(),
+                    DangineSavedSettings.INSTANCE.getResolutionY());
+            DangineSavedSettings.INSTANCE.save();
 
         } catch (LWJGLException e) {
             Debugger.info("Could not set display to fullscreen mode.");
@@ -87,9 +168,16 @@ public class ResolutionMenu implements IsUpdateable, HasDrawable {
 
     public void setWindowedMode() {
         try {
-            Display.setDisplayMode(Display.getDesktopDisplayMode());
+            System.setProperty("org.lwjgl.opengl.Window.undecorated",
+                    String.valueOf(DangineSavedSettings.INSTANCE.isBorderlessWindow()));
+            DisplayMode mode = new DisplayMode(DangineSavedSettings.INSTANCE.getResolutionX(),
+                    DangineSavedSettings.INSTANCE.getResolutionY());
+            Display.setDisplayMode(mode);
             Display.setFullscreen(false);
-            DangineOpenGL.WINDOW_RESOLUTION.set(Display.getWidth(), Display.getHeight());
+            DangineSavedSettings.INSTANCE.setFullscreen(false);
+            DangineOpenGL.WINDOW_RESOLUTION.set(DangineSavedSettings.INSTANCE.getResolutionX(),
+                    DangineSavedSettings.INSTANCE.getResolutionY());
+            DangineSavedSettings.INSTANCE.save();
 
         } catch (LWJGLException e) {
             Debugger.info("Could not set display to windowed mode.");
@@ -157,13 +245,13 @@ public class ResolutionMenu implements IsUpdateable, HasDrawable {
 
             @Override
             public void execute() {
+                DangineSavedSettings.INSTANCE.save();
                 TitleMenu titleMenu = new TitleMenu();
                 Utility.getActiveScene().addUpdateable(titleMenu);
                 Utility.getActiveScene().removeUpdateable(ResolutionMenu.this);
                 Utility.getActiveScene().getParentNode().addChild(titleMenu.getDrawable());
                 Utility.getActiveScene().getParentNode().removeChild(ResolutionMenu.this.getDrawable());
             }
-
         };
     }
 

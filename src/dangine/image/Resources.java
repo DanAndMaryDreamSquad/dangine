@@ -22,7 +22,6 @@ public class Resources {
                     SoundLoader.getFilePlusDirectories(), MusicLoader.getFilePlusDirectories());
             manifest.save();
         }
-
     }
 
     public static boolean shouldUseManifest() {

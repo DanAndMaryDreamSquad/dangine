@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="lib/controller.jar"/>
 	<classpathentry kind="lib" path="lib/PNGDecoder.jar"/>
 	<classpathentry kind="lib" path="lib/jorbis-0.0.17.jar"/>
+	<classpathentry kind="lib" path="lib/java-json.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

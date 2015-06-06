@@ -23,8 +23,10 @@ public class DangineStringPicture implements IsDrawable32 {
         this.text = text;
         texture = DangineTextureGenerator.generateStringTexture(text);
         quad = new DangineTexturedQuad(texture);
-        node.setScale(texture.getWidth(), texture.getHeight());
-        node.setPosition(getWidth() / 2, (getHeight() / 2) * 2.0f);
+        float aspectX = DangineOpenGL.WORLD_RESOLUTION.x / DangineOpenGL.WINDOW_RESOLUTION.x;
+        float aspectY = DangineOpenGL.WORLD_RESOLUTION.y / DangineOpenGL.WINDOW_RESOLUTION.y;
+        node.setScale(texture.getWidth() * aspectX, texture.getHeight() * aspectY);
+        node.setPosition((getWidth() / 2) * aspectX, (getHeight() / 2) * 1.0f * aspectY);
     }
 
     public void setText(String text) {
@@ -32,8 +34,10 @@ public class DangineStringPicture implements IsDrawable32 {
         GL11.glDeleteTextures(texture.getTextureId());
         texture = DangineTextureGenerator.generateStringTexture(text);
         quad.setTexture(texture);
-        node.setScale(texture.getWidth(), texture.getHeight());
-        node.setPosition(getWidth() / 2, (getHeight() / 2) * 2.0f);
+        float aspectX = DangineOpenGL.WORLD_RESOLUTION.x / DangineOpenGL.WINDOW_RESOLUTION.x;
+        float aspectY = DangineOpenGL.WORLD_RESOLUTION.y / DangineOpenGL.WINDOW_RESOLUTION.y;
+        node.setScale(texture.getWidth() * aspectX, texture.getHeight() * aspectY);
+        node.setPosition((getWidth() / 2) * aspectX, (getHeight() / 2) * 1.0f * aspectY);
     }
 
     public void update() {

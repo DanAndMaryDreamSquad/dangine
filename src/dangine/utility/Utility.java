@@ -19,6 +19,8 @@ public class Utility {
     private static GameLoop gameLoop;
     private static MatchParameters matchParameters = new MatchParameters();
     private static GameParameters gameParameters = new GameParameters();
+    private static boolean isCloseRequested = false;
+    private static boolean isReRunRequested = false;
 
     public static void initialize(GameLoop gameLoop) {
         Utility.gameTime = new GameTime();
@@ -76,6 +78,22 @@ public class Utility {
 
     public static GameParameters getGameParameters() {
         return gameParameters;
+    }
+
+    public static boolean isCloseRequested() {
+        return isCloseRequested;
+    }
+
+    public static void setCloseRequested(boolean isCloseRequested) {
+        Utility.isCloseRequested = isCloseRequested;
+    }
+
+    public static boolean isReRunRequested() {
+        return isReRunRequested;
+    }
+
+    public static void setReRunRequested(boolean isReRunRequested) {
+        Utility.isReRunRequested = isReRunRequested;
     }
 
 }

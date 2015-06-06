@@ -1,0 +1,1 @@
+{"fullscreen":false,"resolutionX":1920,"resolutionY":1080,"borderlessWindow":true}

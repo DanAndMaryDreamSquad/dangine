@@ -4,7 +4,7 @@ import dangine.utility.MathUtility;
 
 public enum Background {
 
-    SUNSET("sunset3", 20.0f, 0.05f, 0, Tessellation.FLIP_TO_SMOOTH), //
+    SUNSET("sunset3", 40.0f, 0.05f, 0, Tessellation.FLIP_TO_SMOOTH), //
     EXTRADIMENSIONAL("cloudy", 40.0f, -0.05f, 0.025f, Tessellation.NONE), //
     SKYLAND("sky2", 20.0f, 0.035f, -0.035f, Tessellation.NONE), //
     SPACE_ONE("space1", 16.0f, 0.005f, -0.005f, Tessellation.FLIP_TO_SMOOTH), //

@@ -49,7 +49,7 @@ public class GameLoop {
         getDelta(); // call once before loop to initialise lastFrame
         lastFPS = getTime(); // call before loop to initialise fps timer
 
-        while (!Display.isCloseRequested()) {
+        while (!Display.isCloseRequested() && !Utility.isCloseRequested()) {
             int delta = getDelta();
             Utility.getGameTime().updateTime(delta);
 

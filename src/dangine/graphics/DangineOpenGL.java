@@ -1,5 +1,10 @@
 package dangine.graphics;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
@@ -7,26 +12,47 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 
+import dangine.debugger.Debugger;
+import dangine.utility.DangineSavedSettings;
 import dangine.utility.Vector2f;
 
 public class DangineOpenGL {
 
     // Setup variables
     static private final String WINDOW_TITLE = "Sample";
-    static public final Vector2f WORLD_RESOLUTION = new Vector2f(800, 600);
-    static public final Vector2f WINDOW_RESOLUTION = new Vector2f(800, 600);
+    static public final Vector2f WORLD_RESOLUTION = new Vector2f(1920, 1080);
+    static public final Vector2f WINDOW_RESOLUTION = new Vector2f(1920, 1080);
     static public PixelFormat pixelFormat = new PixelFormat();
     static public ContextAttribs contextAtrributes = new ContextAttribs(3, 2).withForwardCompatible(true)
             .withProfileCore(true);
 
     public static void setupOpenGL() {
+        WINDOW_RESOLUTION.x = DangineSavedSettings.INSTANCE.getResolutionX();
+        WINDOW_RESOLUTION.y = DangineSavedSettings.INSTANCE.getResolutionY();
+
+        List<int[]> supportedResolutions = getSortedDisplayResolutionsAscending();
+        int[] largestResolution = supportedResolutions.get(supportedResolutions.size() - 1);
+        if (!isResolutionSupported((int) WINDOW_RESOLUTION.x, (int) WINDOW_RESOLUTION.y, supportedResolutions)) {
+            Debugger.warn("Requested resolution " + (int) WINDOW_RESOLUTION.x + " x " + (int) WINDOW_RESOLUTION.y
+                    + " is too large for this display. Defaulting to highest found resolution, " + largestResolution[0]
+                    + " x " + largestResolution[1]);
+            WINDOW_RESOLUTION.x = largestResolution[0];
+            WINDOW_RESOLUTION.y = largestResolution[1];
+        }
         // Setup an OpenGL context with API version 3.2
         try {
             PixelFormat pixelFormat = new PixelFormat();
             ContextAttribs contextAtrributes = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(
                     true);
+            DisplayMode mode;
+            if (DangineSavedSettings.INSTANCE.isFullscreen()) {
+                mode = findBestDisplayModeForFullscreenResolution((int) WINDOW_RESOLUTION.x, (int) WINDOW_RESOLUTION.y);
+                Display.setFullscreen(true);
+            } else {
+                mode = new DisplayMode((int) WINDOW_RESOLUTION.x, (int) WINDOW_RESOLUTION.y);
+            }
 
-            Display.setDisplayMode(new DisplayMode((int) WINDOW_RESOLUTION.x, (int) WINDOW_RESOLUTION.y));
+            Display.setDisplayMode(mode);
             Display.setTitle(WINDOW_TITLE);
             Display.create(pixelFormat, contextAtrributes);
 
@@ -58,4 +84,85 @@ public class DangineOpenGL {
         Display.destroy();
     }
 
+    public static DisplayMode findBestDisplayModeForFullscreenResolution(int width, int height) {
+
+        try {
+            DisplayMode bestModeWeveFoundSoFar = null;
+
+            DisplayMode[] modes = Display.getAvailableDisplayModes();
+            int freq = 0;
+
+            for (int i = 0; i < modes.length; i++) {
+                DisplayMode candidateMode = modes[i];
+
+                if ((candidateMode.getWidth() == width) && (candidateMode.getHeight() == height)) {
+                    if ((bestModeWeveFoundSoFar == null) || (candidateMode.getFrequency() >= freq)) {
+                        if ((bestModeWeveFoundSoFar == null)
+                                || (candidateMode.getBitsPerPixel() > bestModeWeveFoundSoFar.getBitsPerPixel())) {
+                            bestModeWeveFoundSoFar = candidateMode;
+                            freq = bestModeWeveFoundSoFar.getFrequency();
+                        }
+                    }
+                    if ((candidateMode.getBitsPerPixel() == Display.getDesktopDisplayMode().getBitsPerPixel())
+                            && (candidateMode.getFrequency() == Display.getDesktopDisplayMode().getFrequency())) {
+                        bestModeWeveFoundSoFar = candidateMode;
+                        break;
+                    }
+                }
+            }
+
+            if (bestModeWeveFoundSoFar == null) {
+                System.out.println("Failed to find value mode: " + width + "x" + height + " fs=true");
+                return null;
+            } else {
+                return bestModeWeveFoundSoFar;
+            }
+        } catch (LWJGLException e) {
+            System.out.println("Unable to setup mode " + width + "x" + height + " fullscreen=true" + e);
+        }
+        return null;
+    }
+
+    public static List<int[]> getSortedDisplayResolutionsAscending() {
+        List<int[]> resolutionPairs = new ArrayList<int[]>();
+        DisplayMode[] modes = null;
+        try {
+            modes = Display.getAvailableDisplayModes();
+        } catch (LWJGLException e) {
+            e.printStackTrace();
+        }
+        for (DisplayMode mode : modes) {
+            int[] pair = new int[2];
+            pair[0] = mode.getWidth();
+            pair[1] = mode.getHeight();
+            if (!listContainsPair(resolutionPairs, pair)) {
+                resolutionPairs.add(pair);
+            }
+        }
+        Collections.sort(resolutionPairs, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+        });
+        return resolutionPairs;
+    }
+
+    private static boolean listContainsPair(List<int[]> pairs, int[] pair) {
+        for (int[] p : pairs) {
+            if (p[0] == pair[0] || p[1] == pair[1]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isResolutionSupported(int width, int height, List<int[]> resolutions) {
+        int[] largestResolution = resolutions.get(resolutions.size() - 1);
+        if (largestResolution[0] < width || largestResolution[1] < height) {
+            return false;
+        }
+        return true;
+    }
 }
