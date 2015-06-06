@@ -25,7 +25,7 @@ public class DangineXboxControllerInputMapper implements DangineInputMapper {
         Map<Action, Button> result = new HashMap<Action, Button>();
         result.put(Action.BUTTON_ONE, Button.a);
         result.put(Action.BUTTON_TWO, Button.x);
-        result.put(Action.BUTTON_THREE, Button.b);
+        result.put(Action.BUTTON_THREE, Button.back);
 
         return Collections.unmodifiableMap(result);
     }

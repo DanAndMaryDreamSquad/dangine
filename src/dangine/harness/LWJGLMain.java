@@ -8,7 +8,6 @@ import dangine.utility.Utility;
 
 public class LWJGLMain {
     public static void main(String[] args) {
-
         DangineSavedSettings.INSTANCE = DangineSavedSettings.load();
         if (!DangineSavedSettings.INSTANCE.isFullscreen()) {
             System.setProperty("org.lwjgl.opengl.Window.undecorated",

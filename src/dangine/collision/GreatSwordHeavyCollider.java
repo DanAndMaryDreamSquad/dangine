@@ -98,7 +98,7 @@ public class GreatSwordHeavyCollider implements HasDrawable {
         float x = absolutePosition.x;
         float y = absolutePosition.y;
         Debugger.info("" + absolutePosition);
-        DanginePictureParticle particle = ParticleEffectFactory.create(4, 4, ParticleEffectFactory.fireColors);
+        DanginePictureParticle particle = ParticleEffectFactory.create(16, 4, ParticleEffectFactory.fireColors);
         ExplosionVisual visual = new ExplosionVisual(x, y, particle, 0, 360, 0.01f, 0.1f, 500f);
         Utility.getActiveScene().addUpdateable(visual);
         Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());

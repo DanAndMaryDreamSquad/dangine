@@ -2,16 +2,22 @@ package dangine.entity.movement;
 
 import dangine.entity.combat.IsGreatsword;
 import dangine.input.DangineSampleInput;
+import dangine.utility.DangineSavedSettings;
 import dangine.utility.Utility;
 import dangine.utility.Vector2f;
 
 public class HeroMovement {
 
-    public static final float MAX_VELOCITY = 0.25f;
-    public static final float ACCELERATION = 0.00055f;
-    public static final float DASH_VELOCITY = 0.50f;
-    public static final float DASH_TIME = 150f;
-    public static final float DRAG = ACCELERATION * 2;
+    // public static final float MAX_VELOCITY = 0.25f;
+    // public static final float ACCELERATION = 0.00055f;
+    // public static final float DASH_VELOCITY = 0.50f;
+    // public static final float DASH_TIME = 150f;
+    // public static final float DRAG = ACCELERATION * 2;
+    public final float MAX_VELOCITY = DangineSavedSettings.INSTANCE.getMaxVelocity();
+    public final float ACCELERATION = DangineSavedSettings.INSTANCE.getAcceleration();
+    public final float DASH_VELOCITY = DangineSavedSettings.INSTANCE.getDashVelocity();
+    public final float DASH_TIME = DangineSavedSettings.INSTANCE.getDashDuration();
+    public final float DRAG = ACCELERATION * DangineSavedSettings.INSTANCE.getDragAccelerationMultiplier();
     boolean isDashing = false;
     float dashTimer = 0;
     Vector2f velocity = new Vector2f(0, 0);

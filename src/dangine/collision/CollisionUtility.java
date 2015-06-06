@@ -2,6 +2,7 @@ package dangine.collision;
 
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.movement.HeroMovement;
+import dangine.utility.DangineSavedSettings;
 import dangine.utility.Vector2f;
 
 public class CollisionUtility {
@@ -22,13 +23,14 @@ public class CollisionUtility {
         Vector2f angleOfAttack = new Vector2f(absolutePosition.x, absolutePosition.y);
         angleOfAttack = angleOfAttack.sub(arg.getPosition()).normalise();
         if (arg.getCreator() instanceof GreatSwordHeavyCollider) {
-            movement.push(angleOfAttack.x, angleOfAttack.y, 5.0f);
+            movement.push(angleOfAttack.x, angleOfAttack.y, DangineSavedSettings.INSTANCE.getHeavyKnockPower());
         }
         if (arg.getCreator() instanceof GreatSwordLightCollider) {
-            movement.push(angleOfAttack.x, angleOfAttack.y, 3.0f);
+            movement.push(angleOfAttack.x, angleOfAttack.y, DangineSavedSettings.INSTANCE.getLightKnockPower());
         }
         if (arg.getCreator() instanceof GreatSwordCounterCollider) {
-            movement.dash(angleOfAttack.x * 2.0f, angleOfAttack.y * 2.0f);
+            movement.dash(angleOfAttack.x * DangineSavedSettings.INSTANCE.getCounterKnockPower(), angleOfAttack.y
+                    * DangineSavedSettings.INSTANCE.getCounterKnockPower());
         }
     }
 

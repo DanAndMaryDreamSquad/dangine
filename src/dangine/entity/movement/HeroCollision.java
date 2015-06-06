@@ -6,12 +6,13 @@ import dangine.entity.Obstruction;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.graphics.DanginePictureParticle;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
+import dangine.utility.DangineSavedSettings;
 import dangine.utility.Utility;
 import dangine.utility.Vector2f;
 
 public class HeroCollision {
 
-    final float IMPACT_SPARK_THRESHOLD = HeroMovement.MAX_VELOCITY;
+    final float IMPACT_SPARK_THRESHOLD = DangineSavedSettings.INSTANCE.getMaxVelocity();
 
     public Vector2f checkCollisions(HeroMovement movement, Vector2f currentPosition, Vector2f potentialPosition) {
         List<Obstruction> obstructions = Utility.getActiveScene().getObstructions();

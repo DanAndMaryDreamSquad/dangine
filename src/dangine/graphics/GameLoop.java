@@ -1,6 +1,10 @@
 package dangine.graphics;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
+import org.lwjgl.input.Cursor;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
@@ -48,6 +52,14 @@ public class GameLoop {
         Resources.initialize();
         DangineShaders.setupShaders();
         DangineMusicPlayer.initialize();
+        Cursor emptyCursor;
+        try {
+            emptyCursor = new Cursor(1, 1, 0, 0, 1, BufferUtils.createIntBuffer(1), null);
+            Mouse.setNativeCursor(emptyCursor);
+        } catch (LWJGLException e) {
+            Debugger.warn("Couldn't create invisible cursor!");
+            e.printStackTrace();
+        }
         Utility.getGameParameters().setMusicVolume(
                 ((float) DangineSavedSettings.INSTANCE.getMusicVolumePercent()) / 100.0f);
         Utility.getGameParameters().setSoundEffectVolume(
@@ -61,7 +73,13 @@ public class GameLoop {
             int delta = getDelta();
             Utility.getGameTime().updateTime(delta);
 
-            update();
+            try {
+                update();
+            } catch (Exception e) {
+                e.printStackTrace();
+                DangineMusicPlayer.destroyMusicPlayerThread();
+                break;
+            }
             draw();
 
             Display.update();
