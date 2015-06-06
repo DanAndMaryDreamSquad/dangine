@@ -7,7 +7,6 @@ import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.subpower.CounterPower;
-import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.movement.AttackMode;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
@@ -33,10 +32,9 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
 
     public GreatSword(int playerId) {
         this.playerId = playerId;
-        int colliderId = MatchType.getColliderId(playerId);
-        heavyHitbox = new GreatSwordHeavyCollider(colliderId);
-        lightHitbox = new GreatSwordLightCollider(colliderId);
-        counterHitbox = new GreatSwordCounterCollider(colliderId);
+        heavyHitbox = new GreatSwordHeavyCollider(playerId);
+        lightHitbox = new GreatSwordLightCollider(playerId);
+        counterHitbox = new GreatSwordCounterCollider(playerId);
     }
 
     @Override
@@ -55,15 +53,15 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
             break;
         case LIGHT_SWING:
             timer += Utility.getGameTime().getDeltaTimeF();
-            lightHitbox.update();
+            lightHitbox.updateSwing();
             break;
         case HEAVY_SWING:
             timer += Utility.getGameTime().getDeltaTimeF();
-            heavyHitbox.update();
+            heavyHitbox.updateSwing();
             break;
         case COUNTERING:
             timer += Utility.getGameTime().getDeltaTimeF();
-            counterHitbox.update();
+            counterHitbox.updateSwing();
             break;
         }
 
@@ -151,7 +149,7 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         timer = 0;
         greatsword.addHitbox(heavyHitbox.getDrawable());
         heavyHitbox.activate();
-        heavyHitbox.update();
+        heavyHitbox.updateSwing();
     }
 
     public void lightCharge() {
@@ -166,7 +164,7 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         timer = 0;
         greatsword.addHitbox(lightHitbox.getDrawable());
         lightHitbox.activate();
-        lightHitbox.update();
+        lightHitbox.updateSwing();
     }
 
     private void holdCharge() {
@@ -193,7 +191,7 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         state = State.COUNTERING;
         animator.countering();
         counterHitbox.activate();
-        counterHitbox.update();
+        counterHitbox.updateSwing();
         greatsword.addHitbox(counterHitbox.getDrawable());
         timer = 0;
     }

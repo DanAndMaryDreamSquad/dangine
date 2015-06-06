@@ -8,10 +8,10 @@ import dangine.entity.Bouncer;
 import dangine.entity.HasDrawable;
 import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
-import dangine.entity.IsUpdateable;
 import dangine.entity.Vortex;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
+import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.movement.HeroMovement;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.graphics.DanginePictureParticle;
@@ -22,7 +22,7 @@ import dangine.utility.ScreenUtility;
 import dangine.utility.Utility;
 import dangine.utility.Vector2f;
 
-public class GreatSwordHeavyCollider implements IsUpdateable, HasDrawable {
+public class GreatSwordHeavyCollider implements HasDrawable {
 
     int wielderId = 0;
     final int SIZE = 50;
@@ -38,7 +38,8 @@ public class GreatSwordHeavyCollider implements IsUpdateable, HasDrawable {
 
     public GreatSwordHeavyCollider(int wielderId) {
         this.wielderId = wielderId;
-        heavySwing = new CombatEvent(wielderId, absolutePosition, HEAVY_HITBOX_SIZE, getOnHitHeavy(), this);
+        int colliderId = MatchType.getColliderId(wielderId);
+        heavySwing = new CombatEvent(colliderId, absolutePosition, HEAVY_HITBOX_SIZE, getOnHitHeavy(), this);
         heavyHitBox = new CombatEventHitbox(heavySwing);
         node.setPosition(HEAVY_DRAW_POSITION);
     }
@@ -52,13 +53,11 @@ public class GreatSwordHeavyCollider implements IsUpdateable, HasDrawable {
         clashed = false;
     }
 
-    @Override
-    public void update() {
+    public void updateSwing() {
         absolutePosition = ScreenUtility.getWorldPosition(node, absolutePosition);
         heavySwing.setPosition(absolutePosition);
         heavyHitBox.setPosition(absolutePosition.x - HEAVY_HITBOX_SIZE, absolutePosition.y - HEAVY_HITBOX_SIZE);
         Utility.getActiveScene().getCombatResolver().addEvent(heavySwing);
-
     }
 
     private Method<CombatEvent> getOnHitHeavy() {

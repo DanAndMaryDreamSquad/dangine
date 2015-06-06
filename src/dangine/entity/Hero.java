@@ -94,17 +94,21 @@ public class Hero implements IsUpdateable, HasDrawable {
             return;
         }
         destroyed = true;
+        Vector2f absolutePosition = new Vector2f();
+        absolutePosition = ScreenUtility.getWorldPosition(draw.getBody(), absolutePosition);
+        defeatType.applyEffect(absolutePosition.x, absolutePosition.y, playerId);
+        Utility.getActiveScene().getMatchOrchestrator().addEvent(new DefeatEvent(playerId));
+
+    }
+
+    public void destroyForReal() {
         if (activeWeapon != null) {
             activeWeapon.destroy();
         }
 
-        Vector2f absolutePosition = new Vector2f();
-        absolutePosition = ScreenUtility.getWorldPosition(draw.getBody(), absolutePosition);
-        defeatType.applyEffect(absolutePosition.x, absolutePosition.y, playerId);
         Utility.getActiveScene().removeUpdateable(this);
         Utility.getActiveScene().getCameraNode().removeChild(this.getDrawable());
         Utility.getActiveScene().getCameraNode().removeChild(hitbox.getDrawable());
-        Utility.getActiveScene().getMatchOrchestrator().addEvent(new DefeatEvent(playerId));
 
         Debugger.info("destroying hero " + playerId + " " + this);
     }

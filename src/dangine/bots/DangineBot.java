@@ -92,21 +92,23 @@ public class DangineBot implements IsUpdateable, HasDrawable {
             return;
         }
         destroyed = true;
+        Vector2f absolutePosition = new Vector2f();
+        absolutePosition = ScreenUtility.getWorldPosition(draw.getBody(), absolutePosition);
+        defeatType.applyEffect(absolutePosition.x, absolutePosition.y, botId);
+        Utility.getActiveScene().getMatchOrchestrator().addEvent(new BotDefeatEvent(botId));
+        Debugger.info("created event to destroy bot " + botId);
+    }
+
+    public void destroyForReal() {
         if (activeWeapon != null) {
             activeWeapon.destroy();
         }
 
-        Vector2f absolutePosition = new Vector2f();
-        absolutePosition = ScreenUtility.getWorldPosition(draw.getBody(), absolutePosition);
-
-        defeatType.applyEffect(absolutePosition.x, absolutePosition.y, botId);
-
         Utility.getActiveScene().removeUpdateable(this);
         Utility.getActiveScene().getCameraNode().removeChild(this.getDrawable());
         Utility.getActiveScene().getCameraNode().removeChild(hitbox.getDrawable());
-        Utility.getActiveScene().getMatchOrchestrator().addEvent(new BotDefeatEvent(botId));
 
-        Debugger.info("destroying bot ");
+        Debugger.info("destroying bot " + botId + " " + this);
     }
 
     public boolean equipWeapon(BotGreatsword greatsword) {
