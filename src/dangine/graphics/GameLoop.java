@@ -20,6 +20,7 @@ import dangine.image.Resources;
 import dangine.input.DangineOpenGLInput;
 import dangine.scene.BotMatchSceneSchema;
 import dangine.scene.CharacterSelectSchema;
+import dangine.scene.InstantMatchSceneSchema;
 import dangine.scene.MatchSceneSchema;
 import dangine.scene.TitleSceneSchema32;
 import dangine.utility.DangineSavedSettings;
@@ -125,6 +126,11 @@ public class GameLoop {
     public void startBotMatch() {
         dangineGame = provider.get();
         dangineGame.init(new BotMatchSceneSchema());
+    }
+
+    public void startInstanceTestMatch() {
+        dangineGame = provider.get();
+        dangineGame.init(new InstantMatchSceneSchema());
     }
 
     /**

@@ -72,6 +72,7 @@ public class ResolutionMenu implements IsUpdateable, HasDrawable {
             item.getItemText().setText(pair[0] + " x " + pair[1]);
         }
         doneItem.getItemText().setText("Done");
+        DangineFormatter.format(menu.getBase().getChildNodes());
 
     }
 

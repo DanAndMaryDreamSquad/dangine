@@ -43,7 +43,8 @@ public class BotSettingsMenu implements IsUpdateable, HasDrawable {
         powerTextNode.addChild(powerText);
         typeTextNode.addChild(typeText);
         botNumberTextNode.addChild(botNumberText);
-        botNumberTextNode.setPosition(150 * DangineOpenGL.getWindowWorldAspectX(), 60);
+        botNumberTextNode.setPosition(150 * DangineOpenGL.getWindowWorldAspectX() * DangineStringPicture.STRING_SCALE,
+                60);
         updateText();
     }
 

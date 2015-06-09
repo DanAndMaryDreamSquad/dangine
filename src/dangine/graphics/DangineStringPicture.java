@@ -7,6 +7,7 @@ import dangine.scenegraph.SceneGraphNode;
 
 public class DangineStringPicture implements IsDrawable32 {
 
+    public final static float STRING_SCALE = 2.0f;
     RenderData32 data = new RenderData32(this);
     DangineTexturedQuad quad;
     SceneGraphNode node = new SceneGraphNode();
@@ -25,8 +26,8 @@ public class DangineStringPicture implements IsDrawable32 {
         quad = new DangineTexturedQuad(texture);
         float aspectX = DangineOpenGL.getWindowWorldAspectX();
         float aspectY = DangineOpenGL.getWindowWorldAspectY();
-        node.setScale(texture.getWidth() * aspectX, texture.getHeight() * aspectY);
-        node.setPosition((getWidth() / 2) * aspectX, (getHeight() / 2) * 1.0f * aspectY);
+        node.setScale(STRING_SCALE * texture.getWidth() * aspectX, STRING_SCALE * texture.getHeight() * aspectY);
+        node.setPosition(STRING_SCALE * (getWidth() / 2) * aspectX, STRING_SCALE * (getHeight() / 2) * 1.0f * aspectY);
     }
 
     public void setText(String text) {
@@ -36,8 +37,8 @@ public class DangineStringPicture implements IsDrawable32 {
         quad.setTexture(texture);
         float aspectX = DangineOpenGL.getWindowWorldAspectX();
         float aspectY = DangineOpenGL.getWindowWorldAspectY();
-        node.setScale(texture.getWidth() * aspectX, texture.getHeight() * aspectY);
-        node.setPosition((getWidth() / 2) * aspectX, (getHeight() / 2) * 1.0f * aspectY);
+        node.setScale(STRING_SCALE * texture.getWidth() * aspectX, STRING_SCALE * texture.getHeight() * aspectY);
+        node.setPosition(STRING_SCALE * (getWidth() / 2) * aspectX, STRING_SCALE * (getHeight() / 2) * 1.0f * aspectY);
     }
 
     public void update() {

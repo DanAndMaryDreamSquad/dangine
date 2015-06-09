@@ -4,6 +4,8 @@ import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.graphics.DangineFont;
+import dangine.graphics.DangineOpenGL;
 import dangine.graphics.DangineStringPicture;
 import dangine.input.ControlsExplainSceneGraph;
 import dangine.input.DangineControllerAssignments;
@@ -18,7 +20,9 @@ public class ControlsAssigner implements IsUpdateable, HasDrawable {
 
     public ControlsAssigner() {
         node.addChild(text);
-        node.setPosition(Utility.getResolution().x / 2, Utility.getResolution().y - 20);
+        float offset = DangineFont.CHARACTER_HEIGHT_IN_PIXELS * DangineStringPicture.STRING_SCALE
+                * DangineOpenGL.getWindowWorldAspectY();
+        node.setPosition(Utility.getResolution().x / 2, Utility.getResolution().y - offset);
     }
 
     @Override

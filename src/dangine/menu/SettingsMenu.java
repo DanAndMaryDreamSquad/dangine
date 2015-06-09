@@ -73,7 +73,7 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         facingModeTextNode.addChild(facingModeEnumNode);
         facingModeEnumNode.addChild(facingModeEnumText);
 
-        stockTextNode.setPosition(60 * DangineOpenGL.getWindowWorldAspectX(), 0);
+        stockTextNode.setPosition(60 * DangineOpenGL.getWindowWorldAspectX() * DangineStringPicture.STRING_SCALE, 0);
         movementModeTextNode.setPosition(-Utility.getResolution().x / 2, movementModeTextNode.getPosition().y);
         attackModeTextNode.setPosition(-Utility.getResolution().x / 2, attackModeTextNode.getPosition().y);
         facingModeTextNode.setPosition(-Utility.getResolution().x / 2, facingModeTextNode.getPosition().y);
