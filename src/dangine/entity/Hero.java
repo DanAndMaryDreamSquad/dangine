@@ -4,13 +4,14 @@ import org.lwjgl.util.Color;
 
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
-import dangine.bots.DangineBot;
 import dangine.collision.GreatSwordCounterCollider;
 import dangine.collision.GreatSwordHeavyCollider;
 import dangine.collision.GreatSwordLightCollider;
 import dangine.debugger.Debugger;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
+import dangine.entity.combat.CombatResolver;
+import dangine.entity.combat.CombatResolver.EventType;
 import dangine.entity.combat.GreatSword;
 import dangine.entity.combat.subpower.DashPower;
 import dangine.entity.combat.subpower.ProjectilePower;
@@ -51,7 +52,8 @@ public class Hero implements IsUpdateable, HasDrawable {
     public Hero(int playerId) {
         this.playerId = playerId;
         int colliderId = MatchType.getColliderId(playerId);
-        onHit = new CombatEvent(colliderId, position, HITBOX_SIZE, getOnHitBy(), this);
+        onHit = new CombatEvent(colliderId, position, HITBOX_SIZE, getOnHitBy(), this, EventType.HERO, CombatResolver
+                .getTypeToTargets().get(EventType.HERO));
         hitbox = new CombatEventHitbox(onHit);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
         Color color = Utility.getMatchParameters().getPlayerColor(getPlayerId());
@@ -126,9 +128,7 @@ public class Hero implements IsUpdateable, HasDrawable {
 
             @Override
             public void call(CombatEvent arg) {
-                if (arg.getCreator() instanceof GreatSwordCounterCollider || arg.getCreator() instanceof Hero
-                        || arg.getCreator() instanceof DangineBot || arg.getCreator() instanceof Vortex
-                        || arg.getCreator() instanceof Bouncer) {
+                if (arg.getCreator() instanceof GreatSwordCounterCollider) {
                     return;
                 }
                 if (!isImmunity()) {

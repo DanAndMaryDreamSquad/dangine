@@ -5,6 +5,8 @@ import dangine.audio.SoundPlayer;
 import dangine.bots.DangineBot;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
+import dangine.entity.combat.CombatResolver;
+import dangine.entity.combat.CombatResolver.EventType;
 import dangine.entity.visual.DefeatType;
 import dangine.graphics.DanginePicture;
 import dangine.scenegraph.SceneGraphNode;
@@ -35,10 +37,12 @@ public class Vortex implements IsUpdateable, HasDrawable {
         node.setCenterOfRotation(SCALE * image.getWidth() * 0.5f, SCALE * image.getHeight() * 0.5f);
         node.setScale(SCALE, SCALE);
 
-        onHit = new CombatEvent(-10, position, HITBOX_SIZE, getOnHitBy(), this);
+        onHit = new CombatEvent(-10, position, HITBOX_SIZE, getOnHitBy(), this, EventType.OBSTRUCTION, CombatResolver
+                .getTypeToTargets().get(EventType.OBSTRUCTION));
         hitbox = new CombatEventHitbox(onHit);
 
-        onHitPull = new CombatEvent(-10, position, PULL_HITBOX_SIZE, getOnHitByPull(), this);
+        onHitPull = new CombatEvent(-10, position, PULL_HITBOX_SIZE, getOnHitByPull(), this, EventType.OBSTRUCTION,
+                CombatResolver.getTypeToTargets().get(EventType.OBSTRUCTION));
         hitboxPull = new CombatEventHitbox(onHitPull);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
         Utility.getActiveScene().getCameraNode().addChild(hitboxPull.getDrawable());

@@ -4,14 +4,13 @@ import org.lwjgl.util.Color;
 
 import dangine.collision.GreatSwordCounterCollider;
 import dangine.debugger.Debugger;
-import dangine.entity.Bouncer;
 import dangine.entity.HasDrawable;
-import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
-import dangine.entity.Vortex;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
+import dangine.entity.combat.CombatResolver;
+import dangine.entity.combat.CombatResolver.EventType;
 import dangine.entity.combat.subpower.DashPower;
 import dangine.entity.combat.subpower.ProjectilePower;
 import dangine.entity.gameplay.MatchStarter.MatchType;
@@ -49,7 +48,8 @@ public class DangineBot implements IsUpdateable, HasDrawable {
     public DangineBot(int botId) {
         this.botId = botId;
         int colliderId = MatchType.getColliderId(botId);
-        onHit = new CombatEvent(colliderId, position, HITBOX_SIZE, getOnHitBy(), this);
+        onHit = new CombatEvent(colliderId, position, HITBOX_SIZE, getOnHitBy(), this, EventType.HERO, CombatResolver
+                .getTypeToTargets().get(EventType.HERO));
         hitbox = new CombatEventHitbox(onHit);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
         Color color = Utility.getMatchParameters().getPlayerColor(botId);
@@ -124,9 +124,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
 
             @Override
             public void call(CombatEvent arg) {
-                if (arg.getCreator() instanceof GreatSwordCounterCollider || arg.getCreator() instanceof Hero
-                        || arg.getCreator() instanceof DangineBot || arg.getCreator() instanceof Vortex
-                        || arg.getCreator() instanceof Bouncer) {
+                if (arg.getCreator() instanceof GreatSwordCounterCollider) {
                     return;
                 }
                 if (!isImmunity()) {

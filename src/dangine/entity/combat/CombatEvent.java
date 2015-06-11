@@ -3,6 +3,7 @@ package dangine.entity.combat;
 import java.util.List;
 
 import dangine.collision.CollisionUtility;
+import dangine.entity.combat.CombatResolver.EventType;
 import dangine.utility.Method;
 import dangine.utility.Vector2f;
 
@@ -13,17 +14,23 @@ public class CombatEvent {
     Vector2f position = new Vector2f(0, 0);
     float radius;
     Object creator;
+    EventType type;
+    List<EventType> targets;
 
-    public CombatEvent(int ownerId, Vector2f position, float radius, Method<CombatEvent> onHitBy, Object creator) {
+    public CombatEvent(int ownerId, Vector2f position, float radius, Method<CombatEvent> onHitBy, Object creator,
+            EventType type, List<EventType> targets) {
         this.ownerId = ownerId;
         this.position.x = position.x;
         this.position.y = position.y;
         this.radius = radius;
         this.onHitBy = onHitBy;
         this.creator = creator;
+        this.type = type;
+        this.targets = targets;
     }
 
     public void process(List<CombatEvent> events) {
+
         for (CombatEvent event : events) {
             if (event == this || event.getOwnerId() == ownerId) {
                 continue;
@@ -66,6 +73,22 @@ public class CombatEvent {
 
     public int getOwnerId() {
         return ownerId;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public void setType(EventType type) {
+        this.type = type;
+    }
+
+    public List<EventType> getTargets() {
+        return targets;
+    }
+
+    public void setTargets(List<EventType> targets) {
+        this.targets = targets;
     }
 
 }

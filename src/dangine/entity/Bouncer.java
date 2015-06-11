@@ -5,6 +5,8 @@ import dangine.audio.SoundPlayer;
 import dangine.bots.DangineBot;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
+import dangine.entity.combat.CombatResolver;
+import dangine.entity.combat.CombatResolver.EventType;
 import dangine.graphics.DanginePicture;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Method;
@@ -33,7 +35,8 @@ public class Bouncer implements IsUpdateable, HasDrawable {
         node.setCenterOfRotation(scale * image.getWidth() * 0.5f, scale * image.getHeight() * 0.5f);
         node.setScale(scale, scale);
 
-        onHit = new CombatEvent(-11, position, HITBOX_SIZE, getOnHitBy(), this);
+        onHit = new CombatEvent(-11, position, HITBOX_SIZE, getOnHitBy(), this, EventType.OBSTRUCTION, CombatResolver
+                .getTypeToTargets().get(EventType.OBSTRUCTION));
         hitbox = new CombatEventHitbox(onHit);
 
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());

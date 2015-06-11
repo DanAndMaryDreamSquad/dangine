@@ -2,15 +2,13 @@ package dangine.collision;
 
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
-import dangine.bots.DangineBot;
 import dangine.debugger.Debugger;
-import dangine.entity.Bouncer;
 import dangine.entity.HasDrawable;
-import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
-import dangine.entity.Vortex;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
+import dangine.entity.combat.CombatResolver;
+import dangine.entity.combat.CombatResolver.EventType;
 import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.movement.HeroMovement;
 import dangine.entity.visual.ExplosionVisual;
@@ -39,7 +37,8 @@ public class GreatSwordHeavyCollider implements HasDrawable {
     public GreatSwordHeavyCollider(int wielderId) {
         this.wielderId = wielderId;
         int colliderId = MatchType.getColliderId(wielderId);
-        heavySwing = new CombatEvent(colliderId, absolutePosition, HEAVY_HITBOX_SIZE, getOnHitHeavy(), this);
+        heavySwing = new CombatEvent(colliderId, absolutePosition, HEAVY_HITBOX_SIZE, getOnHitHeavy(), this,
+                EventType.SWORD, CombatResolver.getTypeToTargets().get(EventType.SWORD));
         heavyHitBox = new CombatEventHitbox(heavySwing);
         node.setPosition(HEAVY_DRAW_POSITION);
     }
@@ -65,10 +64,6 @@ public class GreatSwordHeavyCollider implements HasDrawable {
 
             @Override
             public void call(CombatEvent arg) {
-                if (arg.getCreator() instanceof Hero || arg.getCreator() instanceof DangineBot
-                        || arg.getCreator() instanceof Vortex || arg.getCreator() instanceof Bouncer) {
-                    return;
-                }
                 HeroMovement movement = null;
                 boolean applyKnockback = true;
                 if (wielderId < 0) {

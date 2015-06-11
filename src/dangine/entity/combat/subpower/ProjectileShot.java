@@ -8,6 +8,8 @@ import dangine.entity.IsUpdateable;
 import dangine.entity.Vortex;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
+import dangine.entity.combat.CombatResolver;
+import dangine.entity.combat.CombatResolver.EventType;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.graphics.DanginePictureParticle;
 import dangine.scenegraph.SceneGraphNode;
@@ -32,7 +34,8 @@ public class ProjectileShot implements IsUpdateable, HasDrawable {
         this.ownerId = ownerId;
         this.velocity.x = velocity.x;
         this.velocity.y = velocity.y;
-        onHit = new CombatEvent(ownerId, position, HITBOX_SIZE, getOnHitBy(), this);
+        onHit = new CombatEvent(ownerId, position, HITBOX_SIZE, getOnHitBy(), this, EventType.PROJECTILE,
+                CombatResolver.getTypeToTargets().get(EventType.PROJECTILE));
         hitbox = new CombatEventHitbox(onHit);
         Utility.getActiveScene().getCameraNode().addChild(hitbox.getDrawable());
     }
