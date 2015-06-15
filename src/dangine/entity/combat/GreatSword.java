@@ -1,8 +1,7 @@
 package dangine.entity.combat;
 
-import dangine.collision.GreatSwordCounterCollider;
-import dangine.collision.GreatSwordHeavyCollider;
-import dangine.collision.GreatSwordLightCollider;
+import dangine.collision.ColliderType;
+import dangine.collision.GreatSwordCollider;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -25,16 +24,16 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
     static final float COUNTER_CHARGE_TIME = 250.0f;
     final GreatSwordSceneGraph greatsword = new GreatSwordSceneGraph();
     final GreatSwordAnimator animator = new GreatSwordAnimator(greatsword);
-    final GreatSwordHeavyCollider heavyHitbox;
-    final GreatSwordLightCollider lightHitbox;
-    final GreatSwordCounterCollider counterHitbox;
+    final GreatSwordCollider heavyHitbox;
+    final GreatSwordCollider lightHitbox;
+    final GreatSwordCollider counterHitbox;
     CounterPower counterPower = null;
 
     public GreatSword(int playerId) {
         this.playerId = playerId;
-        heavyHitbox = new GreatSwordHeavyCollider(playerId);
-        lightHitbox = new GreatSwordLightCollider(playerId);
-        counterHitbox = new GreatSwordCounterCollider(playerId);
+        heavyHitbox = new GreatSwordCollider(playerId, ColliderType.HEAVY);
+        lightHitbox = new GreatSwordCollider(playerId, ColliderType.LIGHT);
+        counterHitbox = new GreatSwordCollider(playerId, ColliderType.COUNTER);
     }
 
     @Override

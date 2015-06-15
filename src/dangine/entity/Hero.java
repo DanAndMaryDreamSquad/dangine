@@ -4,9 +4,8 @@ import org.lwjgl.util.Color;
 
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
-import dangine.collision.GreatSwordCounterCollider;
-import dangine.collision.GreatSwordHeavyCollider;
-import dangine.collision.GreatSwordLightCollider;
+import dangine.collision.ColliderType;
+import dangine.collision.GreatSwordColliderData;
 import dangine.debugger.Debugger;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
@@ -128,12 +127,12 @@ public class Hero implements IsUpdateable, HasDrawable {
 
             @Override
             public void call(CombatEvent arg) {
-                if (arg.getCreator() instanceof GreatSwordCounterCollider) {
-                    return;
-                }
                 if (!isImmunity()) {
-                    if (arg.getCreator() instanceof GreatSwordLightCollider
-                            || arg.getCreator() instanceof GreatSwordHeavyCollider) {
+                    if (arg.getCreator() instanceof GreatSwordColliderData) {
+                        GreatSwordColliderData collider = (GreatSwordColliderData) arg.getCreator();
+                        if (collider.getColliderType() == ColliderType.COUNTER) {
+                            return;
+                        }
                         SoundPlayer.play(SoundEffect.SWORD_DEFEAT);
                     } else if (arg.getCreator() instanceof ProjectileShot) {
                         SoundPlayer.play(SoundEffect.PROJECTILE_HIT);

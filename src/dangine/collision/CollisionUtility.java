@@ -1,5 +1,6 @@
 package dangine.collision;
 
+import dangine.debugger.Debugger;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.movement.HeroMovement;
 import dangine.utility.DangineSavedSettings;
@@ -22,15 +23,19 @@ public class CollisionUtility {
     public static void applyKnockback(HeroMovement movement, CombatEvent arg, Vector2f absolutePosition) {
         Vector2f angleOfAttack = new Vector2f(absolutePosition.x, absolutePosition.y);
         angleOfAttack = angleOfAttack.sub(arg.getPosition()).normalise();
-        if (arg.getCreator() instanceof GreatSwordHeavyCollider) {
-            movement.push(angleOfAttack.x, angleOfAttack.y, DangineSavedSettings.INSTANCE.getHeavyKnockPower());
-        }
-        if (arg.getCreator() instanceof GreatSwordLightCollider) {
-            movement.push(angleOfAttack.x, angleOfAttack.y, DangineSavedSettings.INSTANCE.getLightKnockPower());
-        }
-        if (arg.getCreator() instanceof GreatSwordCounterCollider) {
-            movement.dash(angleOfAttack.x * DangineSavedSettings.INSTANCE.getCounterKnockPower(), angleOfAttack.y
-                    * DangineSavedSettings.INSTANCE.getCounterKnockPower());
+        if (arg.getCreator() instanceof GreatSwordColliderData) {
+            Debugger.warn("in col");
+            ColliderType colliderType = ((GreatSwordColliderData) arg.getCreator()).getColliderType();
+            if (colliderType == ColliderType.HEAVY) {
+                movement.push(angleOfAttack.x, angleOfAttack.y, DangineSavedSettings.INSTANCE.getHeavyKnockPower());
+            }
+            if (colliderType == ColliderType.LIGHT) {
+                movement.push(angleOfAttack.x, angleOfAttack.y, DangineSavedSettings.INSTANCE.getLightKnockPower());
+            }
+            if (colliderType == ColliderType.COUNTER) {
+                movement.dash(angleOfAttack.x * DangineSavedSettings.INSTANCE.getCounterKnockPower(), angleOfAttack.y
+                        * DangineSavedSettings.INSTANCE.getCounterKnockPower());
+            }
         }
     }
 

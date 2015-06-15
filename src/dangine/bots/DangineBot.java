@@ -2,7 +2,10 @@ package dangine.bots;
 
 import org.lwjgl.util.Color;
 
-import dangine.collision.GreatSwordCounterCollider;
+import dangine.audio.SoundEffect;
+import dangine.audio.SoundPlayer;
+import dangine.collision.ColliderType;
+import dangine.collision.GreatSwordColliderData;
 import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
@@ -13,6 +16,7 @@ import dangine.entity.combat.CombatResolver;
 import dangine.entity.combat.CombatResolver.EventType;
 import dangine.entity.combat.subpower.DashPower;
 import dangine.entity.combat.subpower.ProjectilePower;
+import dangine.entity.combat.subpower.ProjectileShot;
 import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.movement.HeroFacing;
 import dangine.entity.movement.HeroMovement;
@@ -124,10 +128,16 @@ public class DangineBot implements IsUpdateable, HasDrawable {
 
             @Override
             public void call(CombatEvent arg) {
-                if (arg.getCreator() instanceof GreatSwordCounterCollider) {
-                    return;
-                }
                 if (!isImmunity()) {
+                    if (arg.getCreator() instanceof GreatSwordColliderData) {
+                        GreatSwordColliderData collider = (GreatSwordColliderData) arg.getCreator();
+                        if (collider.getColliderType() == ColliderType.COUNTER) {
+                            return;
+                        }
+                        SoundPlayer.play(SoundEffect.SWORD_DEFEAT);
+                    } else if (arg.getCreator() instanceof ProjectileShot) {
+                        SoundPlayer.play(SoundEffect.PROJECTILE_HIT);
+                    }
                     destroy();
                 }
             }
