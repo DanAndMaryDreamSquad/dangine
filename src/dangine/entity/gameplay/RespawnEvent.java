@@ -5,6 +5,7 @@ import dangine.audio.SoundPlayer;
 import dangine.debugger.Debugger;
 import dangine.entity.Hero;
 import dangine.entity.combat.GreatSword;
+import dangine.entity.combat.PlayerGreatswordInputProvider;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.entity.visual.RespawnVisual;
 import dangine.utility.Utility;
@@ -27,7 +28,7 @@ public class RespawnEvent implements MatchEvent {
         Debugger.info("Player: " + playerId + " spawning in");
 
         Hero hero = new Hero(playerId);
-        GreatSword greatsword = new GreatSword(playerId);
+        GreatSword greatsword = new GreatSword(playerId, new PlayerGreatswordInputProvider());
         hero.setPosition(x, y);
         hero.equipWeapon(greatsword);
         Utility.getMatchParameters().givePlayerPower(hero);

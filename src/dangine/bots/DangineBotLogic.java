@@ -2,10 +2,12 @@ package dangine.bots;
 
 import java.util.Iterator;
 
-import dangine.bots.BotGreatsword.State;
 import dangine.collision.CollisionUtility;
+import dangine.debugger.Debugger;
 import dangine.entity.Hero;
 import dangine.entity.Vortex;
+import dangine.entity.combat.GreatSword;
+import dangine.entity.combat.GreatSword.State;
 import dangine.entity.combat.subpower.SubPower;
 import dangine.input.DangineSampleInput;
 import dangine.utility.Utility;
@@ -131,11 +133,11 @@ public class DangineBotLogic {
         input.setButtonTwo(true);
     }
 
-    private void considerCounter(BotGreatsword greatsword, Vector2f target) {
-        if (Utility.getMatchParameters().getPlayerIdToPower().get(greatsword.getBotId()) != SubPower.COUNTER) {
+    private void considerCounter(GreatSword greatsword, Vector2f target) {
+        if (Utility.getMatchParameters().getPlayerIdToPower().get(greatsword.getPlayerId()) != SubPower.COUNTER) {
             return;
         }
-        DangineBot bot = Utility.getActiveScene().getBot(greatsword.getBotId());
+        DangineBot bot = Utility.getActiveScene().getBot(greatsword.getPlayerId());
         swingInput.setButtonThree(false);
         if (bot.getActiveWeapon().getCounterPower().canCounter()
                 && bot.getPosition().distanceSquared(target) < COUNTER_DISTANCE) {
@@ -145,8 +147,9 @@ public class DangineBotLogic {
         }
     }
 
-    public DangineSampleInput getWhatDoWithWeapon(BotGreatsword greatsword) {
-        DangineBot wielder = Utility.getActiveScene().getBot(greatsword.getBotId());
+    public DangineSampleInput getWhatDoWithWeapon(GreatSword greatsword) {
+        DangineBot wielder = Utility.getActiveScene().getBot(greatsword.getPlayerId());
+        Debugger.info("wirlder: " + wielder);
         if (wielder == null) {
             return emptyInput;
         }
@@ -156,11 +159,13 @@ public class DangineBotLogic {
             return emptyInput;
         }
         if (lastSwingWasHeavy) {
-            swingInput.setButtonOne(false);
-            swingInput.setButtonTwo(true);
+            if (greatsword.getState() == State.HOLD_CHARGING) {
+                swingInput.setButtonOne(false);
+            } else {
+                swingInput.setButtonOne(true);
+            }
         } else {
             swingInput.setButtonOne(true);
-            swingInput.setButtonTwo(false);
         }
         if (greatsword.getState() == State.HEAVY_SWING) {
             lastSwingWasHeavy = true;
@@ -168,6 +173,7 @@ public class DangineBotLogic {
         if (greatsword.getState() == State.LIGHT_SWING) {
             lastSwingWasHeavy = false;
         }
+        Debugger.info("input : " + swingInput.toString());
         considerCounter(greatsword, target.getPosition());
         return swingInput;
     }

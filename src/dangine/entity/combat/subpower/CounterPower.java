@@ -2,8 +2,6 @@ package dangine.entity.combat.subpower;
 
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
-import dangine.bots.BotGreatsword;
-import dangine.bots.DangineBot;
 import dangine.entity.combat.GreatSword;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.graphics.DanginePictureParticle;
@@ -40,35 +38,11 @@ public class CounterPower {
         }
     }
 
-    public void update(DangineSampleInput input, BotGreatsword greatSword) {
-        timer += Utility.getGameTime().getDeltaTimeF();
-        if (timer > MAX_TIME && !createdReadyEffect) {
-            SoundPlayer.play(SoundEffect.COUNTER_READY);
-            DangineBot bot = Utility.getActiveScene().getBot(greatSword.getBotId());
-            Vector2f position = bot.getPosition();
-            createCounterReadyEffect(position.x, position.y);
-            createdReadyEffect = true;
-        }
-        if (input.isButtonThree() && timer > MAX_TIME) {
-            SoundPlayer.play(SoundEffect.COUNTER_START);
-            DangineBot bot = Utility.getActiveScene().getBot(greatSword.getBotId());
-            Vector2f position = bot.getPosition();
-            counter(input, greatSword, position);
-            timer = 0;
-            createdReadyEffect = false;
-        }
-    }
-
     private void counter(DangineSampleInput input, GreatSword greatSword, Vector2f position) {
         greatSword.counterCharge();
         createVisualEffect(position.x, position.y, 0, 360);
     }
-
-    private void counter(DangineSampleInput input, BotGreatsword greatSword, Vector2f position) {
-        greatSword.counterCharge();
-        createVisualEffect(position.x, position.y, 0, 360);
-    }
-
+    
     private void createCounterReadyEffect(float x, float y) {
         DanginePictureParticle particle = ParticleEffectFactory.create(4, 32, ParticleEffectFactory.yellowColors);
         ExplosionVisual visual = new ExplosionVisual(x, y, particle, 0, 360, 0.01f, 0.1f, 200f);

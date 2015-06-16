@@ -4,6 +4,7 @@ import dangine.entity.Creature;
 import dangine.entity.Hero;
 import dangine.entity.Obstruction;
 import dangine.entity.combat.GreatSword;
+import dangine.entity.combat.PlayerGreatswordInputProvider;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.world.Background;
@@ -27,7 +28,7 @@ public class InstantMatchSceneSchema implements SceneSchema {
     public void apply(Scene scene) {
         for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {
             Hero hero = new Hero(i);
-            GreatSword greatsword = new GreatSword(i);
+            GreatSword greatsword = new GreatSword(i, new PlayerGreatswordInputProvider());
             hero.setPosition(100 + (i * 100), 200);
             hero.equipWeapon(greatsword);
             Utility.getActiveScene().getCameraNode().addChild(hero.getDrawable());

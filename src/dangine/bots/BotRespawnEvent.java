@@ -2,6 +2,8 @@ package dangine.bots;
 
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
+import dangine.entity.combat.BotGreatswordInputProvider;
+import dangine.entity.combat.GreatSword;
 import dangine.entity.gameplay.MatchEvent;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.entity.visual.RespawnVisual;
@@ -26,7 +28,7 @@ public class BotRespawnEvent implements MatchEvent {
         bot.setPosition(x, y);
         Utility.getActiveScene().addUpdateable(bot);
         Utility.getActiveScene().getCameraNode().addChild(bot.getDrawable());
-        BotGreatsword greatsword = new BotGreatsword(botId);
+        GreatSword greatsword = new GreatSword(botId, new BotGreatswordInputProvider());
         bot.equipWeapon(greatsword);
         Utility.getActiveScene().addUpdateable(greatsword);
         Utility.getMatchParameters().givePlayerPower(bot);

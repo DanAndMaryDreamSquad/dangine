@@ -14,6 +14,7 @@ import dangine.entity.combat.CombatEvent;
 import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.combat.CombatResolver;
 import dangine.entity.combat.CombatResolver.EventType;
+import dangine.entity.combat.GreatSword;
 import dangine.entity.combat.subpower.DashPower;
 import dangine.entity.combat.subpower.ProjectilePower;
 import dangine.entity.combat.subpower.ProjectileShot;
@@ -44,7 +45,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
     final CombatEventHitbox hitbox;
     boolean immunity = false;
     boolean destroyed = false;
-    BotGreatsword activeWeapon = null;
+    GreatSword activeWeapon = null;
     DangineBotLogic logic = new DangineBotLogic();
     DashPower dashPower = null;
     ProjectilePower projectilePower = null;
@@ -115,7 +116,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         Debugger.info("destroying bot " + botId + " " + this);
     }
 
-    public boolean equipWeapon(BotGreatsword greatsword) {
+    public boolean equipWeapon(GreatSword greatsword) {
         BloxColorer.color(greatsword.getGreatsword(), getBlox().getBodyShape().getColor());
         draw.getBody().addChild(greatsword.getDrawable());
         draw.removeHands();
@@ -174,7 +175,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         return draw;
     }
 
-    public BotGreatsword getActiveWeapon() {
+    public GreatSword getActiveWeapon() {
         return activeWeapon;
     }
 

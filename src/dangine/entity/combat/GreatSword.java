@@ -12,7 +12,7 @@ import dangine.utility.Utility;
 
 public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
 
-    enum State {
+    public enum State {
         IDLE, HEAVY_CHARGE, HEAVY_SWING, LIGHT_CHARGE, LIGHT_SWING, HOLD_CHARGING, COUNTER_CHARGE, COUNTERING;
     }
 
@@ -27,10 +27,12 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
     final GreatSwordCollider heavyHitbox;
     final GreatSwordCollider lightHitbox;
     final GreatSwordCollider counterHitbox;
+    GreatswordInputProvider inputProvider;
     CounterPower counterPower = null;
 
-    public GreatSword(int playerId) {
+    public GreatSword(int playerId, GreatswordInputProvider inputProvider) {
         this.playerId = playerId;
+        this.inputProvider = inputProvider;
         heavyHitbox = new GreatSwordCollider(playerId, ColliderType.HEAVY);
         lightHitbox = new GreatSwordCollider(playerId, ColliderType.LIGHT);
         counterHitbox = new GreatSwordCollider(playerId, ColliderType.COUNTER);
@@ -64,7 +66,8 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
             break;
         }
 
-        DangineSampleInput input = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
+        DangineSampleInput input = inputProvider.getInput(this);
+//        DangineSampleInput input = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
         AttackMode attackMode = Utility.getMatchParameters().getAttackMode();
         if (counterPower != null) {
             counterPower.update(input, this);
@@ -226,5 +229,13 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
 
     public void setCounterPower(CounterPower counterPower) {
         this.counterPower = counterPower;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public CounterPower getCounterPower() {
+        return counterPower;
     }
 }
