@@ -2,6 +2,7 @@ package dangine.entity.combat;
 
 import dangine.collision.ColliderType;
 import dangine.collision.GreatSwordCollider;
+import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -20,8 +21,11 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
     final int playerId;
     float timer = 0;
     static final float HEAVY_CHARGE_TIME = 500.0f;
-    static final float LIGHT_CHARGE_TIME = 250.0f;
+    static final float HEAVY_COLLIDER_TIME = 300.0f;
+    static final float LIGHT_CHARGE_TIME = 150.0f;
+    // static final float LIGHT_CHARGE_TIME = 250.0f;
     static final float COUNTER_CHARGE_TIME = 250.0f;
+    static final float HOLD_DECISION_TIME = 150.0f;
     final GreatSwordSceneGraph greatsword = new GreatSwordSceneGraph();
     final GreatSwordAnimator animator = new GreatSwordAnimator(greatsword);
     final GreatSwordCollider heavyHitbox;
@@ -29,6 +33,7 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
     final GreatSwordCollider counterHitbox;
     GreatswordInputProvider inputProvider;
     CounterPower counterPower = null;
+    boolean willHeavySwing = false;
 
     public GreatSword(int playerId, GreatswordInputProvider inputProvider) {
         this.playerId = playerId;
@@ -58,7 +63,12 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
             break;
         case HEAVY_SWING:
             timer += Utility.getGameTime().getDeltaTimeF();
-            heavyHitbox.updateSwing();
+            if (timer > HEAVY_COLLIDER_TIME) {
+                greatsword.removeHitbox(heavyHitbox.getDrawable());
+                heavyHitbox.deactivate();
+            } else {
+                heavyHitbox.updateSwing();
+            }
             break;
         case COUNTERING:
             timer += Utility.getGameTime().getDeltaTimeF();
@@ -67,7 +77,8 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         }
 
         DangineSampleInput input = inputProvider.getInput(this);
-//        DangineSampleInput input = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
+        // DangineSampleInput input =
+        // Utility.getPlayers().getPlayer(playerId).getCurrentInput();
         AttackMode attackMode = Utility.getMatchParameters().getAttackMode();
         if (counterPower != null) {
             counterPower.update(input, this);
@@ -82,20 +93,29 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         } else if (attackMode == AttackMode.HOLD_TO_CHARGE) {
             if (input.isButtonOne() && state == State.IDLE) {
                 holdCharge();
+                willHeavySwing = true;
             }
             if (!input.isButtonOne() && state == State.HOLD_CHARGING) {
                 float timeAlreadySpentCharging = timer;
-                if (timer < LIGHT_CHARGE_TIME) {
-                    lightCharge();
+                if (timer < HOLD_DECISION_TIME) {
+                    willHeavySwing = false;
                     timer = timeAlreadySpentCharging;
                 } else {
-                    heavyCharge();
+                    if (timer > LIGHT_CHARGE_TIME) {
+                        heavyCharge();
+                    }
                     timer = timeAlreadySpentCharging;
+                    if (!willHeavySwing) {
+                        Debugger.info("light charge");
+                        lightCharge();
+                    }
                 }
             }
             if (input.isButtonOne() && state == State.HOLD_CHARGING) {
                 if (timer > LIGHT_CHARGE_TIME) {
-                    holdChargeChangeStance();
+                    float timeAlreadySpentCharging = timer;
+                    heavyCharge();
+                    timer = timeAlreadySpentCharging;
                 }
                 if (timer > HEAVY_CHARGE_TIME) {
                     heavySwinging();
@@ -112,6 +132,7 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
             idle();
         }
         if (state == State.LIGHT_CHARGE && timer > LIGHT_CHARGE_TIME) {
+            Debugger.info("light swing " + timer + " " + LIGHT_CHARGE_TIME);
             lightSwinging();
         }
         if (state == State.HEAVY_CHARGE && timer > HEAVY_CHARGE_TIME) {
@@ -171,14 +192,8 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
 
     private void holdCharge() {
         state = State.HOLD_CHARGING;
-        animator.stabCharge();
+        animator.holdCharging();
         timer = 0;
-    }
-
-    private void holdChargeChangeStance() {
-        if (animator.getState() != GreatSwordAnimator.State.HEAVY_CHARGE) {
-            animator.heavyCharge();
-        }
     }
 
     public void counterCharge() {

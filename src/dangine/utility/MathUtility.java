@@ -22,4 +22,13 @@ public class MathUtility {
         return (value >= min && value <= max);
     }
 
+    public static float rangify(float start, float end, float percent) {
+        return ((end - start) * percent) + start;
+    }
+
+    public static float logFunction(float percent) {
+        float n = (9.0f * percent) + 1.0f;
+        return (float) Math.log10(n);
+    }
+
 }

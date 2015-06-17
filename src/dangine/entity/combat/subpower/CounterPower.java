@@ -42,7 +42,7 @@ public class CounterPower {
         greatSword.counterCharge();
         createVisualEffect(position.x, position.y, 0, 360);
     }
-    
+
     private void createCounterReadyEffect(float x, float y) {
         DanginePictureParticle particle = ParticleEffectFactory.create(4, 32, ParticleEffectFactory.yellowColors);
         ExplosionVisual visual = new ExplosionVisual(x, y, particle, 0, 360, 0.01f, 0.1f, 200f);

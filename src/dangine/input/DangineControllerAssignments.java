@@ -123,6 +123,10 @@ public class DangineControllerAssignments {
         return playerIdToInputDevice.get(new Integer(playerId));
     }
 
+    public static void forceSetDeviceForPlayer(int playerId, Device device) {
+        playerIdToInputDevice.put(playerId, device);
+    }
+
     public static String getStatus() {
         StringBuffer buffer = new StringBuffer();
         for (Entry<Integer, Device> entry : playerIdToInputDevice.entrySet()) {

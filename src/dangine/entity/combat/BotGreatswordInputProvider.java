@@ -6,9 +6,9 @@ import dangine.input.DangineSampleInput;
 public class BotGreatswordInputProvider implements GreatswordInputProvider {
 
     DangineBotLogic logic = new DangineBotLogic();
-    
+
     @Override
-    public DangineSampleInput getInput(GreatSword greatSword) {        
+    public DangineSampleInput getInput(GreatSword greatSword) {
         return logic.getWhatDoWithWeapon(greatSword);
     }
 

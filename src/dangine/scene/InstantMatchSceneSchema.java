@@ -7,8 +7,11 @@ import dangine.entity.combat.GreatSword;
 import dangine.entity.combat.PlayerGreatswordInputProvider;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
+import dangine.entity.gameplay.ReturnToMenuChecker;
 import dangine.entity.world.Background;
 import dangine.entity.world.PanningSceneGraph;
+import dangine.input.DangineControllerAssignments;
+import dangine.input.DangineControllerAssignments.Device;
 import dangine.utility.Utility;
 
 public class InstantMatchSceneSchema implements SceneSchema {
@@ -26,6 +29,11 @@ public class InstantMatchSceneSchema implements SceneSchema {
 
     @Override
     public void apply(Scene scene) {
+        if (Utility.getPlayers().getPlayers().isEmpty()) {
+            DangineControllerAssignments.forceSetDeviceForPlayer(0, Device.KEYBOARD_LEFT);
+            Utility.getPlayers().newPlayer();
+        }
+        scene.addUpdateable(new ReturnToMenuChecker());
         for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {
             Hero hero = new Hero(i);
             GreatSword greatsword = new GreatSword(i, new PlayerGreatswordInputProvider());

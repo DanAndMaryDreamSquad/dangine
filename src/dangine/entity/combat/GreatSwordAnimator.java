@@ -1,21 +1,23 @@
 package dangine.entity.combat;
 
+import dangine.animation.GreatSwordAnimationKeyframes;
+import dangine.animation.Orientation;
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
 import dangine.entity.IsUpdateable;
+import dangine.utility.MathUtility;
 import dangine.utility.Utility;
 import dangine.utility.Vector2f;
 
 public class GreatSwordAnimator implements IsUpdateable {
 
     enum State {
-        IDLE, HEAVY_CHARGE, HEAVY_SWINGING, STAB_CHARGE, STAB_SWINGING, ONE_HAND_CHARGE, ONE_HAND_SWINGING, COUNTER_CHARGE, COUNTERING;
+        IDLE, HEAVY_CHARGE, HEAVY_SWINGING, STAB_CHARGE, STAB_SWINGING, ONE_HAND_CHARGE, ONE_HAND_SWINGING, COUNTER_CHARGE, COUNTERING, HOLD_CHARGE;
     }
 
     State state = State.IDLE;
 
-    final float HEAVY_SWING_SPEED = 0.56f;
-    public final float HEAVY_SWING_TIME = 390.0f / HEAVY_SWING_SPEED;
+    public final float HEAVY_SWING_TIME = 700f;
     public final float LIGHT_SWING_TIME = 400.0f;
     Vector2f absolutePosition = new Vector2f(0, 0);
     Vector2f stabDirection = new Vector2f(260.0f - 90.0f);
@@ -25,116 +27,124 @@ public class GreatSwordAnimator implements IsUpdateable {
 
     public GreatSwordAnimator(GreatSwordSceneGraph greatsword) {
         this.greatsword = greatsword;
+        greatsword.getLeftArm().setPosition(4, 26);
+        greatsword.getLeftArm().setZValue(-1.0f);
+        greatsword.getRightArm().setPosition(6, 24);
+        greatsword.getRightArm().setZValue(-1.0f);
         idle();
     }
 
     @Override
     public void update() {
-        float boost = 0.0f;
-        float shift = 0.0f;
-        Vector2f position = null;
         switch (state) {
         case STAB_CHARGE:
+            timer += Utility.getGameTime().getDeltaTimeF();
+            float percentStab = (timer / GreatSword.LIGHT_CHARGE_TIME);
+            Orientation.apply(greatsword.getSword(), GreatSwordAnimationKeyframes.HOLD_MIDWAY.getOrientation(),
+                    GreatSwordAnimationKeyframes.LIGHT_CHARGE.getOrientation(), greatsword.getSword().getScale().x,
+                    percentStab);
+            break;
         case ONE_HAND_CHARGE:
         case HEAVY_CHARGE:
+            timer += Utility.getGameTime().getDeltaTimeF();
+            float percentHeavy = (timer / GreatSword.HEAVY_CHARGE_TIME);
+            Orientation.apply(greatsword.getSword(), GreatSwordAnimationKeyframes.HOLD_MIDWAY.getOrientation(),
+                    GreatSwordAnimationKeyframes.HEAVY_CHARGE.getOrientation(), greatsword.getSword().getScale().x,
+                    percentHeavy);
+            break;
         case COUNTER_CHARGE:
         case COUNTERING:
+            break;
+        case HOLD_CHARGE:
+            timer += Utility.getGameTime().getDeltaTimeF();
+            float percentHold = (timer / GreatSword.HOLD_DECISION_TIME);
+            Orientation.apply(greatsword.getSword(), GreatSwordAnimationKeyframes.IDLE.getOrientation(),
+                    GreatSwordAnimationKeyframes.HOLD_MIDWAY.getOrientation(), greatsword.getSword().getScale().x,
+                    percentHold);
+            break;
         case IDLE:
             break;
         case STAB_SWINGING:
             timer += Utility.getGameTime().getDeltaTimeF();
-            shift = Utility.getGameTime().getDeltaTimeF() * 0.06f;
-            boost = (2.0f - (timer / 250f));
-            shift = shift * boost;
-            float scale = greatsword.getSword().getScale().x;
-            position = greatsword.getSword().getPosition();
-            position.x += shift * stabDirection.x * scale;
-            position.y += shift * stabDirection.y * scale;
+            float percent = (timer / LIGHT_SWING_TIME);
+            Orientation.apply(greatsword.getSword(), GreatSwordAnimationKeyframes.LIGHT_SWING_START.getOrientation(),
+                    GreatSwordAnimationKeyframes.LIGHT_SWING_END.getOrientation(), greatsword.getSword().getScale().x,
+                    MathUtility.logFunction(percent));
             break;
         case ONE_HAND_SWINGING:
             break;
         case HEAVY_SWINGING:
-            float increment = Utility.getGameTime().getDeltaTimeF() * 0.56f;
+            timer += Utility.getGameTime().getDeltaTimeF();
+            float percentValue = (timer / HEAVY_SWING_TIME);
 
-            angle -= increment;
-            greatsword.getSword().setAngle(angle);
-            if (angle < -330) {
-                idle();
-            }
+            Orientation.apply(greatsword.getSword(), GreatSwordAnimationKeyframes.HEAVY_SWING_START.getOrientation(),
+                    GreatSwordAnimationKeyframes.HEAVY_SWING_END.getOrientation(), greatsword.getSword().getScale().x,
+                    MathUtility.logFunction(percentValue));
             break;
         }
     }
 
     public void idle() {
+        timer = 0;
         state = State.IDLE;
-        angle = 60.0f;
         float scale = greatsword.getSword().getScale().x;
-        greatsword.getSword().setPosition(-12 * scale, -28 * scale);
-        greatsword.getSword().setCenterOfRotation(7 * scale, 30 * scale);
-        greatsword.getSword().setAngle(angle);
-
-        greatsword.getLeftArm().setPosition(4, 26);
-        greatsword.getLeftArm().setZValue(-1.0f);
-        greatsword.getRightArm().setPosition(6, 24);
-        greatsword.getRightArm().setZValue(-1.0f);
+        GreatSwordAnimationKeyframes.IDLE.getOrientation().apply(greatsword.getSword(), scale);
     }
 
     public void heavyCharge() {
+        timer = 0;
         SoundPlayer.play(SoundEffect.CHARGE_SWING_HEAVY);
         state = State.HEAVY_CHARGE;
-        angle = 120.0f;
         float scale = greatsword.getSword().getScale().x;
-        greatsword.getSword().setPosition(-12 * scale, -40 * scale);
-        greatsword.getSword().setAngle(angle);
-
+        GreatSwordAnimationKeyframes.HEAVY_CHARGE.getOrientation().apply(greatsword.getSword(), scale);
     }
 
     public void heavySwinging() {
+        timer = 0;
         SoundPlayer.play(SoundEffect.START_SWING_HEAVY);
         state = State.HEAVY_SWINGING;
-        angle = 60.0f;
         float scale = greatsword.getSword().getScale().x;
-        greatsword.getSword().setPosition(-8 * scale, -36 * scale);
-        greatsword.getSword().setCenterOfRotation(12 * scale, 36 * scale);
-        greatsword.getSword().setAngle(angle);
+        GreatSwordAnimationKeyframes.HEAVY_SWING_START.getOrientation().apply(greatsword.getSword(), scale);
     }
 
     public void stabCharge() {
+        timer = 0;
         SoundPlayer.play(SoundEffect.CHARGE_SWING_LIGHT);
         state = State.STAB_CHARGE;
-        angle = 260.0f;
         float scale = greatsword.getSword().getScale().x;
-        greatsword.getSword().setPosition(12 * scale, -32 * scale);
-        greatsword.getSword().setAngle(angle);
+        GreatSwordAnimationKeyframes.LIGHT_CHARGE.getOrientation().apply(greatsword.getSword(), scale);
     }
 
     public void stabSwinging() {
+        timer = 0;
         SoundPlayer.play(SoundEffect.START_SWING_LIGHT);
         state = State.STAB_SWINGING;
-        angle = 260.0f;
         float scale = greatsword.getSword().getScale().x;
-        greatsword.getSword().setPosition(12 * scale, -32 * scale);
-        greatsword.getSword().setAngle(angle);
-        timer = 0;
+        GreatSwordAnimationKeyframes.LIGHT_SWING_START.getOrientation().apply(greatsword.getSword(), scale);
     }
 
     public void counterCharge() {
+        timer = 0;
         SoundPlayer.play(SoundEffect.COUNTER_START);
         state = State.COUNTER_CHARGE;
-        angle = 220.0f;
         float scale = greatsword.getSword().getScale().x;
-        greatsword.getSword().setPosition(12 * scale, -32 * scale);
-        greatsword.getSword().setAngle(angle);
+        GreatSwordAnimationKeyframes.COUNTER_CHARGE.getOrientation().apply(greatsword.getSword(), scale);
     }
 
     public void countering() {
+        timer = 0;
         SoundPlayer.play(SoundEffect.COUNTER_START);
         state = State.COUNTERING;
-        angle = 120.0f;
         float scale = greatsword.getSword().getScale().x;
-        greatsword.getSword().setPosition((-12 - 8) * scale, (-32 - 4) * scale);
-        greatsword.getSword().setAngle(angle);
+        GreatSwordAnimationKeyframes.COUNTER_SWING.getOrientation().apply(greatsword.getSword(), scale);
+    }
+
+    public void holdCharging() {
         timer = 0;
+        state = State.HOLD_CHARGE;
+        SoundPlayer.play(SoundEffect.CHARGE_SWING_LIGHT);
+        float scale = greatsword.getSword().getScale().x;
+        GreatSwordAnimationKeyframes.HOLD_MIDWAY.getOrientation().apply(greatsword.getSword(), scale);
     }
 
     public void oneHandCharge() {
