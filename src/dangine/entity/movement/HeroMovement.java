@@ -85,7 +85,7 @@ public class HeroMovement {
         } else if (velocity.x < -MAX_VELOCITY) {
             overShootX = velocity.x + MAX_VELOCITY;
             velocity.x += DRAG * Utility.getGameTime().getDeltaTimeF();
-            if (overShootY > -DRAG * Utility.getGameTime().getDeltaTimeF() * 1) {
+            if (overShootX > -DRAG * Utility.getGameTime().getDeltaTimeF() * 1) {
                 velocity.x = Math.max(velocity.x, -MAX_VELOCITY);
             }
         }

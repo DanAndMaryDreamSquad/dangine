@@ -16,7 +16,8 @@ public enum GreatSwordAnimationKeyframes {
     // HEAVY_SWING_END(new Vector2f(-8, -36), new Vector2f(12, 36), -330.0f), //
     HOLD_MIDWAY(new Vector2f(10, -30), new Vector2f(7, 30), 0.0f), //
     COUNTER_CHARGE(new Vector2f(12, -32), new Vector2f(12, 36), 220.0f), //
-    COUNTER_SWING(new Vector2f(-20, -36), new Vector2f(7, 30), 120.0f);
+    COUNTER_SWING(new Vector2f(-20, -36), new Vector2f(7, 30), 120.0f), //
+    RECOILING(new Vector2f(6, -40), new Vector2f(7, 30), 60.0f);
 
     Orientation orientation;
 

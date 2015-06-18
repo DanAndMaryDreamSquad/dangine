@@ -69,6 +69,10 @@ public class Vector2f {
         return (deltaX * deltaX) + (deltaY * deltaY);
     }
 
+    public Vector2f copy() {
+        return new Vector2f(x, y);
+    }
+
     public String toString() {
         return "Vector2f: ( " + x + ", " + y + ")";
     }

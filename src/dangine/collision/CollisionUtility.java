@@ -24,8 +24,8 @@ public class CollisionUtility {
         Vector2f angleOfAttack = new Vector2f(absolutePosition.x, absolutePosition.y);
         angleOfAttack = angleOfAttack.sub(arg.getPosition()).normalise();
         if (arg.getCreator() instanceof GreatSwordColliderData) {
-            Debugger.warn("in col");
             ColliderType colliderType = ((GreatSwordColliderData) arg.getCreator()).getColliderType();
+            Debugger.warn("in col: " + angleOfAttack + " " + colliderType);
             if (colliderType == ColliderType.HEAVY) {
                 movement.push(angleOfAttack.x, angleOfAttack.y, DangineSavedSettings.INSTANCE.getHeavyKnockPower());
             }

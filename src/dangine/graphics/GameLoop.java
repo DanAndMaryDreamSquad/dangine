@@ -84,7 +84,8 @@ public class GameLoop {
             draw();
 
             Display.update();
-            Display.sync(refreshRate); // cap fps to 60fps
+            Display.sync(refreshRate); // TODO make this change based on the
+                                       // resolution selected
         }
         DangineMusicPlayer.destroyMusicPlayerThread();
         DangineOpenGL.destroyOpenGL();

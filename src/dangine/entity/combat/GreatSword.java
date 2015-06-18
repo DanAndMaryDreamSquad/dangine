@@ -14,7 +14,7 @@ import dangine.utility.Utility;
 public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
 
     public enum State {
-        IDLE, HEAVY_CHARGE, HEAVY_SWING, LIGHT_CHARGE, LIGHT_SWING, HOLD_CHARGING, COUNTER_CHARGE, COUNTERING;
+        IDLE, HEAVY_CHARGE, HEAVY_SWING, LIGHT_CHARGE, LIGHT_SWING, HOLD_CHARGING, COUNTER_CHARGE, COUNTERING, RECOILING, RECOIL_RECOVERY, RECOVERING;
     }
 
     State state = State.IDLE;
@@ -26,6 +26,11 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
     // static final float LIGHT_CHARGE_TIME = 250.0f;
     static final float COUNTER_CHARGE_TIME = 250.0f;
     static final float HOLD_DECISION_TIME = 150.0f;
+    static final float HEAVY_SWING_TIME = 700f;
+    static final float LIGHT_SWING_TIME = 400.0f;
+    static final float RECOIL_TIME = 1000.0f;
+    static final float RECOIL_RECOVERY_TIME = 100.0f;
+    static final float RECOVERY_TIME = 200.0f;
     final GreatSwordSceneGraph greatsword = new GreatSwordSceneGraph();
     final GreatSwordAnimator animator = new GreatSwordAnimator(greatsword);
     final GreatSwordCollider heavyHitbox;
@@ -46,7 +51,7 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
     @Override
     public void update() {
         if (heavyHitbox.isClashed() || lightHitbox.isClashed() || counterHitbox.isClashed()) {
-            idle();
+            recoil();
         }
         switch (state) {
         case IDLE:
@@ -55,6 +60,9 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         case HEAVY_CHARGE:
         case HOLD_CHARGING:
         case COUNTER_CHARGE:
+        case RECOILING:
+        case RECOIL_RECOVERY:
+        case RECOVERING:
             timer += Utility.getGameTime().getDeltaTimeF();
             break;
         case LIGHT_SWING:
@@ -122,11 +130,11 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
                 }
             }
         }
-        if (state == State.LIGHT_SWING && timer > animator.LIGHT_SWING_TIME) {
-            idle();
+        if (state == State.LIGHT_SWING && timer > LIGHT_SWING_TIME) {
+            recovery();
         }
-        if (state == State.HEAVY_SWING && timer > animator.HEAVY_SWING_TIME) {
-            idle();
+        if (state == State.HEAVY_SWING && timer > HEAVY_SWING_TIME) {
+            recovery();
         }
         if (state == State.COUNTERING && timer > CounterPower.COUNTER_DURATION) {
             idle();
@@ -140,6 +148,15 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         }
         if (state == State.COUNTER_CHARGE && timer > COUNTER_CHARGE_TIME) {
             counter();
+        }
+        if (state == State.RECOILING && timer > RECOIL_TIME) {
+            recoilRecovery();
+        }
+        if (state == State.RECOIL_RECOVERY && timer > RECOIL_RECOVERY_TIME) {
+            idle();
+        }
+        if (state == State.RECOVERING && timer > RECOVERY_TIME) {
+            idle();
         }
         animator.update();
     }
@@ -210,6 +227,36 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         counterHitbox.activate();
         counterHitbox.updateSwing();
         greatsword.addHitbox(counterHitbox.getDrawable());
+        timer = 0;
+    }
+
+    public void recoil() {
+        state = State.RECOILING;
+        greatsword.removeHitbox(heavyHitbox.getDrawable());
+        greatsword.removeHitbox(lightHitbox.getDrawable());
+        greatsword.removeHitbox(counterHitbox.getDrawable());
+        heavyHitbox.deactivate();
+        lightHitbox.deactivate();
+        counterHitbox.deactivate();
+        animator.recoiling();
+        timer = 0;
+    }
+
+    public void recoilRecovery() {
+        state = State.RECOIL_RECOVERY;
+        animator.recoilRecovering();
+        timer = 0;
+    }
+
+    public void recovery() {
+        greatsword.removeHitbox(heavyHitbox.getDrawable());
+        greatsword.removeHitbox(lightHitbox.getDrawable());
+        greatsword.removeHitbox(counterHitbox.getDrawable());
+        heavyHitbox.deactivate();
+        lightHitbox.deactivate();
+        counterHitbox.deactivate();
+        state = State.RECOVERING;
+        animator.recovering();
         timer = 0;
     }
 

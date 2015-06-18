@@ -46,4 +46,26 @@ public class Orientation {
         node.setAngle(angle);
     }
 
+    public static void applyShortestPath(SceneGraphNode node, Orientation source, Orientation target, float scale,
+            float percent) {
+        float x = MathUtility.rangify(source.getPosition().x, target.getPosition().x, percent);
+        float y = MathUtility.rangify(source.getPosition().y, target.getPosition().y, percent);
+        float centerX = MathUtility.rangify(source.getCenterOfRotation().x, target.getCenterOfRotation().x, percent);
+        float centerY = MathUtility.rangify(source.getCenterOfRotation().y, target.getCenterOfRotation().y, percent);
+        float angle;
+        if (Math.abs(source.getAngle() - target.getAngle()) > 180f) {
+            if (source.getAngle() > target.getAngle()) {
+                angle = MathUtility.rangify(source.getAngle() - 360f, target.getAngle(), percent);
+            } else {
+                angle = MathUtility.rangify(source.getAngle(), target.getAngle() - 360f, percent);
+            }
+        } else {
+            angle = MathUtility.rangify(source.getAngle(), target.getAngle(), percent);
+        }
+
+        node.setPosition(x * scale, y * scale);
+        node.setCenterOfRotation(centerX * scale, centerY * scale);
+        node.setAngle(angle);
+    }
+
 }

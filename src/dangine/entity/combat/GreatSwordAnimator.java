@@ -12,18 +12,17 @@ import dangine.utility.Vector2f;
 public class GreatSwordAnimator implements IsUpdateable {
 
     enum State {
-        IDLE, HEAVY_CHARGE, HEAVY_SWINGING, STAB_CHARGE, STAB_SWINGING, ONE_HAND_CHARGE, ONE_HAND_SWINGING, COUNTER_CHARGE, COUNTERING, HOLD_CHARGE;
+        IDLE, HEAVY_CHARGE, HEAVY_SWINGING, STAB_CHARGE, STAB_SWINGING, ONE_HAND_CHARGE, ONE_HAND_SWINGING, COUNTER_CHARGE, COUNTERING, HOLD_CHARGE, RECOILING, RECOIL_RECOVERING, RECOVERING;
     }
 
     State state = State.IDLE;
 
-    public final float HEAVY_SWING_TIME = 700f;
-    public final float LIGHT_SWING_TIME = 400.0f;
     Vector2f absolutePosition = new Vector2f(0, 0);
     Vector2f stabDirection = new Vector2f(260.0f - 90.0f);
     final GreatSwordSceneGraph greatsword;
     float angle = 0;
     float timer = 0;
+    Orientation recoilStartSnapshot = null;
 
     public GreatSwordAnimator(GreatSwordSceneGraph greatsword) {
         this.greatsword = greatsword;
@@ -37,6 +36,27 @@ public class GreatSwordAnimator implements IsUpdateable {
     @Override
     public void update() {
         switch (state) {
+        case RECOVERING:
+            timer += Utility.getGameTime().getDeltaTimeF();
+            float percentBackToIdle = (timer / GreatSword.RECOVERY_TIME);
+            Orientation.applyShortestPath(greatsword.getSword(), recoilStartSnapshot,
+                    GreatSwordAnimationKeyframes.IDLE.getOrientation(), greatsword.getSword().getScale().x,
+                    percentBackToIdle);
+            break;
+        case RECOILING:
+            timer += Utility.getGameTime().getDeltaTimeF();
+            float percentRecoil = (timer / GreatSword.RECOIL_TIME);
+            Orientation.apply(greatsword.getSword(), recoilStartSnapshot,
+                    GreatSwordAnimationKeyframes.RECOILING.getOrientation(), greatsword.getSword().getScale().x,
+                    MathUtility.logFunction(percentRecoil));
+            break;
+        case RECOIL_RECOVERING:
+            timer += Utility.getGameTime().getDeltaTimeF();
+            float percentRecovery = (timer / GreatSword.RECOIL_RECOVERY_TIME);
+            Orientation.apply(greatsword.getSword(), GreatSwordAnimationKeyframes.RECOILING.getOrientation(),
+                    GreatSwordAnimationKeyframes.IDLE.getOrientation(), greatsword.getSword().getScale().x,
+                    percentRecovery);
+            break;
         case STAB_CHARGE:
             timer += Utility.getGameTime().getDeltaTimeF();
             float percentStab = (timer / GreatSword.LIGHT_CHARGE_TIME);
@@ -66,7 +86,7 @@ public class GreatSwordAnimator implements IsUpdateable {
             break;
         case STAB_SWINGING:
             timer += Utility.getGameTime().getDeltaTimeF();
-            float percent = (timer / LIGHT_SWING_TIME);
+            float percent = (timer / GreatSword.LIGHT_SWING_TIME);
             Orientation.apply(greatsword.getSword(), GreatSwordAnimationKeyframes.LIGHT_SWING_START.getOrientation(),
                     GreatSwordAnimationKeyframes.LIGHT_SWING_END.getOrientation(), greatsword.getSword().getScale().x,
                     MathUtility.logFunction(percent));
@@ -75,7 +95,7 @@ public class GreatSwordAnimator implements IsUpdateable {
             break;
         case HEAVY_SWINGING:
             timer += Utility.getGameTime().getDeltaTimeF();
-            float percentValue = (timer / HEAVY_SWING_TIME);
+            float percentValue = (timer / GreatSword.HEAVY_SWING_TIME);
 
             Orientation.apply(greatsword.getSword(), GreatSwordAnimationKeyframes.HEAVY_SWING_START.getOrientation(),
                     GreatSwordAnimationKeyframes.HEAVY_SWING_END.getOrientation(), greatsword.getSword().getScale().x,
@@ -145,6 +165,42 @@ public class GreatSwordAnimator implements IsUpdateable {
         SoundPlayer.play(SoundEffect.CHARGE_SWING_LIGHT);
         float scale = greatsword.getSword().getScale().x;
         GreatSwordAnimationKeyframes.HOLD_MIDWAY.getOrientation().apply(greatsword.getSword(), scale);
+    }
+
+    public void recoiling() {
+        timer = 0;
+        state = State.RECOILING;
+        SoundPlayer.play(SoundEffect.CHARGE_SWING_LIGHT);
+        float scale = greatsword.getSword().getScale().x;
+        Vector2f pos = new Vector2f(greatsword.getSword().getPosition().x / scale,
+                greatsword.getSword().getPosition().y / scale);
+        Vector2f center = new Vector2f(greatsword.getSword().getCenterOfRotation().x / scale, greatsword.getSword()
+                .getCenterOfRotation().y / scale);
+        recoilStartSnapshot = new Orientation(pos, center, greatsword.getSword().getAngle());
+    }
+
+    public void recoilRecovering() {
+        timer = 0;
+        state = State.RECOIL_RECOVERING;
+        SoundPlayer.play(SoundEffect.CHARGE_SWING_LIGHT);
+        float scale = greatsword.getSword().getScale().x;
+        Vector2f pos = new Vector2f(greatsword.getSword().getPosition().x / scale,
+                greatsword.getSword().getPosition().y / scale);
+        Vector2f center = new Vector2f(greatsword.getSword().getCenterOfRotation().x / scale, greatsword.getSword()
+                .getCenterOfRotation().y / scale);
+        recoilStartSnapshot = new Orientation(pos, center, greatsword.getSword().getAngle());
+    }
+
+    public void recovering() {
+        timer = 0;
+        state = State.RECOVERING;
+        SoundPlayer.play(SoundEffect.CHARGE_SWING_LIGHT);
+        float scale = greatsword.getSword().getScale().x;
+        Vector2f pos = new Vector2f(greatsword.getSword().getPosition().x / scale,
+                greatsword.getSword().getPosition().y / scale);
+        Vector2f center = new Vector2f(greatsword.getSword().getCenterOfRotation().x / scale, greatsword.getSword()
+                .getCenterOfRotation().y / scale);
+        recoilStartSnapshot = new Orientation(pos, center, greatsword.getSword().getAngle());
     }
 
     public void oneHandCharge() {
