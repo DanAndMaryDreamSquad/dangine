@@ -73,6 +73,7 @@ public class DangineOpenGL {
         // Some sort of blending function that
         // supports images with transparency
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        refreshTextScaleForResolution();
     }
 
     public static void viewportOpenGL() {
@@ -82,6 +83,16 @@ public class DangineOpenGL {
 
     public static void destroyOpenGL() {
         Display.destroy();
+    }
+
+    public static void refreshTextScaleForResolution() {
+        if (WINDOW_RESOLUTION.y < 750) {
+            DangineStringPicture.STRING_SCALE = 1.0f;
+        } else if (WINDOW_RESOLUTION.y >= 750 && WINDOW_RESOLUTION.y < 1000) {
+            DangineStringPicture.STRING_SCALE = 2.0f;
+        } else {
+            DangineStringPicture.STRING_SCALE = 3.0f;
+        }
     }
 
     public static DisplayMode findBestDisplayModeForFullscreenResolution(int width, int height) {

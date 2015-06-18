@@ -38,7 +38,7 @@ public class ResolutionMenu implements IsUpdateable, HasDrawable {
         menu.addItem(doneItem);
         DangineFormatter.format(menu.getBase().getChildNodes());
 
-        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.65f));
+        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.60f));
         menu.getItem(0).getBase().addChild(selector.getDrawable());
         updateText();
     }
@@ -96,6 +96,7 @@ public class ResolutionMenu implements IsUpdateable, HasDrawable {
                 DangineOpenGL.WINDOW_RESOLUTION.set(DangineSavedSettings.INSTANCE.getResolutionX(),
                         DangineSavedSettings.INSTANCE.getResolutionY());
                 DangineSavedSettings.INSTANCE.save();
+                DangineOpenGL.refreshTextScaleForResolution();
                 DangineOpenGLInput.clearKeyStates();
                 updateText();
             }

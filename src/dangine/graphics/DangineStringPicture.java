@@ -7,7 +7,7 @@ import dangine.scenegraph.SceneGraphNode;
 
 public class DangineStringPicture implements IsDrawable32 {
 
-    public final static float STRING_SCALE = 2.0f;
+    public static float STRING_SCALE = 2.0f;
     RenderData32 data = new RenderData32(this);
     DangineTexturedQuad quad;
     SceneGraphNode node = new SceneGraphNode();
