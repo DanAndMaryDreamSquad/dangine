@@ -22,7 +22,7 @@ public class MatchParameters {
     Map<Integer, Color> playerIdToColor = new HashMap<Integer, Color>();
     Map<Integer, SubPower> playerIdToPower = new HashMap<Integer, SubPower>();
     final Map<Integer, Integer> playerIdToTeam = new HashMap<Integer, Integer>();
-    int startingStock = 3;
+    int startingStock = 0;
     int numberOfBots = 2;
     MovementMode movementMode = MovementMode.MOVE_FREE_TURN_SWING_LOCK;
     AttackMode attackMode = AttackMode.HOLD_TO_CHARGE;

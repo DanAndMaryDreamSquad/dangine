@@ -5,23 +5,26 @@ import dangine.utility.Utility;
 
 public class DefeatEvent implements MatchEvent {
 
-    int playerId;
+    int defeatedPlayer;
+    int playerWhoDefeatedThis;
 
-    public DefeatEvent(int playerId) {
-        this.playerId = playerId;
+    public DefeatEvent(int defeatedPlayer, int playerWhoDefeatedThis) {
+        this.defeatedPlayer = defeatedPlayer;
+        this.playerWhoDefeatedThis = playerWhoDefeatedThis;
     }
 
     @Override
     public void process() {
-        Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().deductStock(playerId);
+        Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper()
+                .onPlayerDefeatsAnother(defeatedPlayer, playerWhoDefeatedThis);
 
-        Hero hero = Utility.getActiveScene().getHero(playerId);
+        Hero hero = Utility.getActiveScene().getHero(defeatedPlayer);
         if (hero != null) {
             hero.destroyForReal();
         }
 
-        if (Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().hasLivesLeft(playerId)) {
-            Respawner respawner = new Respawner(playerId);
+        if (Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().shouldPlayerRespawn(defeatedPlayer)) {
+            Respawner respawner = new Respawner(defeatedPlayer);
             Utility.getActiveScene().addUpdateable(respawner);
         }
     }

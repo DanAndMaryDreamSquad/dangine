@@ -72,7 +72,7 @@ public class Vortex implements IsUpdateable, HasDrawable {
                     Hero hero = (Hero) arg.getCreator();
                     if (!hero.isImmunity()) {
                         SoundPlayer.play(SoundEffect.VORTEX_DEFEAT);
-                        hero.destroy(DefeatType.SPIN);
+                        hero.destroy(hero.getPlayerId(), DefeatType.SPIN);
                     }
                 }
                 if (arg.getCreator() instanceof DangineBot) {
@@ -82,7 +82,7 @@ public class Vortex implements IsUpdateable, HasDrawable {
                     DangineBot hero = (DangineBot) arg.getCreator();
                     if (!hero.isImmunity()) {
                         SoundPlayer.play(SoundEffect.VORTEX_DEFEAT);
-                        hero.destroy(DefeatType.SPIN);
+                        hero.destroy(hero.getBotId(), DefeatType.SPIN);
                     }
                 }
             }

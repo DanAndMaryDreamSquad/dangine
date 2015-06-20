@@ -2,17 +2,13 @@ package dangine.entity.gameplay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import dangine.audio.SoundEffect;
-import dangine.audio.SoundPlayer;
-import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.entity.gameplay.matchtypes.MatchTypeLogic;
 import dangine.graphics.DangineStringPicture;
 import dangine.player.DanginePlayer;
 import dangine.scenegraph.SceneGraphNode;
@@ -20,17 +16,20 @@ import dangine.utility.Utility;
 
 public class ScoreKeeper implements IsUpdateable, HasDrawable {
 
+    MatchTypeLogic matchTypeLogic;
     boolean matchOver = false;
     SceneGraphNode base = new SceneGraphNode();
     List<SceneGraphNode> scoreNodes = new ArrayList<SceneGraphNode>();
     List<DangineStringPicture> textNodes = new ArrayList<DangineStringPicture>();
     List<PlayerScore> scores = new ArrayList<PlayerScore>();
+    Map<Integer, PlayerScore> playerIdToScore = new HashMap<Integer, PlayerScore>();
     Map<Integer, DangineStringPicture> playerIdToTextNode = new HashMap<Integer, DangineStringPicture>();
     float timer = 0;
     final float FADE_TIME = 4000;
     final float FADE_DELAY = 2000;
 
     public ScoreKeeper() {
+        this.matchTypeLogic = Utility.getMatchParameters().getMatchType().createMatchTypeLogic();
         for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
             SceneGraphNode score = new SceneGraphNode();
             DangineStringPicture text = new DangineStringPicture();
@@ -44,7 +43,9 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
             int width = player.getPlayerId() % 2;
             float x = (Utility.getResolution().x / 2.0f) * width;
             score.setPosition(x, y);
-            scores.add(new PlayerScore(player.getPlayerId()));
+            PlayerScore playerScore = new PlayerScore(player.getPlayerId());
+            scores.add(playerScore);
+            playerIdToScore.put(player.getPlayerId(), playerScore);
         }
         updatePlayerScores();
     }
@@ -64,7 +65,9 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     }
 
     public void addBotToGame(int botId) {
-        scores.add(new PlayerScore(botId));
+        PlayerScore playerScore = new PlayerScore(botId);
+        scores.add(playerScore);
+        playerIdToScore.put(botId, playerScore);
         SceneGraphNode score = new SceneGraphNode();
         DangineStringPicture text = new DangineStringPicture();
         playerIdToTextNode.put(botId, text);
@@ -81,9 +84,8 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
         updatePlayerScores();
     }
 
-    public void deductStock(int playerId) {
-        PlayerScore score = getPlayerScore(playerId);
-        score.setStock(score.getStock() - 1);
+    public void onPlayerDefeatsAnother(int defeatedPlayer, int playerWhoDefeatedOther) {
+        matchTypeLogic.playerDefeatsSomeone(playerWhoDefeatedOther, defeatedPlayer, this);
         updatePlayerScores();
         if (checkSceneOver() && !matchOver) {
             matchOver = true;
@@ -92,74 +94,16 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     }
 
     public boolean checkSceneOver() {
-        switch (Utility.getMatchParameters().getMatchType()) {
-        case VERSUS:
-        case BOT_MATCH:
-            return checkVersusSceneOver();
-        case TEAM_VERSUS:
-        case COOP_VS_BOTS:
-            return checkTeamBattleSceneOver();
-        }
-        return false;
+        return matchTypeLogic.isSceneOver(this);
     }
 
-    public boolean checkVersusSceneOver() {
-        int playersWithLivesLeft = 0;
-        int botsWithLivesLeft = 0;
-        for (PlayerScore score : scores) {
-            if (score.getStock() >= 0) {
-                if (score.getPlayerId() >= 0) {
-                    playersWithLivesLeft++;
-                } else {
-                    botsWithLivesLeft++;
-                }
-            }
-        }
-        if (botsWithLivesLeft > 0) {
-            return playersWithLivesLeft == 0;
-        }
-        return playersWithLivesLeft <= 1;
-    }
-
-    public boolean checkTeamBattleSceneOver() {
-        Set<Integer> teams = new HashSet<Integer>();
-        for (PlayerScore score : scores) {
-            if (score.getStock() >= 0) {
-                int teamId = Utility.getMatchParameters().getPlayerTeam(score.getPlayerId());
-                teams.add(teamId);
-            }
-        }
-        return teams.size() <= 1;
-    }
-
-    public boolean hasLivesLeft(int playerId) {
-        return getPlayerScore(playerId).getStock() >= 0;
+    public boolean shouldPlayerRespawn(int playerId) {
+        return matchTypeLogic.shouldPlayerRespawn(playerId, this);
     }
 
     public void applyEndOfRound() {
-        Debugger.info("round over");
-        SoundPlayer.play(SoundEffect.ROUND_OVER);
-        List<Integer> playersLeft = new ArrayList<Integer>();
-        List<Integer> botsLeft = new ArrayList<Integer>();
-        for (PlayerScore score : scores) {
-            if (score.getStock() >= 0) {
-                if (score.getPlayerId() >= 0) {
-                    playersLeft.add(score.getPlayerId());
-                } else {
-                    botsLeft.add(score.getPlayerId());
-                }
-            }
-        }
-        if (botsLeft.size() > 0) {
-            Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(botsLeft));
-        } else if (playersLeft.size() == 1) {
-            Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(playersLeft.get(0)));
-        } else if (playersLeft.size() == 0) {
-            Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(playersLeft));
-        } else if (playersLeft.size() > 0) {
-            Utility.getActiveScene().getMatchOrchestrator().addEvent(new VictoryEvent(playersLeft));
-        }
-
+        MatchEvent event = matchTypeLogic.createVictoryEvent(this);
+        Utility.getActiveScene().getMatchOrchestrator().addEvent(event);
     }
 
     private void updatePlayerScores() {
@@ -190,6 +134,10 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     @Override
     public IsDrawable getDrawable() {
         return base;
+    }
+
+    public Map<Integer, PlayerScore> getPlayerIdToScore() {
+        return playerIdToScore;
     }
 
 }

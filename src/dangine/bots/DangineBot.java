@@ -88,11 +88,11 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         Utility.getActiveScene().getCombatResolver().addEvent(onHit);
     }
 
-    public void destroy() {
-        destroy(DefeatType.randomSwordEffect());
+    public void destroy(int playerWhoDefeatedThis) {
+        destroy(playerWhoDefeatedThis, DefeatType.randomSwordEffect());
     }
 
-    public void destroy(DefeatType defeatType) {
+    public void destroy(int playerWhoDefeatedThis, DefeatType defeatType) {
         if (destroyed) {
             return;
         }
@@ -100,7 +100,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         Vector2f absolutePosition = new Vector2f();
         absolutePosition = ScreenUtility.getWorldPosition(draw.getBody(), absolutePosition);
         defeatType.applyEffect(absolutePosition.x, absolutePosition.y, botId);
-        Utility.getActiveScene().getMatchOrchestrator().addEvent(new BotDefeatEvent(botId));
+        Utility.getActiveScene().getMatchOrchestrator().addEvent(new BotDefeatEvent(botId, playerWhoDefeatedThis));
         Debugger.info("created event to destroy bot " + botId);
     }
 
@@ -139,7 +139,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
                     } else if (arg.getCreator() instanceof ProjectileShot) {
                         SoundPlayer.play(SoundEffect.PROJECTILE_HIT);
                     }
-                    destroy();
+                    destroy(arg.getOwnerId());
                 }
             }
         };

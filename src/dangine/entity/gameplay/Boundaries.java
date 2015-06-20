@@ -39,7 +39,7 @@ public class Boundaries implements IsUpdateable {
         for (Hero hero : heroes) {
             if (isOutOfBounds(hero.getPosition()) && !hero.isImmunity()) {
                 SoundPlayer.play(SoundEffect.RINGOUT_DEFEAT);
-                hero.destroy();
+                hero.destroy(hero.getPlayerId());
                 needsClear = true;
                 Vector2f position = hero.getPosition();
                 float x = position.x;

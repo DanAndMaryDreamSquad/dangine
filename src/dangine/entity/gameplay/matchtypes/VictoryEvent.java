@@ -1,7 +1,9 @@
-package dangine.entity.gameplay;
+package dangine.entity.gameplay.matchtypes;
 
 import java.util.List;
 
+import dangine.entity.gameplay.MatchEvent;
+import dangine.entity.gameplay.MatchRestarter;
 import dangine.graphics.DangineStringPicture;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
