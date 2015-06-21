@@ -63,6 +63,7 @@ public class CharacterSelect implements IsUpdateable {
             switch (Utility.getMatchParameters().getMatchType()) {
             case TEAM_VERSUS:
             case VERSUS:
+            case WIN_BY_TWO:
                 WorldSelectionMenu worldMenu = new WorldSelectionMenu();
                 Utility.getActiveScene().addUpdateable(worldMenu);
                 Utility.getActiveScene().getParentNode().addChild(worldMenu.getDrawable());
@@ -72,6 +73,8 @@ public class CharacterSelect implements IsUpdateable {
                 BotSettingsMenu botMenu = new BotSettingsMenu();
                 Utility.getActiveScene().addUpdateable(botMenu);
                 Utility.getActiveScene().getParentNode().addChild(botMenu.getDrawable());
+                break;
+            default:
                 break;
             }
 

@@ -1,8 +1,6 @@
 package dangine.entity.gameplay;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import dangine.entity.HasDrawable;
@@ -19,9 +17,6 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     MatchTypeLogic matchTypeLogic;
     boolean matchOver = false;
     SceneGraphNode base = new SceneGraphNode();
-    List<SceneGraphNode> scoreNodes = new ArrayList<SceneGraphNode>();
-    List<DangineStringPicture> textNodes = new ArrayList<DangineStringPicture>();
-    List<PlayerScore> scores = new ArrayList<PlayerScore>();
     Map<Integer, PlayerScore> playerIdToScore = new HashMap<Integer, PlayerScore>();
     Map<Integer, DangineStringPicture> playerIdToTextNode = new HashMap<Integer, DangineStringPicture>();
     float timer = 0;
@@ -30,23 +25,15 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
 
     public ScoreKeeper() {
         this.matchTypeLogic = Utility.getMatchParameters().getMatchType().createMatchTypeLogic();
+
         for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
-            SceneGraphNode score = new SceneGraphNode();
-            DangineStringPicture text = new DangineStringPicture();
-            playerIdToTextNode.put(player.getPlayerId(), text);
-            score.addChild(text);
-            scoreNodes.add(score);
-            textNodes.add(text);
-            base.addChild(score);
-            int row = player.getPlayerId() / 2;
-            float y = Utility.getResolution().y - (20 * (row + 1));
-            int width = player.getPlayerId() % 2;
-            float x = (Utility.getResolution().x / 2.0f) * width;
-            score.setPosition(x, y);
-            PlayerScore playerScore = new PlayerScore(player.getPlayerId());
-            scores.add(playerScore);
-            playerIdToScore.put(player.getPlayerId(), playerScore);
+            this.matchTypeLogic.addPlayer(player.getPlayerId(), this);
         }
+        updatePlayerScores();
+    }
+
+    public void addBotToGame(int botId) {
+        matchTypeLogic.addBot(botId, this);
         updatePlayerScores();
     }
 
@@ -58,30 +45,10 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
             if (timer > FADE_DELAY) {
                 alpha = 1.0f - ((timer - FADE_DELAY) / (FADE_TIME - FADE_DELAY));
             }
-            for (DangineStringPicture text : textNodes) {
+            for (DangineStringPicture text : playerIdToTextNode.values()) {
                 text.setAlpha(alpha);
             }
         }
-    }
-
-    public void addBotToGame(int botId) {
-        PlayerScore playerScore = new PlayerScore(botId);
-        scores.add(playerScore);
-        playerIdToScore.put(botId, playerScore);
-        SceneGraphNode score = new SceneGraphNode();
-        DangineStringPicture text = new DangineStringPicture();
-        playerIdToTextNode.put(botId, text);
-        score.addChild(text);
-        scoreNodes.add(score);
-        textNodes.add(text);
-        base.addChild(score);
-
-        int row = scores.size() / 2;
-        float y = Utility.getResolution().y - (20 * (row + 1));
-        int width = scores.size() % 2;
-        float x = (Utility.getResolution().x / 2.0f) * width;
-        score.setPosition(x, y);
-        updatePlayerScores();
     }
 
     public void onPlayerDefeatsAnother(int defeatedPlayer, int playerWhoDefeatedOther) {
@@ -110,7 +77,7 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
         if (Utility.getPlayers().getPlayers().isEmpty()) {
             return;
         }
-        for (PlayerScore score : scores) {
+        for (PlayerScore score : playerIdToScore.values()) {
             if (score.getPlayerId() < 0) {
                 int botStock = getPlayerScore(score.getPlayerId()).getStock();
                 playerIdToTextNode.get(score.playerId).setText("Bot Avatars Remaining: " + botStock);
@@ -123,7 +90,7 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     }
 
     private PlayerScore getPlayerScore(int playerId) {
-        for (PlayerScore score : scores) {
+        for (PlayerScore score : playerIdToScore.values()) {
             if (score.getPlayerId() == playerId) {
                 return score;
             }
@@ -138,6 +105,14 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
 
     public Map<Integer, PlayerScore> getPlayerIdToScore() {
         return playerIdToScore;
+    }
+
+    public Map<Integer, DangineStringPicture> getPlayerIdToTextNode() {
+        return playerIdToTextNode;
+    }
+
+    public SceneGraphNode getBase() {
+        return base;
     }
 
 }

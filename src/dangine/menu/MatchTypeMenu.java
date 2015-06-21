@@ -7,9 +7,7 @@ import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.utility.Utility;
 
-public class MatchTypeMenu
-
-implements IsUpdateable, HasDrawable {
+public class MatchTypeMenu implements IsUpdateable, HasDrawable {
 
     DangineMenu menu = new DangineMenu();
     DangineSelector selector = new DangineSelector();
@@ -20,6 +18,7 @@ implements IsUpdateable, HasDrawable {
         menu.addItem(new DangineMenuItem("Team Battle", getTeamBattleAction()));
         menu.addItem(new DangineMenuItem("Bot Battle", getBotBattleAction()));
         menu.addItem(new DangineMenuItem("Co-op VS Bots", getCoopVsBotsAction()));
+        menu.addItem(new DangineMenuItem("Win By Two", getWinByTwoOptions()));
         menu.addItem(new DangineMenuItem("Back", getOnEscapeAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
         menu.getItem(0).getBase().addChild(selector.getDrawable());
@@ -80,6 +79,18 @@ implements IsUpdateable, HasDrawable {
             @Override
             public void execute() {
                 Utility.getMatchParameters().setMatchType(MatchType.COOP_VS_BOTS);
+                removeMatchTypeMenu();
+                goToCharacterSelect();
+            }
+        };
+    }
+
+    private Action getWinByTwoOptions() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                Utility.getMatchParameters().setMatchType(MatchType.WIN_BY_TWO);
                 removeMatchTypeMenu();
                 goToCharacterSelect();
             }

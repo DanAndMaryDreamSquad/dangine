@@ -178,6 +178,7 @@ public class Example {
             }
             ;
         }
+        stdin.close();
         killALData();
         AL.destroy();
     }

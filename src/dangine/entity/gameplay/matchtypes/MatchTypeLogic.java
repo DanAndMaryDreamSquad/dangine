@@ -5,6 +5,10 @@ import dangine.entity.gameplay.ScoreKeeper;
 
 public interface MatchTypeLogic {
 
+    void addPlayer(int playerId, ScoreKeeper scoreKeeper);
+
+    void addBot(int botId, ScoreKeeper scoreKeeper);
+
     void playerDefeatsSomeone(int winnerPlayerId, int defeatedPlayerId, ScoreKeeper scoreKeeper);
 
     boolean isSceneOver(ScoreKeeper scoreKeeper);

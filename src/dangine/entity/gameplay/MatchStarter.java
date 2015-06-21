@@ -5,6 +5,7 @@ import dangine.entity.IsUpdateable;
 import dangine.entity.gameplay.matchtypes.FFAStockModeLogic;
 import dangine.entity.gameplay.matchtypes.MatchTypeLogic;
 import dangine.entity.gameplay.matchtypes.TeamStockModeLogic;
+import dangine.entity.gameplay.matchtypes.WinByTwoLogic;
 import dangine.utility.Utility;
 
 public class MatchStarter implements IsUpdateable {
@@ -62,7 +63,7 @@ public class MatchStarter implements IsUpdateable {
 
             @Override
             public MatchTypeLogic createMatchTypeLogic() {
-                return null;
+                return new WinByTwoLogic();
             }
         };
         public abstract boolean isTeamMode();
