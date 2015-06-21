@@ -2,7 +2,7 @@ package dangine.collision;
 
 import dangine.debugger.Debugger;
 import dangine.entity.combat.CombatEvent;
-import dangine.entity.movement.HeroMovement;
+import dangine.entity.movement.Movement;
 import dangine.utility.DangineSavedSettings;
 import dangine.utility.Vector2f;
 
@@ -20,7 +20,7 @@ public class CollisionUtility {
         return distSquared <= r1Squared;
     }
 
-    public static void applyKnockback(HeroMovement movement, CombatEvent arg, Vector2f absolutePosition) {
+    public static void applyKnockback(Movement movement, CombatEvent arg, Vector2f absolutePosition) {
         Vector2f angleOfAttack = new Vector2f(absolutePosition.x, absolutePosition.y);
         angleOfAttack = angleOfAttack.sub(arg.getPosition()).normalise();
         if (arg.getCreator() instanceof GreatSwordColliderData) {

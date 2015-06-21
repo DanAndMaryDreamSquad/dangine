@@ -11,7 +11,9 @@ public class CombatResolver {
     public enum EventType {
         SWORD, //
         HERO, //
-        OBSTRUCTION, PROJECTILE; //
+        OBSTRUCTION, //
+        PROJECTILE, //
+        BALL; //
     }
 
     static final Map<EventType, List<EventType>> typeToTargets = initializeTargets();
@@ -32,6 +34,9 @@ public class CombatResolver {
         result.get(EventType.PROJECTILE).add(EventType.HERO);
         result.get(EventType.PROJECTILE).add(EventType.OBSTRUCTION);
         result.get(EventType.PROJECTILE).add(EventType.PROJECTILE);
+
+        result.put(EventType.BALL, new ArrayList<CombatResolver.EventType>());
+        result.get(EventType.BALL).add(EventType.SWORD);
         return Collections.unmodifiableMap(result);
     }
 

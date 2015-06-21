@@ -6,7 +6,7 @@ import dangine.utility.DangineSavedSettings;
 import dangine.utility.Utility;
 import dangine.utility.Vector2f;
 
-public class HeroMovement {
+public class HeroMovement implements Movement {
 
     // public static final float MAX_VELOCITY = 0.25f;
     // public static final float ACCELERATION = 0.00055f;

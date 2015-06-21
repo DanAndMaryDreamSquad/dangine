@@ -27,9 +27,13 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
         this.matchTypeLogic = Utility.getMatchParameters().getMatchType().createMatchTypeLogic();
 
         for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
-            this.matchTypeLogic.addPlayer(player.getPlayerId(), this);
+            addPlayerToGame(player.getPlayerId());
         }
         updatePlayerScores();
+    }
+
+    public void addPlayerToGame(int playerId) {
+        matchTypeLogic.addPlayer(playerId, this);
     }
 
     public void addBotToGame(int botId) {
