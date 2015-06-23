@@ -4,6 +4,7 @@ import dangine.debugger.Debugger;
 import dangine.entity.IsUpdateable;
 import dangine.entity.gameplay.matchtypes.FFAStockModeLogic;
 import dangine.entity.gameplay.matchtypes.MatchTypeLogic;
+import dangine.entity.gameplay.matchtypes.SoccerModeLogic;
 import dangine.entity.gameplay.matchtypes.TeamStockModeLogic;
 import dangine.entity.gameplay.matchtypes.WinByTwoLogic;
 import dangine.utility.Utility;
@@ -65,6 +66,17 @@ public class MatchStarter implements IsUpdateable {
             public MatchTypeLogic createMatchTypeLogic() {
                 return new WinByTwoLogic();
             }
+        },
+        SOCCER {
+            @Override
+            public boolean isTeamMode() {
+                return true;
+            }
+
+            @Override
+            public MatchTypeLogic createMatchTypeLogic() {
+                return new SoccerModeLogic();
+            }
         };
         public abstract boolean isTeamMode();
 
@@ -78,6 +90,7 @@ public class MatchStarter implements IsUpdateable {
                 return heroId;
             case TEAM_VERSUS:
             case COOP_VS_BOTS:
+            case SOCCER:
                 if (Utility.getMatchParameters().isFriendlyFire()) {
                     return heroId;
                 }
@@ -107,6 +120,7 @@ public class MatchStarter implements IsUpdateable {
             Utility.getGameLoop().startMatch();
             return;
         case TEAM_VERSUS:
+        case SOCCER:
             Utility.getGameLoop().startMatch();
             return;
         case BOT_MATCH:

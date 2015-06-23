@@ -55,6 +55,10 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
         }
     }
 
+    public void onPlayerScores(int playerWhoScored) {
+        matchTypeLogic.onPlayerScores(playerWhoScored, this);
+    }
+
     public void onPlayerDefeatsAnother(int defeatedPlayer, int playerWhoDefeatedOther) {
         matchTypeLogic.playerDefeatsSomeone(playerWhoDefeatedOther, defeatedPlayer, this);
         updatePlayerScores();

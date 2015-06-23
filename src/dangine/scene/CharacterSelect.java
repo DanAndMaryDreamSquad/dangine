@@ -64,6 +64,7 @@ public class CharacterSelect implements IsUpdateable {
             case TEAM_VERSUS:
             case VERSUS:
             case WIN_BY_TWO:
+            case SOCCER:
                 WorldSelectionMenu worldMenu = new WorldSelectionMenu();
                 Utility.getActiveScene().addUpdateable(worldMenu);
                 Utility.getActiveScene().getParentNode().addChild(worldMenu.getDrawable());

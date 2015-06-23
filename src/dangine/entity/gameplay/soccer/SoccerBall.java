@@ -81,4 +81,12 @@ public class SoccerBall implements IsUpdateable, HasDrawable {
         return base;
     }
 
+    public Vector2f getPosition() {
+        return position;
+    }
+
+    public SoccerBallMovement getMovement() {
+        return movement;
+    }
+
 }

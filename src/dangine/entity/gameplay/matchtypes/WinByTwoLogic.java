@@ -114,4 +114,9 @@ public class WinByTwoLogic implements MatchTypeLogic {
         return new Vector2f(x, y);
     }
 
+    @Override
+    public void onPlayerScores(int playerWhoScores, ScoreKeeper scoreKeeper) {
+        Debugger.warn(this.getClass() + " has no onPlayerScores() logic");
+    }
+
 }

@@ -1,10 +1,5 @@
 package dangine.entity.gameplay.matchtypes;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import dangine.audio.SoundEffect;
-import dangine.audio.SoundPlayer;
 import dangine.debugger.Debugger;
 import dangine.entity.gameplay.MatchEvent;
 import dangine.entity.gameplay.PlayerScore;
@@ -14,51 +9,32 @@ import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
 import dangine.utility.Vector2f;
 
-public class TeamStockModeLogic implements MatchTypeLogic {
+public class SoccerModeLogic implements MatchTypeLogic {
 
     @Override
     public void playerDefeatsSomeone(int winnerPlayerId, int defeatedPlayerId, ScoreKeeper scoreKeeper) {
-        PlayerScore score = scoreKeeper.getPlayerIdToScore().get(defeatedPlayerId);
-        score.setStock(score.getStock() - 1);
     }
 
     @Override
     public boolean isSceneOver(ScoreKeeper scoreKeeper) {
-        Set<Integer> teams = new HashSet<Integer>();
         for (PlayerScore score : scoreKeeper.getPlayerIdToScore().values()) {
-            if (score.getStock() >= 0) {
-                int teamId = Utility.getMatchParameters().getPlayerTeam(score.getPlayerId());
-                teams.add(teamId);
+            if (score.getStock() >= Utility.getMatchParameters().getStartingStock()) {
+                return true;
             }
         }
-        return teams.size() <= 1;
+        return false;
     }
 
     @Override
     public boolean shouldPlayerRespawn(int playerId, ScoreKeeper scoreKeeper) {
-        return scoreKeeper.getPlayerIdToScore().get(playerId).getStock() >= 0;
+        return true;
     }
 
     @Override
     public MatchEvent createVictoryEvent(ScoreKeeper scoreKeeper) {
         Debugger.info("round over");
-        SoundPlayer.play(SoundEffect.ROUND_OVER);
-        Set<Integer> teamsLeft = new HashSet<Integer>();
-        for (PlayerScore score : scoreKeeper.getPlayerIdToScore().values()) {
-            if (score.getStock() >= 0) {
-                int teamId = Utility.getMatchParameters().getPlayerTeam(score.getPlayerId());
-                teamsLeft.add(teamId);
-            }
-        }
-        if (teamsLeft.size() > 1) {
-            Debugger.warn("Somehow multiple teams won");
-            return new TieVictoryEvent();
-        }
-        if (teamsLeft.size() == 0) {
-            return new TieVictoryEvent();
-        }
-
-        return new TeamVictoryEvent(teamsLeft.iterator().next());
+        // TODO
+        return new TieVictoryEvent();
     }
 
     @Override
@@ -72,6 +48,7 @@ public class TeamStockModeLogic implements MatchTypeLogic {
 
         PlayerScore playerScore = new PlayerScore(playerId);
         scoreKeeper.getPlayerIdToScore().put(playerId, playerScore);
+        playerScore.setStock(0);
     }
 
     @Override
@@ -85,6 +62,7 @@ public class TeamStockModeLogic implements MatchTypeLogic {
 
         PlayerScore playerScore = new PlayerScore(botId);
         scoreKeeper.getPlayerIdToScore().put(botId, playerScore);
+        playerScore.setStock(0);
     }
 
     private Vector2f getLabelLocationFromPlayerId(int playerId) {

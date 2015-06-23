@@ -11,6 +11,8 @@ public interface MatchTypeLogic {
 
     void playerDefeatsSomeone(int winnerPlayerId, int defeatedPlayerId, ScoreKeeper scoreKeeper);
 
+    void onPlayerScores(int playerWhoScored, ScoreKeeper scoreKeeper);
+
     boolean isSceneOver(ScoreKeeper scoreKeeper);
 
     boolean shouldPlayerRespawn(int playerId, ScoreKeeper scoreKeeper);

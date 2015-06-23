@@ -19,6 +19,7 @@ public class MatchTypeMenu implements IsUpdateable, HasDrawable {
         menu.addItem(new DangineMenuItem("Bot Battle", getBotBattleAction()));
         menu.addItem(new DangineMenuItem("Co-op VS Bots", getCoopVsBotsAction()));
         menu.addItem(new DangineMenuItem("Win By Two", getWinByTwoOptions()));
+        menu.addItem(new DangineMenuItem("Soccer Mode", getSoccerModeOption()));
         menu.addItem(new DangineMenuItem("Back", getOnEscapeAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
         menu.getItem(0).getBase().addChild(selector.getDrawable());
@@ -91,6 +92,18 @@ public class MatchTypeMenu implements IsUpdateable, HasDrawable {
             @Override
             public void execute() {
                 Utility.getMatchParameters().setMatchType(MatchType.WIN_BY_TWO);
+                removeMatchTypeMenu();
+                goToCharacterSelect();
+            }
+        };
+    }
+
+    private Action getSoccerModeOption() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                Utility.getMatchParameters().setMatchType(MatchType.SOCCER);
                 removeMatchTypeMenu();
                 goToCharacterSelect();
             }
