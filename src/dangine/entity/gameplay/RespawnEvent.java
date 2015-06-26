@@ -24,6 +24,7 @@ public class RespawnEvent implements MatchEvent {
 
     @Override
     public void process() {
+        Utility.getActiveScene().getCamera().retrack();
         SoundPlayer.play(SoundEffect.RESPAWN_END);
         Debugger.info("Player: " + playerId + " spawning in");
 

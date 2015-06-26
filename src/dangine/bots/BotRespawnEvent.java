@@ -23,6 +23,7 @@ public class BotRespawnEvent implements MatchEvent {
 
     @Override
     public void process() {
+        Utility.getActiveScene().getCamera().retrack();
         SoundPlayer.play(SoundEffect.RESPAWN_END);
         DangineBot bot = new DangineBot(botId);
         bot.setPosition(x, y);

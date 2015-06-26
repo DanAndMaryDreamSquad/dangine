@@ -153,6 +153,10 @@ public class Scene implements IsUpdateable, IsDrawable {
         return camera.getCameraNode();
     }
 
+    public Matrix4 getSceneToWorldTransform() {
+        return camera.getScreenToWorldTransform();
+    }
+
     public CombatResolver getCombatResolver() {
         return combatResolver;
     }
@@ -183,5 +187,9 @@ public class Scene implements IsUpdateable, IsDrawable {
 
     public List<Bouncer> getBouncers() {
         return bouncers;
+    }
+
+    public Camera getCamera() {
+        return camera;
     }
 }

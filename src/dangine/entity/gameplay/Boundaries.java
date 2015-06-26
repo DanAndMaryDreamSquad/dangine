@@ -3,25 +3,52 @@ package dangine.entity.gameplay;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.util.Color;
+
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
+import dangine.entity.HasDrawable;
 import dangine.entity.Hero;
+import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.visual.ExplosionVisual;
+import dangine.graphics.DangineBox;
 import dangine.graphics.DanginePictureParticle;
 import dangine.player.DanginePlayer;
+import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.ParticleEffectFactory;
 import dangine.utility.Utility;
 import dangine.utility.Vector2f;
 
-public class Boundaries implements IsUpdateable {
+public class Boundaries implements IsUpdateable, HasDrawable {
 
+    final int BORDER_THICKNESS = 10;
+    SceneGraphNode base = new SceneGraphNode();
     List<Hero> heroes = new ArrayList<Hero>();
     float MAX_X = Utility.getResolution().x;
     float MAX_Y = Utility.getResolution().y;
 
     public Boundaries() {
-
+        DangineBox top = new DangineBox((int) Utility.getResolution().x, BORDER_THICKNESS, new Color(Color.RED));
+        DangineBox bottom = new DangineBox((int) Utility.getResolution().x, BORDER_THICKNESS, new Color(Color.GREEN));
+        DangineBox left = new DangineBox(BORDER_THICKNESS, (int) Utility.getResolution().y, new Color(Color.BLUE));
+        DangineBox right = new DangineBox(BORDER_THICKNESS, (int) Utility.getResolution().y, new Color(Color.YELLOW));
+        SceneGraphNode topNode = new SceneGraphNode();
+        topNode.addChild(top);
+        topNode.setPosition(0, 0);
+        SceneGraphNode bottomNode = new SceneGraphNode();
+        bottomNode.addChild(bottom);
+        bottomNode.setPosition(0, (int) Utility.getResolution().y - BORDER_THICKNESS);
+        SceneGraphNode leftNode = new SceneGraphNode();
+        leftNode.addChild(left);
+        leftNode.setPosition(0, 0);
+        SceneGraphNode rightNode = new SceneGraphNode();
+        rightNode.addChild(right);
+        rightNode.setPosition((int) Utility.getResolution().x - BORDER_THICKNESS, 0);
+        base.addChild(topNode);
+        base.addChild(bottomNode);
+        base.addChild(leftNode);
+        base.addChild(rightNode);
     }
 
     @Override
@@ -103,6 +130,11 @@ public class Boundaries implements IsUpdateable {
             return 75;
         }
         return 0;
+    }
+
+    @Override
+    public IsDrawable getDrawable() {
+        return base;
     }
 
 }

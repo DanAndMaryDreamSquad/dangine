@@ -27,6 +27,7 @@ public class BotMatchSceneSchema implements SceneSchema {
 
     @Override
     public void apply(Scene scene) {
+        scene.getCameraNode().addChild(boundaries.getDrawable());
         scene.addUpdateable(new ReturnToMenuChecker());
 
         for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {

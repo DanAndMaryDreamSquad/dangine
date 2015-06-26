@@ -31,6 +31,8 @@ public class InstantMatchSceneSchema implements SceneSchema {
 
     @Override
     public void apply(Scene scene) {
+
+        scene.getCameraNode().addChild(boundaries.getDrawable());
         SoccerBall soccerBall = new SoccerBall();
         scene.addUpdateable(soccerBall);
         scene.getCameraNode().addChild(soccerBall.getDrawable());

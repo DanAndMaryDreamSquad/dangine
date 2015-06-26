@@ -3,12 +3,17 @@ package dangine.scenegraph;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.math.Matrix4;
+
 import dangine.debugger.Debugger;
 import dangine.entity.IsDrawable;
 import dangine.graphics.IsDrawable32;
+import dangine.utility.Utility;
 import dangine.utility.Vector2f;
 
 public class FlattenSceneGraphNode {
+
+    public static float[] temp = new float[3];
 
     public static SceneGraphNode flatten(SceneGraphNode node) {
         // If the thing being flattened is in the middle of an animation, we
@@ -17,10 +22,16 @@ public class FlattenSceneGraphNode {
         SceneGraphNode result = new SceneGraphNode();
         List<SceneGraphNode> nodes = fetchCreateChildNodes(node, new ArrayList<SceneGraphNode>());
         for (SceneGraphNode childNode : nodes) {
-            // Vector2f vector = childNode.getPosition();
-            // vector =
-            // ScreenUtility.getWorldPositionFromScreenPosition(vector);
-            // childNode.setPosition(vector);
+            Vector2f vector = childNode.getPosition();
+            temp[0] = vector.x;
+            temp[1] = vector.y;
+            temp[2] = 0;
+            Matrix4 camera = Utility.getActiveScene().getSceneToWorldTransform();
+            Matrix4.mulVec(camera.getValues(), temp);
+            vector.x = temp[0];
+            vector.y = temp[1];
+
+            childNode.setPosition(vector);
             result.addChild(childNode);
         }
         if (result.childNodes.size() > 10) {

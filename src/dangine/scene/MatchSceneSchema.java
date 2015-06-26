@@ -28,6 +28,7 @@ public class MatchSceneSchema implements SceneSchema {
 
     @Override
     public void apply(Scene scene) {
+        scene.getCameraNode().addChild(boundaries.getDrawable());
         if (Utility.getMatchParameters().getMatchType() == MatchType.SOCCER) {
             SoccerBall soccerBall = new SoccerBall();
             scene.addUpdateable(soccerBall);

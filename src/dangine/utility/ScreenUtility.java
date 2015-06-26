@@ -16,7 +16,6 @@ import dangine.scenegraph.SceneGraphNode;
 
 public class ScreenUtility {
 
-    @SuppressWarnings("unused")
     private static float[] temp = new float[3];
 
     @Deprecated
@@ -36,16 +35,19 @@ public class ScreenUtility {
     }
 
     public static Vector2f getWorldPositionFromScreenPosition(Vector2f inOutPosition) {
-        // temp[0] = inOutPosition.x;
-        // temp[1] = inOutPosition.y;
-        // temp[2] = 0;
-        // Matrix4 camera =
-        // Utility.getActiveScene().getCameraNode().getMatrix().cpy();
-        // Matrix4.mulVec(camera.inv().getValues(), temp);
+
         inOutPosition.x = inOutPosition.x
                 * ((float) DangineOpenGL.WORLD_RESOLUTION.x / (float) DangineOpenGL.WINDOW_RESOLUTION.x);
         inOutPosition.y = inOutPosition.y
                 * ((float) DangineOpenGL.WORLD_RESOLUTION.y / (float) DangineOpenGL.WINDOW_RESOLUTION.y);
+
+        temp[0] = inOutPosition.x;
+        temp[1] = inOutPosition.y;
+        temp[2] = 0;
+        Matrix4 camera = Utility.getActiveScene().getSceneToWorldTransform();
+        Matrix4.mulVec(camera.getValues(), temp);
+        inOutPosition.x = temp[0];
+        inOutPosition.y = temp[1];
         return inOutPosition;
     }
 
