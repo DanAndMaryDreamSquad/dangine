@@ -3,3 +3,6 @@ bin/*
 *.profile
 *.settings
 *.db
+settings.txt
+src/assets/resources.starmanifest
+

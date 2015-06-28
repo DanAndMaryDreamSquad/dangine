@@ -11,6 +11,7 @@ import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.scenegraph.SceneGraphNode;
+import dangine.utility.MathUtility;
 import dangine.utility.Utility;
 import dangine.utility.Vector2f;
 
@@ -30,8 +31,10 @@ public class Camera implements IsUpdateable, HasDrawable {
     float minY = 9999;
     float maxY = -9999;
     float MIN_SCALE = 1.0f;
-    float MAX_SCALE = 3.0f;
+    float MAX_SCALE = 2.0f;
     float AREA_BETWEEN_CHARACTER_AND_EDGE_FACTOR = 2.5f;
+    float DISTANCE_FOR_MAX_SCALE = 100;
+    float DISTANCE_FOR_MIN_SCALE = 600;
 
     public SceneGraphNode getCameraNode() {
         return cameraNode;
@@ -102,15 +105,18 @@ public class Camera implements IsUpdateable, HasDrawable {
         }
         float distanceX = maxX - minX;
         float distanceY = maxY - minY;
-        float scaleX = MAX_SCALE;
-        if (distanceX != 0) {
-            scaleX = Utility.getResolution().x / (distanceX * AREA_BETWEEN_CHARACTER_AND_EDGE_FACTOR);
-        }
-        float scaleY = MAX_SCALE;
-        if (distanceY != 0) {
-            scaleY = Utility.getResolution().y / (distanceY * AREA_BETWEEN_CHARACTER_AND_EDGE_FACTOR);
-        }
-        scale = Math.min(scaleX, scaleY);
+        float xpercent = (distanceX - DISTANCE_FOR_MAX_SCALE) / (DISTANCE_FOR_MIN_SCALE - DISTANCE_FOR_MAX_SCALE);
+        xpercent = Math.max(0, xpercent);
+        float ypercent = (distanceY - DISTANCE_FOR_MAX_SCALE) / (DISTANCE_FOR_MIN_SCALE - DISTANCE_FOR_MAX_SCALE);
+        ypercent = Math.max(0, ypercent);
+        xpercent = MathUtility.logFunction(xpercent);
+        ypercent = MathUtility.logFunction(ypercent);
+        xpercent = 1.0f - xpercent;
+        ypercent = 1.0f - ypercent;
+        float fx = MathUtility.rangify(MIN_SCALE, MAX_SCALE, xpercent);
+        float fy = MathUtility.rangify(MIN_SCALE, MAX_SCALE, ypercent);
+
+        scale = Math.min(fx, fy);
         scale = Math.min(MAX_SCALE, scale);
         scale = Math.max(MIN_SCALE, scale);
 

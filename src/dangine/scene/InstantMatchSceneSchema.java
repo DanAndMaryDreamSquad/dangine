@@ -55,7 +55,7 @@ public class InstantMatchSceneSchema implements SceneSchema {
             Utility.getActiveScene().addUpdateable(greatsword);
         }
         scene.addUpdateable(background);
-        scene.getParentNode().addChild(background.getDrawable());
+        scene.getCameraNode().addChild(background.getDrawable());
         scene.addUpdateable(boundaries);
         scene.getParentNode().addChild(scene.getMatchOrchestrator().getScoreKeeper().getDrawable());
     }

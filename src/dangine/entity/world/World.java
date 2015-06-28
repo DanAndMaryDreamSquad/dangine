@@ -111,7 +111,7 @@ public enum World {
     private static void addPanningSceneGraphs(Scene scene, PanningSceneGraph... graphs) {
         for (PanningSceneGraph panningSceneGraph : graphs) {
             scene.addUpdateable(panningSceneGraph);
-            scene.getParentNode().addChild(panningSceneGraph.getDrawable());
+            scene.getCameraNode().addChild(panningSceneGraph.getDrawable());
         }
     }
 
