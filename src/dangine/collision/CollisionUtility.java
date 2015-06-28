@@ -39,4 +39,20 @@ public class CollisionUtility {
         }
     }
 
+    public static void applyKnockback(Movement movement, Vector2f sourcePosition, Vector2f targetPosition,
+            ColliderType colliderType) {
+        Vector2f angleOfAttack = new Vector2f(targetPosition.x, targetPosition.y);
+        angleOfAttack = angleOfAttack.sub(sourcePosition).normalise();
+        switch (colliderType) {
+        case LIGHT:
+            movement.push(angleOfAttack.x, angleOfAttack.y, DangineSavedSettings.INSTANCE.getLightKnockPower());
+            break;
+        case HEAVY:
+            movement.push(angleOfAttack.x, angleOfAttack.y, DangineSavedSettings.INSTANCE.getHeavyKnockPower());
+            break;
+        default:
+            break;
+        }
+    }
+
 }

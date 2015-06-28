@@ -1,7 +1,10 @@
 package dangine.entity.gameplay.soccer;
 
+import dangine.collision.ColliderType;
 import dangine.collision.CollisionUtility;
+import dangine.collision.GreatSwordColliderData;
 import dangine.entity.HasDrawable;
+import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.combat.CombatEvent;
@@ -69,7 +72,16 @@ public class SoccerBall implements IsUpdateable, HasDrawable {
                 if (arg.getOwnerId() == lastHitterId) {
                     return;
                 }
-                CollisionUtility.applyKnockback(movement, arg, onHit.getPosition());
+                Vector2f position;
+                ColliderType colliderType = ColliderType.LIGHT;
+                if (arg.getCreator() instanceof GreatSwordColliderData) {
+                    Hero hero = Utility.getActiveScene().getHero(arg.getOwnerId());
+                    colliderType = ((GreatSwordColliderData) arg.getCreator()).getColliderType();
+                    position = hero.getPosition();
+                } else {
+                    position = arg.getPosition();
+                }
+                CollisionUtility.applyKnockback(movement, position, onHit.getPosition(), colliderType);
                 lastHitterId = arg.getOwnerId();
                 lastHitterTimer = 0;
             }
