@@ -5,11 +5,13 @@ import java.util.List;
 
 import com.badlogic.gdx.math.Matrix4;
 
+import dangine.bots.BotRespawner;
 import dangine.bots.DangineBot;
 import dangine.entity.HasDrawable;
 import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
+import dangine.entity.gameplay.Respawner;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.MathUtility;
 import dangine.utility.Utility;
@@ -61,6 +63,15 @@ public class Camera implements IsUpdateable, HasDrawable {
                     trackings.add(bot.getPosition());
                 }
             }
+            List<Respawner> respawners = Utility.getActiveScene().getUpdateables(Respawner.class);
+            List<BotRespawner> botRespawners = Utility.getActiveScene().getUpdateables(BotRespawner.class);
+
+            for (Respawner respawner : respawners) {
+                trackings.add(respawner.getPosition());
+            }
+            for (BotRespawner botRespawner : botRespawners) {
+                trackings.add(botRespawner.getPosition());
+            }
         }
         x = 0;
         y = 0;
@@ -87,7 +98,7 @@ public class Camera implements IsUpdateable, HasDrawable {
         y *= scale;
         enforceBoundaries();
         if (trackings.size() == 0 || !isEnabled()) {
-            cameraNode.setScale(1, 1);
+            cameraNode.setScale(MIN_SCALE, MIN_SCALE);
             cameraNode.setPosition(0, 0);
             screenToWorldTransform.idt();
             screenToWorldTransform.inv();
@@ -101,6 +112,7 @@ public class Camera implements IsUpdateable, HasDrawable {
 
     private void calculateZoomFromDistances() {
         if (trackings.size() <= 1) {
+            scale = MIN_SCALE;
             return;
         }
         float distanceX = maxX - minX;

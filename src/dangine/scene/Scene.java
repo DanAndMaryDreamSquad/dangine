@@ -145,6 +145,17 @@ public class Scene implements IsUpdateable, IsDrawable {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> List<T> getUpdateables(Class<? extends T> cls) {
+        List<T> results = new ArrayList<T>();
+        for (IsUpdateable u : updateables) {
+            if (cls.isInstance(u)) {
+                results.add((T) u);
+            }
+        }
+        return results;
+    }
+
     public SceneGraphNode getParentNode() {
         return parentNode;
     }
