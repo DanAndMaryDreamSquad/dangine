@@ -13,6 +13,8 @@ public interface MatchTypeLogic {
 
     void onPlayerScores(int playerWhoScored, ScoreKeeper scoreKeeper);
 
+    void updateScoreBoardText(ScoreKeeper scoreKeeper);
+
     boolean isSceneOver(ScoreKeeper scoreKeeper);
 
     boolean shouldPlayerRespawn(int playerId, ScoreKeeper scoreKeeper);

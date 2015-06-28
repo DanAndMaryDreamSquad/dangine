@@ -17,6 +17,22 @@ import dangine.utility.Vector2f;
 public class WinByTwoLogic implements MatchTypeLogic {
 
     @Override
+    public void updateScoreBoardText(ScoreKeeper scoreKeeper) {
+        for (PlayerScore score : scoreKeeper.getPlayerIdToScore().values()) {
+            if (score.getPlayerId() < 0) {
+                int botStock = scoreKeeper.getPlayerScore(score.getPlayerId()).getStock();
+                scoreKeeper.getPlayerIdToTextNode().get(score.getPlayerId())
+                        .setText("Bot Avatars Remaining: " + botStock);
+                continue;
+            }
+            int stock = score.getStock();
+            scoreKeeper.getPlayerIdToTextNode().get(score.getPlayerId())
+                    .setText("P" + score.getPlayerId() + " Avatars Remaining: " + stock);
+        }
+        scoreKeeper.setTimer(0);
+    };
+
+    @Override
     public void playerDefeatsSomeone(int winnerPlayerId, int defeatedPlayerId, ScoreKeeper scoreKeeper) {
         PlayerScore defeatedScore = scoreKeeper.getPlayerIdToScore().get(defeatedPlayerId);
         defeatedScore.setStock(defeatedScore.getStock() - 1);

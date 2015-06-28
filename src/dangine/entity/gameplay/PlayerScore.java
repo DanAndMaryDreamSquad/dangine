@@ -5,6 +5,7 @@ import dangine.utility.Utility;
 public class PlayerScore {
 
     int stock = Utility.getMatchParameters().getStartingStock();
+    int score = 0;
     final int playerId;
 
     public PlayerScore(int playerId) {
@@ -21,6 +22,14 @@ public class PlayerScore {
 
     public int getPlayerId() {
         return playerId;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
 }

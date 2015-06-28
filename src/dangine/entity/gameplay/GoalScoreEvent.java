@@ -19,7 +19,7 @@ public class GoalScoreEvent implements MatchEvent {
         Debugger.info("goooooooooooooooooooooal!!");
         SoccerBall soccerBall = Utility.getActiveScene().getUpdateable(SoccerBall.class);
         soccerBall.getPosition().set(Utility.getResolution().x / 2, Utility.getResolution().y / 2);
-        Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().onPlayerScores(goalOwner);
+        Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().onPlayerScores(goalScorer);
         soccerBall.getMovement().setVelocity(0, 0);
     }
 

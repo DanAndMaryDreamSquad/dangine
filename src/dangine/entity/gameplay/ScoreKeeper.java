@@ -57,6 +57,7 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
 
     public void onPlayerScores(int playerWhoScored) {
         matchTypeLogic.onPlayerScores(playerWhoScored, this);
+        updatePlayerScores();
     }
 
     public void onPlayerDefeatsAnother(int defeatedPlayer, int playerWhoDefeatedOther) {
@@ -85,19 +86,11 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
         if (Utility.getPlayers().getPlayers().isEmpty()) {
             return;
         }
-        for (PlayerScore score : playerIdToScore.values()) {
-            if (score.getPlayerId() < 0) {
-                int botStock = getPlayerScore(score.getPlayerId()).getStock();
-                playerIdToTextNode.get(score.playerId).setText("Bot Avatars Remaining: " + botStock);
-                continue;
-            }
-            int stock = score.getStock();
-            playerIdToTextNode.get(score.playerId).setText("P" + score.getPlayerId() + " Avatars Remaining: " + stock);
-        }
-        timer = 0;
+
+        matchTypeLogic.updateScoreBoardText(this);
     }
 
-    private PlayerScore getPlayerScore(int playerId) {
+    public PlayerScore getPlayerScore(int playerId) {
         for (PlayerScore score : playerIdToScore.values()) {
             if (score.getPlayerId() == playerId) {
                 return score;
@@ -121,6 +114,10 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
 
     public SceneGraphNode getBase() {
         return base;
+    }
+
+    public void setTimer(float timer) {
+        this.timer = timer;
     }
 
 }

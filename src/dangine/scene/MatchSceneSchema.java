@@ -33,7 +33,7 @@ public class MatchSceneSchema implements SceneSchema {
             SoccerBall soccerBall = new SoccerBall();
             scene.addUpdateable(soccerBall);
             scene.getCameraNode().addChild(soccerBall.getDrawable());
-            SoccerGoal soccerGoal = new SoccerGoal(1);
+            SoccerGoal soccerGoal = new SoccerGoal(0);
             scene.addUpdateable(soccerGoal);
             scene.getCameraNode().addChild(soccerGoal.getDrawable());
         }

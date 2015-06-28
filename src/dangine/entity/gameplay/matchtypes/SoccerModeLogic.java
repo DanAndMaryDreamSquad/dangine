@@ -12,6 +12,16 @@ import dangine.utility.Vector2f;
 public class SoccerModeLogic implements MatchTypeLogic {
 
     @Override
+    public void updateScoreBoardText(ScoreKeeper scoreKeeper) {
+        for (PlayerScore score : scoreKeeper.getPlayerIdToScore().values()) {
+            int goals = score.getScore();
+            scoreKeeper.getPlayerIdToTextNode().get(score.getPlayerId())
+                    .setText("P" + score.getPlayerId() + " Goals: " + goals);
+        }
+        scoreKeeper.setTimer(0);
+    };
+
+    @Override
     public void playerDefeatsSomeone(int winnerPlayerId, int defeatedPlayerId, ScoreKeeper scoreKeeper) {
     }
 
@@ -75,7 +85,11 @@ public class SoccerModeLogic implements MatchTypeLogic {
 
     @Override
     public void onPlayerScores(int playerWhoScores, ScoreKeeper scoreKeeper) {
-        Debugger.warn(this.getClass() + " has no onPlayerScores() logic");
+        PlayerScore playerScore = scoreKeeper.getPlayerIdToScore().get(playerWhoScores);
+        int score = playerScore.getScore();
+
+        playerScore.setScore(score + 1);
+        scoreKeeper.setTimer(0);
     }
 
 }
