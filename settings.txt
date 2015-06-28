@@ -1,1 +1,0 @@
-{"fullscreen":false,"soundVolmePercent":50,"resolutionX":1920,"resolutionY":1080,"musicVolumePercent":50,"borderlessWindow":true}
