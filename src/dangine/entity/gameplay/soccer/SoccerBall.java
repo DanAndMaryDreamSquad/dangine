@@ -26,7 +26,7 @@ public class SoccerBall implements IsUpdateable, HasDrawable {
     final float ROTATION_SPEED = 0.094f;
     final float LAST_HITTER_PERIOD = 200f;
     float angle = 0.0f;
-    final int HITBOX_SIZE = 25;
+    static final int HITBOX_SIZE = 25;
     final CombatEvent onHit;
     final CombatEventHitbox hitbox;
     final SoccerBallMovement movement = new SoccerBallMovement();
@@ -75,8 +75,9 @@ public class SoccerBall implements IsUpdateable, HasDrawable {
                 Vector2f position;
                 ColliderType colliderType = ColliderType.LIGHT;
                 if (arg.getCreator() instanceof GreatSwordColliderData) {
-                    Hero hero = Utility.getActiveScene().getHero(arg.getOwnerId());
-                    colliderType = ((GreatSwordColliderData) arg.getCreator()).getColliderType();
+                    GreatSwordColliderData colliderData = (GreatSwordColliderData) arg.getCreator();
+                    colliderType = colliderData.getColliderType();
+                    Hero hero = Utility.getActiveScene().getHero(colliderData.getWielderId());
                     position = hero.getPosition();
                 } else {
                     position = arg.getPosition();

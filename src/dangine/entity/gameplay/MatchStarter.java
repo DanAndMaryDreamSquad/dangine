@@ -20,7 +20,7 @@ public class MatchStarter implements IsUpdateable {
 
             @Override
             public MatchTypeLogic createMatchTypeLogic() {
-                return new FFAStockModeLogic();
+                return new FFAStockModeLogic(false);
             }
         },
         TEAM_VERSUS {
@@ -31,7 +31,7 @@ public class MatchStarter implements IsUpdateable {
 
             @Override
             public MatchTypeLogic createMatchTypeLogic() {
-                return new TeamStockModeLogic();
+                return new TeamStockModeLogic(false);
             }
         },
         BOT_MATCH {
@@ -42,7 +42,7 @@ public class MatchStarter implements IsUpdateable {
 
             @Override
             public MatchTypeLogic createMatchTypeLogic() {
-                return new FFAStockModeLogic();
+                return new FFAStockModeLogic(true);
             }
         },
         COOP_VS_BOTS {
@@ -53,7 +53,7 @@ public class MatchStarter implements IsUpdateable {
 
             @Override
             public MatchTypeLogic createMatchTypeLogic() {
-                return new TeamStockModeLogic();
+                return new TeamStockModeLogic(true);
             }
         },
         WIN_BY_TWO {

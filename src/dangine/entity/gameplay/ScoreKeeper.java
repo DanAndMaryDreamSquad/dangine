@@ -8,7 +8,6 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.gameplay.matchtypes.MatchTypeLogic;
 import dangine.graphics.DangineStringPicture;
-import dangine.player.DanginePlayer;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
 
@@ -18,18 +17,19 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     boolean matchOver = false;
     SceneGraphNode base = new SceneGraphNode();
     Map<Integer, PlayerScore> playerIdToScore = new HashMap<Integer, PlayerScore>();
+    Map<Integer, PlayerScore> teamIdToScore = new HashMap<Integer, PlayerScore>();
     Map<Integer, DangineStringPicture> playerIdToTextNode = new HashMap<Integer, DangineStringPicture>();
+    Map<Integer, DangineStringPicture> teamIdToTextNode = new HashMap<Integer, DangineStringPicture>();
     float timer = 0;
     final float FADE_TIME = 4000;
     final float FADE_DELAY = 2000;
 
     public ScoreKeeper() {
         this.matchTypeLogic = Utility.getMatchParameters().getMatchType().createMatchTypeLogic();
+    }
 
-        for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
-            addPlayerToGame(player.getPlayerId());
-        }
-        updatePlayerScores();
+    public void setupMatch() {
+        this.matchTypeLogic.setupMatch(this);
     }
 
     public void addPlayerToGame(int playerId) {
@@ -38,7 +38,6 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
 
     public void addBotToGame(int botId) {
         matchTypeLogic.addBot(botId, this);
-        updatePlayerScores();
     }
 
     @Override
@@ -58,18 +57,29 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
     public void onPlayerScores(int playerWhoScored) {
         matchTypeLogic.onPlayerScores(playerWhoScored, this);
         updatePlayerScores();
+        checkForEndGame();
+    }
+
+    public void onTeamScores(int teamWhoScored) {
+        matchTypeLogic.onTeamScores(teamWhoScored, this);
+        updatePlayerScores();
+        checkForEndGame();
     }
 
     public void onPlayerDefeatsAnother(int defeatedPlayer, int playerWhoDefeatedOther) {
         matchTypeLogic.playerDefeatsSomeone(playerWhoDefeatedOther, defeatedPlayer, this);
         updatePlayerScores();
-        if (checkSceneOver() && !matchOver) {
+        checkForEndGame();
+    }
+
+    private void checkForEndGame() {
+        if (isSceneOver() && !matchOver) {
             matchOver = true;
-            Utility.getActiveScene().getMatchOrchestrator().addEvent(new MatchEndEvent());
+            Utility.getActiveScene().getMatchOrchestrator().addEvent(matchTypeLogic.createVictoryEvent(this));
         }
     }
 
-    public boolean checkSceneOver() {
+    public boolean isSceneOver() {
         return matchTypeLogic.isSceneOver(this);
     }
 
@@ -118,6 +128,14 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
 
     public void setTimer(float timer) {
         this.timer = timer;
+    }
+
+    public Map<Integer, PlayerScore> getTeamIdToScore() {
+        return teamIdToScore;
+    }
+
+    public Map<Integer, DangineStringPicture> getTeamIdToTextNode() {
+        return teamIdToTextNode;
     }
 
 }

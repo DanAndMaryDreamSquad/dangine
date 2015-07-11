@@ -138,6 +138,34 @@ public class DangineColoredQuad {
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
+    public void setQuadColor(Color topLeft, Color topRight, Color bottomLeft, Color bottomRight) {
+        // Update vertices in the VBO, first bind the VBO
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
+
+        // Apply and update vertex data
+        vertices[0].setRGBA(topLeft.getRed() / 255f, topLeft.getGreen() / 255f, topLeft.getBlue() / 255f,
+                topLeft.getAlpha() / 255f);
+        vertices[1].setRGBA(topRight.getRed() / 255f, topRight.getGreen() / 255f, topRight.getBlue() / 255f,
+                topRight.getAlpha() / 255f);
+        vertices[2].setRGBA(bottomLeft.getRed() / 255f, bottomLeft.getGreen() / 255f, bottomLeft.getBlue() / 255f,
+                bottomLeft.getAlpha() / 255f);
+        vertices[3].setRGBA(bottomRight.getRed() / 255f, bottomRight.getGreen() / 255f, bottomRight.getBlue() / 255f,
+                bottomRight.getAlpha() / 255f);
+
+        FloatBuffer vertexFloatBuffer = verticesBuffer;
+        vertexFloatBuffer.rewind();
+        for (int j = 0; j < vertices.length; j++) {
+            verticesBuffer.put(vertices[j].getXYZW());
+            verticesBuffer.put(vertices[j].getRGBA());
+        }
+        vertexFloatBuffer.flip();
+
+        GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, 0, vertexFloatBuffer);
+
+        // And of course unbind
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    }
+
     public void updateTransformationMatrixOfShader(Matrix4 matrix) {
 
         // badlogic result

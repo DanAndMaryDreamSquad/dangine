@@ -7,7 +7,6 @@ import dangine.entity.Creature;
 import dangine.entity.Obstruction;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
-import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.gameplay.Respawner;
 import dangine.entity.gameplay.ReturnToMenuChecker;
 import dangine.entity.world.ObstaclePack;
@@ -27,6 +26,7 @@ public class BotMatchSceneSchema implements SceneSchema {
 
     @Override
     public void apply(Scene scene) {
+        scene.getMatchOrchestrator().getScoreKeeper().setupMatch();
         scene.getCameraNode().addChild(boundaries.getDrawable());
         scene.addUpdateable(new ReturnToMenuChecker());
 
@@ -39,10 +39,11 @@ public class BotMatchSceneSchema implements SceneSchema {
 
         for (int i = 1; i < Utility.getMatchParameters().getNumberOfBots() + 1; i++) {
             scene.addUpdateable(new BotRespawner(-i));
-            scene.getMatchOrchestrator().getScoreKeeper().addBotToGame(-i);
-            if (Utility.getMatchParameters().getMatchType() == MatchType.COOP_VS_BOTS) {
-                Utility.getMatchParameters().addPlayerTeam(-i, -1);
-            }
+            // scene.getMatchOrchestrator().getScoreKeeper().addBotToGame(-i);
+            // if (Utility.getMatchParameters().getMatchType() ==
+            // MatchType.COOP_VS_BOTS) {
+            // Utility.getMatchParameters().addPlayerTeam(-i, -1);
+            // }
         }
 
         Utility.getMatchParameters().getCurrentWorld().createWorld(scene);

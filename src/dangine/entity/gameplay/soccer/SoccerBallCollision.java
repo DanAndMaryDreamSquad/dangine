@@ -2,6 +2,7 @@ package dangine.entity.gameplay.soccer;
 
 import java.util.List;
 
+import dangine.debugger.Debugger;
 import dangine.entity.Obstruction;
 import dangine.entity.movement.SoccerBallMovement;
 import dangine.entity.visual.ExplosionVisual;
@@ -17,25 +18,27 @@ public class SoccerBallCollision {
     final float IMPACT_SPARK_THRESHOLD = DangineSavedSettings.INSTANCE.getMaxVelocity();
 
     public Vector2f checkCollisions(SoccerBallMovement movement, Vector2f currentPosition, Vector2f potentialPosition) {
+        float offset = DangineTextures.getImageByName("soccerball").getHeight() * SoccerBall.SCALE / 2;
         List<Obstruction> obstructions = Utility.getActiveScene().getObstructions();
         for (Obstruction obs : obstructions) {
-            if (obs.isCollidingWithPoint(potentialPosition.x, currentPosition.y)) {
+            if (obs.isCollidingWithPoint(potentialPosition.x + offset, currentPosition.y + offset)) {
+                Debugger.info("hit");
                 if (movement.getVelocity().x < 0) {
-                    potentialPosition.x = obs.rightX();
+                    potentialPosition.x = obs.rightX() - offset;
                 } else if (movement.getVelocity().x > 0) {
-                    potentialPosition.x = obs.leftX();
+                    potentialPosition.x = obs.leftX() - offset;
                 }
                 checkImpactSparks(movement.getVelocity().x, currentPosition.x, currentPosition.y);
-                movement.getVelocity().x = 0;
+                movement.getVelocity().x = -movement.getVelocity().x;
             }
-            if (obs.isCollidingWithPoint(currentPosition.x, potentialPosition.y)) {
+            if (obs.isCollidingWithPoint(currentPosition.x + offset, potentialPosition.y + offset)) {
                 if (movement.getVelocity().y < 0) {
-                    potentialPosition.y = obs.bottomY();
+                    potentialPosition.y = obs.bottomY() - offset;
                 } else if (movement.getVelocity().y > 0) {
-                    potentialPosition.y = obs.topY();
+                    potentialPosition.y = obs.topY() - offset;
                 }
                 checkImpactSparks(movement.getVelocity().y, currentPosition.x, currentPosition.y);
-                movement.getVelocity().y = 0;
+                movement.getVelocity().y = -movement.getVelocity().y;
             }
         }
         handleVerticleBounds(movement, currentPosition, potentialPosition);

@@ -28,6 +28,7 @@ public class SoccerBallMovement implements Movement {
         } else {
             enforceMaximumVelocity();
         }
+
         Vector2f finalPosition = updatePosition(position);
         finalPosition = collision.checkCollisions(this, position, finalPosition);
         position.x = finalPosition.x;

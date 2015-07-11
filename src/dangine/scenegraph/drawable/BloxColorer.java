@@ -11,7 +11,7 @@ public class BloxColorer {
     public static final ReadableColor[] COLORS = { Color.BLACK, Color.BLUE, Color.CYAN, Color.DKGREY, Color.GREY,
             Color.GREEN, Color.LTGREY, Color.PURPLE, Color.ORANGE, Color.RED, Color.WHITE, Color.YELLOW };
 
-    public static final ReadableColor[] TEAM_COLORS = { Color.BLACK, Color.BLUE, Color.CYAN, Color.DKGREY, Color.RED,
+    public static final ReadableColor[] TEAM_COLORS = { Color.RED, Color.BLUE, Color.CYAN, Color.DKGREY, Color.BLACK,
             Color.ORANGE };
 
     public static final int indexOf(Color color) {

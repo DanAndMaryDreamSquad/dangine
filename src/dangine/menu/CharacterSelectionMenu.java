@@ -110,6 +110,10 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
             @Override
             public void execute() {
                 Debugger.info("Done");
+                if (Utility.getMatchParameters().getMatchType().isTeamMode()) {
+                    int team = Utility.getMatchParameters().getPlayerTeam(getPlayerId());
+                    Utility.getMatchParameters().addPlayerTeam(getPlayerId(), team);
+                }
                 isDone = true;
                 node.removeChild(menu.getDrawable());
             }
@@ -153,7 +157,11 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
             public void execute() {
                 int team = Utility.getMatchParameters().getPlayerTeam(getPlayerId());
                 team++;
-                team = team % 6;
+                if (Utility.getMatchParameters().getMatchType() == MatchType.SOCCER) {
+                    team = team % 2;
+                } else {
+                    team = team % 6;
+                }
                 Utility.getMatchParameters().addPlayerTeam(getPlayerId(), team);
                 color = new Color(BloxColorer.TEAM_COLORS[team]);
                 reColor();

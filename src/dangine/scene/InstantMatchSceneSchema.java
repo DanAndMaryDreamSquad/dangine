@@ -8,8 +8,6 @@ import dangine.entity.combat.PlayerGreatswordInputProvider;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.ReturnToMenuChecker;
-import dangine.entity.gameplay.soccer.SoccerBall;
-import dangine.entity.gameplay.soccer.SoccerGoal;
 import dangine.entity.world.Background;
 import dangine.entity.world.PanningSceneGraph;
 import dangine.input.DangineControllerAssignments;
@@ -31,19 +29,14 @@ public class InstantMatchSceneSchema implements SceneSchema {
 
     @Override
     public void apply(Scene scene) {
-
-        scene.getCameraNode().addChild(boundaries.getDrawable());
-        SoccerBall soccerBall = new SoccerBall();
-        scene.addUpdateable(soccerBall);
-        scene.getCameraNode().addChild(soccerBall.getDrawable());
-        SoccerGoal soccerGoal = new SoccerGoal(1);
-        scene.addUpdateable(soccerGoal);
-        scene.getCameraNode().addChild(soccerGoal.getDrawable());
         if (Utility.getPlayers().getPlayers().isEmpty()) {
             DangineControllerAssignments.forceSetDeviceForPlayer(0, Device.KEYBOARD_LEFT);
             Utility.getPlayers().newPlayer();
             scene.getMatchOrchestrator().getScoreKeeper().addPlayerToGame(Utility.getPlayers().getPlayers().size() - 1);
         }
+        scene.getMatchOrchestrator().getScoreKeeper().setupMatch();
+
+        scene.getCameraNode().addChild(boundaries.getDrawable());
         scene.addUpdateable(new ReturnToMenuChecker());
         for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {
             Hero hero = new Hero(i);

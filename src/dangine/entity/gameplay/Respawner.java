@@ -3,6 +3,7 @@ package dangine.entity.gameplay;
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
 import dangine.entity.IsUpdateable;
+import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.entity.visual.RespawnVisual;
 import dangine.utility.MathUtility;
@@ -21,8 +22,25 @@ public class Respawner implements IsUpdateable {
 
     public Respawner(int playerId) {
         this.playerId = playerId;
-        float x = MathUtility.randomFloat(0 + SPAWN_POSITION_BUFFER, Utility.getResolution().x - SPAWN_POSITION_BUFFER);
-        float y = MathUtility.randomFloat(0 + SPAWN_POSITION_BUFFER, Utility.getResolution().y - SPAWN_POSITION_BUFFER);
+        float x;
+        float y;
+        if (Utility.getMatchParameters().getMatchType().isTeamMode()
+                && Utility.getMatchParameters().getMatchType() == MatchType.SOCCER) {
+            float left;
+            float right;
+            if (Utility.getMatchParameters().getPlayerIdToTeam().get(playerId) == 0) {
+                left = SPAWN_POSITION_BUFFER;
+                right = (Utility.getResolution().x / 2) - SPAWN_POSITION_BUFFER;
+            } else {
+                left = (Utility.getResolution().x / 2) + SPAWN_POSITION_BUFFER;
+                right = Utility.getResolution().x - SPAWN_POSITION_BUFFER;
+            }
+            x = MathUtility.randomFloat(left, right);
+            y = MathUtility.randomFloat(Utility.getResolution().y * 0.25f, Utility.getResolution().y * 0.75f);
+        } else {
+            x = MathUtility.randomFloat(0 + SPAWN_POSITION_BUFFER, Utility.getResolution().x - SPAWN_POSITION_BUFFER);
+            y = MathUtility.randomFloat(0 + SPAWN_POSITION_BUFFER, Utility.getResolution().y - SPAWN_POSITION_BUFFER);
+        }
         this.position = new Vector2f(x, y);
         Utility.getActiveScene().getCamera().retrack();
     }

@@ -22,7 +22,7 @@ import dangine.utility.Vector2f;
 
 public class Boundaries implements IsUpdateable, HasDrawable {
 
-    final int BORDER_THICKNESS = 10;
+    final int BORDER_THICKNESS = 50;
     SceneGraphNode base = new SceneGraphNode();
     List<Hero> heroes = new ArrayList<Hero>();
     float MAX_X = Utility.getResolution().x;
@@ -30,9 +30,13 @@ public class Boundaries implements IsUpdateable, HasDrawable {
 
     public Boundaries() {
         DangineBox top = new DangineBox((int) Utility.getResolution().x, BORDER_THICKNESS, new Color(Color.RED));
+        top.setColor(new Color(Color.BLACK), new Color(0, 0, 0, 0), new Color(0, 0, 0, 0), new Color(Color.BLACK));
         DangineBox bottom = new DangineBox((int) Utility.getResolution().x, BORDER_THICKNESS, new Color(Color.GREEN));
+        bottom.setColor(new Color(0, 0, 0, 0), new Color(Color.BLACK), new Color(Color.BLACK), new Color(0, 0, 0, 0));
         DangineBox left = new DangineBox(BORDER_THICKNESS, (int) Utility.getResolution().y, new Color(Color.BLUE));
+        left.setColor(new Color(Color.BLACK), new Color(Color.BLACK), new Color(0, 0, 0, 0), new Color(0, 0, 0, 0));
         DangineBox right = new DangineBox(BORDER_THICKNESS, (int) Utility.getResolution().y, new Color(Color.YELLOW));
+        right.setColor(new Color(0, 0, 0, 0), new Color(0, 0, 0, 0), new Color(Color.BLACK), new Color(Color.BLACK));
         SceneGraphNode topNode = new SceneGraphNode();
         topNode.addChild(top);
         topNode.setPosition(0, 0);

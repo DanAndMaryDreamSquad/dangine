@@ -10,11 +10,19 @@ import dangine.entity.gameplay.MatchEvent;
 import dangine.entity.gameplay.PlayerScore;
 import dangine.entity.gameplay.ScoreKeeper;
 import dangine.graphics.DangineStringPicture;
+import dangine.player.DanginePlayer;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
 import dangine.utility.Vector2f;
 
 public class WinByTwoLogic implements MatchTypeLogic {
+
+    @Override
+    public void setupMatch(ScoreKeeper scoreKeeper) {
+        for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
+            scoreKeeper.addPlayerToGame(player.getPlayerId());
+        }
+    }
 
     @Override
     public void updateScoreBoardText(ScoreKeeper scoreKeeper) {
@@ -133,6 +141,12 @@ public class WinByTwoLogic implements MatchTypeLogic {
     @Override
     public void onPlayerScores(int playerWhoScores, ScoreKeeper scoreKeeper) {
         Debugger.warn(this.getClass() + " has no onPlayerScores() logic");
+    }
+
+    @Override
+    public void onTeamScores(int teamWhoScored, ScoreKeeper scoreKeeper) {
+        // TODO Auto-generated method stub
+
     }
 
 }

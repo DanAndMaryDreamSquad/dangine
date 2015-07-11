@@ -21,25 +21,6 @@ public class CharacterSelect implements IsUpdateable {
             Utility.getActiveScene().getParentNode().addChild(menu.getDrawable());
             menus.add(menu);
         }
-        // TODO Only one player is allowed right now because the bot cannot
-        // handle multiple targets
-        // if (Utility.getMatchParameters().getMatchType() ==
-        // MatchType.BOT_MATCH) {
-        // DanginePlayer player = Utility.getPlayers().getPlayer(0);
-        // CharacterSelectionMenu menu = new
-        // CharacterSelectionMenu(player.getPlayerId());
-        // Utility.getActiveScene().addUpdateable(menu);
-        // Utility.getActiveScene().getParentNode().addChild(menu.getDrawable());
-        // menus.add(menu);
-        // } else {
-        // for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
-        // CharacterSelectionMenu menu = new
-        // CharacterSelectionMenu(player.getPlayerId());
-        // Utility.getActiveScene().addUpdateable(menu);
-        // Utility.getActiveScene().getParentNode().addChild(menu.getDrawable());
-        // menus.add(menu);
-        // }
-        // }
     }
 
     @Override

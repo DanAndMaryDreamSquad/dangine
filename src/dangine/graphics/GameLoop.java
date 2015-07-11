@@ -14,6 +14,7 @@ import dangine.audio.DangineMusicPlayer;
 import dangine.audio.DangineOpenAL;
 import dangine.audio.DangineSounds;
 import dangine.debugger.Debugger;
+import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.game.DangineGame;
 import dangine.harness.Provider;
 import dangine.image.Resources;
@@ -130,6 +131,7 @@ public class GameLoop {
     }
 
     public void startInstanceTestMatch() {
+        Utility.getMatchParameters().setMatchType(MatchType.SOCCER);
         dangineGame = provider.get();
         dangineGame.init(new InstantMatchSceneSchema());
     }
