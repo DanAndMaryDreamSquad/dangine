@@ -138,9 +138,9 @@ public class FFAStockModeLogic implements MatchTypeLogic {
 
     private Vector2f getLabelLocationFromPlayerId(int playerId) {
         int row = playerId / 2;
-        float y = Utility.getResolution().y - (20 * (row + 1));
+        float y = Utility.getResolution().y - (100 * (row + 1));
         int width = playerId % 2;
-        float x = (Utility.getResolution().x / 2.0f) * width;
+        float x = 100 + (Utility.getResolution().x / 2.0f) * width;
         return new Vector2f(x, y);
     }
 

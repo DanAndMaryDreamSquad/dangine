@@ -3,7 +3,6 @@ package dangine.bots;
 import java.util.Iterator;
 
 import dangine.collision.CollisionUtility;
-import dangine.debugger.Debugger;
 import dangine.entity.Hero;
 import dangine.entity.Vortex;
 import dangine.entity.combat.GreatSword;
@@ -149,7 +148,6 @@ public class DangineBotLogic {
 
     public DangineSampleInput getWhatDoWithWeapon(GreatSword greatsword) {
         DangineBot wielder = Utility.getActiveScene().getBot(greatsword.getPlayerId());
-        Debugger.info("wirlder: " + wielder);
         if (wielder == null) {
             return emptyInput;
         }
@@ -173,7 +171,6 @@ public class DangineBotLogic {
         if (greatsword.getState() == State.LIGHT_SWING) {
             lastSwingWasHeavy = false;
         }
-        Debugger.info("input : " + swingInput.toString());
         considerCounter(greatsword, target.getPosition());
         return swingInput;
     }

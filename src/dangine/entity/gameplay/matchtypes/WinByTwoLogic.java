@@ -6,6 +6,7 @@ import java.util.List;
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
 import dangine.debugger.Debugger;
+import dangine.entity.gameplay.LifeIndicator;
 import dangine.entity.gameplay.MatchEvent;
 import dangine.entity.gameplay.PlayerScore;
 import dangine.entity.gameplay.ScoreKeeper;
@@ -22,6 +23,7 @@ public class WinByTwoLogic implements MatchTypeLogic {
         for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
             scoreKeeper.addPlayerToGame(player.getPlayerId());
         }
+        updateScoreBoardText(scoreKeeper);
     }
 
     @Override
@@ -47,6 +49,12 @@ public class WinByTwoLogic implements MatchTypeLogic {
         PlayerScore winnerScore = scoreKeeper.getPlayerIdToScore().get(winnerPlayerId);
         if (winnerScore.getStock() < 2) {
             winnerScore.setStock(winnerScore.getStock() + 1);
+        }
+        List<LifeIndicator> lifeIndicators = Utility.getActiveScene().getUpdateables(LifeIndicator.class);
+        for (LifeIndicator lifeIndicator : lifeIndicators) {
+            if (winnerPlayerId == lifeIndicator.getOwnerId()) {
+                lifeIndicator.updateLives(winnerScore.getStock());
+            }
         }
     }
 
@@ -132,9 +140,9 @@ public class WinByTwoLogic implements MatchTypeLogic {
 
     private Vector2f getLabelLocationFromPlayerId(int playerId) {
         int row = playerId / 2;
-        float y = Utility.getResolution().y - (20 * (row + 1));
+        float y = Utility.getResolution().y - (100 * (row + 1));
         int width = playerId % 2;
-        float x = (Utility.getResolution().x / 2.0f) * width;
+        float x = 100 + (Utility.getResolution().x / 2.0f) * width;
         return new Vector2f(x, y);
     }
 

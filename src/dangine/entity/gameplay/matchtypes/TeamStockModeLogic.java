@@ -33,6 +33,7 @@ public class TeamStockModeLogic implements MatchTypeLogic {
                 scoreKeeper.addBotToGame(-i);
             }
         }
+        updateScoreBoardText(scoreKeeper);
     }
 
     @Override
@@ -120,13 +121,14 @@ public class TeamStockModeLogic implements MatchTypeLogic {
 
         PlayerScore playerScore = new PlayerScore(botId);
         scoreKeeper.getPlayerIdToScore().put(botId, playerScore);
+        Utility.getMatchParameters().addPlayerTeam(botId, -1);
     }
 
     private Vector2f getLabelLocationFromPlayerId(int playerId) {
         int row = playerId / 2;
-        float y = Utility.getResolution().y - (20 * (row + 1));
+        float y = Utility.getResolution().y - (100 * (row + 1));
         int width = playerId % 2;
-        float x = (Utility.getResolution().x / 2.0f) * width;
+        float x = 100 + (Utility.getResolution().x / 2.0f) * width;
         return new Vector2f(x, y);
     }
 

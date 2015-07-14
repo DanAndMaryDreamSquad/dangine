@@ -7,6 +7,7 @@ import org.lwjgl.util.Color;
 
 import dangine.bots.BotType;
 import dangine.bots.DangineBot;
+import dangine.debugger.Debugger;
 import dangine.entity.Hero;
 import dangine.entity.combat.subpower.SubPower;
 import dangine.entity.gameplay.MatchStarter.MatchType;
@@ -95,8 +96,10 @@ public class MatchParameters {
     public int getPlayerTeam(int playerId) {
         Integer team = playerIdToTeam.get(playerId);
         if (team == null) {
+            Debugger.warn("player " + playerId + " mapped to null");
             return 0;
         }
+        Debugger.warn("player " + playerId + " mapped to team " + team);
         return team;
     }
 
