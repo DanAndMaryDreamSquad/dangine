@@ -113,6 +113,30 @@ public class DangineColoredQuad {
         GL20.glUseProgram(0);
     }
 
+    public void drawGlow() {// Use the shader that draws colors with a
+                            // transformation
+        GL20.glUseProgram(DangineShaders.getGlowProgramId());
+
+        // Bind to the VAO that has all the information about the vertices
+        GL30.glBindVertexArray(vaoId);
+        GL20.glEnableVertexAttribArray(0);
+        GL20.glEnableVertexAttribArray(1);
+
+        // Bind to the index VBO that has all the information about the order of
+        // the vertices
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboiId);
+
+        // Draw the vertices
+        GL11.glDrawElements(GL11.GL_TRIANGLES, indicesCount, GL11.GL_UNSIGNED_BYTE, 0);
+
+        // Put everything back to default (deselect)
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+        GL20.glDisableVertexAttribArray(0);
+        GL20.glDisableVertexAttribArray(1);
+        GL30.glBindVertexArray(0);
+        GL20.glUseProgram(0);
+    }
+
     public void setQuadColor(Color color) {
         // Update vertices in the VBO, first bind the VBO
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
@@ -173,6 +197,14 @@ public class DangineColoredQuad {
 
         // Upload matrices to the uniform variables
         GL20.glUseProgram(DangineShaders.getColorProgramId());
+
+        matrix44Buffer.put(matrix.val);
+        matrix44Buffer.flip();
+        GL20.glUniformMatrix4(transformMatrixLocation, false, matrix44Buffer);
+        GL20.glUseProgram(0);
+
+        // Upload matrices to the uniform variables
+        GL20.glUseProgram(DangineShaders.getGlowProgramId());
 
         matrix44Buffer.put(matrix.val);
         matrix44Buffer.flip();

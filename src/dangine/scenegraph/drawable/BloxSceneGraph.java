@@ -23,6 +23,12 @@ public class BloxSceneGraph implements HasDrawable {
     final DangineBox rightArmShape = new DangineBox(10, 10, new Color(Color.CYAN));
 
     public BloxSceneGraph() {
+        bodyShape.withGlow();
+        leftLegShape.withGlow();
+        rightLegShape.withGlow();
+        leftArmShape.withGlow();
+        rightArmShape.withGlow();
+
         body.addChild(bodyShape);
 
         // head.addChild(new DangineShape(20, 20, Color.blue));

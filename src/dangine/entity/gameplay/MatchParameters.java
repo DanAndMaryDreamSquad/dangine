@@ -24,7 +24,7 @@ public class MatchParameters {
     Map<Integer, SubPower> playerIdToPower = new HashMap<Integer, SubPower>();
     final Map<Integer, Integer> playerIdToTeam = new HashMap<Integer, Integer>();
     int startingStock = 3;
-    int goalsRequired = 1;
+    int goalsRequired = 3;
     int numberOfBots = 2;
     MovementMode movementMode = MovementMode.MOVE_FREE_TURN_SWING_LOCK;
     AttackMode attackMode = AttackMode.HOLD_TO_CHARGE;

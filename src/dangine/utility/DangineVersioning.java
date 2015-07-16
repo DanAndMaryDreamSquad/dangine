@@ -2,8 +2,8 @@ package dangine.utility;
 
 public class DangineVersioning {
 
-    public static final String description = "animation quest";
-    public static final int major = 6;
+    public static final String description = "game modes yo";
+    public static final int major = 9;
     public static final int minor = 0;
 
     public static String getVersion() {

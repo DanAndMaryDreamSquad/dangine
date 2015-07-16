@@ -12,6 +12,7 @@ public class DangineBox implements IsDrawable32 {
     Color color;
     int width;
     int height;
+    boolean glow = false;
 
     public DangineBox() {
         this(20, 20, new Color(Color.RED));
@@ -26,12 +27,19 @@ public class DangineBox implements IsDrawable32 {
         node.setScale(getWidth(), -getHeight());
     }
 
+    public void withGlow() {
+        glow = true;
+    }
+
     public void update() {
 
     }
 
     public void draw() {
         quad.updateTransformationMatrixOfShader(node.getMatrix());
+        if (glow) {
+            quad.drawGlow();
+        }
         quad.drawQuad();
     }
 

@@ -19,6 +19,7 @@ public class DangineShaders {
     static DangineShader colorShader;
     static DangineShader textureShader;
     static DangineShader sampleShader;
+    static DangineShader glowShader;
 
     public static void setupShaders() {
         testShader = new DangineShader("src/dangine/graphics/vertex.glsl", "src/dangine/graphics/fragment.glsl", false);
@@ -28,6 +29,8 @@ public class DangineShaders {
                 "src/dangine/graphics/texture_fragment.glsl", true);
         sampleShader = new DangineShader("src/dangine/graphics/sample_vertex.glsl",
                 "src/dangine/graphics/sample_fragment.glsl", true);
+        glowShader = new DangineShader("src/dangine/graphics/glow_vertex.glsl",
+                "src/dangine/graphics/glow_fragment.glsl", true);
     }
 
     @SuppressWarnings("deprecation")
@@ -83,6 +86,7 @@ public class DangineShaders {
         colorShader.destroy();
         textureShader.destroy();
         sampleShader.destroy();
+        glowShader.destroy();
     }
 
     public static int getTestProgramId() {
@@ -99,6 +103,10 @@ public class DangineShaders {
 
     public static int getSampleProgramId() {
         return sampleShader.getProgramId();
+    }
+
+    public static int getGlowProgramId() {
+        return glowShader.getProgramId();
     }
 
 }

@@ -15,6 +15,7 @@ public class BloxHeadSceneGraph implements HasDrawable {
     SceneGraphNode rightEye = new SceneGraphNode();
 
     public BloxHeadSceneGraph() {
+        headShape.withGlow();
 
         head.addChild(headShape);
         head.setPosition(-1, -20);
