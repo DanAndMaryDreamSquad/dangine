@@ -21,10 +21,12 @@ public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
     final SceneGraphNode base = new SceneGraphNode();
     final List<SceneGraphNode> parts = new ArrayList<SceneGraphNode>();
     final List<Vector2f> velocities = new ArrayList<Vector2f>();
+    final Vector2f position;
     float timer = 0;
     float angle = 0f;
 
     public DefeatedBloxSplitVisual(float x, float y, float angle, int playerId) {
+        position = new Vector2f(x, y);
         SceneGraphNode node = null;
         if (playerId >= 0) {
             Hero hero = Utility.getActiveScene().getHero(playerId);
@@ -72,5 +74,9 @@ public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
             Utility.getActiveScene().getCameraNode().removeChild(this.getDrawable());
             Utility.getActiveScene().removeUpdateable(this);
         }
+    }
+    
+    public Vector2f getPosition() {
+        return position;
     }
 }
