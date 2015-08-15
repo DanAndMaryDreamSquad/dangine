@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Matrix4;
 
 import dangine.bots.BotRespawner;
 import dangine.bots.DangineBot;
-import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
@@ -104,13 +103,14 @@ public class Camera implements IsUpdateable, HasDrawable {
 
         x = x / trackings.size();
         y = y / trackings.size();
+        enforceMaxPanRate();
+        previousPosition.set(x, y);
         x -= Utility.getResolution().x / (2.0f * scale);
         y -= Utility.getResolution().y / (2.0f * scale);
         x = -x;
         y = -y;
         x *= scale;
         y *= scale;
-        enforceMaxPanRate();
         enforceBoundaries();
         if (trackings.size() == 0 || !isEnabled()) {
             cameraNode.setScale(MIN_SCALE, MIN_SCALE);
@@ -123,7 +123,6 @@ public class Camera implements IsUpdateable, HasDrawable {
 
             updateSceneToWorldTransformation();
             previousScale.set(cameraNode.getScale().x, cameraNode.getScale().y);
-            previousPosition.set(cameraNode.getPosition().x, cameraNode.getPosition().y);
         }
 
     }
@@ -155,61 +154,33 @@ public class Camera implements IsUpdateable, HasDrawable {
     private void enforceMaxZoomRate() {
         float allowedScale = MAX_SCALE_PER_SECOND * Utility.getGameTime().getDeltaTimeF();
         float deltaScale = Math.abs(previousScale.x - scale);
-        Debugger.info("A " + allowedScale + " d " + deltaScale);
         if (allowedScale < deltaScale) {
-            Debugger.info("on path");
             if (scale < previousScale.x) {
                 allowedScale = -allowedScale;
             }
             scale = previousScale.x + allowedScale;
 
-            Debugger.info("final scale " + scale);
+            // Debugger.info("on path");
+            // Debugger.info("A " + allowedScale + " d " + deltaScale);
+            // Debugger.info("final scale " + scale);
         }
     }
 
     private void enforceMaxPanRate() {
-//        float allowedPan = MAX_PAN_PER_SECOND * Utility.getGameTime().getDeltaTimeF();
-//        Debugger.info(" pp " + previousPosition + " cp " + x + ", " + y);
-//        float deltaPan = (float) Math.sqrt(((previousPosition.x - x) * (previousPosition.x - x))
-//                + ((previousPosition.y - y) + (previousPosition.y - y)));
-//        Debugger.info("Ap " + allowedPan + " dp " + deltaPan);
-//        if (allowedPan < deltaPan) {
-//            Debugger.info("on pan path");
-//
-//            Vector2f panVector = new Vector2f(x - previousPosition.x, y - previousPosition.y).normalise();
-//            Debugger.info(" pv " + panVector);
-//            x = previousPosition.x + (panVector.x * allowedPan);
-//            y = previousPosition.y + (panVector.y * allowedPan);
-//
-//            Debugger.info("final pos " + x + ", " + y);
-//        }
+        float allowedPan = MAX_PAN_PER_SECOND * Utility.getGameTime().getDeltaTimeF();
+        float deltaPan = (float) Math.sqrt(((previousPosition.x - x) * (previousPosition.x - x))
+                + ((previousPosition.y - y) + (previousPosition.y - y)));
+        if (allowedPan < deltaPan) {
+            Vector2f panVector = new Vector2f(x - previousPosition.x, y - previousPosition.y).normalise();
+            x = previousPosition.x + (panVector.x * allowedPan);
+            y = previousPosition.y + (panVector.y * allowedPan);
 
-      float allowedPanX = MAX_PAN_PER_SECOND * Utility.getGameTime().getDeltaTimeF();
-      Debugger.info(" pp " + previousPosition + " cp " + x + ", " + y);
-      float deltaPanX = Math.abs(previousPosition.x - x);
-      Debugger.info("Ap " + allowedPanX + " dp " + deltaPanX);
-      if (allowedPanX < deltaPanX) {
-          Debugger.info("on path");
-          if (x < previousPosition.x) {
-              allowedPanX = -allowedPanX;
-          }
-          x = previousPosition.x + allowedPanX;
-
-          Debugger.info("final posx " + x);
-      }
-      float allowedPanY = MAX_PAN_PER_SECOND * Utility.getGameTime().getDeltaTimeF();
-      Debugger.info(" pp " + previousPosition + " cp " + x + ", " + y);
-      float deltaPanY = Math.abs(y - previousPosition.y);
-      Debugger.info("Ap " + allowedPanY + " dp " + deltaPanY);
-      if (allowedPanY < deltaPanY) {
-          Debugger.info("on path");
-          if (y < previousPosition.y) {
-              allowedPanY = -allowedPanY;
-          }
-          y = previousPosition.y + allowedPanY;
-
-          Debugger.info("final posy " + y);
-      }
+            // Debugger.info(" pv " + panVector);
+            // Debugger.info(" pp " + previousPosition + " cp " + x + ", " + y);
+            // Debugger.info("Ap " + allowedPan + " dp " + deltaPan);
+            // Debugger.info("final pos " + x + ", " + y);
+            // Debugger.info("on pan path");
+        }
     }
 
     private void enforceBoundaries() {
