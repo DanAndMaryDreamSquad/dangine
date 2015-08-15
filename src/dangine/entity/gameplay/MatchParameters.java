@@ -26,7 +26,7 @@ public class MatchParameters {
     int startingStock = 3;
     int goalsRequired = 3;
     int numberOfBots = 2;
-    MovementMode movementMode = MovementMode.MOVE_FREE_TURN_SWING_LOCK;
+    MovementMode movementMode = MovementMode.MOVE_FREE_TURN_ALL_LOCK;
     AttackMode attackMode = AttackMode.HOLD_TO_CHARGE;
     FacingMode facingMode = FacingMode.EIGHT_WAY;
     Background currentBackground = Background.EXTRADIMENSIONAL;

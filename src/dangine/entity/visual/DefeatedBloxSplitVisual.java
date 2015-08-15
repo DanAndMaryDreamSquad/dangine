@@ -75,7 +75,7 @@ public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
             Utility.getActiveScene().removeUpdateable(this);
         }
     }
-    
+
     public Vector2f getPosition() {
         return position;
     }

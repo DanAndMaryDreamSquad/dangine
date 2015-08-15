@@ -13,15 +13,21 @@ public class GreatSwordSceneGraph implements HasDrawable {
     float scale = 2.0f;
     SceneGraphNode base = new SceneGraphNode();
     SceneGraphNode sword = new SceneGraphNode();
+    SceneGraphNode blur = new SceneGraphNode();
     SceneGraphNode leftArm = new SceneGraphNode();
     DangineBox leftArmShape = new DangineBox(5, 5, new Color(Color.GREEN));
     SceneGraphNode rightArm = new SceneGraphNode();
     DangineBox rightArmShape = new DangineBox(5, 5, new Color(Color.CYAN));
+    boolean isBlurEnabled = false;
 
     public GreatSwordSceneGraph() {
         sword.addChild(new DanginePicture("greatsword"));
         sword.setZValue(-0.5f);
         sword.setScale(scale, scale);
+        blur.addChild(new DanginePicture("wooshpostblur"));
+        blur.setZValue(-0.5f);
+        blur.setPosition(35, -2);
+        blur.setHorzitontalFlip(-1);
 
         leftArm.addChild(leftArmShape);
         rightArm.addChild(rightArmShape);
@@ -29,6 +35,20 @@ public class GreatSwordSceneGraph implements HasDrawable {
         sword.addChild(leftArm);
         sword.addChild(rightArm);
         base.addChild(sword);
+    }
+
+    public void enableSwingBlur() {
+        if (!isBlurEnabled) {
+            sword.addChild(blur);
+            isBlurEnabled = true;
+        }
+    }
+
+    public void disableSwingBlur() {
+        if (isBlurEnabled) {
+            sword.removeChild(blur);
+            isBlurEnabled = false;
+        }
     }
 
     public void addHitbox(IsDrawable hitbox) {
