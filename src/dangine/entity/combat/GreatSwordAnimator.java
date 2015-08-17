@@ -106,6 +106,7 @@ public class GreatSwordAnimator implements IsUpdateable {
 
     public void idle() {
         greatsword.disableSwingBlur();
+        greatsword.disableStabBlur();
         timer = 0;
         state = State.IDLE;
         float scale = greatsword.getSword().getScale().x;
@@ -138,6 +139,7 @@ public class GreatSwordAnimator implements IsUpdateable {
     }
 
     public void stabSwinging() {
+        greatsword.enableStabBlur();
         timer = 0;
         SoundPlayer.play(SoundEffect.START_SWING_LIGHT);
         state = State.STAB_SWINGING;
@@ -171,6 +173,7 @@ public class GreatSwordAnimator implements IsUpdateable {
 
     public void recoiling() {
         greatsword.disableSwingBlur();
+        greatsword.disableStabBlur();
         timer = 0;
         state = State.RECOILING;
         SoundPlayer.play(SoundEffect.CHARGE_SWING_LIGHT);
@@ -196,6 +199,7 @@ public class GreatSwordAnimator implements IsUpdateable {
 
     public void recovering() {
         greatsword.disableSwingBlur();
+        greatsword.disableStabBlur();
         timer = 0;
         state = State.RECOVERING;
         SoundPlayer.play(SoundEffect.CHARGE_SWING_LIGHT);
