@@ -41,7 +41,10 @@ public class DangineOpenGL {
         }
         // Setup an OpenGL context with API version 3.2
         try {
-            PixelFormat pixelFormat = new PixelFormat();
+            // Anti-aliasing level
+            // 0 will put a red block at 1.5f rounded into pixel 1
+            // 4 will smooth it out over pixel 1 and 2.
+            PixelFormat pixelFormat = new PixelFormat(0, 0, 0, DangineSavedSettings.INSTANCE.getAntiAliasingLevel());
             ContextAttribs contextAtrributes = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(
                     true);
             DisplayMode mode;

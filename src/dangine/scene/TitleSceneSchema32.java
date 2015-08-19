@@ -38,5 +38,6 @@ public class TitleSceneSchema32 implements SceneSchema {
         scene.getParentNode().addChild(controlsAssigner.getDrawable());
 
         DangineMusicPlayer.startTrack(MusicEffect.TITLE_MENU);
+
     }
 }

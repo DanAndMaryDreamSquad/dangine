@@ -36,6 +36,7 @@ public class DangineSavedSettings {
     int soundVolumePercent;
     boolean borderlessWindow;
     boolean fullscreen;
+    int antiAliasingLevel;
 
     float maxVelocity = 0.25f;
     float acceleration = 0.00055f;
@@ -54,6 +55,7 @@ public class DangineSavedSettings {
             resolutionY = settings.getInt("resolutionY");
             borderlessWindow = settings.getBoolean("borderlessWindow");
             fullscreen = settings.getBoolean("fullscreen");
+            antiAliasingLevel = settings.getInt("antiAliasingLevel");
 
             musicVolumePercent = settings.getInt("musicVolumePercent");
             soundVolumePercent = settings.getInt("soundVolumePercent");
@@ -85,6 +87,7 @@ public class DangineSavedSettings {
             settings.put("resolutionY", resolutionY);
             settings.put("borderlessWindow", borderlessWindow);
             settings.put("fullscreen", fullscreen);
+            settings.put("antiAliasingLevel", antiAliasingLevel);
 
             settings.put("musicVolumePercent", musicVolumePercent);
             settings.put("soundVolumePercent", soundVolumePercent);
@@ -108,6 +111,7 @@ public class DangineSavedSettings {
         resolutionY = Display.getDesktopDisplayMode().getHeight();
         fullscreen = false;
         borderlessWindow = true;
+        antiAliasingLevel = 4;
 
         musicVolumePercent = 50;
         soundVolumePercent = 50;
@@ -234,5 +238,13 @@ public class DangineSavedSettings {
 
     public void setCounterKnockPower(float counterKnockPower) {
         this.counterKnockPower = counterKnockPower;
+    }
+
+    public int getAntiAliasingLevel() {
+        return antiAliasingLevel;
+    }
+
+    public void setAntiAliasingLevel(int antiAliasingLevel) {
+        this.antiAliasingLevel = antiAliasingLevel;
     }
 }
