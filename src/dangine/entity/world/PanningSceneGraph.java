@@ -45,10 +45,10 @@ public class PanningSceneGraph implements HasDrawable, IsUpdateable {
 
     public PanningSceneGraph(String image, float panSpeedX, float panSpeedY, float scale, Tessellation tessellation) {
         this.tessellation = tessellation;
-        background1 = new DanginePicture(image);
-        background2 = new DanginePicture(image);
-        background3 = new DanginePicture(image);
-        background4 = new DanginePicture(image);
+        background1 = new DanginePicture(image).applyFilter();
+        background2 = new DanginePicture(image).applyFilter();
+        background3 = new DanginePicture(image).applyFilter();
+        background4 = new DanginePicture(image).applyFilter();
         this.panSpeedX = panSpeedX;
         this.panSpeedY = panSpeedY;
 

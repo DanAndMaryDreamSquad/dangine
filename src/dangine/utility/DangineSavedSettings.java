@@ -37,6 +37,7 @@ public class DangineSavedSettings {
     boolean borderlessWindow;
     boolean fullscreen;
     int antiAliasingLevel;
+    int backgroundFilterMode;
 
     float maxVelocity = 0.25f;
     float acceleration = 0.00055f;
@@ -56,6 +57,7 @@ public class DangineSavedSettings {
             borderlessWindow = settings.getBoolean("borderlessWindow");
             fullscreen = settings.getBoolean("fullscreen");
             antiAliasingLevel = settings.getInt("antiAliasingLevel");
+            backgroundFilterMode = settings.getInt("backgroundFilterMode");
 
             musicVolumePercent = settings.getInt("musicVolumePercent");
             soundVolumePercent = settings.getInt("soundVolumePercent");
@@ -88,6 +90,7 @@ public class DangineSavedSettings {
             settings.put("borderlessWindow", borderlessWindow);
             settings.put("fullscreen", fullscreen);
             settings.put("antiAliasingLevel", antiAliasingLevel);
+            settings.put("backgroundFilterMode", backgroundFilterMode);
 
             settings.put("musicVolumePercent", musicVolumePercent);
             settings.put("soundVolumePercent", soundVolumePercent);
@@ -112,6 +115,7 @@ public class DangineSavedSettings {
         fullscreen = false;
         borderlessWindow = true;
         antiAliasingLevel = 4;
+        backgroundFilterMode = 0;
 
         musicVolumePercent = 50;
         soundVolumePercent = 50;
@@ -246,5 +250,13 @@ public class DangineSavedSettings {
 
     public void setAntiAliasingLevel(int antiAliasingLevel) {
         this.antiAliasingLevel = antiAliasingLevel;
+    }
+
+    public int getBackgroundFilterMode() {
+        return backgroundFilterMode;
+    }
+
+    public void setBackgroundFilterMode(int backgroundFilterMode) {
+        this.backgroundFilterMode = backgroundFilterMode;
     }
 }

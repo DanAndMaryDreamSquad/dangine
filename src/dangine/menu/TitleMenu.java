@@ -15,6 +15,7 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
     public TitleMenu() {
         menu.addItem(new DangineMenuItem("Versus", getPlayVersusAction()));
         menu.addItem(new DangineMenuItem("Settings", getSettingsMenuAction()));
+        menu.addItem(new DangineMenuItem("Graphics", getGraphicsMenuAction()));
         menu.addItem(new DangineMenuItem("Resolution", getResolutionMenuAction()));
         menu.addItem(new DangineMenuItem("Exit", getExitGameAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
@@ -60,6 +61,20 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
                 Utility.getActiveScene().addUpdateable(settingsMenu);
                 Utility.getActiveScene().removeUpdateable(TitleMenu.this);
                 Utility.getActiveScene().getParentNode().addChild(settingsMenu.getDrawable());
+                Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
+            }
+        };
+    }
+
+    private Action getGraphicsMenuAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                GraphicsMenu graphicsMenu = new GraphicsMenu();
+                Utility.getActiveScene().addUpdateable(graphicsMenu);
+                Utility.getActiveScene().removeUpdateable(TitleMenu.this);
+                Utility.getActiveScene().getParentNode().addChild(graphicsMenu.getDrawable());
                 Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
             }
         };

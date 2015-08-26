@@ -6,7 +6,6 @@ import dangine.entity.IsUpdateable;
 import dangine.entity.movement.AttackMode;
 import dangine.entity.movement.FacingMode;
 import dangine.entity.movement.MovementMode;
-import dangine.graphics.DangineAntiAliasing;
 import dangine.graphics.DangineOpenGL;
 import dangine.graphics.DangineStringPicture;
 import dangine.menu.DangineMenuItem.Action;
@@ -45,13 +44,6 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
     DangineMenuItem friendlyFireItem = new DangineMenuItem("Friendly Fire: "
             + Utility.getMatchParameters().isFriendlyFire(), getToggleFriendlyFireAction());
 
-    DangineMenuItem antiAliasingItem = new DangineMenuItem("Anti-Aliasing: "
-            + DangineSavedSettings.INSTANCE.getAntiAliasingLevel(), getAntiAliasingUpAction(),
-            getAntiAliasingDownAction());
-
-    SceneGraphNode antiAliasTextNode = new SceneGraphNode();
-    DangineStringPicture antiAliasText = new DangineStringPicture();
-
     public SettingsMenu() {
         selector.setOnEscape(getExitMenuAction());
         menu.addItem(new DangineMenuItem("Stock: ", getStockIncrementAction(), getStockDecrementAction()));
@@ -66,10 +58,8 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         menu.getBase().addChild(facingModeTextNode);
         menu.addItem(musicVolumeItem);
         menu.addItem(soundVolumeItem);
-        menu.addItem(antiAliasingItem);
         menu.addItem(new DangineMenuItem("Done", getExitMenuAction()));
         menu.getBase().addChild(stockTextNode);
-        menu.getBase().addChild(antiAliasTextNode);
         DangineFormatter.format(menu.getBase().getChildNodes());
 
         stockTextNode.addChild(stockText);
@@ -83,9 +73,6 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         facingModeTextNode.addChild(facingModeEnumNode);
         facingModeEnumNode.addChild(facingModeEnumText);
 
-        antiAliasTextNode.addChild(antiAliasText);
-        antiAliasText.setText("Anti-alias changes require game restart.");
-
         stockTextNode.setPosition(60 * DangineOpenGL.getWindowWorldAspectX() * DangineStringPicture.STRING_SCALE, 0);
         movementModeTextNode.setPosition(-Utility.getResolution().x / 2, movementModeTextNode.getPosition().y);
         attackModeTextNode.setPosition(-Utility.getResolution().x / 2, attackModeTextNode.getPosition().y);
@@ -93,9 +80,6 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         movementModeEnumNode.setPosition(0, -20);
         attackModeEnumNode.setPosition(0, -20);
         facingModeEnumNode.setPosition(0, -20);
-
-        antiAliasTextNode.setPosition(-260 * DangineOpenGL.getWindowWorldAspectX() * DangineStringPicture.STRING_SCALE,
-                110 * DangineOpenGL.getWindowWorldAspectY() * DangineStringPicture.STRING_SCALE);
 
         menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.6f));
         menu.getItem(0).getBase().addChild(selector.getDrawable());
@@ -272,38 +256,6 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
                 Utility.getGameParameters().setSoundEffectVolume(volume);
                 soundVolumeItem.getItemText().setText(
                         "Sound Effect Volume " + Utility.getGameParameters().getSoundEffectVolumeString());
-            }
-
-        };
-    }
-
-    private Action getAntiAliasingDownAction() {
-        return new Action() {
-
-            @Override
-            public void execute() {
-                int antiAliasingLevel = DangineSavedSettings.INSTANCE.getAntiAliasingLevel();
-                antiAliasingLevel = DangineAntiAliasing.decrement(antiAliasingLevel);
-                DangineSavedSettings.INSTANCE.setAntiAliasingLevel(antiAliasingLevel);
-                DangineSavedSettings.INSTANCE.save();
-                antiAliasingItem.getItemText().setText(
-                        "Anti-Aliasing: " + DangineSavedSettings.INSTANCE.getAntiAliasingLevel());
-            }
-
-        };
-    }
-
-    private Action getAntiAliasingUpAction() {
-        return new Action() {
-
-            @Override
-            public void execute() {
-                int antiAliasingLevel = DangineSavedSettings.INSTANCE.getAntiAliasingLevel();
-                antiAliasingLevel = DangineAntiAliasing.increment(antiAliasingLevel);
-                DangineSavedSettings.INSTANCE.setAntiAliasingLevel(antiAliasingLevel);
-                DangineSavedSettings.INSTANCE.save();
-                antiAliasingItem.getItemText().setText(
-                        "Anti-Aliasing: " + DangineSavedSettings.INSTANCE.getAntiAliasingLevel());
             }
 
         };

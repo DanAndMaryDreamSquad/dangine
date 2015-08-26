@@ -1,6 +1,8 @@
 package dangine.graphics;
 
+import dangine.entity.world.BackgroundFilterMode;
 import dangine.scenegraph.SceneGraphNode;
+import dangine.utility.DangineSavedSettings;
 
 public class DanginePicture implements IsDrawable32 {
     RenderData32 data = new RenderData32(this);
@@ -26,6 +28,13 @@ public class DanginePicture implements IsDrawable32 {
     public void draw() {
         quad.updateTransformationMatrixOfShader(node.getMatrix());
         quad.drawQuad();
+    }
+
+    public DanginePicture applyFilter() {
+        BackgroundFilterMode mode = BackgroundFilterMode.fromInt(DangineSavedSettings.INSTANCE
+                .getBackgroundFilterMode());
+        mode.setFilter(quad);
+        return this;
     }
 
     public SceneGraphNode getNode() {
