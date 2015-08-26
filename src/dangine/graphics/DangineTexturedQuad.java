@@ -8,6 +8,7 @@ import java.util.List;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
@@ -27,6 +28,8 @@ public class DangineTexturedQuad {
     VertexDataForTexture[] vertices;
     ByteBuffer verticesByteBuffer;
     DangineTexture texture;
+    private int wrapMode = GL14.GL_MIRRORED_REPEAT;
+    private int filterMode = GL11.GL_NEAREST;
 
     public DangineTexturedQuad(DangineTexture texture) {
         this.texture = texture;
@@ -36,6 +39,16 @@ public class DangineTexturedQuad {
     public DangineTexturedQuad(String imageName) {
         this.texture = DangineTextures.getImageByName(imageName);
         initQuad();
+    }
+
+    public DangineTexturedQuad withWrapModeRepeat() {
+        this.wrapMode = GL11.GL_REPEAT;
+        return this;
+    }
+
+    public DangineTexturedQuad withFilterModeLinear() {
+        this.filterMode = GL11.GL_LINEAR;
+        return this;
     }
 
     private VertexDataForTexture[] getVertexDataForTexture() {
@@ -131,8 +144,49 @@ public class DangineTexturedQuad {
 
     public void drawQuad() {
         // Filter code
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+
+        // This is how the texture scales. Use GL11.GL_LINEAR for smooth /
+        // blurry textures, GL11.GL_NEAREST for pixel-y textures
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, filterMode);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, filterMode);
+
+        // This is how the texture wraps around. Its where it pulls the data
+        // from where it reaches the edge. https://open.gl/textures
+
+        // GL_REPEAT: The integer part of the coordinate will be ignored and a
+        // repeating pattern is formed.
+
+        // GL_MIRRORED_REPEAT: The texture will also be repeated, but it will be
+        // mirrored when the integer part of the coordinate is odd.
+
+        // GL_CLAMP_TO_EDGE: The coordinate will simply be clamped between 0 and
+        // 1.
+
+        // GL_CLAMP_TO_BORDER: The coordinates that fall outside the range will
+        // be given a specified border color.
+
+        // GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
+        // GL13.GL_CLAMP_TO_BORDER);
+        // GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
+        // GL13.GL_CLAMP_TO_BORDER);
+        //
+        // GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
+        // GL11.GL_REPEAT);
+        // GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
+        // GL11.GL_REPEAT);
+        //
+        // GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
+        // GL12.GL_CLAMP_TO_EDGE);
+        // GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
+        // GL12.GL_CLAMP_TO_EDGE);
+        //
+        // GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
+        // GL14.GL_MIRRORED_REPEAT);
+        // GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
+        // GL14.GL_MIRRORED_REPEAT);
+
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, wrapMode);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, wrapMode);
 
         GL20.glUseProgram(DangineShaders.getTextureProgramId());
 

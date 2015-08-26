@@ -146,19 +146,19 @@ public class PanningSceneGraph implements HasDrawable, IsUpdateable {
                 y2 -= -background1.getHeight() * scale * 2 * ROUNDING_MULTIPLE;
             }
         }
-        // x1 = Math.round(x1);
-        // x2 = Math.round(x2);
-        // y1 = Math.round(y1);
-        // y2 = Math.round(y2);
+        x1 = Math.round(x1);
+        x2 = Math.round(x2);
+        y1 = Math.round(y1);
+        y2 = Math.round(y2);
         float tx1, tx2, ty1, ty2;
-        // tx1 = Math.round(x1 / ROUNDING_MULTIPLE);
-        // tx2 = Math.round(x2 / ROUNDING_MULTIPLE);
-        // ty1 = Math.round(y1 / ROUNDING_MULTIPLE);
-        // ty2 = Math.round(y2 / ROUNDING_MULTIPLE);
-        tx1 = x1 / ROUNDING_MULTIPLE;
-        tx2 = x2 / ROUNDING_MULTIPLE;
-        ty1 = y1 / ROUNDING_MULTIPLE;
-        ty2 = y2 / ROUNDING_MULTIPLE;
+        tx1 = Math.round(x1 / ROUNDING_MULTIPLE);
+        tx2 = Math.round(x2 / ROUNDING_MULTIPLE);
+        ty1 = Math.round(y1 / ROUNDING_MULTIPLE);
+        ty2 = Math.round(y2 / ROUNDING_MULTIPLE);
+        // tx1 = x1 / ROUNDING_MULTIPLE;
+        // tx2 = x2 / ROUNDING_MULTIPLE;
+        // ty1 = y1 / ROUNDING_MULTIPLE;
+        // ty2 = y2 / ROUNDING_MULTIPLE;
         switch (tessellation) {
         case NONE:
             node1.setPosition(tx1, ty1);
