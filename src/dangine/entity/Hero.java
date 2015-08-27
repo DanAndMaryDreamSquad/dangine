@@ -147,6 +147,7 @@ public class Hero implements IsUpdateable, HasDrawable {
                     } else if (arg.getCreator() instanceof ProjectileShot) {
                         SoundPlayer.play(SoundEffect.PROJECTILE_HIT);
                     }
+                    Utility.getGameTime().setModulator(0.015f, 1500);
                     destroy(arg.getOwnerId());
                 }
             }
