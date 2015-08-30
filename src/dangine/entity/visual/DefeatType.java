@@ -2,6 +2,9 @@ package dangine.entity.visual;
 
 import org.lwjgl.util.Color;
 
+import dangine.bots.DangineBot;
+import dangine.entity.Hero;
+import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.MathUtility;
 import dangine.utility.Utility;
 
@@ -10,9 +13,25 @@ public enum DefeatType {
     SPLIT {
         @Override
         public void applyEffect(float x, float y, int playerId) {
-            DefeatedBloxSplitVisual split = new DefeatedBloxSplitVisual(x, y, -30, playerId);
-            Utility.getActiveScene().getCameraNode().addChild(split.getDrawable());
+            SceneGraphNode node = null;
+            if (playerId >= 0) {
+                Hero hero = Utility.getActiveScene().getHero(playerId);
+                if (hero != null) {
+                    node = (SceneGraphNode) hero.getDrawable();
+                }
+            } else {
+                DangineBot bot = Utility.getActiveScene().getBot(playerId);
+                if (bot != null) {
+                    node = (SceneGraphNode) bot.getDrawable();
+                }
+            }
+            DefeatedBloxSplitVisual split = new DefeatedBloxSplitVisual(x, y, node);
+            split.withDelay();
             Utility.getActiveScene().addUpdateable(split);
+
+            BloxFreezeVisual bloxFreezeVisual = new BloxFreezeVisual(x, y, node);
+            Utility.getActiveScene().getCameraNode().addChild(bloxFreezeVisual.getDrawable());
+            Utility.getActiveScene().addUpdateable(bloxFreezeVisual);
         }
     },
     KNOCK {

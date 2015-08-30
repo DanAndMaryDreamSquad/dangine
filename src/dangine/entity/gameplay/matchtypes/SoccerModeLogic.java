@@ -135,4 +135,9 @@ public class SoccerModeLogic implements MatchTypeLogic {
         teamScore.setScore(teamScore.getScore() + 1);
     }
 
+    @Override
+    public boolean playerHasLivesLeft(int playerId, ScoreKeeper scoreKeeper) {
+        return true;
+    }
+
 }

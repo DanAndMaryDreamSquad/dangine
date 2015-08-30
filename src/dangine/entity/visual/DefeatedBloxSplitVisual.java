@@ -3,9 +3,7 @@ package dangine.entity.visual;
 import java.util.ArrayList;
 import java.util.List;
 
-import dangine.bots.DangineBot;
 import dangine.entity.HasDrawable;
-import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.scenegraph.FlattenSceneGraphNode;
@@ -23,22 +21,11 @@ public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
     final List<Vector2f> velocities = new ArrayList<Vector2f>();
     final Vector2f position;
     float timer = 0;
-    float angle = 0f;
+    boolean delay = false;
+    float delayTimer = 0;
 
-    public DefeatedBloxSplitVisual(float x, float y, float angle, int playerId) {
+    public DefeatedBloxSplitVisual(float x, float y, SceneGraphNode node) {
         position = new Vector2f(x, y);
-        SceneGraphNode node = null;
-        if (playerId >= 0) {
-            Hero hero = Utility.getActiveScene().getHero(playerId);
-            if (hero != null) {
-                node = (SceneGraphNode) hero.getDrawable();
-            }
-        } else {
-            DangineBot bot = Utility.getActiveScene().getBot(playerId);
-            if (bot != null) {
-                node = (SceneGraphNode) bot.getDrawable();
-            }
-        }
         if (node != null) {
             SceneGraphNode toFlat = node;
             SceneGraphNode flat = FlattenSceneGraphNode.flatten(toFlat);
@@ -51,7 +38,11 @@ public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
             }
             base.addChild(flat);
         }
+    }
 
+    public DefeatedBloxSplitVisual withDelay() {
+        delay = true;
+        return this;
     }
 
     @Override
@@ -61,6 +52,14 @@ public class DefeatedBloxSplitVisual implements IsUpdateable, HasDrawable {
 
     @Override
     public void update() {
+        if (delay) {
+            delayTimer += Utility.getGameTime().getDeltaTimeF();
+            if (delayTimer > BloxFreezeVisual.MAX_TIME) {
+                delay = false;
+                Utility.getActiveScene().getCameraNode().addChild(this.getDrawable());
+            }
+            return;
+        }
         timer += Utility.getGameTime().getDeltaTimeF();
         for (int i = 0; i < parts.size(); i++) {
             SceneGraphNode part = parts.get(i);

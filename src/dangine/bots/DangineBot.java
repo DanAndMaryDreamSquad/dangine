@@ -22,6 +22,7 @@ import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.movement.HeroFacing;
 import dangine.entity.movement.HeroMovement;
 import dangine.entity.visual.DefeatType;
+import dangine.entity.visual.FinalDefeatVisual;
 import dangine.entity.visual.ScreenFlashVisual;
 import dangine.entity.visual.SlashVisual;
 import dangine.input.DangineSampleInput;
@@ -101,7 +102,13 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         destroyed = true;
         Vector2f absolutePosition = new Vector2f();
         absolutePosition = ScreenUtility.getWorldPosition(draw.getBody(), absolutePosition);
-        defeatType.applyEffect(absolutePosition.x, absolutePosition.y, botId);
+        if (Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().playerHasLivesLeft(botId)) {
+            defeatType.applyEffect(absolutePosition.x, absolutePosition.y, botId);
+        } else {
+            FinalDefeatVisual finalVisual = new FinalDefeatVisual(position.x, position.y, draw);
+            Utility.getActiveScene().addUpdateable(finalVisual);
+            Utility.getActiveScene().getCameraNode().addChild(finalVisual.getDrawable());
+        }
         Utility.getActiveScene().getMatchOrchestrator().addEvent(new BotDefeatEvent(botId, playerWhoDefeatedThis));
         Debugger.info("created event to destroy bot " + botId);
     }
@@ -132,7 +139,8 @@ public class DangineBot implements IsUpdateable, HasDrawable {
             @Override
             public void call(CombatEvent arg) {
                 if (!isImmunity()) {
-                    Vector2f angleVector = new Vector2f(getPosition().x - arg.getPosition().x, getPosition().y - arg.getPosition().y);
+                    Vector2f angleVector = new Vector2f(getPosition().x - arg.getPosition().x, getPosition().y
+                            - arg.getPosition().y);
                     float angle = (float) Math.toDegrees(angleVector.getTheta());
                     if (arg.getCreator() instanceof GreatSwordColliderData) {
                         GreatSwordColliderData collider = (GreatSwordColliderData) arg.getCreator();
@@ -147,7 +155,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
                     SlashVisual slashVisual = new SlashVisual(position.x, position.y, angle);
                     Utility.getActiveScene().addUpdateable(slashVisual);
                     Utility.getActiveScene().getCameraNode().addChild(slashVisual.getDrawable());
-                    
+
                     ScreenFlashVisual flashVisual = new ScreenFlashVisual();
                     Utility.getActiveScene().addUpdateable(flashVisual);
                     Utility.getActiveScene().getCameraNode().addChild(flashVisual.getDrawable());

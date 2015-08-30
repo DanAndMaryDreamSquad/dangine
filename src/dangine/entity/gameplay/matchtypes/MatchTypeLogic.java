@@ -23,6 +23,8 @@ public interface MatchTypeLogic {
 
     boolean shouldPlayerRespawn(int playerId, ScoreKeeper scoreKeeper);
 
+    boolean playerHasLivesLeft(int playerId, ScoreKeeper scoreKeeper);
+
     MatchEvent createVictoryEvent(ScoreKeeper scoreKeeper);
 
 }

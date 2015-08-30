@@ -45,7 +45,7 @@ public class SlashVisual implements IsUpdateable, HasDrawable {
     @Override
     public void update() {
         timer += Utility.getGameTime().getDeltaTimeF();
-        if (timer > DELAY) {
+        if (timer > DELAY && !active) {
             child.addChild(box);
             active = true;
         }

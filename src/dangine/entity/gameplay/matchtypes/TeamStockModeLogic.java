@@ -143,4 +143,9 @@ public class TeamStockModeLogic implements MatchTypeLogic {
 
     }
 
+    @Override
+    public boolean playerHasLivesLeft(int playerId, ScoreKeeper scoreKeeper) {
+        return scoreKeeper.getPlayerScore(playerId).getStock() > 0;
+    }
+
 }

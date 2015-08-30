@@ -109,6 +109,10 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
         return null;
     }
 
+    public boolean playerHasLivesLeft(int playerId) {
+        return matchTypeLogic.playerHasLivesLeft(playerId, this);
+    }
+
     @Override
     public IsDrawable getDrawable() {
         return base;
