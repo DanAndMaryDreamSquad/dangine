@@ -8,8 +8,8 @@ import dangine.utility.MathUtility;
 
 public class BloxColorer {
 
-    public static final ReadableColor[] COLORS = { Color.BLACK, Color.BLUE, Color.CYAN, Color.DKGREY, Color.GREY,
-            Color.GREEN, Color.LTGREY, Color.PURPLE, Color.ORANGE, Color.RED, Color.WHITE, Color.YELLOW };
+    public static final ReadableColor[] COLORS = { Color.RED, Color.CYAN, Color.GREEN, Color.ORANGE, Color.PURPLE,
+            Color.YELLOW, Color.BLUE, Color.LTGREY };
 
     public static final ReadableColor[] TEAM_COLORS = { Color.RED, Color.BLUE, Color.CYAN, Color.DKGREY, Color.BLACK,
             Color.ORANGE };
@@ -63,6 +63,10 @@ public class BloxColorer {
 
     public static Color randomColor() {
         return new Color(COLORS[MathUtility.randomInt(0, COLORS.length - 1)]);
+    }
+
+    public static Color getDefaultPlayerColor(int playerId) {
+        return new Color(COLORS[(playerId) % (COLORS.length - 1)]);
     }
 
 }

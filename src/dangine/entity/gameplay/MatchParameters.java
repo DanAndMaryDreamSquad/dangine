@@ -16,6 +16,7 @@ import dangine.entity.movement.FacingMode;
 import dangine.entity.movement.MovementMode;
 import dangine.entity.world.Background;
 import dangine.entity.world.World;
+import dangine.scenegraph.drawable.BloxColorer;
 
 public class MatchParameters {
 
@@ -63,10 +64,10 @@ public class MatchParameters {
 
     public Color getPlayerColor(int playerId) {
         Integer i = new Integer(playerId);
-        Color color = playerIdToColor.get(i);
-        if (color == null) {
-            return defaultColor;
+        if (!playerIdToColor.containsKey(i)) {
+            playerIdToColor.put(i, BloxColorer.getDefaultPlayerColor(playerId));
         }
+        Color color = playerIdToColor.get(i);
         return color;
     }
 

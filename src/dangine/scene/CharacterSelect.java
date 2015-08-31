@@ -63,6 +63,13 @@ public class CharacterSelect implements IsUpdateable {
         }
     }
 
+    public void onNewPlayer(DanginePlayer newPlayer) {
+        CharacterSelectionMenu menu = new CharacterSelectionMenu(newPlayer.getPlayerId());
+        Utility.getActiveScene().addUpdateable(menu);
+        Utility.getActiveScene().getParentNode().addChild(menu.getDrawable());
+        menus.add(menu);
+    }
+
     private void removeMenus() {
         for (CharacterSelectionMenu menu : menus) {
             Utility.getActiveScene().removeUpdateable(menu);

@@ -11,8 +11,10 @@ public class Players {
         return players.get(id);
     }
 
-    public void newPlayer() {
-        players.add(new DanginePlayer(players.size()));
+    public DanginePlayer newPlayer() {
+        DanginePlayer player = new DanginePlayer(players.size());
+        players.add(player);
+        return player;
     }
 
     public void removePlayer() {

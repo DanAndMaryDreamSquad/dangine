@@ -45,7 +45,9 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
         node.addChild(menu.getDrawable());
         node.addChild(blox.getDrawable());
         // node.setPosition((200 * (1 + playerId)) + 100, 450);
-        node.setPosition(75 + (playerId * (Utility.getResolution().x / 6.0f)), 450);
+        float x = 150 + ((playerId / 2) * (Utility.getResolution().x / 3.0f));
+        float y = 150 + ((playerId % 2) * (Utility.getResolution().y / 2.0f));
+        node.setPosition(x, y);
         blox.getBase().setPosition(-50, 0);
         menu.addItem(new DangineMenuItem("Ready", getReadyAction()));
         if (Utility.getMatchParameters().getMatchType().isTeamMode()) {
@@ -126,15 +128,27 @@ public class CharacterSelectionMenu implements IsUpdateable, HasDrawable {
             @Override
             public void execute() {
                 int i = BloxColorer.indexOf(color);
-                i++;
-                if (i >= BloxColorer.COLORS.length) {
-                    i = 0;
-                }
-                color = new Color(BloxColorer.COLORS[i]);
+                do {
+                    i++;
+                    i = i % (BloxColorer.COLORS.length - 1);
+                    color = new Color(BloxColorer.COLORS[i]);
+                    if (i > BloxColorer.COLORS.length * 2) {
+                        break;
+                    }
+                } while (isColorTaken(color));
                 Utility.getMatchParameters().addPlayerColor(playerId, color);
                 reColor();
             }
         };
+    }
+
+    private boolean isColorTaken(Color color) {
+        for (Color c : Utility.getMatchParameters().getPlayerIdToColor().values()) {
+            if (c.equals(color)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Action getNextPowerAction() {
