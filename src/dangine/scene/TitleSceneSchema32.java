@@ -6,8 +6,6 @@ import dangine.entity.world.World;
 import dangine.menu.ControlsAssigner;
 import dangine.menu.TitleMenu;
 import dangine.scenegraph.SceneGraphNode;
-import dangine.utility.Utility;
-import dangine.utility.VersioningSceneGraph;
 
 public class TitleSceneSchema32 implements SceneSchema {
 
@@ -18,9 +16,6 @@ public class TitleSceneSchema32 implements SceneSchema {
         TitleMenu menu = new TitleMenu();
         scene.addUpdateable(menu);
         scene.getParentNode().addChild(menu.getDrawable());
-
-        VersioningSceneGraph version = new VersioningSceneGraph();
-        Utility.getActiveScene().getParentNode().addChild(version.getDrawable());
 
         ControlsAssigner controlsAssigner = new ControlsAssigner(false);
         scene.addUpdateable(controlsAssigner);

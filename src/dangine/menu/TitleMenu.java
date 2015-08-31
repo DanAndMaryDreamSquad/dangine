@@ -7,6 +7,7 @@ import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
+import dangine.utility.VersioningSceneGraph;
 
 public class TitleMenu implements IsUpdateable, HasDrawable {
 
@@ -15,9 +16,12 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
     SceneGraphNode node = new SceneGraphNode();
     StardustLogo logo = new StardustLogo();
 
+    VersioningSceneGraph version = new VersioningSceneGraph();
+
     public TitleMenu() {
         node.addChild(menu.getDrawable());
         node.addChild(logo.getDrawable());
+        node.addChild(version.getDrawable());
 
         menu.addItem(new DangineMenuItem("Versus", getPlayVersusAction()));
         menu.addItem(new DangineMenuItem("Settings", getSettingsMenuAction()));
