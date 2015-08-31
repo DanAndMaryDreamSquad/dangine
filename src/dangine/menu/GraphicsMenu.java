@@ -17,7 +17,7 @@ public class GraphicsMenu implements IsUpdateable, HasDrawable {
     DangineMenu menu = new DangineMenu();
     DangineSelector selector = new DangineSelector();
 
-    DangineMenuItem antiAliasingItem = new DangineMenuItem("Anti-Aliasing: "
+    DangineMenuItem antiAliasingItem = new DangineMenuItem("Anti-Aliasing level: "
             + DangineSavedSettings.INSTANCE.getAntiAliasingLevel(), getAntiAliasingUpAction(),
             getAntiAliasingDownAction());
 
@@ -34,13 +34,13 @@ public class GraphicsMenu implements IsUpdateable, HasDrawable {
         menu.addItem(bgFilterItem);
         menu.addItem(new DangineMenuItem("Done", getExitMenuAction()));
         menu.getBase().addChild(antiAliasTextNode);
-        DangineFormatter.format(menu.getBase().getChildNodes());
+        DangineFormatter.formatDoubleWide(menu.getBase().getChildNodes());
         antiAliasTextNode.addChild(antiAliasText);
         antiAliasText.setText("Anti-alias changes require game restart.");
-        antiAliasTextNode.setPosition(-260 * DangineOpenGL.getWindowWorldAspectX() * DangineStringPicture.STRING_SCALE,
-                110 * DangineOpenGL.getWindowWorldAspectY() * DangineStringPicture.STRING_SCALE);
+        antiAliasTextNode.setPosition(0, 110 * DangineOpenGL.getWindowWorldAspectY()
+                * DangineStringPicture.STRING_SCALE);
 
-        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.6f));
+        menu.getBase().setPosition(Utility.getResolution().x * 0.12f, Utility.getResolution().y * 0.12f);
         menu.getItem(0).getBase().addChild(selector.getDrawable());
 
     }
@@ -66,7 +66,7 @@ public class GraphicsMenu implements IsUpdateable, HasDrawable {
                 DangineSavedSettings.INSTANCE.setAntiAliasingLevel(antiAliasingLevel);
                 DangineSavedSettings.INSTANCE.save();
                 antiAliasingItem.getItemText().setText(
-                        "Anti-Aliasing: " + DangineSavedSettings.INSTANCE.getAntiAliasingLevel());
+                        "Anti-Aliasing level: " + DangineSavedSettings.INSTANCE.getAntiAliasingLevel());
             }
 
         };
@@ -82,7 +82,7 @@ public class GraphicsMenu implements IsUpdateable, HasDrawable {
                 DangineSavedSettings.INSTANCE.setAntiAliasingLevel(antiAliasingLevel);
                 DangineSavedSettings.INSTANCE.save();
                 antiAliasingItem.getItemText().setText(
-                        "Anti-Aliasing: " + DangineSavedSettings.INSTANCE.getAntiAliasingLevel());
+                        "Anti-Aliasing level: " + DangineSavedSettings.INSTANCE.getAntiAliasingLevel());
             }
 
         };

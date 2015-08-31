@@ -23,7 +23,7 @@ public enum MovementMode {
     SWING_LOCK {
         @Override
         public String description() {
-            return "Hero can turn and move freely while charging, but not while swinging";
+            return "Hero can turn and move freely while charging,\nbut not while swinging";
         }
 
         @Override
@@ -67,7 +67,7 @@ public enum MovementMode {
     MOVE_FREE_TURN_SWING_LOCK {
         @Override
         public String description() {
-            return "Hero can turn freely while charging, but not while swinging. Can always move freely";
+            return "Hero can turn freely while charging,\nbut not while swinging. Can always move freely";
         }
 
         @Override
@@ -86,7 +86,7 @@ public enum MovementMode {
     MOVE_FREE_TURN_ALL_LOCK {
         @Override
         public String description() {
-            return "Hero cannot turn or move while charging or swinging. Can always move freely";
+            return "Hero cannot turn or move while charging or swinging.\nCan always move freely";
         }
 
         @Override

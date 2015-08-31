@@ -137,21 +137,21 @@ public class DangineControllerAssignments {
 
     public static String getOptions() {
         StringBuffer buffer = new StringBuffer();
-        buffer.append("Press ");
+        buffer.append("- Press -\n");
         if (!inUse(Device.KEYBOARD_LEFT)) {
             int key = DangineKeyInputMapper.DEFAULTS.get(Action.BUTTON_ONE);
-            buffer.append(Keyboard.getKeyName(key) + ", ");
+            buffer.append(Keyboard.getKeyName(key) + "\n");
         }
         if (!inUse(Device.KEYBOARD_RIGHT)) {
             int key = DangineKeyInputMapper.DEFAULTS_P2.get(Action.BUTTON_ONE);
-            buffer.append(Keyboard.getKeyName(key) + ", ");
+            buffer.append(Keyboard.getKeyName(key) + "\n");
         }
         if (!inUse(Device.CONTROLLER_ONE) || !inUse(Device.CONTROLLER_TWO) || !inUse(Device.CONTROLLER_THREE)
                 || !inUse(Device.CONTROLLER_FOUR)) {
             Button key = DangineXboxControllerInputMapper.DEFAULTS.get(Action.BUTTON_ONE);
-            buffer.append("Xbox " + key + ", ");
+            buffer.append("Xbox " + key + "\n");
         }
-        buffer.append(" to join");
+        buffer.append("- to join -");
         return buffer.toString();
     }
 }

@@ -17,4 +17,12 @@ public class DangineFormatter {
         }
     }
 
+    public static void formatDoubleWide(List<SceneGraphNode> nodes) {
+        for (int i = 0; i < nodes.size(); i++) {
+            SceneGraphNode node = nodes.get(i);
+            node.setPosition(0, i * DangineFont.CHARACTER_HEIGHT_IN_PIXELS * DangineStringPicture.STRING_SCALE
+                    * DangineOpenGL.getWindowWorldAspectY() * 2);
+        }
+    }
+
 }

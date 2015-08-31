@@ -4,8 +4,6 @@ import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
-import dangine.graphics.DangineFont;
-import dangine.graphics.DangineOpenGL;
 import dangine.graphics.DangineStringPicture;
 import dangine.input.DangineControllerAssignments;
 import dangine.player.DanginePlayer;
@@ -18,12 +16,12 @@ public class ControlsAssigner implements IsUpdateable, HasDrawable {
     SceneGraphNode node = new SceneGraphNode();
     DangineStringPicture text = new DangineStringPicture();
     CharacterSelect characterSelect = null;
+    boolean allowMoreThanOneAssignment;
 
-    public ControlsAssigner() {
+    public ControlsAssigner(boolean allowMoreThanOneAssignment) {
+        this.allowMoreThanOneAssignment = allowMoreThanOneAssignment;
         node.addChild(text);
-        float offset = DangineFont.CHARACTER_HEIGHT_IN_PIXELS * DangineStringPicture.STRING_SCALE
-                * DangineOpenGL.getWindowWorldAspectY();
-        node.setPosition(Utility.getResolution().x / 2, Utility.getResolution().y - offset);
+        node.setPosition(0, 0);
     }
 
     public ControlsAssigner withCharacterSelect(CharacterSelect characterSelect) {
@@ -41,10 +39,10 @@ public class ControlsAssigner implements IsUpdateable, HasDrawable {
             if (characterSelect != null) {
                 characterSelect.onNewPlayer(player);
             }
-            // ControlsExplainSceneGraph explain = new
-            // ControlsExplainSceneGraph(
-            // Utility.getPlayers().getPlayers().size() - 1);
-            // Utility.getActiveScene().getParentNode().addChild(explain.getDrawable());
+        }
+        if (!allowMoreThanOneAssignment && Utility.getPlayers().getPlayers().size() > 0) {
+            Utility.getActiveScene().removeUpdateable(this);
+            Utility.getActiveScene().getParentNode().removeChild(node);
         }
     }
 

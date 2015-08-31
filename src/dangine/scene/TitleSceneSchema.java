@@ -43,7 +43,7 @@ public class TitleSceneSchema implements SceneSchema {
         VersioningSceneGraph version = new VersioningSceneGraph();
         Utility.getActiveScene().getParentNode().addChild(version.getDrawable());
 
-        ControlsAssigner controlsAssigner = new ControlsAssigner();
+        ControlsAssigner controlsAssigner = new ControlsAssigner(true);
         scene.addUpdateable(controlsAssigner);
         scene.getParentNode().addChild(controlsAssigner.getDrawable());
 

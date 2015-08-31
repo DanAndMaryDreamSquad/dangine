@@ -21,7 +21,7 @@ public class CharacterSelectSchema implements SceneSchema {
         VersioningSceneGraph version = new VersioningSceneGraph();
         Utility.getActiveScene().getParentNode().addChild(version.getDrawable());
 
-        ControlsAssigner controlsAssigner = new ControlsAssigner();
+        ControlsAssigner controlsAssigner = new ControlsAssigner(true);
         controlsAssigner.withCharacterSelect(menu);
         scene.addUpdateable(controlsAssigner);
         scene.getParentNode().addChild(controlsAssigner.getDrawable());

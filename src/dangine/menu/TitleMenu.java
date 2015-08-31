@@ -5,17 +5,24 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.menu.DangineMenuItem.Action;
+import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
 
 public class TitleMenu implements IsUpdateable, HasDrawable {
 
     DangineMenu menu = new DangineMenu();
     DangineSelector selector = new DangineSelector();
+    SceneGraphNode node = new SceneGraphNode();
+    StardustLogo logo = new StardustLogo();
 
     public TitleMenu() {
+        node.addChild(menu.getDrawable());
+        node.addChild(logo.getDrawable());
+
         menu.addItem(new DangineMenuItem("Versus", getPlayVersusAction()));
         menu.addItem(new DangineMenuItem("Settings", getSettingsMenuAction()));
         menu.addItem(new DangineMenuItem("Graphics", getGraphicsMenuAction()));
+        menu.addItem(new DangineMenuItem("Controls", getControlsMenuAction()));
         menu.addItem(new DangineMenuItem("Resolution", getResolutionMenuAction()));
         menu.addItem(new DangineMenuItem("Exit", getExitGameAction()));
         DangineFormatter.format(menu.getBase().getChildNodes());
@@ -34,7 +41,7 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
 
     @Override
     public IsDrawable getDrawable() {
-        return menu.getDrawable();
+        return node;
     }
 
     private Action getPlayVersusAction() {
@@ -76,6 +83,21 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
                 Utility.getActiveScene().removeUpdateable(TitleMenu.this);
                 Utility.getActiveScene().getParentNode().addChild(graphicsMenu.getDrawable());
                 Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
+            }
+        };
+    }
+
+    private Action getControlsMenuAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                ControlsMenu controlsMenu = new ControlsMenu();
+                Utility.getActiveScene().addUpdateable(controlsMenu);
+                Utility.getActiveScene().removeUpdateable(TitleMenu.this);
+                Utility.getActiveScene().getParentNode().addChild(controlsMenu.getDrawable());
+                Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
+                Utility.getActiveScene().getParentNode().removeChild(logo.getDrawable());
             }
         };
     }

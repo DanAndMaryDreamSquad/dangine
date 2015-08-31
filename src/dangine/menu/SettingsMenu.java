@@ -4,7 +4,6 @@ import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.movement.AttackMode;
-import dangine.entity.movement.FacingMode;
 import dangine.entity.movement.MovementMode;
 import dangine.graphics.DangineOpenGL;
 import dangine.graphics.DangineStringPicture;
@@ -29,10 +28,8 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
     SceneGraphNode attackModeEnumNode = new SceneGraphNode();
     DangineStringPicture attackModeEnumText = new DangineStringPicture();
 
-    SceneGraphNode facingModeTextNode = new SceneGraphNode();
-    DangineStringPicture facingModeText = new DangineStringPicture();
-    SceneGraphNode facingModeEnumNode = new SceneGraphNode();
-    DangineStringPicture facingModeEnumText = new DangineStringPicture();
+    DangineMenuItem movementModeItem = new DangineMenuItem("Movement mode: "
+            + Utility.getMatchParameters().getMovementMode().toString(), getNextMovementModeAction());
 
     DangineMenuItem musicVolumeItem = new DangineMenuItem("Music Volume "
             + Utility.getGameParameters().getMusicVolumeString(), getMusicVolumeUpAction(), getMusicVolumeDownAction());
@@ -48,40 +45,29 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
         selector.setOnEscape(getExitMenuAction());
         menu.addItem(new DangineMenuItem("Stock: ", getStockIncrementAction(), getStockDecrementAction()));
         menu.addItem(friendlyFireItem);
-        menu.addItem(new DangineMenuItem("Change Movement Mode: ", getNextMovementModeAction()));
-        menu.getBase().addChild(movementModeTextNode);
-        // menu.addItem(new DangineMenuItem("Change Attack Mode: ",
-        // getNextAttackModeAction()));
-        // menu.getBase().addChild(attackModeTextNode);
-        menu.getBase().addChild(new SceneGraphNode());
-        menu.addItem(new DangineMenuItem("Change Facing Mode: ", getNextFacingModeAction()));
-        menu.getBase().addChild(facingModeTextNode);
         menu.addItem(musicVolumeItem);
         menu.addItem(soundVolumeItem);
+        menu.addItem(movementModeItem);
+        menu.getBase().addChild(movementModeTextNode);
+        menu.getBase().addChild(new SceneGraphNode());
         menu.addItem(new DangineMenuItem("Done", getExitMenuAction()));
         menu.getBase().addChild(stockTextNode);
-        DangineFormatter.format(menu.getBase().getChildNodes());
+        DangineFormatter.formatDoubleWide(menu.getBase().getChildNodes());
 
         stockTextNode.addChild(stockText);
         movementModeTextNode.addChild(movementModeText);
-        movementModeTextNode.addChild(movementModeEnumNode);
         movementModeEnumNode.addChild(movementModeEnumText);
         // attackModeTextNode.addChild(attackModeText);
         // attackModeTextNode.addChild(attackModeEnumNode);
         // attackModeEnumNode.addChild(attackModeEnumText);
-        facingModeTextNode.addChild(facingModeText);
-        facingModeTextNode.addChild(facingModeEnumNode);
-        facingModeEnumNode.addChild(facingModeEnumText);
 
         stockTextNode.setPosition(60 * DangineOpenGL.getWindowWorldAspectX() * DangineStringPicture.STRING_SCALE, 0);
-        movementModeTextNode.setPosition(-Utility.getResolution().x / 2, movementModeTextNode.getPosition().y);
-        attackModeTextNode.setPosition(-Utility.getResolution().x / 2, attackModeTextNode.getPosition().y);
-        facingModeTextNode.setPosition(-Utility.getResolution().x / 2, facingModeTextNode.getPosition().y);
-        movementModeEnumNode.setPosition(0, -20);
-        attackModeEnumNode.setPosition(0, -20);
-        facingModeEnumNode.setPosition(0, -20);
+        movementModeTextNode.setPosition(0, movementModeTextNode.getPosition().y);
+        attackModeTextNode.setPosition(0, attackModeTextNode.getPosition().y);
+        movementModeEnumNode.setPosition(0, 0);
+        attackModeEnumNode.setPosition(0, 0);
 
-        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.6f));
+        menu.getBase().setPosition(Utility.getResolution().x * (0.12f), Utility.getResolution().y * (0.12f));
         menu.getItem(0).getBase().addChild(selector.getDrawable());
         updateText();
     }
@@ -100,12 +86,10 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
     private void updateText() {
         stockText.setText("" + Utility.getMatchParameters().getStartingStock());
         friendlyFireItem.getItemText().setText("Friendly Fire: " + Utility.getMatchParameters().isFriendlyFire());
+        movementModeItem.getItemText().setText(
+                "Movement mode: " + Utility.getMatchParameters().getMovementMode().toString());
         movementModeText.setText("" + Utility.getMatchParameters().getMovementMode().description());
-        movementModeEnumText.setText("" + Utility.getMatchParameters().getMovementMode().toString());
         attackModeText.setText("" + Utility.getMatchParameters().getAttackMode().description());
-        attackModeEnumText.setText("" + Utility.getMatchParameters().getAttackMode().toString());
-        facingModeText.setText("" + Utility.getMatchParameters().getFacingMode().description());
-        facingModeEnumText.setText("" + Utility.getMatchParameters().getFacingMode().toString());
     }
 
     private Action getStockIncrementAction() {
@@ -177,20 +161,6 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
                 AttackMode attackMode = Utility.getMatchParameters().getAttackMode();
                 attackMode = attackMode.nextMode();
                 Utility.getMatchParameters().setAttackMode(attackMode);
-                updateText();
-            }
-
-        };
-    }
-
-    private Action getNextFacingModeAction() {
-        return new Action() {
-
-            @Override
-            public void execute() {
-                FacingMode facingMode = Utility.getMatchParameters().getFacingMode();
-                facingMode = facingMode.nextMode();
-                Utility.getMatchParameters().setFacingMode(facingMode);
                 updateText();
             }
 
