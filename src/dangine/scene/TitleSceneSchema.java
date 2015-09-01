@@ -12,7 +12,6 @@ import dangine.player.DanginePlayer;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
 import dangine.utility.Vector2f;
-import dangine.utility.VersioningSceneGraph;
 
 public class TitleSceneSchema implements SceneSchema {
 
@@ -39,9 +38,6 @@ public class TitleSceneSchema implements SceneSchema {
             scene.getParentNode().addChild(graph.getDrawable());
             controlsGraphs.add(graph);
         }
-
-        VersioningSceneGraph version = new VersioningSceneGraph();
-        Utility.getActiveScene().getParentNode().addChild(version.getDrawable());
 
         ControlsAssigner controlsAssigner = new ControlsAssigner(true);
         scene.addUpdateable(controlsAssigner);

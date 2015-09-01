@@ -56,7 +56,13 @@ public class DanginePicture implements IsDrawable32 {
 
     @Override
     public IsDrawable32 copy() {
-        return new DanginePicture(quad.getTexture());
+        DanginePicture picture = new DanginePicture(quad.getTexture());
+        picture.getQuad().setFilterMode(quad.getFilterMode());
+        return picture;
+    }
+
+    public DangineTexturedQuad getQuad() {
+        return quad;
     }
 
 }

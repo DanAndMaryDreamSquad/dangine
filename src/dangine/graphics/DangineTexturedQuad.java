@@ -144,6 +144,11 @@ public class DangineTexturedQuad {
 
     public void drawQuad() {
         // Filter code
+        GL20.glUseProgram(DangineShaders.getTextureProgramId());
+
+        // Bind the texture
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureId());
 
         // This is how the texture scales. Use GL11.GL_LINEAR for smooth /
         // blurry textures, GL11.GL_NEAREST for pixel-y textures
@@ -187,12 +192,6 @@ public class DangineTexturedQuad {
 
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, wrapMode);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, wrapMode);
-
-        GL20.glUseProgram(DangineShaders.getTextureProgramId());
-
-        // Bind the texture
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureId());
 
         // Bind to the VAO that has all the information about the vertices
         GL30.glBindVertexArray(vaoId);
@@ -305,6 +304,14 @@ public class DangineTexturedQuad {
 
     public void setTexture(DangineTexture texture) {
         this.texture = texture;
+    }
+
+    public int getFilterMode() {
+        return filterMode;
+    }
+
+    public void setFilterMode(int filterMode) {
+        this.filterMode = filterMode;
     }
 
 }
