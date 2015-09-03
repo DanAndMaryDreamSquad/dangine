@@ -23,7 +23,7 @@ public class MatchTypeMenu implements IsUpdateable, HasDrawable {
         items.add(new DangineMenuItem("Bot Battle", getBotBattleAction()));
         items.add(new DangineMenuItem("Co-op VS Bots", getCoopVsBotsAction()));
         items.add(new DangineMenuItem("Win By Two", getWinByTwoOptions()));
-        items.add(new DangineMenuItem("Soccer Mode", getSoccerModeOption()));
+        // items.add(new DangineMenuItem("Soccer Mode", getSoccerModeOption()));
         items.add(new DangineMenuItem("Back", getOnEscapeAction()));
 
         for (int i = 0; i < items.size(); i++) {
@@ -106,6 +106,7 @@ public class MatchTypeMenu implements IsUpdateable, HasDrawable {
         };
     }
 
+    @SuppressWarnings("unused")
     private Action getSoccerModeOption() {
         return new Action() {
 

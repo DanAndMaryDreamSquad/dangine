@@ -28,7 +28,8 @@ public class Camera implements IsUpdateable, HasDrawable {
     float offset = 0;
     float x = 0;
     float y = 0;
-    float scale = 1.5f;
+    // float scale = 1.5f;
+    float scale = 1.0f;
     float minX = 9999;
     float maxX = -9999;
     float minY = 9999;
@@ -40,7 +41,7 @@ public class Camera implements IsUpdateable, HasDrawable {
     float DISTANCE_FOR_MIN_SCALE = 600;
     float MAX_PAN_PER_SECOND = 0.5f;
     float MAX_SCALE_PER_SECOND = 0.0001f;
-    Vector2f previousPosition = new Vector2f();
+    Vector2f previousPosition = new Vector2f(Utility.getResolution().x / 2, Utility.getResolution().y / 2);
     Vector2f previousScale = new Vector2f(scale, scale);
 
     public SceneGraphNode getCameraNode() {

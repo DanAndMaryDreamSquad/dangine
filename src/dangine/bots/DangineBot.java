@@ -15,6 +15,7 @@ import dangine.entity.combat.CombatEventHitbox;
 import dangine.entity.combat.CombatResolver;
 import dangine.entity.combat.CombatResolver.EventType;
 import dangine.entity.combat.GreatSword;
+import dangine.entity.combat.GreatSword.State;
 import dangine.entity.combat.subpower.DashPower;
 import dangine.entity.combat.subpower.ProjectilePower;
 import dangine.entity.combat.subpower.ProjectileShot;
@@ -150,6 +151,9 @@ public class DangineBot implements IsUpdateable, HasDrawable {
                         SoundPlayer.play(SoundEffect.SWORD_DEFEAT);
                     } else if (arg.getCreator() instanceof ProjectileShot) {
                         SoundPlayer.play(SoundEffect.PROJECTILE_HIT);
+                    }
+                    if (getActiveWeapon() != null && getActiveWeapon().getState() == State.COUNTERING) {
+                        return;
                     }
                     Utility.getGameTime().setModulator(0.015f, 1000);
                     SlashVisual slashVisual = new SlashVisual(position.x, position.y, angle);

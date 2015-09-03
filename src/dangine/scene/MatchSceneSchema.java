@@ -44,6 +44,7 @@ public class MatchSceneSchema implements SceneSchema {
         }
 
         DangineMusicPlayer.startTrack(MusicEffect.BATTLE_SCENE);
+        scene.update();
     }
 
 }
