@@ -4,6 +4,7 @@ import java.util.List;
 
 import dangine.entity.gameplay.MatchEvent;
 import dangine.entity.gameplay.MatchRestarter;
+import dangine.graphics.DangineFont;
 import dangine.graphics.DangineStringPicture;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
@@ -19,7 +20,8 @@ public class VictoryEvent implements MatchEvent {
         this.victorId = playerId;
         text.setText("Player: " + playerId + " is the victor!");
 
-        node.setPosition(Utility.getResolution().x / 2, Utility.getResolution().y / 2);
+        float xOffset = DangineFont.getLengthInPixels(text.getText()) * 0.5f;
+        node.setPosition((Utility.getResolution().x * 0.5f) - xOffset, Utility.getResolution().y / 2);
         node.addChild(text);
     }
 
@@ -31,7 +33,8 @@ public class VictoryEvent implements MatchEvent {
         } else {
             text.setText("Players: " + idsString(playerIds) + " are the victors!");
         }
-        node.setPosition(Utility.getResolution().x / 2, Utility.getResolution().y / 2);
+        float xOffset = DangineFont.getLengthInPixels(text.getText()) * 0.5f;
+        node.setPosition((Utility.getResolution().x * 0.5f) - xOffset, Utility.getResolution().y / 2);
         node.addChild(text);
     }
 

@@ -40,4 +40,9 @@ public class DangineFont {
         return 0;
     }
 
+    public static int getLengthInPixels(String phrase) {
+        return Math.round(phrase.length() * DangineStringPicture.STRING_SCALE * DangineFont.CHARACTER_WIDTH_IN_PIXELS
+                * DangineOpenGL.getWindowWorldAspectX());
+    }
+
 }

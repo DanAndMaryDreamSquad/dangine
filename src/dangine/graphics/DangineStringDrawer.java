@@ -71,5 +71,4 @@ public class DangineStringDrawer {
     public SceneGraphNode getNode() {
         return node;
     }
-
 }

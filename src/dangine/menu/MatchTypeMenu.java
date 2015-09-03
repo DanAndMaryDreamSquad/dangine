@@ -1,5 +1,8 @@
 package dangine.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -14,16 +17,21 @@ public class MatchTypeMenu implements IsUpdateable, HasDrawable {
 
     public MatchTypeMenu() {
         selector.setOnEscape(getOnEscapeAction());
-        menu.addItem(new DangineMenuItem("Free For All", getFreeForAllAction()));
-        menu.addItem(new DangineMenuItem("Team Battle", getTeamBattleAction()));
-        menu.addItem(new DangineMenuItem("Bot Battle", getBotBattleAction()));
-        menu.addItem(new DangineMenuItem("Co-op VS Bots", getCoopVsBotsAction()));
-        menu.addItem(new DangineMenuItem("Win By Two", getWinByTwoOptions()));
-        menu.addItem(new DangineMenuItem("Soccer Mode", getSoccerModeOption()));
-        menu.addItem(new DangineMenuItem("Back", getOnEscapeAction()));
-        DangineFormatter.format(menu.getBase().getChildNodes());
+        List<DangineMenuItem> items = new ArrayList<DangineMenuItem>();
+        items.add(new DangineMenuItem("Free For All", getFreeForAllAction()));
+        items.add(new DangineMenuItem("Team Battle", getTeamBattleAction()));
+        items.add(new DangineMenuItem("Bot Battle", getBotBattleAction()));
+        items.add(new DangineMenuItem("Co-op VS Bots", getCoopVsBotsAction()));
+        items.add(new DangineMenuItem("Win By Two", getWinByTwoOptions()));
+        items.add(new DangineMenuItem("Soccer Mode", getSoccerModeOption()));
+        items.add(new DangineMenuItem("Back", getOnEscapeAction()));
+
+        for (int i = 0; i < items.size(); i++) {
+            menu.addItem(items.get(i));
+        }
+        DangineFormatter.formatDoubleWide(menu.getBase().getChildNodes());
         menu.getItem(0).getBase().addChild(selector.getDrawable());
-        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.75f));
+        menu.getBase().setPosition(Utility.getResolution().x * 0.25f, Utility.getResolution().y * (0.25f));
 
     }
 

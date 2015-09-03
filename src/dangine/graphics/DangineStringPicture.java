@@ -76,4 +76,8 @@ public class DangineStringPicture implements IsDrawable32 {
         color.setAlpha((int) (alpha * 255f));
         quad.setTextureColor(color);
     }
+
+    public String getText() {
+        return text;
+    }
 }

@@ -47,6 +47,7 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
             timer += Utility.getGameTime().getDeltaTimeF();
             if (timer > FADE_DELAY) {
                 alpha = 1.0f - ((timer - FADE_DELAY) / (FADE_TIME - FADE_DELAY));
+                alpha = Math.max(0, alpha);
             }
             for (DangineStringPicture text : playerIdToTextNode.values()) {
                 text.setAlpha(alpha);

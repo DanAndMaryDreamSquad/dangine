@@ -1,5 +1,8 @@
 package dangine.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
@@ -22,16 +25,20 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
         node.addChild(menu.getDrawable());
         node.addChild(logo.getDrawable());
         node.addChild(version.getDrawable());
+        List<DangineMenuItem> items = new ArrayList<DangineMenuItem>();
+        items.add(new DangineMenuItem("Versus", getPlayVersusAction()));
+        items.add(new DangineMenuItem("Settings", getSettingsMenuAction()));
+        items.add(new DangineMenuItem("Graphics", getGraphicsMenuAction()));
+        items.add(new DangineMenuItem("Controls", getControlsMenuAction()));
+        items.add(new DangineMenuItem("Resolution", getResolutionMenuAction()));
+        items.add(new DangineMenuItem("Exit", getExitGameAction()));
+        for (int i = 0; i < items.size(); i++) {
+            menu.addItem(items.get(i));
+        }
 
-        menu.addItem(new DangineMenuItem("Versus", getPlayVersusAction()));
-        menu.addItem(new DangineMenuItem("Settings", getSettingsMenuAction()));
-        menu.addItem(new DangineMenuItem("Graphics", getGraphicsMenuAction()));
-        menu.addItem(new DangineMenuItem("Controls", getControlsMenuAction()));
-        menu.addItem(new DangineMenuItem("Resolution", getResolutionMenuAction()));
-        menu.addItem(new DangineMenuItem("Exit", getExitGameAction()));
-        DangineFormatter.format(menu.getBase().getChildNodes());
+        DangineFormatter.formatAndCenter(items);
         menu.getItem(0).getBase().addChild(selector.getDrawable());
-        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.75f));
+        menu.getBase().setPosition((Utility.getResolution().x * 0.5f), Utility.getResolution().y * (0.65f));
     }
 
     @Override
