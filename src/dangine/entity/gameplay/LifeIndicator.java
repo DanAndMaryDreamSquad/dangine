@@ -9,7 +9,7 @@ import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
-import dangine.graphics.DangineBox;
+import dangine.graphics.DanginePicture;
 import dangine.harness.Provider;
 import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.Utility;
@@ -19,7 +19,7 @@ public class LifeIndicator implements IsUpdateable, HasDrawable {
 
     final float OFFSET = 20;
     final float DISTANCE = 50;
-    final int SIZE = 25;
+    final int SIZE = 12;
     final float SPEED = 3200;
     float angle = 0;
     final int ownerId;
@@ -36,9 +36,11 @@ public class LifeIndicator implements IsUpdateable, HasDrawable {
         this.lives = lives;
         Color color = Utility.getMatchParameters().getPlayerColor(ownerId);
         for (int i = 0; i < lives; i++) {
-            DangineBox shape = new DangineBox(SIZE, SIZE, new Color(color));
+            DanginePicture image = new DanginePicture("hearticon");
+            image.getQuad().setTextureColor(color);
+
             SceneGraphNode node = new SceneGraphNode();
-            node.addChild(shape);
+            node.addChild(image);
             lifeNodes.add(node);
             base.addChild(node);
         }
@@ -49,17 +51,19 @@ public class LifeIndicator implements IsUpdateable, HasDrawable {
     public void update() {
         timer += Utility.getGameTime().getDeltaTimeF();
         Vector2f position = positionProvider.get();
-        base.setPosition(position.x - (SIZE / 2) + OFFSET, position.y - (SIZE / 2) + OFFSET);
+        base.setPosition(position.x, position.y);
         base.setAngle(timer * 0.2f);
     }
 
     public void updateLives(int newLives) {
+        Debugger.warn("life update! " + newLives + " " + ownerId);
         lives = newLives;
         Color color = Utility.getMatchParameters().getPlayerColor(ownerId);
         for (int i = lifeNodes.size(); i < lives; i++) {
-            DangineBox shape = new DangineBox(SIZE, SIZE, new Color(color));
+            DanginePicture image = new DanginePicture("hearticon");
+            image.getQuad().setTextureColor(color);
             SceneGraphNode node = new SceneGraphNode();
-            node.addChild(shape);
+            node.addChild(image);
             lifeNodes.add(node);
             base.addChild(node);
         }

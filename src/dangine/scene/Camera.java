@@ -39,7 +39,8 @@ public class Camera implements IsUpdateable, HasDrawable {
     float AREA_BETWEEN_CHARACTER_AND_EDGE_FACTOR = 2.5f;
     float DISTANCE_FOR_MAX_SCALE = 100;
     float DISTANCE_FOR_MIN_SCALE = 600;
-    float MAX_PAN_PER_SECOND = 0.5f;
+    // float MAX_PAN_PER_SECOND = 0.5f;
+    float MAX_PAN_PER_SECOND = 0.65f;
     float MAX_SCALE_PER_SECOND = 0.0001f;
     Vector2f previousPosition = new Vector2f(Utility.getResolution().x / 2, Utility.getResolution().y / 2);
     Vector2f previousScale = new Vector2f(scale, scale);

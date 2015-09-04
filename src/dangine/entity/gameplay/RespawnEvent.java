@@ -6,7 +6,6 @@ import dangine.debugger.Debugger;
 import dangine.entity.Hero;
 import dangine.entity.combat.GreatSword;
 import dangine.entity.combat.PlayerGreatswordInputProvider;
-import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.visual.ExplosionVisual;
 import dangine.entity.visual.RespawnVisual;
 import dangine.harness.Provider;
@@ -44,23 +43,18 @@ public class RespawnEvent implements MatchEvent {
 
         hero.update();
 
-        if (Utility.getMatchParameters().getMatchType() == MatchType.WIN_BY_TWO) {
-            int lives = Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().getPlayerScore(playerId)
-                    .getStock();
-            if (lives > 0) {
-                Provider<Vector2f> positionProvider = new Provider<Vector2f>() {
-                    @Override
-                    public Vector2f get() {
-                        return hero.getPosition();
-                    }
-                };
-                LifeIndicator lifeIndicator = new LifeIndicator(positionProvider, playerId, lives);
-                Utility.getActiveScene().addUpdateable(lifeIndicator);
-                Utility.getActiveScene().getCameraNode().addChild(lifeIndicator.getDrawable());
+        int lives = Utility.getActiveScene().getMatchOrchestrator().getScoreKeeper().getPlayerScore(playerId)
+                .getStock();
+        Provider<Vector2f> positionProvider = new Provider<Vector2f>() {
+            @Override
+            public Vector2f get() {
+                return hero.getPosition();
             }
-        }
+        };
+        LifeIndicator lifeIndicator = new LifeIndicator(positionProvider, playerId, lives);
+        Utility.getActiveScene().addUpdateable(lifeIndicator);
+        Utility.getActiveScene().getCameraNode().addChild(lifeIndicator.getDrawable());
 
-        // RespawnVisual visual = new RespawnVisual((playerId + 1) * 200, 400);
         ExplosionVisual visual = RespawnVisual.createRespawnVisual(x, y);
         Utility.getActiveScene().addUpdateable(visual);
         Utility.getActiveScene().getCameraNode().addChild(visual.getDrawable());
