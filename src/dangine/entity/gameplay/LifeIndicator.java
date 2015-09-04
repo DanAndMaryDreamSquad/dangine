@@ -19,7 +19,7 @@ public class LifeIndicator implements IsUpdateable, HasDrawable {
 
     final float OFFSET = 20;
     final float DISTANCE = 50;
-    final int SIZE = 12;
+    int size = 0;
     final float SPEED = 3200;
     float angle = 0;
     final int ownerId;
@@ -38,7 +38,7 @@ public class LifeIndicator implements IsUpdateable, HasDrawable {
         for (int i = 0; i < lives; i++) {
             DanginePicture image = new DanginePicture("hearticon");
             image.getQuad().setTextureColor(color);
-
+            size = image.getWidth() / 2;
             SceneGraphNode node = new SceneGraphNode();
             node.addChild(image);
             lifeNodes.add(node);
@@ -62,6 +62,7 @@ public class LifeIndicator implements IsUpdateable, HasDrawable {
         for (int i = lifeNodes.size(); i < lives; i++) {
             DanginePicture image = new DanginePicture("hearticon");
             image.getQuad().setTextureColor(color);
+            size = image.getWidth() / 2;
             SceneGraphNode node = new SceneGraphNode();
             node.addChild(image);
             lifeNodes.add(node);
@@ -79,7 +80,7 @@ public class LifeIndicator implements IsUpdateable, HasDrawable {
             float x = (float) Math.cos(angle) * DISTANCE;
             float y = (float) -Math.sin(angle) * DISTANCE;
             Debugger.warn("x " + x + " y " + y);
-            node.setPosition(x, y);
+            node.setPosition(x - size, y - size);
         }
     }
 

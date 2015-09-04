@@ -15,6 +15,7 @@ public class BotVictoryEvent implements MatchEvent {
         text.setText("The bots have claimed victory!");
         node.setPosition(Utility.getResolution().x / 2, Utility.getResolution().y / 2);
         node.addChild(text);
+        Utility.getMatchParameters().getRoundKeeper().onPlayerWonRound(-1);
     }
 
     @Override

@@ -24,6 +24,7 @@ public class MatchParameters {
     Map<Integer, Color> playerIdToColor = new HashMap<Integer, Color>();
     Map<Integer, SubPower> playerIdToPower = new HashMap<Integer, SubPower>();
     final Map<Integer, Integer> playerIdToTeam = new HashMap<Integer, Integer>();
+    final RoundKeeper roundKeeper = new RoundKeeper();
     int startingStock = 3;
     int goalsRequired = 3;
     int numberOfBots = 2;
@@ -202,6 +203,10 @@ public class MatchParameters {
 
     public int getGoalsRequired() {
         return goalsRequired;
+    }
+
+    public RoundKeeper getRoundKeeper() {
+        return roundKeeper;
     }
 
 }

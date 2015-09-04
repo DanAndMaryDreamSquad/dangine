@@ -45,9 +45,13 @@ public class FFAStockModeLogic implements MatchTypeLogic {
                         .setText("Bot Avatars Remaining: " + botStock);
                 continue;
             }
-            int stock = score.getStock();
+            // int stock = score.getStock();
+            // scoreKeeper.getPlayerIdToTextNode().get(score.getPlayerId())
+            // .setText("P" + score.getPlayerId() + " Avatars Remaining: " +
+            // stock);
+            int wins = Utility.getMatchParameters().getRoundKeeper().getVictoriesForPlayer(score.getPlayerId());
             scoreKeeper.getPlayerIdToTextNode().get(score.getPlayerId())
-                    .setText("P" + score.getPlayerId() + " Avatars Remaining: " + stock);
+                    .setText("P" + score.getPlayerId() + " Rounds won:" + wins);
         }
         scoreKeeper.setTimer(0);
     };

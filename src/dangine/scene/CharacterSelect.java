@@ -6,6 +6,7 @@ import java.util.List;
 import dangine.entity.IsUpdateable;
 import dangine.menu.BotSettingsMenu;
 import dangine.menu.CharacterSelectionMenu;
+import dangine.menu.ControlsAssigner;
 import dangine.menu.WorldSelectionMenu;
 import dangine.player.DanginePlayer;
 import dangine.utility.Utility;
@@ -75,6 +76,8 @@ public class CharacterSelect implements IsUpdateable {
             Utility.getActiveScene().removeUpdateable(menu);
             Utility.getActiveScene().getParentNode().removeChild(menu.getDrawable());
         }
+        ControlsAssigner assigner = Utility.getActiveScene().getUpdateable(ControlsAssigner.class);
+        Utility.getActiveScene().removeUpdateable(assigner);
     }
 
 }

@@ -23,6 +23,7 @@ public class VictoryEvent implements MatchEvent {
         float xOffset = DangineFont.getLengthInPixels(text.getText()) * 0.5f;
         node.setPosition((Utility.getResolution().x * 0.5f) - xOffset, Utility.getResolution().y / 2);
         node.addChild(text);
+        Utility.getMatchParameters().getRoundKeeper().onPlayerWonRound(playerId);
     }
 
     public VictoryEvent(List<Integer> playerIds) {
@@ -36,6 +37,9 @@ public class VictoryEvent implements MatchEvent {
         float xOffset = DangineFont.getLengthInPixels(text.getText()) * 0.5f;
         node.setPosition((Utility.getResolution().x * 0.5f) - xOffset, Utility.getResolution().y / 2);
         node.addChild(text);
+        for (Integer id : playerIds) {
+            Utility.getMatchParameters().getRoundKeeper().onPlayerWonRound(id);
+        }
     }
 
     private boolean allBots(List<Integer> playerIds) {

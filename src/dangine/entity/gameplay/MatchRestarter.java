@@ -8,9 +8,19 @@ public class MatchRestarter implements IsUpdateable {
 
     final float MAX_TIME = 5000f;
     float timer = 0;
+    Destination destination;
+
+    public enum Destination {
+        NEXT_ROUND, CHAR_SELECT;
+    }
 
     public MatchRestarter() {
-        Debugger.info("Restarting game in 5...");
+        if (Utility.getMatchParameters().getRoundKeeper().shouldPlayAnotherRound()) {
+            this.destination = Destination.NEXT_ROUND;
+        } else {
+            this.destination = Destination.CHAR_SELECT;
+        }
+        Debugger.info("Restarting game in 5... destination: " + destination);
     }
 
     @Override
@@ -19,7 +29,15 @@ public class MatchRestarter implements IsUpdateable {
 
         if (timer > MAX_TIME) {
             Debugger.info("Restarting game");
-            Utility.getGameLoop().startCharacterSelect();
+            switch (destination) {
+            case NEXT_ROUND:
+                Utility.getMatchParameters().getRoundKeeper().incrementRound();
+                Utility.getGameLoop().startMatch();
+                break;
+            case CHAR_SELECT:
+                Utility.getGameLoop().startCharacterSelect();
+                break;
+            }
         }
 
     }

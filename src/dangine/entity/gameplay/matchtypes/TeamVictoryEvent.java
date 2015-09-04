@@ -19,6 +19,7 @@ public class TeamVictoryEvent implements MatchEvent {
 
         node.setPosition(Utility.getResolution().x / 2, Utility.getResolution().y / 2);
         node.addChild(text);
+        Utility.getMatchParameters().getRoundKeeper().onPlayerWonRound(winningTeam);
     }
 
     @Override

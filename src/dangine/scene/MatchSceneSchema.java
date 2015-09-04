@@ -6,6 +6,7 @@ import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.Respawner;
 import dangine.entity.gameplay.ReturnToMenuChecker;
+import dangine.entity.visual.StartOfRoundBanner;
 import dangine.entity.world.ObstaclePack;
 import dangine.utility.Utility;
 
@@ -42,6 +43,10 @@ public class MatchSceneSchema implements SceneSchema {
         } else {
             Utility.getMatchParameters().getCurrentWorld().getDefaultObstaclePack().applyObstacles(scene);
         }
+
+        StartOfRoundBanner banner = new StartOfRoundBanner();
+        scene.addUpdateable(banner);
+        scene.getParentNode().addChild(banner.getDrawable());
 
         DangineMusicPlayer.startTrack(MusicEffect.BATTLE_SCENE);
         scene.update();

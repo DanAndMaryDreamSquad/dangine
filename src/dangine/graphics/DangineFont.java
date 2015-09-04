@@ -10,7 +10,7 @@ public class DangineFont {
             '-', '_', '<', '>', ',', '%', //
             ' ', ' ', ' ', ' ', ' ', ' ', //
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
-    public final static String FONT_NAME = "starfont2";
+    public final static String FONT_NAME = "starfont2white";
     public final static int CHARACTER_WIDTH_IN_PIXELS = 10;
     public final static int CHARACTER_HEIGHT_IN_PIXELS = 10;
     public final static int CHARACTERS_PER_ROW_IN_FONT_FILE = 6;
@@ -43,6 +43,13 @@ public class DangineFont {
     public static int getLengthInPixels(String phrase) {
         return Math.round(phrase.length() * DangineStringPicture.STRING_SCALE * DangineFont.CHARACTER_WIDTH_IN_PIXELS
                 * DangineOpenGL.getWindowWorldAspectX());
+    }
+
+    public static int getHeightInPixels(String phrase) {
+        int lines = phrase.length() - phrase.replace("\n", "").length();
+        lines += 1;
+        return Math.round(DangineStringPicture.STRING_SCALE * DangineFont.CHARACTER_HEIGHT_IN_PIXELS
+                * DangineOpenGL.getWindowWorldAspectY() * lines);
     }
 
 }

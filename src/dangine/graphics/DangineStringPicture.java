@@ -3,7 +3,9 @@ package dangine.graphics;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
 
+import dangine.entity.world.BackgroundFilterMode;
 import dangine.scenegraph.SceneGraphNode;
+import dangine.utility.DangineSavedSettings;
 
 public class DangineStringPicture implements IsDrawable32 {
 
@@ -28,6 +30,14 @@ public class DangineStringPicture implements IsDrawable32 {
         float aspectY = DangineOpenGL.getWindowWorldAspectY();
         node.setScale(STRING_SCALE * texture.getWidth() * aspectX, STRING_SCALE * texture.getHeight() * aspectY);
         node.setPosition(STRING_SCALE * (getWidth() / 2) * aspectX, STRING_SCALE * (getHeight() / 2) * 1.0f * aspectY);
+        quad.setTextureColor(color);
+    }
+
+    public DangineStringPicture applyFilter() {
+        BackgroundFilterMode mode = BackgroundFilterMode.fromInt(DangineSavedSettings.INSTANCE
+                .getBackgroundFilterMode());
+        mode.setFilter(quad);
+        return this;
     }
 
     public void setText(String text) {

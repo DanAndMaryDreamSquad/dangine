@@ -41,9 +41,12 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
     DangineMenuItem friendlyFireItem = new DangineMenuItem("Friendly Fire: "
             + Utility.getMatchParameters().isFriendlyFire(), getToggleFriendlyFireAction());
 
+    DangineMenuItem roundsItem = new DangineMenuItem("Rounds", getIncreaseRoundsAction(), getDecreaseRoundsAction());
+
     public SettingsMenu() {
         selector.setOnEscape(getExitMenuAction());
         menu.addItem(new DangineMenuItem("Stock: ", getStockIncrementAction(), getStockDecrementAction()));
+        menu.addItem(roundsItem);
         menu.addItem(friendlyFireItem);
         menu.addItem(musicVolumeItem);
         menu.addItem(soundVolumeItem);
@@ -90,6 +93,8 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
                 "Movement mode: " + Utility.getMatchParameters().getMovementMode().toString());
         movementModeText.setText("" + Utility.getMatchParameters().getMovementMode().description());
         attackModeText.setText("" + Utility.getMatchParameters().getAttackMode().description());
+        roundsItem.getItemText().setText(
+                "Rounds:" + Utility.getMatchParameters().getRoundKeeper().getRoundsRequiredToWin());
     }
 
     private Action getStockIncrementAction() {
@@ -226,6 +231,40 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
                 Utility.getGameParameters().setSoundEffectVolume(volume);
                 soundVolumeItem.getItemText().setText(
                         "Sound Effect Volume " + Utility.getGameParameters().getSoundEffectVolumeString());
+            }
+
+        };
+    }
+
+    private Action getIncreaseRoundsAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                int rounds = Utility.getMatchParameters().getRoundKeeper().getRoundsRequiredToWin();
+                if (rounds < 10) {
+                    rounds++;
+                }
+                Utility.getMatchParameters().getRoundKeeper().setRoundsRequiredToWin(rounds);
+                roundsItem.getItemText().setText(
+                        "Rounds:" + Utility.getMatchParameters().getRoundKeeper().getRoundsRequiredToWin());
+            }
+
+        };
+    }
+
+    private Action getDecreaseRoundsAction() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                int rounds = Utility.getMatchParameters().getRoundKeeper().getRoundsRequiredToWin();
+                if (rounds > 1) {
+                    rounds--;
+                }
+                Utility.getMatchParameters().getRoundKeeper().setRoundsRequiredToWin(rounds);
+                roundsItem.getItemText().setText(
+                        "Rounds:" + Utility.getMatchParameters().getRoundKeeper().getRoundsRequiredToWin());
             }
 
         };

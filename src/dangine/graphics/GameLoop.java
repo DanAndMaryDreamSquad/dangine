@@ -111,11 +111,13 @@ public class GameLoop {
     }
 
     public void startTitleMenu() {
+        Utility.getMatchParameters().getRoundKeeper().clear();
         dangineGame = provider.get();
         dangineGame.init(new TitleSceneSchema32());
     }
 
     public void startCharacterSelect() {
+        Utility.getMatchParameters().getRoundKeeper().clear();
         dangineGame = provider.get();
         dangineGame.init(new CharacterSelectSchema());
     }
