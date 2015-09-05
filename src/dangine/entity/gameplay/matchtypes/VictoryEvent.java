@@ -4,6 +4,7 @@ import java.util.List;
 
 import dangine.entity.gameplay.MatchEvent;
 import dangine.entity.gameplay.MatchRestarter;
+import dangine.entity.visual.EndOfRoundBanner;
 import dangine.graphics.DangineFont;
 import dangine.graphics.DangineStringPicture;
 import dangine.scenegraph.SceneGraphNode;
@@ -68,6 +69,10 @@ public class VictoryEvent implements MatchEvent {
     public void process() {
         Utility.getActiveScene().getParentNode().addChild(node);
         Utility.getActiveScene().addUpdateable(new MatchRestarter());
+
+        EndOfRoundBanner banner = new EndOfRoundBanner("victory", "player" + victorId);
+        Utility.getActiveScene().addUpdateable(banner);
+        Utility.getActiveScene().getParentNode().addChild(banner.getDrawable());
     }
 
 }
