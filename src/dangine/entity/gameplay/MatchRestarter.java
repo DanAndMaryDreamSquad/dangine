@@ -6,7 +6,7 @@ import dangine.utility.Utility;
 
 public class MatchRestarter implements IsUpdateable {
 
-    final float MAX_TIME = 5000f;
+    final float MAX_TIME = 7000f;
     float timer = 0;
     Destination destination;
 

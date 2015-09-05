@@ -22,6 +22,7 @@ public class ControlsAssigner implements IsUpdateable, HasDrawable {
         this.allowMoreThanOneAssignment = allowMoreThanOneAssignment;
         node.addChild(text);
         node.setPosition(0, 0);
+        text.setText(DangineControllerAssignments.getOptions());
     }
 
     public ControlsAssigner withCharacterSelect(CharacterSelect characterSelect) {
@@ -32,13 +33,13 @@ public class ControlsAssigner implements IsUpdateable, HasDrawable {
     @Override
     public void update() {
         DangineControllerAssignments.scan();
-        text.setText(DangineControllerAssignments.getOptions());
         while (DangineControllerAssignments.getSize() > Utility.getPlayers().getPlayers().size()) {
             Debugger.info("new player assigned to controller");
             DanginePlayer player = Utility.getPlayers().newPlayer();
             if (characterSelect != null) {
                 characterSelect.onNewPlayer(player);
             }
+            text.setText(DangineControllerAssignments.getOptions());
         }
         if (!allowMoreThanOneAssignment && Utility.getPlayers().getPlayers().size() > 0) {
             Utility.getActiveScene().removeUpdateable(this);

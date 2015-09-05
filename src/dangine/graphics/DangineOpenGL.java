@@ -89,8 +89,10 @@ public class DangineOpenGL {
     }
 
     public static void refreshTextScaleForResolution() {
-        if (WINDOW_RESOLUTION.y < 750) {
+        if (WINDOW_RESOLUTION.y < 600) {
             DangineStringPicture.STRING_SCALE = 1.0f;
+        } else if (WINDOW_RESOLUTION.y >= 600 && WINDOW_RESOLUTION.y < 750) {
+            DangineStringPicture.STRING_SCALE = 1.4f;
         } else if (WINDOW_RESOLUTION.y >= 750 && WINDOW_RESOLUTION.y < 1000) {
             DangineStringPicture.STRING_SCALE = 2.0f;
         } else {

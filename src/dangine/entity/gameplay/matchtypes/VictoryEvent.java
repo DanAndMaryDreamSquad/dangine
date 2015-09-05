@@ -4,6 +4,7 @@ import java.util.List;
 
 import dangine.entity.gameplay.MatchEvent;
 import dangine.entity.gameplay.MatchRestarter;
+import dangine.entity.visual.EndOfMatchBanner;
 import dangine.entity.visual.EndOfRoundBanner;
 import dangine.graphics.DangineFont;
 import dangine.graphics.DangineStringPicture;
@@ -70,9 +71,16 @@ public class VictoryEvent implements MatchEvent {
         Utility.getActiveScene().getParentNode().addChild(node);
         Utility.getActiveScene().addUpdateable(new MatchRestarter());
 
-        EndOfRoundBanner banner = new EndOfRoundBanner("victory", "player" + victorId);
-        Utility.getActiveScene().addUpdateable(banner);
-        Utility.getActiveScene().getParentNode().addChild(banner.getDrawable());
+        if (Utility.getMatchParameters().getRoundKeeper().shouldPlayAnotherRound()) {
+            EndOfRoundBanner banner = new EndOfRoundBanner("victory", "player" + victorId);
+            Utility.getActiveScene().addUpdateable(banner);
+            Utility.getActiveScene().getParentNode().addChild(banner.getDrawable());
+        } else {
+            int matchWinner = Utility.getMatchParameters().getRoundKeeper().getWinner().getPlayerId();
+            EndOfMatchBanner banner = new EndOfMatchBanner("match", "champion", "player" + matchWinner);
+            Utility.getActiveScene().addUpdateable(banner);
+            Utility.getActiveScene().getParentNode().addChild(banner.getDrawable());
+        }
     }
 
 }

@@ -59,7 +59,7 @@ public class StartOfRoundBanner implements IsUpdateable, HasDrawable {
         node.addChild(rightNode);
         return node;
     }
-    
+
     public static SceneGraphNode makeTextNode(String message) {
         SceneGraphNode textNode = new SceneGraphNode();
         DangineStringPicture text = new DangineStringPicture("", new Color(Color.WHITE));

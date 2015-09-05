@@ -47,7 +47,7 @@ public class RoundKeeper {
     public DanginePlayer getWinner() {
         for (Integer playerId : playerIdToVictories.keySet()) {
             if (playerIdToVictories.get(playerId) >= roundsRequiredToWin) {
-                Utility.getPlayers().getPlayer(playerIdToVictories.get(playerId));
+                return Utility.getPlayers().getPlayer(playerId);
             }
         }
         return null;
