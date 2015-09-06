@@ -6,6 +6,7 @@ import java.util.List;
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
 import dangine.debugger.Debugger;
+import dangine.entity.gameplay.LifeIndicator;
 import dangine.entity.gameplay.MatchEvent;
 import dangine.entity.gameplay.PlayerScore;
 import dangine.entity.gameplay.ScoreKeeper;
@@ -17,10 +18,7 @@ import dangine.utility.Vector2f;
 
 public class FFAStockModeLogic implements MatchTypeLogic {
 
-    boolean hasBots = false;
-
-    public FFAStockModeLogic(boolean hasBots) {
-        this.hasBots = hasBots;
+    public FFAStockModeLogic() {
     }
 
     @Override
@@ -28,10 +26,8 @@ public class FFAStockModeLogic implements MatchTypeLogic {
         for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
             scoreKeeper.addPlayerToGame(player.getPlayerId());
         }
-        if (hasBots) {
-            for (int i = 1; i < Utility.getMatchParameters().getNumberOfBots() + 1; i++) {
-                scoreKeeper.addBotToGame(-i);
-            }
+        for (int i = 1; i < Utility.getMatchParameters().getNumberOfBots() + 1; i++) {
+            scoreKeeper.addBotToGame(-i);
         }
         updateScoreBoardText(scoreKeeper);
     }
@@ -49,7 +45,7 @@ public class FFAStockModeLogic implements MatchTypeLogic {
             // scoreKeeper.getPlayerIdToTextNode().get(score.getPlayerId())
             // .setText("P" + score.getPlayerId() + " Avatars Remaining: " +
             // stock);
-            int wins = Utility.getMatchParameters().getRoundKeeper().getVictoriesForPlayer(score.getPlayerId());
+            int wins = Utility.getMatchParameters().getRoundKeeper().getVictoriesForId(score.getPlayerId());
             scoreKeeper.getPlayerIdToTextNode().get(score.getPlayerId())
                     .setText("P" + score.getPlayerId() + " Rounds won:" + wins);
         }
@@ -60,6 +56,19 @@ public class FFAStockModeLogic implements MatchTypeLogic {
     public void playerDefeatsSomeone(int winnerPlayerId, int defeatedPlayerId, ScoreKeeper scoreKeeper) {
         PlayerScore score = scoreKeeper.getPlayerIdToScore().get(defeatedPlayerId);
         score.setStock(score.getStock() - 1);
+
+        if (Utility.getMatchParameters().isVampireMode() && winnerPlayerId != defeatedPlayerId) {
+            PlayerScore winnerScore = scoreKeeper.getPlayerIdToScore().get(winnerPlayerId);
+            if (winnerScore.getStock() < (float) Utility.getMatchParameters().getStartingStock() * 1.5f) {
+                winnerScore.setStock(winnerScore.getStock() + 1);
+            }
+            List<LifeIndicator> lifeIndicators = Utility.getActiveScene().getUpdateables(LifeIndicator.class);
+            for (LifeIndicator lifeIndicator : lifeIndicators) {
+                if (winnerPlayerId == lifeIndicator.getOwnerId()) {
+                    lifeIndicator.updateLives(winnerScore.getStock());
+                }
+            }
+        }
     }
 
     @Override
@@ -108,7 +117,7 @@ public class FFAStockModeLogic implements MatchTypeLogic {
         } else if (playersLeft.size() == 0) {
             return new TieVictoryEvent();
         } else if (playersLeft.size() > 0) {
-            return new VictoryEvent(playersLeft);
+            return new TieVictoryEvent();
         }
 
         return null;

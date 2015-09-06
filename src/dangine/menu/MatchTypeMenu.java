@@ -20,9 +20,10 @@ public class MatchTypeMenu implements IsUpdateable, HasDrawable {
         List<DangineMenuItem> items = new ArrayList<DangineMenuItem>();
         items.add(new DangineMenuItem("Free For All", getFreeForAllAction()));
         items.add(new DangineMenuItem("Team Battle", getTeamBattleAction()));
-        items.add(new DangineMenuItem("Bot Battle", getBotBattleAction()));
-        items.add(new DangineMenuItem("Co-op VS Bots", getCoopVsBotsAction()));
-        items.add(new DangineMenuItem("Win By Two", getWinByTwoOptions()));
+        // items.add(new DangineMenuItem("Bot Battle", getBotBattleAction()));
+        // items.add(new DangineMenuItem("Co-op VS Bots",
+        // getCoopVsBotsAction()));
+        // items.add(new DangineMenuItem("Win By Two", getWinByTwoOptions()));
         // items.add(new DangineMenuItem("Soccer Mode", getSoccerModeOption()));
         items.add(new DangineMenuItem("Back", getOnEscapeAction()));
 
@@ -64,42 +65,6 @@ public class MatchTypeMenu implements IsUpdateable, HasDrawable {
             @Override
             public void execute() {
                 Utility.getMatchParameters().setMatchType(MatchType.TEAM_VERSUS);
-                removeMatchTypeMenu();
-                goToCharacterSelect();
-            }
-        };
-    }
-
-    private Action getBotBattleAction() {
-        return new Action() {
-
-            @Override
-            public void execute() {
-                Utility.getMatchParameters().setMatchType(MatchType.BOT_MATCH);
-                removeMatchTypeMenu();
-                goToCharacterSelect();
-            }
-        };
-    }
-
-    private Action getCoopVsBotsAction() {
-        return new Action() {
-
-            @Override
-            public void execute() {
-                Utility.getMatchParameters().setMatchType(MatchType.COOP_VS_BOTS);
-                removeMatchTypeMenu();
-                goToCharacterSelect();
-            }
-        };
-    }
-
-    private Action getWinByTwoOptions() {
-        return new Action() {
-
-            @Override
-            public void execute() {
-                Utility.getMatchParameters().setMatchType(MatchType.WIN_BY_TWO);
                 removeMatchTypeMenu();
                 goToCharacterSelect();
             }

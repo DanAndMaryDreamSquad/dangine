@@ -2,6 +2,7 @@ package dangine.scene;
 
 import dangine.audio.DangineMusicPlayer;
 import dangine.audio.MusicEffect;
+import dangine.bots.BotRespawner;
 import dangine.entity.gameplay.Boundaries;
 import dangine.entity.gameplay.MatchParameters;
 import dangine.entity.gameplay.Respawner;
@@ -13,6 +14,7 @@ import dangine.utility.Utility;
 public class MatchSceneSchema implements SceneSchema {
 
     MatchParameters matchParameters = null;
+    Boundaries boundaries = new Boundaries();
 
     public MatchSceneSchema() {
 
@@ -22,20 +24,22 @@ public class MatchSceneSchema implements SceneSchema {
         this.matchParameters = matchParameters;
     }
 
-    Boundaries boundaries = new Boundaries();
-
     @Override
     public void apply(Scene scene) {
         scene.getMatchOrchestrator().getScoreKeeper().setupMatch();
         scene.getCameraNode().addChild(boundaries.getDrawable());
-
         scene.addUpdateable(new ReturnToMenuChecker());
+
         for (int i = 0; i < Utility.getPlayers().getPlayers().size(); i++) {
             scene.addUpdateable(new Respawner(i));
         }
         scene.addUpdateable(boundaries);
         scene.addUpdateable(scene.getMatchOrchestrator().getScoreKeeper());
         scene.getParentNode().addChild(scene.getMatchOrchestrator().getScoreKeeper().getDrawable());
+
+        for (int i = 1; i < Utility.getMatchParameters().getNumberOfBots() + 1; i++) {
+            scene.addUpdateable(new BotRespawner(-i));
+        }
 
         Utility.getMatchParameters().getCurrentWorld().createWorld(scene);
         if (Utility.getMatchParameters().isRandomWorld()) {

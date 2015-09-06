@@ -15,14 +15,13 @@ import dangine.utility.Utility;
 public class BotMatchSceneSchema implements SceneSchema {
 
     MatchParameters matchParameters = null;
+    Creature creature = new Creature();
+    Obstruction obstruction = new Obstruction();
+    Boundaries boundaries = new Boundaries();
 
     public BotMatchSceneSchema() {
 
     }
-
-    Creature creature = new Creature();
-    Obstruction obstruction = new Obstruction();
-    Boundaries boundaries = new Boundaries();
 
     @Override
     public void apply(Scene scene) {
@@ -39,11 +38,6 @@ public class BotMatchSceneSchema implements SceneSchema {
 
         for (int i = 1; i < Utility.getMatchParameters().getNumberOfBots() + 1; i++) {
             scene.addUpdateable(new BotRespawner(-i));
-            // scene.getMatchOrchestrator().getScoreKeeper().addBotToGame(-i);
-            // if (Utility.getMatchParameters().getMatchType() ==
-            // MatchType.COOP_VS_BOTS) {
-            // Utility.getMatchParameters().addPlayerTeam(-i, -1);
-            // }
         }
 
         Utility.getMatchParameters().getCurrentWorld().createWorld(scene);

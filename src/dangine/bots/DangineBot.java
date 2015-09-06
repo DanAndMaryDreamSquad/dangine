@@ -1,5 +1,7 @@
 package dangine.bots;
 
+import java.util.List;
+
 import org.lwjgl.util.Color;
 
 import dangine.audio.SoundEffect;
@@ -19,6 +21,7 @@ import dangine.entity.combat.GreatSword.State;
 import dangine.entity.combat.subpower.DashPower;
 import dangine.entity.combat.subpower.ProjectilePower;
 import dangine.entity.combat.subpower.ProjectileShot;
+import dangine.entity.gameplay.LifeIndicator;
 import dangine.entity.gameplay.MatchStarter.MatchType;
 import dangine.entity.movement.HeroFacing;
 import dangine.entity.movement.HeroMovement;
@@ -122,6 +125,13 @@ public class DangineBot implements IsUpdateable, HasDrawable {
         Utility.getActiveScene().removeUpdateable(this);
         Utility.getActiveScene().getCameraNode().removeChild(this.getDrawable());
         Utility.getActiveScene().getCameraNode().removeChild(hitbox.getDrawable());
+
+        List<LifeIndicator> lifeIndicators = Utility.getActiveScene().getUpdateables(LifeIndicator.class);
+        for (LifeIndicator lifeIndicator : lifeIndicators) {
+            if (lifeIndicator.getOwnerId() == getBotId()) {
+                lifeIndicator.destroy();
+            }
+        }
 
         Debugger.info("destroying bot " + botId + " " + this);
     }

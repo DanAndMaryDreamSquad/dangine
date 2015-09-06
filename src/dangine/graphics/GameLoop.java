@@ -19,7 +19,6 @@ import dangine.game.DangineGame;
 import dangine.harness.Provider;
 import dangine.image.Resources;
 import dangine.input.DangineOpenGLInput;
-import dangine.scene.BotMatchSceneSchema;
 import dangine.scene.CharacterSelectSchema;
 import dangine.scene.InstantMatchSceneSchema;
 import dangine.scene.MatchSceneSchema;
@@ -125,11 +124,6 @@ public class GameLoop {
     public void startMatch() {
         dangineGame = provider.get();
         dangineGame.init(new MatchSceneSchema());
-    }
-
-    public void startBotMatch() {
-        dangineGame = provider.get();
-        dangineGame.init(new BotMatchSceneSchema());
     }
 
     public void startInstanceTestMatch() {

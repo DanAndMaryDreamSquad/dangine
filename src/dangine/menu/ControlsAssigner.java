@@ -42,9 +42,13 @@ public class ControlsAssigner implements IsUpdateable, HasDrawable {
             text.setText(DangineControllerAssignments.getOptions());
         }
         if (!allowMoreThanOneAssignment && Utility.getPlayers().getPlayers().size() > 0) {
-            Utility.getActiveScene().removeUpdateable(this);
-            Utility.getActiveScene().getParentNode().removeChild(node);
+            destroy();
         }
+    }
+
+    public void destroy() {
+        Utility.getActiveScene().removeUpdateable(this);
+        Utility.getActiveScene().getParentNode().removeChild(node);
     }
 
     @Override

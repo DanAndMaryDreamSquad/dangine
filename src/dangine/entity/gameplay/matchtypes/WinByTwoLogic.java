@@ -104,7 +104,7 @@ public class WinByTwoLogic implements MatchTypeLogic {
         } else if (playersLeft.size() == 0) {
             return new TieVictoryEvent();
         } else if (playersLeft.size() > 0) {
-            return new VictoryEvent(playersLeft);
+            return new TieVictoryEvent();
         }
 
         return null;

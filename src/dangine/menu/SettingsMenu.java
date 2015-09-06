@@ -5,7 +5,6 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.entity.movement.AttackMode;
 import dangine.entity.movement.MovementMode;
-import dangine.graphics.DangineOpenGL;
 import dangine.graphics.DangineStringPicture;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.scenegraph.SceneGraphNode;
@@ -16,8 +15,6 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
 
     DangineMenu menu = new DangineMenu();
     DangineSelector selector = new DangineSelector();
-    SceneGraphNode stockTextNode = new SceneGraphNode();
-    DangineStringPicture stockText = new DangineStringPicture();
     SceneGraphNode movementModeTextNode = new SceneGraphNode();
     DangineStringPicture movementModeText = new DangineStringPicture();
     SceneGraphNode movementModeEnumNode = new SceneGraphNode();
@@ -38,33 +35,22 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
             + Utility.getGameParameters().getSoundEffectVolumeString(), getSoundEffectVolumeUpAction(),
             getSoundEffectVolumeDownAction());
 
-    DangineMenuItem friendlyFireItem = new DangineMenuItem("Friendly Fire: "
-            + Utility.getMatchParameters().isFriendlyFire(), getToggleFriendlyFireAction());
-
-    DangineMenuItem roundsItem = new DangineMenuItem("Rounds", getIncreaseRoundsAction(), getDecreaseRoundsAction());
-
     public SettingsMenu() {
         selector.setOnEscape(getExitMenuAction());
-        menu.addItem(new DangineMenuItem("Stock: ", getStockIncrementAction(), getStockDecrementAction()));
-        menu.addItem(roundsItem);
-        menu.addItem(friendlyFireItem);
         menu.addItem(musicVolumeItem);
         menu.addItem(soundVolumeItem);
         menu.addItem(movementModeItem);
         menu.getBase().addChild(movementModeTextNode);
         menu.getBase().addChild(new SceneGraphNode());
         menu.addItem(new DangineMenuItem("Done", getExitMenuAction()));
-        menu.getBase().addChild(stockTextNode);
         DangineFormatter.formatDoubleWide(menu.getBase().getChildNodes());
 
-        stockTextNode.addChild(stockText);
         movementModeTextNode.addChild(movementModeText);
         movementModeEnumNode.addChild(movementModeEnumText);
         // attackModeTextNode.addChild(attackModeText);
         // attackModeTextNode.addChild(attackModeEnumNode);
         // attackModeEnumNode.addChild(attackModeEnumText);
 
-        stockTextNode.setPosition(60 * DangineOpenGL.getWindowWorldAspectX() * DangineStringPicture.STRING_SCALE, 0);
         movementModeTextNode.setPosition(0, movementModeTextNode.getPosition().y);
         attackModeTextNode.setPosition(0, attackModeTextNode.getPosition().y);
         movementModeEnumNode.setPosition(0, 0);
@@ -87,60 +73,10 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
     }
 
     private void updateText() {
-        stockText.setText("" + Utility.getMatchParameters().getStartingStock());
-        friendlyFireItem.getItemText().setText("Friendly Fire: " + Utility.getMatchParameters().isFriendlyFire());
         movementModeItem.getItemText().setText(
                 "Movement mode: " + Utility.getMatchParameters().getMovementMode().toString());
         movementModeText.setText("" + Utility.getMatchParameters().getMovementMode().description());
         attackModeText.setText("" + Utility.getMatchParameters().getAttackMode().description());
-        roundsItem.getItemText().setText(
-                "Rounds:" + Utility.getMatchParameters().getRoundKeeper().getRoundsRequiredToWin());
-    }
-
-    private Action getStockIncrementAction() {
-        return new Action() {
-
-            @Override
-            public void execute() {
-                int startingStock = Utility.getMatchParameters().getStartingStock();
-                if (startingStock < 100) {
-                    startingStock++;
-                }
-                Utility.getMatchParameters().setStartingStock(startingStock);
-                updateText();
-            }
-
-        };
-    }
-
-    private Action getStockDecrementAction() {
-        return new Action() {
-
-            @Override
-            public void execute() {
-                int startingStock = Utility.getMatchParameters().getStartingStock();
-                if (startingStock > 0) {
-                    startingStock--;
-                }
-                Utility.getMatchParameters().setStartingStock(startingStock);
-                updateText();
-            }
-
-        };
-    }
-
-    private Action getToggleFriendlyFireAction() {
-        return new Action() {
-
-            @Override
-            public void execute() {
-                boolean isFriendlyFire = Utility.getMatchParameters().isFriendlyFire();
-                isFriendlyFire = !isFriendlyFire;
-                Utility.getMatchParameters().setFriendlyFire(isFriendlyFire);
-                updateText();
-            }
-
-        };
     }
 
     private Action getNextMovementModeAction() {
@@ -231,40 +167,6 @@ public class SettingsMenu implements IsUpdateable, HasDrawable {
                 Utility.getGameParameters().setSoundEffectVolume(volume);
                 soundVolumeItem.getItemText().setText(
                         "Sound Effect Volume " + Utility.getGameParameters().getSoundEffectVolumeString());
-            }
-
-        };
-    }
-
-    private Action getIncreaseRoundsAction() {
-        return new Action() {
-
-            @Override
-            public void execute() {
-                int rounds = Utility.getMatchParameters().getRoundKeeper().getRoundsRequiredToWin();
-                if (rounds < 10) {
-                    rounds++;
-                }
-                Utility.getMatchParameters().getRoundKeeper().setRoundsRequiredToWin(rounds);
-                roundsItem.getItemText().setText(
-                        "Rounds:" + Utility.getMatchParameters().getRoundKeeper().getRoundsRequiredToWin());
-            }
-
-        };
-    }
-
-    private Action getDecreaseRoundsAction() {
-        return new Action() {
-
-            @Override
-            public void execute() {
-                int rounds = Utility.getMatchParameters().getRoundKeeper().getRoundsRequiredToWin();
-                if (rounds > 1) {
-                    rounds--;
-                }
-                Utility.getMatchParameters().getRoundKeeper().setRoundsRequiredToWin(rounds);
-                roundsItem.getItemText().setText(
-                        "Rounds:" + Utility.getMatchParameters().getRoundKeeper().getRoundsRequiredToWin());
             }
 
         };

@@ -20,7 +20,7 @@ public class MatchStarter implements IsUpdateable {
 
             @Override
             public MatchTypeLogic createMatchTypeLogic() {
-                return new FFAStockModeLogic(false);
+                return new FFAStockModeLogic();
             }
         },
         TEAM_VERSUS {
@@ -42,7 +42,7 @@ public class MatchStarter implements IsUpdateable {
 
             @Override
             public MatchTypeLogic createMatchTypeLogic() {
-                return new FFAStockModeLogic(true);
+                return new FFAStockModeLogic();
             }
         },
         COOP_VS_BOTS {
@@ -117,15 +117,11 @@ public class MatchStarter implements IsUpdateable {
         switch (matchType) {
         case VERSUS:
         case WIN_BY_TWO:
-            Utility.getGameLoop().startMatch();
-            return;
         case TEAM_VERSUS:
         case SOCCER:
-            Utility.getGameLoop().startMatch();
-            return;
         case BOT_MATCH:
         case COOP_VS_BOTS:
-            Utility.getGameLoop().startBotMatch();
+            Utility.getGameLoop().startMatch();
             return;
         }
     }

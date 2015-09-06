@@ -69,4 +69,12 @@ public class BloxColorer {
         return new Color(COLORS[(playerId) % (COLORS.length - 1)]);
     }
 
+    public static Color tintColor(Color color) {
+        int darkFactor = 127;
+        color.setRed(Math.max(0, color.getRed() - darkFactor));
+        color.setGreen(Math.max(0, color.getGreen() - darkFactor));
+        color.setBlue(Math.max(0, color.getBlue() - darkFactor));
+        return color;
+    }
+
 }

@@ -27,7 +27,7 @@ public class MatchParameters {
     final RoundKeeper roundKeeper = new RoundKeeper();
     int startingStock = 3;
     int goalsRequired = 3;
-    int numberOfBots = 2;
+    int numberOfBots = 0;
     MovementMode movementMode = MovementMode.MOVE_FREE_TURN_ALL_LOCK;
     AttackMode attackMode = AttackMode.HOLD_TO_CHARGE;
     FacingMode facingMode = FacingMode.EIGHT_WAY;
@@ -38,6 +38,7 @@ public class MatchParameters {
     Color textColor = new Color(Color.BLACK);
     MatchType matchType = MatchType.VERSUS;
     BotType botType = BotType.NORMAL;
+    boolean isVampireMode = false;
 
     public int getStartingStock() {
         return startingStock;
@@ -207,6 +208,14 @@ public class MatchParameters {
 
     public RoundKeeper getRoundKeeper() {
         return roundKeeper;
+    }
+
+    public boolean isVampireMode() {
+        return isVampireMode;
+    }
+
+    public void setVampireMode(boolean isVampireMode) {
+        this.isVampireMode = isVampireMode;
     }
 
 }

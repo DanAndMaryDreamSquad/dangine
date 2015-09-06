@@ -1,11 +1,13 @@
 package dangine.entity.gameplay.matchtypes;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
 import dangine.debugger.Debugger;
+import dangine.entity.gameplay.LifeIndicator;
 import dangine.entity.gameplay.MatchEvent;
 import dangine.entity.gameplay.PlayerScore;
 import dangine.entity.gameplay.ScoreKeeper;
@@ -28,10 +30,8 @@ public class TeamStockModeLogic implements MatchTypeLogic {
         for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
             scoreKeeper.addPlayerToGame(player.getPlayerId());
         }
-        if (hasBots) {
-            for (int i = 1; i < Utility.getMatchParameters().getNumberOfBots() + 1; i++) {
-                scoreKeeper.addBotToGame(-i);
-            }
+        for (int i = 1; i < Utility.getMatchParameters().getNumberOfBots() + 1; i++) {
+            scoreKeeper.addBotToGame(-i);
         }
         updateScoreBoardText(scoreKeeper);
     }
@@ -56,6 +56,19 @@ public class TeamStockModeLogic implements MatchTypeLogic {
     public void playerDefeatsSomeone(int winnerPlayerId, int defeatedPlayerId, ScoreKeeper scoreKeeper) {
         PlayerScore score = scoreKeeper.getPlayerIdToScore().get(defeatedPlayerId);
         score.setStock(score.getStock() - 1);
+
+        if (Utility.getMatchParameters().isVampireMode() && winnerPlayerId != defeatedPlayerId) {
+            PlayerScore winnerScore = scoreKeeper.getPlayerIdToScore().get(winnerPlayerId);
+            if (winnerScore.getStock() < (float) Utility.getMatchParameters().getStartingStock() * 1.5f) {
+                winnerScore.setStock(winnerScore.getStock() + 1);
+            }
+            List<LifeIndicator> lifeIndicators = Utility.getActiveScene().getUpdateables(LifeIndicator.class);
+            for (LifeIndicator lifeIndicator : lifeIndicators) {
+                if (winnerPlayerId == lifeIndicator.getOwnerId()) {
+                    lifeIndicator.updateLives(winnerScore.getStock());
+                }
+            }
+        }
     }
 
     @Override

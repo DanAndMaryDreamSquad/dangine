@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dangine.entity.IsUpdateable;
-import dangine.menu.BotSettingsMenu;
 import dangine.menu.CharacterSelectionMenu;
 import dangine.menu.ControlsAssigner;
-import dangine.menu.WorldSelectionMenu;
+import dangine.menu.PreMatchSettingsMenu;
 import dangine.player.DanginePlayer;
 import dangine.utility.Utility;
 
 public class CharacterSelect implements IsUpdateable {
 
     List<CharacterSelectionMenu> menus = new ArrayList<CharacterSelectionMenu>();
+    ControlsAssigner controlsAssigner = new ControlsAssigner(true);
 
     public CharacterSelect() {
         for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
@@ -22,6 +22,9 @@ public class CharacterSelect implements IsUpdateable {
             Utility.getActiveScene().getParentNode().addChild(menu.getDrawable());
             menus.add(menu);
         }
+        controlsAssigner.withCharacterSelect(this);
+        Utility.getActiveScene().addUpdateable(controlsAssigner);
+        Utility.getActiveScene().getParentNode().addChild(controlsAssigner.getDrawable());
     }
 
     @Override
@@ -31,7 +34,6 @@ public class CharacterSelect implements IsUpdateable {
             if (!menu.isDone()) {
                 done = false;
             }
-
             if (menu.isEscaping()) {
                 Utility.getGameLoop().startTitleMenu();
             }
@@ -47,20 +49,16 @@ public class CharacterSelect implements IsUpdateable {
             case VERSUS:
             case WIN_BY_TWO:
             case SOCCER:
-                WorldSelectionMenu worldMenu = new WorldSelectionMenu();
-                Utility.getActiveScene().addUpdateable(worldMenu);
-                Utility.getActiveScene().getParentNode().addChild(worldMenu.getDrawable());
-                break;
             case BOT_MATCH:
             case COOP_VS_BOTS:
-                BotSettingsMenu botMenu = new BotSettingsMenu();
-                Utility.getActiveScene().addUpdateable(botMenu);
-                Utility.getActiveScene().getParentNode().addChild(botMenu.getDrawable());
                 break;
             default:
                 break;
             }
-
+            PreMatchSettingsMenu preMatchMenu = new PreMatchSettingsMenu();
+            Utility.getActiveScene().addUpdateable(preMatchMenu);
+            Utility.getActiveScene().getParentNode().addChild(preMatchMenu.getDrawable());
+            controlsAssigner.destroy();
         }
     }
 

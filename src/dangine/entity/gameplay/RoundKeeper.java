@@ -3,29 +3,26 @@ package dangine.entity.gameplay;
 import java.util.HashMap;
 import java.util.Map;
 
-import dangine.player.DanginePlayer;
-import dangine.utility.Utility;
-
 public class RoundKeeper {
 
     int roundsRequiredToWin = 2;
     int currentRound;
-    Map<Integer, Integer> playerIdToVictories;
+    Map<Integer, Integer> idToVictories;
     Map<Integer, ScoreKeeper> roundToScoreKeepers;
 
     public RoundKeeper() {
         clear();
     }
 
-    public void onPlayerWonRound(int victorId) {
-        Integer current = getVictoriesForPlayer(victorId);
+    public void onIdWonRound(int victorId) {
+        Integer current = getVictoriesForId(victorId);
         current++;
-        playerIdToVictories.put(victorId, current);
+        idToVictories.put(victorId, current);
     }
 
     public boolean shouldPlayAnotherRound() {
-        for (Integer playerId : playerIdToVictories.keySet()) {
-            if (playerIdToVictories.get(playerId) >= roundsRequiredToWin) {
+        for (Integer playerId : idToVictories.keySet()) {
+            if (idToVictories.get(playerId) >= roundsRequiredToWin) {
                 return false;
             }
         }
@@ -36,25 +33,25 @@ public class RoundKeeper {
         currentRound++;
     }
 
-    public int getVictoriesForPlayer(int playerId) {
-        Integer pid = new Integer(playerId);
-        if (!playerIdToVictories.containsKey(pid)) {
+    public int getVictoriesForId(int playerOrTeamId) {
+        Integer pid = new Integer(playerOrTeamId);
+        if (!idToVictories.containsKey(pid)) {
             return 0;
         }
-        return playerIdToVictories.get(pid);
+        return idToVictories.get(pid);
     }
 
-    public DanginePlayer getWinner() {
-        for (Integer playerId : playerIdToVictories.keySet()) {
-            if (playerIdToVictories.get(playerId) >= roundsRequiredToWin) {
-                return Utility.getPlayers().getPlayer(playerId);
+    public Integer getWinner() {
+        for (Integer id : idToVictories.keySet()) {
+            if (idToVictories.get(id) >= roundsRequiredToWin) {
+                return id;
             }
         }
         return null;
     }
 
     public void clear() {
-        playerIdToVictories = new HashMap<Integer, Integer>();
+        idToVictories = new HashMap<Integer, Integer>();
         roundToScoreKeepers = new HashMap<Integer, ScoreKeeper>();
         currentRound = 0;
     }
