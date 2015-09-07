@@ -2,8 +2,10 @@ package dangine.collision;
 
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
+import dangine.bots.DangineBot;
 import dangine.debugger.Debugger;
 import dangine.entity.HasDrawable;
+import dangine.entity.Hero;
 import dangine.entity.IsDrawable;
 import dangine.entity.combat.CombatEvent;
 import dangine.entity.movement.HeroMovement;
@@ -60,16 +62,21 @@ public class GreatSwordCollider implements HasDrawable {
             public void call(CombatEvent arg) {
                 HeroMovement movement = null;
                 boolean applyKnockback = true;
+                Vector2f unitPosition = null;
                 if (colliderData.getWielderId() < 0) {
-                    movement = Utility.getActiveScene().getBot(colliderData.getWielderId()).getMovement();
+                    DangineBot bot = Utility.getActiveScene().getBot(colliderData.getWielderId());
+                    movement = bot.getMovement();
+                    unitPosition = bot.getPosition();
                     if (Utility.getMatchParameters().getBotType().ignoresKnockback()) {
                         applyKnockback = false;
                     }
                 } else {
-                    movement = Utility.getActiveScene().getHero(colliderData.getWielderId()).getMovement();
+                    Hero hero = Utility.getActiveScene().getHero(colliderData.getWielderId());
+                    movement = hero.getMovement();
+                    unitPosition = hero.getPosition();
                 }
                 if (applyKnockback) {
-                    CollisionUtility.applyKnockback(movement, arg, colliderData.getAbsolutePosition());
+                    CollisionUtility.applyKnockback(movement, arg, unitPosition);
                 }
                 SoundPlayer.play(SoundEffect.CLASH_LIGHT);
                 createVisualEffect();
