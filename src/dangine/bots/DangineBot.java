@@ -30,6 +30,7 @@ import dangine.entity.visual.FinalDefeatVisual;
 import dangine.entity.visual.ScreenFlashVisual;
 import dangine.entity.visual.SlashVisual;
 import dangine.input.DangineSampleInput;
+import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.BloxAnimator;
 import dangine.scenegraph.drawable.BloxColorer;
 import dangine.scenegraph.drawable.BloxSceneGraph;
@@ -138,7 +139,7 @@ public class DangineBot implements IsUpdateable, HasDrawable {
 
     public boolean equipWeapon(GreatSword greatsword) {
         BloxColorer.color(greatsword.getGreatsword(), getBlox().getBodyShape().getColor());
-        draw.getBody().addChild(greatsword.getDrawable());
+        draw.addWeapon((SceneGraphNode) greatsword.getDrawable());
         draw.removeHands();
         activeWeapon = greatsword;
         return true;

@@ -138,6 +138,7 @@ public class FFAStockModeLogic implements MatchTypeLogic {
         SceneGraphNode score = new SceneGraphNode();
         DangineStringPicture text = new DangineStringPicture();
         score.setPosition(getLabelLocationFromPlayerId(scoreKeeper.getPlayerIdToScore().size()));
+        text.setText("");
         score.addChild(text);
         scoreKeeper.getBase().addChild(score);
         scoreKeeper.getPlayerIdToTextNode().put(botId, text);

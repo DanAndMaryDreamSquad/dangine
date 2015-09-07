@@ -12,6 +12,7 @@ public class CharacterSelectSchema implements SceneSchema {
     SceneGraphNode node = new SceneGraphNode();
 
     public void apply(Scene scene) {
+        scene.getBloxPool().create();
         World.randomWorld().createWorld(scene);
 
         CharacterSelect menu = new CharacterSelect();

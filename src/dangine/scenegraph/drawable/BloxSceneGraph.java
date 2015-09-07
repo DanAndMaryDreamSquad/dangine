@@ -21,6 +21,7 @@ public class BloxSceneGraph implements HasDrawable {
     final DangineBox rightLegShape = new DangineBox(10, 20, new Color(Color.RED));
     final DangineBox leftArmShape = new DangineBox(10, 10, new Color(Color.GREEN));
     final DangineBox rightArmShape = new DangineBox(10, 10, new Color(Color.CYAN));
+    SceneGraphNode weaponNode = null;
 
     public BloxSceneGraph() {
         bodyShape.withGlow();
@@ -62,6 +63,17 @@ public class BloxSceneGraph implements HasDrawable {
     public void addHands() {
         body.addChild(leftArm);
         body.addChild(rightArm);
+    }
+
+    public void addWeapon(SceneGraphNode weaponNode) {
+        this.weaponNode = weaponNode;
+        body.addChild(this.weaponNode);
+    }
+
+    public void reset() {
+        body.removeChild(this.weaponNode);
+        removeHands();
+        addHands();
     }
 
     public SceneGraphNode getBase() {

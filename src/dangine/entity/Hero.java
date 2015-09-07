@@ -28,6 +28,7 @@ import dangine.entity.visual.FinalDefeatVisual;
 import dangine.entity.visual.ScreenFlashVisual;
 import dangine.entity.visual.SlashVisual;
 import dangine.input.DangineSampleInput;
+import dangine.scenegraph.SceneGraphNode;
 import dangine.scenegraph.drawable.BloxAnimator;
 import dangine.scenegraph.drawable.BloxColorer;
 import dangine.scenegraph.drawable.BloxSceneGraph;
@@ -42,8 +43,9 @@ public class Hero implements IsUpdateable, HasDrawable {
 
     int playerId = 0;
     final Vector2f position = new Vector2f(200, 200);
-    final BloxSceneGraph draw = new BloxSceneGraph();
-    final BloxAnimator animator = new BloxAnimator(draw);
+    // final BloxSceneGraph draw = new BloxSceneGraph();
+    final BloxSceneGraph draw;
+    final BloxAnimator animator;
     final HeroMovement movement = new HeroMovement();
     final HeroFacing facing = new HeroFacing();
     final int HITBOX_SIZE = 20;
@@ -57,6 +59,8 @@ public class Hero implements IsUpdateable, HasDrawable {
 
     public Hero(int playerId) {
         this.playerId = playerId;
+        draw = Utility.getActiveScene().getBloxPool().get(playerId);
+        animator = new BloxAnimator(draw);
         int colliderId = MatchType.getColliderId(playerId);
         onHit = new CombatEvent(colliderId, position, HITBOX_SIZE, getOnHitBy(), this, EventType.HERO, CombatResolver
                 .getTypeToTargets().get(EventType.HERO));
@@ -136,7 +140,7 @@ public class Hero implements IsUpdateable, HasDrawable {
 
     public boolean equipWeapon(GreatSword greatsword) {
         BloxColorer.color(greatsword.getGreatsword(), getBlox().getBodyShape().getColor());
-        draw.getBody().addChild(greatsword.getDrawable());
+        draw.addWeapon((SceneGraphNode) greatsword.getDrawable());
         draw.removeHands();
         activeWeapon = greatsword;
         return true;

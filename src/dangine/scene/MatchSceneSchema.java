@@ -26,6 +26,7 @@ public class MatchSceneSchema implements SceneSchema {
 
     @Override
     public void apply(Scene scene) {
+        scene.getBloxPool().create();
         scene.getMatchOrchestrator().getScoreKeeper().setupMatch();
         scene.getCameraNode().addChild(boundaries.getDrawable());
         scene.addUpdateable(new ReturnToMenuChecker());

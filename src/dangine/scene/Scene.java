@@ -20,6 +20,7 @@ import dangine.entity.visual.SceneChangeVisual;
 import dangine.graphics.DangineOpenGL;
 import dangine.scenegraph.RenderData;
 import dangine.scenegraph.SceneGraphNode;
+import dangine.scenegraph.drawable.BloxPool;
 
 public class Scene implements IsUpdateable, IsDrawable {
 
@@ -35,6 +36,7 @@ public class Scene implements IsUpdateable, IsDrawable {
     final List<Vortex> vortexes = new LinkedList<Vortex>();
     final List<Bouncer> bouncers = new LinkedList<Bouncer>();
     final SceneChangeVisual sceneChangeVisual = new SceneChangeVisual();
+    final BloxPool bloxPool = new BloxPool();
 
     public Scene() {
         parentNode.addChild(camera.getDrawable());
@@ -208,5 +210,9 @@ public class Scene implements IsUpdateable, IsDrawable {
 
     public SceneChangeVisual getSceneChangeVisual() {
         return sceneChangeVisual;
+    }
+
+    public BloxPool getBloxPool() {
+        return bloxPool;
     }
 }
