@@ -2,6 +2,7 @@ package dangine.entity.gameplay;
 
 import dangine.debugger.Debugger;
 import dangine.entity.IsUpdateable;
+import dangine.menu.DangineMenuItem.Action;
 import dangine.utility.Utility;
 
 public class MatchRestarter implements IsUpdateable {
@@ -9,6 +10,7 @@ public class MatchRestarter implements IsUpdateable {
     final float MAX_TIME = 7000f;
     float timer = 0;
     Destination destination;
+    boolean started = false;
 
     public enum Destination {
         NEXT_ROUND, CHAR_SELECT;
@@ -27,17 +29,30 @@ public class MatchRestarter implements IsUpdateable {
     public void update() {
         timer += Utility.getGameTime().getDeltaTimeF();
 
-        if (timer > MAX_TIME) {
+        if (timer > MAX_TIME && !started) {
             Debugger.info("Restarting game");
             switch (destination) {
             case NEXT_ROUND:
-                Utility.getMatchParameters().getRoundKeeper().incrementRound();
-                Utility.getGameLoop().startMatch();
+                Utility.getActiveScene().getSceneChangeVisual().moveOnScreen(new Action() {
+
+                    @Override
+                    public void execute() {
+                        Utility.getMatchParameters().getRoundKeeper().incrementRound();
+                        Utility.getGameLoop().startMatch();
+                    }
+                });
                 break;
             case CHAR_SELECT:
-                Utility.getGameLoop().startCharacterSelect();
+                Utility.getActiveScene().getSceneChangeVisual().moveOnScreen(new Action() {
+
+                    @Override
+                    public void execute() {
+                        Utility.getGameLoop().startCharacterSelect();
+                    }
+                });
                 break;
             }
+            started = true;
         }
 
     }

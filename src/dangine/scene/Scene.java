@@ -16,6 +16,7 @@ import dangine.entity.Obstruction;
 import dangine.entity.Vortex;
 import dangine.entity.combat.CombatResolver;
 import dangine.entity.gameplay.MatchOrchestrator;
+import dangine.entity.visual.SceneChangeVisual;
 import dangine.graphics.DangineOpenGL;
 import dangine.scenegraph.RenderData;
 import dangine.scenegraph.SceneGraphNode;
@@ -33,6 +34,7 @@ public class Scene implements IsUpdateable, IsDrawable {
     final List<Obstruction> obstructions = new LinkedList<Obstruction>();
     final List<Vortex> vortexes = new LinkedList<Vortex>();
     final List<Bouncer> bouncers = new LinkedList<Bouncer>();
+    final SceneChangeVisual sceneChangeVisual = new SceneChangeVisual();
 
     public Scene() {
         parentNode.addChild(camera.getDrawable());
@@ -202,5 +204,9 @@ public class Scene implements IsUpdateable, IsDrawable {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public SceneChangeVisual getSceneChangeVisual() {
+        return sceneChangeVisual;
     }
 }

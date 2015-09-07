@@ -51,6 +51,7 @@ public class MatchSceneSchema implements SceneSchema {
         StartOfRoundBanner banner = new StartOfRoundBanner();
         scene.addUpdateable(banner);
         scene.getParentNode().addChild(banner.getDrawable());
+        scene.getSceneChangeVisual().moveOffScreen();
 
         DangineMusicPlayer.startTrack(MusicEffect.BATTLE_SCENE);
         scene.update();

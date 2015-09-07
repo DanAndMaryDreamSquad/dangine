@@ -20,6 +20,7 @@ public class CharacterSelectSchema implements SceneSchema {
         VersioningSceneGraph version = new VersioningSceneGraph();
         Utility.getActiveScene().getParentNode().addChild(version.getDrawable());
 
+        scene.getSceneChangeVisual().moveOffScreen();
         DangineMusicPlayer.startTrack(MusicEffect.CHARACTER_SELECT);
     }
 }

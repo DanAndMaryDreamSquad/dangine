@@ -7,6 +7,7 @@ import dangine.entity.gameplay.matchtypes.MatchTypeLogic;
 import dangine.entity.gameplay.matchtypes.SoccerModeLogic;
 import dangine.entity.gameplay.matchtypes.TeamStockModeLogic;
 import dangine.entity.gameplay.matchtypes.WinByTwoLogic;
+import dangine.menu.DangineMenuItem.Action;
 import dangine.utility.Utility;
 
 public class MatchStarter implements IsUpdateable {
@@ -102,6 +103,7 @@ public class MatchStarter implements IsUpdateable {
 
     MatchType matchType;
     MatchParameters matchParameters = null;
+    boolean started = false;
 
     public MatchStarter() {
         this.matchType = Utility.getMatchParameters().getMatchType();
@@ -113,6 +115,9 @@ public class MatchStarter implements IsUpdateable {
 
     @Override
     public void update() {
+        if (started) {
+            return;
+        }
         Debugger.info("Starting match " + matchType);
         switch (matchType) {
         case VERSUS:
@@ -121,7 +126,14 @@ public class MatchStarter implements IsUpdateable {
         case SOCCER:
         case BOT_MATCH:
         case COOP_VS_BOTS:
-            Utility.getGameLoop().startMatch();
+            Utility.getActiveScene().getSceneChangeVisual().moveOnScreen(new Action() {
+
+                @Override
+                public void execute() {
+                    Utility.getGameLoop().startMatch();
+                }
+            });
+            started = true;
             return;
         }
     }

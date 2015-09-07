@@ -80,7 +80,13 @@ public class MatchTypeMenu implements IsUpdateable, HasDrawable {
     }
 
     private void goToCharacterSelect() {
-        Utility.getGameLoop().startCharacterSelect();
+        Utility.getActiveScene().getSceneChangeVisual().moveOnScreen(new Action() {
+
+            @Override
+            public void execute() {
+                Utility.getGameLoop().startCharacterSelect();
+            }
+        });
     }
 
     private void removeMatchTypeMenu() {
