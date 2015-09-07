@@ -31,4 +31,10 @@ public class Players {
         return players;
     }
 
+    public void removeAllPlayers() {
+        while (!players.isEmpty()) {
+            removePlayer();
+        }
+    }
+
 }

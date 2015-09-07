@@ -20,6 +20,7 @@ public class TitleSceneSchema32 implements SceneSchema {
         ControlsAssigner controlsAssigner = new ControlsAssigner(false);
         scene.addUpdateable(controlsAssigner);
         scene.getParentNode().addChild(controlsAssigner.getDrawable());
+
         scene.getSceneChangeVisual().moveOffScreen();
 
         DangineMusicPlayer.startTrack(MusicEffect.TITLE_MENU);

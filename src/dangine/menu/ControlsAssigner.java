@@ -17,6 +17,9 @@ public class ControlsAssigner implements IsUpdateable, HasDrawable {
     DangineStringPicture text = new DangineStringPicture();
     CharacterSelect characterSelect = null;
     boolean allowMoreThanOneAssignment;
+    final float WAIT_TIMER_MAX = 300f;
+    float waitTimer = 0;
+    boolean shouldWait = false;
 
     public ControlsAssigner(boolean allowMoreThanOneAssignment) {
         this.allowMoreThanOneAssignment = allowMoreThanOneAssignment;
@@ -30,10 +33,24 @@ public class ControlsAssigner implements IsUpdateable, HasDrawable {
         return this;
     }
 
+    public void waitForABit() {
+        shouldWait = true;
+        waitTimer = 0;
+    }
+
     @Override
     public void update() {
+        if (shouldWait) {
+            Utility.getActiveScene().getParentNode().removeChild(node);
+            waitTimer += Utility.getGameTime().getDeltaTimeF();
+            if (waitTimer > WAIT_TIMER_MAX) {
+                Utility.getActiveScene().getParentNode().addChild(node);
+                shouldWait = false;
+            }
+            return;
+        }
         DangineControllerAssignments.scan();
-        while (DangineControllerAssignments.getSize() > Utility.getPlayers().getPlayers().size()) {
+        if (DangineControllerAssignments.getSize() > Utility.getPlayers().getPlayers().size()) {
             Debugger.info("new player assigned to controller");
             DanginePlayer player = Utility.getPlayers().newPlayer();
             if (characterSelect != null) {

@@ -18,19 +18,23 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
     DangineSelector selector = new DangineSelector();
     SceneGraphNode node = new SceneGraphNode();
     StardustLogo logo = new StardustLogo();
+    List<DangineMenuItem> items = new ArrayList<DangineMenuItem>();
 
     VersioningSceneGraph version = new VersioningSceneGraph();
+
+    boolean skipFrame = false;
 
     public TitleMenu() {
         node.addChild(menu.getDrawable());
         node.addChild(logo.getDrawable());
         node.addChild(version.getDrawable());
-        List<DangineMenuItem> items = new ArrayList<DangineMenuItem>();
+        items = new ArrayList<DangineMenuItem>();
         items.add(new DangineMenuItem("Versus", getPlayVersusAction()));
         items.add(new DangineMenuItem("Settings", getSettingsMenuAction()));
         items.add(new DangineMenuItem("Graphics", getGraphicsMenuAction()));
         items.add(new DangineMenuItem("Controls", getControlsMenuAction()));
         items.add(new DangineMenuItem("Resolution", getResolutionMenuAction()));
+        items.add(new DangineMenuItem("Reset Controller Assignments", getResetControllerAssignments()));
         items.add(new DangineMenuItem("Exit", getExitGameAction()));
         for (int i = 0; i < items.size(); i++) {
             menu.addItem(items.get(i));
@@ -44,6 +48,11 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
     @Override
     public void update() {
         if (Utility.getPlayers().getPlayers().isEmpty()) {
+            skipFrame = true;
+            return;
+        }
+        if (skipFrame) {
+            skipFrame = false;
             return;
         }
         selector.update();
@@ -123,6 +132,17 @@ public class TitleMenu implements IsUpdateable, HasDrawable {
                 Utility.getActiveScene().removeUpdateable(TitleMenu.this);
                 Utility.getActiveScene().getParentNode().addChild(resolutionMenu.getDrawable());
                 Utility.getActiveScene().getParentNode().removeChild(TitleMenu.this.getDrawable());
+            }
+        };
+    }
+
+    private Action getResetControllerAssignments() {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                Utility.getActiveScene().getMatchOrchestrator().addEvent(new ClearControlsEvent());
+                selector.scan(items.subList(0, 1));
             }
         };
     }
