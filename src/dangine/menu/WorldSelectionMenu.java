@@ -79,6 +79,9 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
                 Utility.getMatchParameters().setCurrentWorld(World.randomWorld());
                 MatchStarter matchStarter = new MatchStarter();
                 Utility.getActiveScene().addUpdateable(matchStarter);
+
+                Utility.getActiveScene().removeUpdateable(WorldSelectionMenu.this);
+                Utility.getActiveScene().getParentNode().removeChild(WorldSelectionMenu.this.getDrawable());
             }
         };
     }
@@ -92,6 +95,9 @@ public class WorldSelectionMenu implements IsUpdateable, HasDrawable {
                 Utility.getMatchParameters().setCurrentWorld(world);
                 MatchStarter matchStarter = new MatchStarter();
                 Utility.getActiveScene().addUpdateable(matchStarter);
+
+                Utility.getActiveScene().removeUpdateable(WorldSelectionMenu.this);
+                Utility.getActiveScene().getParentNode().removeChild(WorldSelectionMenu.this.getDrawable());
             }
         };
     }
