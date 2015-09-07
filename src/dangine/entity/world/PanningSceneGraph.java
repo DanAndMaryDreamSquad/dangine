@@ -49,6 +49,12 @@ public class PanningSceneGraph implements HasDrawable, IsUpdateable {
         background2 = new DanginePicture(image).applyFilter();
         background3 = new DanginePicture(image).applyFilter();
         background4 = new DanginePicture(image).applyFilter();
+        if (this.tessellation == Tessellation.NONE) {
+            background1.getQuad().withWrapModeRepeat();
+            background2.getQuad().withWrapModeRepeat();
+            background3.getQuad().withWrapModeRepeat();
+            background4.getQuad().withWrapModeRepeat();
+        }
         this.panSpeedX = panSpeedX;
         this.panSpeedY = panSpeedY;
 

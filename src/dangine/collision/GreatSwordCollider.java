@@ -18,6 +18,7 @@ import dangine.utility.Vector2f;
 public class GreatSwordCollider implements HasDrawable {
 
     GreatSwordColliderData colliderData;
+    boolean isActive = false;
 
     public GreatSwordCollider(int wielderId, ColliderType colliderType) {
         switch (colliderType) {
@@ -33,11 +34,13 @@ public class GreatSwordCollider implements HasDrawable {
 
     public void activate() {
         Utility.getActiveScene().getCameraNode().addChild(colliderData.getEventHitBox().getDrawable());
+        isActive = true;
     }
 
     public void deactivate() {
         Utility.getActiveScene().getCameraNode().removeChild(colliderData.getEventHitBox().getDrawable());
         colliderData.setClashed(false);
+        isActive = false;
     }
 
     public void updateSwing() {
@@ -112,6 +115,10 @@ public class GreatSwordCollider implements HasDrawable {
 
     public GreatSwordColliderData getColliderData() {
         return colliderData;
+    }
+
+    public boolean isActive() {
+        return isActive;
     }
 
 }

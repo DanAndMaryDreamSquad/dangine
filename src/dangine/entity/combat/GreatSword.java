@@ -39,6 +39,7 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
     GreatswordInputProvider inputProvider;
     CounterPower counterPower = null;
     boolean willHeavySwing = false;
+    boolean heavySwingTick = false;
 
     public GreatSword(int playerId, GreatswordInputProvider inputProvider) {
         this.playerId = playerId;
@@ -70,6 +71,12 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
             lightHitbox.updateSwing();
             break;
         case HEAVY_SWING:
+            if (heavySwingTick) {
+                greatsword.addHitbox(heavyHitbox.getDrawable());
+                heavyHitbox.activate();
+                heavyHitbox.updateSwing();
+                heavySwingTick = false;
+            }
             timer += Utility.getGameTime().getDeltaTimeF();
             if (timer > HEAVY_COLLIDER_TIME) {
                 greatsword.removeHitbox(heavyHitbox.getDrawable());
@@ -187,9 +194,7 @@ public class GreatSword implements IsUpdateable, HasDrawable, IsGreatsword {
         state = State.HEAVY_SWING;
         animator.heavySwinging();
         timer = 0;
-        greatsword.addHitbox(heavyHitbox.getDrawable());
-        heavyHitbox.activate();
-        heavyHitbox.updateSwing();
+        heavySwingTick = true;
     }
 
     public void lightCharge() {

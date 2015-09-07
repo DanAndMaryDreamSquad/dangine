@@ -4,9 +4,9 @@ import dangine.utility.Vector2f;
 
 public enum ColliderType {
 
-    LIGHT(25, new Vector2f(-38, 0)), //
-    HEAVY(35, new Vector2f(-25, 0)), //
-    COUNTER(50, new Vector2f(-16, 0));
+    LIGHT(20, new Vector2f(8, 8)), //
+    HEAVY(20, new Vector2f(4, 12)), //
+    COUNTER(50, new Vector2f(5, 20));
 
     final int size;
     final Vector2f offset;
