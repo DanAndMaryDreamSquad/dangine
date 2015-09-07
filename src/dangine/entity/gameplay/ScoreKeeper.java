@@ -52,6 +52,9 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
             for (DangineStringPicture text : playerIdToTextNode.values()) {
                 text.setAlpha(alpha);
             }
+            for (DangineStringPicture text : teamIdToTextNode.values()) {
+                text.setAlpha(alpha);
+            }
         }
     }
 
@@ -97,8 +100,7 @@ public class ScoreKeeper implements IsUpdateable, HasDrawable {
         if (Utility.getPlayers().getPlayers().isEmpty()) {
             return;
         }
-
-        matchTypeLogic.updateScoreBoardText(this);
+        // matchTypeLogic.updateScoreBoardText(this);
     }
 
     public PlayerScore getPlayerScore(int playerId) {

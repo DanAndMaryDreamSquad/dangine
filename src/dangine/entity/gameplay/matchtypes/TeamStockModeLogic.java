@@ -11,6 +11,8 @@ import dangine.entity.gameplay.LifeIndicator;
 import dangine.entity.gameplay.MatchEvent;
 import dangine.entity.gameplay.PlayerScore;
 import dangine.entity.gameplay.ScoreKeeper;
+import dangine.graphics.DangineFont;
+import dangine.graphics.DangineOpenGL;
 import dangine.graphics.DangineStringPicture;
 import dangine.player.DanginePlayer;
 import dangine.scenegraph.SceneGraphNode;
@@ -33,21 +35,35 @@ public class TeamStockModeLogic implements MatchTypeLogic {
         for (int i = 1; i < Utility.getMatchParameters().getNumberOfBots() + 1; i++) {
             scoreKeeper.addBotToGame(-i);
         }
+        for (int teamId : Utility.getMatchParameters().getPlayerIdToTeam().values()) {
+            if (!scoreKeeper.getTeamIdToScore().containsKey(teamId)) {
+                addTeam(teamId, scoreKeeper);
+            }
+        }
         updateScoreBoardText(scoreKeeper);
+    }
+
+    public void addTeam(int teamId, ScoreKeeper scoreKeeper) {
+        SceneGraphNode score = new SceneGraphNode();
+        DangineStringPicture text = new DangineStringPicture();
+        score.setPosition(getLabelLocationFromPlayerId(teamId));
+        score.addChild(text);
+        scoreKeeper.getBase().addChild(score);
+        scoreKeeper.getTeamIdToTextNode().put(teamId, text);
+
+        PlayerScore teamScore = new PlayerScore(teamId);
+        scoreKeeper.getTeamIdToScore().put(teamId, teamScore);
     }
 
     @Override
     public void updateScoreBoardText(ScoreKeeper scoreKeeper) {
-        for (PlayerScore score : scoreKeeper.getPlayerIdToScore().values()) {
-            if (score.getPlayerId() < 0) {
-                int botStock = scoreKeeper.getPlayerScore(score.getPlayerId()).getStock();
-                scoreKeeper.getPlayerIdToTextNode().get(score.getPlayerId())
-                        .setText("Bot Avatars Remaining: " + botStock);
-                continue;
+        for (Integer team : Utility.getMatchParameters().getPlayerIdToTeam().values()) {
+            int teamWins = Utility.getMatchParameters().getRoundKeeper().getVictoriesForId(team);
+            if (team < 0) {
+                scoreKeeper.getTeamIdToTextNode().get(team).setText("bot rounds won:" + teamWins);
+            } else {
+                scoreKeeper.getTeamIdToTextNode().get(team).setText("team" + team + " rounds won:" + teamWins);
             }
-            int stock = score.getStock();
-            scoreKeeper.getPlayerIdToTextNode().get(score.getPlayerId())
-                    .setText("P" + score.getPlayerId() + " Avatars Remaining: " + stock);
         }
         scoreKeeper.setTimer(0);
     };
@@ -112,12 +128,12 @@ public class TeamStockModeLogic implements MatchTypeLogic {
 
     @Override
     public void addPlayer(int playerId, ScoreKeeper scoreKeeper) {
-        SceneGraphNode score = new SceneGraphNode();
-        DangineStringPicture text = new DangineStringPicture();
-        score.setPosition(getLabelLocationFromPlayerId(playerId));
-        score.addChild(text);
-        scoreKeeper.getBase().addChild(score);
-        scoreKeeper.getPlayerIdToTextNode().put(playerId, text);
+        // SceneGraphNode score = new SceneGraphNode();
+        // DangineStringPicture text = new DangineStringPicture();
+        // score.setPosition(getLabelLocationFromPlayerId(playerId));
+        // score.addChild(text);
+        // scoreKeeper.getBase().addChild(score);
+        // scoreKeeper.getPlayerIdToTextNode().put(playerId, text);
 
         PlayerScore playerScore = new PlayerScore(playerId);
         scoreKeeper.getPlayerIdToScore().put(playerId, playerScore);
@@ -125,12 +141,12 @@ public class TeamStockModeLogic implements MatchTypeLogic {
 
     @Override
     public void addBot(int botId, ScoreKeeper scoreKeeper) {
-        SceneGraphNode score = new SceneGraphNode();
-        DangineStringPicture text = new DangineStringPicture();
-        score.setPosition(getLabelLocationFromPlayerId(scoreKeeper.getPlayerIdToScore().size()));
-        score.addChild(text);
-        scoreKeeper.getBase().addChild(score);
-        scoreKeeper.getPlayerIdToTextNode().put(botId, text);
+        // SceneGraphNode score = new SceneGraphNode();
+        // DangineStringPicture text = new DangineStringPicture();
+        // score.setPosition(getLabelLocationFromPlayerId(scoreKeeper.getPlayerIdToScore().size()));
+        // score.addChild(text);
+        // scoreKeeper.getBase().addChild(score);
+        // scoreKeeper.getPlayerIdToTextNode().put(botId, text);
 
         PlayerScore playerScore = new PlayerScore(botId);
         scoreKeeper.getPlayerIdToScore().put(botId, playerScore);
@@ -142,6 +158,13 @@ public class TeamStockModeLogic implements MatchTypeLogic {
         float y = Utility.getResolution().y - (100 * (row + 1));
         int width = playerId % 2;
         float x = 100 + (Utility.getResolution().x / 2.0f) * width;
+        if (playerId < 0) {
+            y -= DangineStringPicture.STRING_SCALE * DangineFont.CHARACTER_HEIGHT_IN_PIXELS
+                    * DangineOpenGL.getWindowWorldAspectY();
+            x = 100;
+        }
+        y = Math.abs(y);
+        x = Math.abs(x);
         return new Vector2f(x, y);
     }
 

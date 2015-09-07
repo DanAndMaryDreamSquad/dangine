@@ -34,20 +34,17 @@ public class FFAStockModeLogic implements MatchTypeLogic {
 
     @Override
     public void updateScoreBoardText(ScoreKeeper scoreKeeper) {
+        if (Utility.getMatchParameters().getNumberOfBots() > 0) {
+            int botWins = Utility.getMatchParameters().getRoundKeeper().getVictoriesForId(-1);
+            scoreKeeper.getPlayerIdToTextNode().get(-1).setText("Bot rounds won:" + botWins);
+        }
+
         for (PlayerScore score : scoreKeeper.getPlayerIdToScore().values()) {
-            if (score.getPlayerId() < 0) {
-                int botStock = scoreKeeper.getPlayerScore(score.getPlayerId()).getStock();
+            if (score.getPlayerId() >= 0) {
+                int wins = Utility.getMatchParameters().getRoundKeeper().getVictoriesForId(score.getPlayerId());
                 scoreKeeper.getPlayerIdToTextNode().get(score.getPlayerId())
-                        .setText("Bot Avatars Remaining: " + botStock);
-                continue;
+                        .setText("P" + score.getPlayerId() + " Rounds won:" + wins);
             }
-            // int stock = score.getStock();
-            // scoreKeeper.getPlayerIdToTextNode().get(score.getPlayerId())
-            // .setText("P" + score.getPlayerId() + " Avatars Remaining: " +
-            // stock);
-            int wins = Utility.getMatchParameters().getRoundKeeper().getVictoriesForId(score.getPlayerId());
-            scoreKeeper.getPlayerIdToTextNode().get(score.getPlayerId())
-                    .setText("P" + score.getPlayerId() + " Rounds won:" + wins);
         }
         scoreKeeper.setTimer(0);
     };
