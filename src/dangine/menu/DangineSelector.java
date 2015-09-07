@@ -2,15 +2,21 @@ package dangine.menu;
 
 import java.util.List;
 
+import org.lwjgl.util.Color;
+
 import dangine.audio.SoundEffect;
 import dangine.audio.SoundPlayer;
 import dangine.entity.HasDrawable;
 import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.graphics.DangineBox;
+import dangine.graphics.DangineFont;
+import dangine.graphics.DanginePicture;
 import dangine.input.DangineSampleInput;
 import dangine.menu.DangineMenuItem.Action;
+import dangine.menu.DangineMenuItem.SelectionStyle;
 import dangine.scenegraph.SceneGraphNode;
+import dangine.utility.Oscillator;
 import dangine.utility.Utility;
 
 public class DangineSelector implements IsUpdateable, HasDrawable {
@@ -21,25 +27,92 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
     SceneGraphNode node = new SceneGraphNode();
     // DangineShape shape = new DangineShape();
     DangineBox shape = new DangineBox();
+    DanginePicture pointer = new DanginePicture("arrow");
+    SceneGraphNode pointerNode = new SceneGraphNode();
+    DanginePicture pointer2 = new DanginePicture("arrow");
+    SceneGraphNode pointerNode2 = new SceneGraphNode();
     DangineMenuItem previousItem = null;
     DangineMenuItem currentItem = null;
+    boolean isBlockMode = false;
     Action onEscape = null;
+    float arrowScale = 4.0f;
+    float arrowX;
+    float arrowY;
+    float wordLength;
+    float timer = 0;
 
     public DangineSelector() {
-        node.addChild(shape);
         node.setCenterOfRotation(10, 10);
+        makeArrow();
+
+        switchToBlock();
     }
 
     public DangineSelector(int playerId) {
         this.playerId = playerId;
-        node.addChild(shape);
         node.setCenterOfRotation(10, 10);
+        makeArrow();
+
+        switchToBlock();
+    }
+
+    private void makeArrow() {
+        arrowScale = 4.0f;
+        arrowX = -pointer.getWidth() * arrowScale;
+        arrowY = -pointer.getHeight();
+        pointerNode.addChild(pointer);
+        pointerNode.setScale(arrowScale, arrowScale);
+        pointerNode.setPosition(arrowX, arrowY);
+        pointer.getQuad().setTextureColor(new Color(Color.RED));
+
+        pointerNode2.addChild(pointer2);
+        pointerNode2.setScale(arrowScale, arrowScale);
+        pointerNode2.setPosition(arrowX, arrowY);
+        pointerNode2.setHorzitontalFlip(-1);
+        pointer2.getQuad().setTextureColor(new Color(Color.RED));
+    }
+
+    private void switchToBlock() {
+        if (!isBlockMode) {
+            node.addChild(shape);
+            node.removeChild(pointerNode);
+            node.removeChild(pointerNode2);
+            isBlockMode = true;
+        }
+    }
+
+    private void switchToArrows() {
+        if (isBlockMode) {
+            node.addChild(pointerNode);
+            node.addChild(pointerNode2);
+            node.removeChild(shape);
+            isBlockMode = false;
+            node.setAngle(0);
+        }
+        wordLength = DangineFont.getLengthInPixels(currentItem.getItemText().getText());
+        pointerNode2.setPosition(arrowX + (-arrowScale * pointer2.getWidth()) + wordLength, arrowY);
+    }
+
+    private void switchToNewType() {
+        if (currentItem.getSelectionStyle() == SelectionStyle.SIMPLE) {
+            switchToBlock();
+        }
+        if (currentItem.getSelectionStyle() == SelectionStyle.LEFT_RIGHT) {
+            switchToArrows();
+        }
     }
 
     @Override
     public void update() {
-        angle += Utility.getGameTime().getDeltaTimeF() * ROTATION_SPEED;
-        node.setAngle(angle);
+        timer += Utility.getGameTime().getDeltaTimeF();
+        if (isBlockMode) {
+            angle = timer * ROTATION_SPEED;
+            node.setAngle(angle);
+        } else {
+            float x = Oscillator.calculate(-5, 5, 2000, timer);
+            pointerNode.setPosition(arrowX + x, arrowY);
+            pointerNode2.setPosition(arrowX + (-arrowScale * pointer2.getWidth()) + wordLength + x, arrowY);
+        }
 
         DangineSampleInput input = Utility.getPlayers().getPlayer(playerId).getCurrentInput();
         DangineSampleInput prevInput = Utility.getPlayers().getPlayer(playerId).getPreviousInput();
@@ -93,7 +166,7 @@ public class DangineSelector implements IsUpdateable, HasDrawable {
             }
             newSelection.getBase().addChild(getDrawable());
             currentItem = newSelection;
-
+            switchToNewType();
             SoundPlayer.play(SoundEffect.MENU_TICK);
         }
     }

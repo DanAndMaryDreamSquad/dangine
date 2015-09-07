@@ -27,7 +27,8 @@ public class DangineMenuItem implements HasDrawable {
         LEFT_RIGHT {
             @Override
             boolean shouldDoActionA(DangineSampleInput currentInput, DangineSampleInput previousInput) {
-                return currentInput.isRight() && !previousInput.isRight();
+                return (currentInput.isRight() && !previousInput.isRight())
+                        || (currentInput.isButtonOne() && !previousInput.isButtonOne());
             }
 
             @Override
@@ -100,6 +101,10 @@ public class DangineMenuItem implements HasDrawable {
 
     public DangineStringPicture getItemText() {
         return itemText;
+    }
+
+    public SelectionStyle getSelectionStyle() {
+        return selectionStyle;
     }
 
 }

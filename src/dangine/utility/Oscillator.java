@@ -55,4 +55,12 @@ public class Oscillator {
         return update(elapsed);
     }
 
+    static public float calculate(float min, float max, float period, float time) {
+        float percent = (time % period) / period;
+        float sin = (float) Math.sin(percent * Math.PI * 2); // -1 to 1
+        sin = (sin / 2) + 0.5f; // 0 to 1
+        float range = max - min;
+        return min + (range * sin);
+    }
+
 }
