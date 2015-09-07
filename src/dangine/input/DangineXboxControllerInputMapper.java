@@ -9,6 +9,7 @@ import com.esotericsoftware.controller.device.Axis;
 import com.esotericsoftware.controller.device.Button;
 import com.esotericsoftware.controller.input.XInputXboxController;
 
+import dangine.debugger.Debugger;
 import dangine.input.DangineKeyInputMapper.Action;
 
 public class DangineXboxControllerInputMapper implements DangineInputMapper {
@@ -95,5 +96,10 @@ public class DangineXboxControllerInputMapper implements DangineInputMapper {
             buffer.append(a.toString()).append(" -> ").append(b.toString()).append("\n");
         }
         return buffer.toString();
+    }
+
+    @Override
+    public void remap(Action action, int newKey) {
+        Debugger.warn("unsupported operation - remapping xbox controller!");
     }
 }

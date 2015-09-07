@@ -8,8 +8,10 @@ import dangine.entity.IsDrawable;
 import dangine.entity.IsUpdateable;
 import dangine.graphics.DangineStringPicture;
 import dangine.input.ControlsExplainSceneGraph;
+import dangine.input.DangineKeyRemapper;
 import dangine.menu.DangineMenuItem.Action;
 import dangine.player.DanginePlayer;
+import dangine.scenegraph.SceneGraphNode;
 import dangine.utility.DangineSavedSettings;
 import dangine.utility.Utility;
 
@@ -23,10 +25,18 @@ public class ControlsMenu implements IsUpdateable, HasDrawable {
 
     public ControlsMenu() {
         selector.setOnEscape(getExitMenuAction());
-        menu.addItem(new DangineMenuItem("Done", getExitMenuAction()));
-        DangineFormatter.format(menu.getBase().getChildNodes());
-        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.6f));
+
+        List<DangineMenuItem> items = new ArrayList<DangineMenuItem>();
+        items.add(new DangineMenuItem("Done", getExitMenuAction()));
+        items.add(new DangineMenuItem("Reconfigure left keyboard", getReconfigureAction(true)));
+        items.add(new DangineMenuItem("Reconfigure right keyboard", getReconfigureAction(false)));
+        for (int i = 0; i < items.size(); i++) {
+            menu.addItem(items.get(i));
+        }
+
+        DangineFormatter.formatAndCenter(items);
         menu.getItem(0).getBase().addChild(selector.getDrawable());
+        menu.getBase().setPosition(Utility.getResolution().x / 2, Utility.getResolution().y * (0.6f));
 
         for (DanginePlayer player : Utility.getPlayers().getPlayers()) {
             ControlsExplainSceneGraph explain = new ControlsExplainSceneGraph(player.getPlayerId());
@@ -34,6 +44,16 @@ public class ControlsMenu implements IsUpdateable, HasDrawable {
             sceneGraphs.add(explain);
         }
 
+        DangineStringPicture helpText = new DangineStringPicture();
+        helpText.setText("xbox 360 controllers can be used, but not remapped."
+                + "\nfor two player keyboard controls, use of " + "\nctrl, shift, enter and alt"
+                + "\ncan help with max key-pressed limits");
+
+        SceneGraphNode helpTextNode = new SceneGraphNode();
+        helpTextNode.setPosition(-700, 200);
+        helpTextNode.addChild(helpText);
+
+        menu.getBase().addChild(helpTextNode);
     }
 
     @Override
@@ -47,6 +67,20 @@ public class ControlsMenu implements IsUpdateable, HasDrawable {
         selector.scan(menu.getItems());
     }
 
+    private Action getReconfigureAction(final boolean leftSide) {
+        return new Action() {
+
+            @Override
+            public void execute() {
+                DangineKeyRemapper remapper = new DangineKeyRemapper(leftSide);
+                Utility.getActiveScene().addUpdateable(remapper);
+                Utility.getActiveScene().getParentNode().addChild(remapper.getDrawable());
+                destroy();
+            }
+
+        };
+    }
+
     private Action getExitMenuAction() {
         return new Action() {
 
@@ -55,16 +89,20 @@ public class ControlsMenu implements IsUpdateable, HasDrawable {
                 DangineSavedSettings.INSTANCE.save();
                 TitleMenu titleMenu = new TitleMenu();
                 Utility.getActiveScene().addUpdateable(titleMenu);
-                Utility.getActiveScene().removeUpdateable(ControlsMenu.this);
                 Utility.getActiveScene().getParentNode().addChild(titleMenu.getDrawable());
-                Utility.getActiveScene().getParentNode().removeChild(ControlsMenu.this.getDrawable());
-
-                for (ControlsExplainSceneGraph graph : sceneGraphs) {
-                    Utility.getActiveScene().getParentNode().removeChild(graph.getDrawable());
-                }
+                destroy();
             }
 
         };
+    }
+
+    private void destroy() {
+        Utility.getActiveScene().removeUpdateable(ControlsMenu.this);
+        Utility.getActiveScene().getParentNode().removeChild(ControlsMenu.this.getDrawable());
+
+        for (ControlsExplainSceneGraph graph : sceneGraphs) {
+            Utility.getActiveScene().getParentNode().removeChild(graph.getDrawable());
+        }
     }
 
 }

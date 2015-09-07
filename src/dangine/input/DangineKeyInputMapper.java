@@ -1,6 +1,5 @@
 package dangine.input;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +39,8 @@ public class DangineKeyInputMapper implements DangineInputMapper {
         result.put(Action.LEFT, Keyboard.KEY_A);
         result.put(Action.RIGHT, Keyboard.KEY_D);
 
-        return Collections.unmodifiableMap(result);
+        // return Collections.unmodifiableMap(result);
+        return result;
     }
 
     public static final Map<Action, Integer> DEFAULTS_P2 = createP2Defaults();
@@ -62,7 +62,8 @@ public class DangineKeyInputMapper implements DangineInputMapper {
         result.put(Action.LEFT, Keyboard.KEY_LEFT);
         result.put(Action.RIGHT, Keyboard.KEY_RIGHT);
 
-        return Collections.unmodifiableMap(result);
+        // return Collections.unmodifiableMap(result);
+        return result;
     }
 
     Map<Action, Integer> keyToAction;
@@ -92,6 +93,10 @@ public class DangineKeyInputMapper implements DangineInputMapper {
         input.setButtonTwo(isBeingPressed(Action.BUTTON_TWO));
         input.setButtonThree(isBeingPressed(Action.BUTTON_THREE));
         return input;
+    }
+
+    public void remap(Action action, int newKey) {
+        keyToAction.put(action, new Integer(newKey));
     }
 
     public String toString() {

@@ -21,7 +21,6 @@ public class DangineOpenGLInput {
             } else {
                 keysDown.remove(Keyboard.getEventKey());
             }
-
         }
     }
 
@@ -31,6 +30,13 @@ public class DangineOpenGLInput {
 
     public static void clearKeyStates() {
         keysDown.clear();
+    }
+
+    public static int getFirstKeyDown() {
+        if (keysDown.isEmpty()) {
+            return -1;
+        }
+        return keysDown.iterator().next();
     }
 
 }
